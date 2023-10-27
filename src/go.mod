@@ -2,7 +2,10 @@ module github.com/MetaEMK/FGK_PASMAS_backend
 
 go 1.21.3
 
-require github.com/gin-gonic/gin v1.9.1
+require (
+	github.com/gin-gonic/gin v1.9.1
+	github.com/lib/pq v1.10.9
+)
 
 require (
 	github.com/bytedance/sonic v1.9.1 // indirect
