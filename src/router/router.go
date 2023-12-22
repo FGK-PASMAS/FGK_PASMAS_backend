@@ -1,7 +1,8 @@
 package router
 
 import (
-	"github.com/MetaEMK/FGK_PASMAS_backend/router/api/debug"
+	"github.com/MetaEMK/FGK_PASMAS_backend/router/api"
+	"github.com/MetaEMK/FGK_PASMAS_backend/router/realtime"
 	"github.com/gin-gonic/gin"
 )
 
@@ -11,8 +12,11 @@ func InitRouter() *gin.Engine {
     r.Use(gin.Logger())
     r.Use(gin.Recovery())
 
-    api_debug := r.Group("debug")
-    debug.SetupDebugRoutes(api_debug)
+    apiRouter := r.Group("/api")
+    realtimeRouter := r.Group("/realtime")
+
+    api.InitApiRoutes(apiRouter)
+    realtime.InitRealtimeRoutes(realtimeRouter)
 
     return r
 }
