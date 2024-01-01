@@ -1,4 +1,4 @@
-package debug
+package realtime
 
 import (
 	"fmt"
@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type Event struct {
+type Stream struct {
 	// Events are pushed to this channel by the main events-gathering routine
 	Message chan string
 
@@ -19,13 +19,50 @@ type Event struct {
 
 	// Total client connections
 	TotalClients map[chan string]bool
+
 }
 
-type ClientChan chan string
-var debugStream = NewStream()
 
-func debug(r *gin.RouterGroup) {
-    r.GET("stream", HeadersMiddleware(), debugStream.addClient(), func(c *gin.Context) {
+type ClientChan chan string
+
+// addClient adds a new client to the clients map.
+func (stream *Stream) ServeStream() gin.HandlerFunc {
+    return func(c *gin.Context) {
+        // Init client channel
+        clientChan := make(ClientChan)
+
+        //Send new client to event server
+        stream.NewClients <- clientChan
+
+        defer func() {
+            stream.ClosedClients <- clientChan
+        }()
+
+        c.Set("clientChan", clientChan)
+
+        c.Next()
+    }
+}
+
+// SendEvent sends an event to all clients in this stream.
+func (stream *Stream) SendEvent(eventMessage string) {
+    stream.Message <- eventMessage
+}
+
+// NewStream creates a new event server and returns it.
+func NewStream() (event *Stream){
+    event = &Stream{
+        Message:       make(chan string),
+        NewClients:    make(chan chan string),
+        ClosedClients: make(chan chan string),
+        TotalClients:  make(map[chan string]bool),
+    }
+
+    go event.listen()
+    return
+}
+
+func StreamToClient(c *gin.Context) {
         v, err := c.Get("clientChan")
         if !err {
             fmt.Println("Error getting clientChan")
@@ -46,61 +83,19 @@ func debug(r *gin.RouterGroup) {
             }
             return false
         })
-
-    })
-
-    r.POST("stream", func(c *gin.Context) {
-        debugStream.Message <- "test"
-    })
-}
-
-// addClient adds a new client to the clients map.
-func (stream *Event) addClient() gin.HandlerFunc {
-    return func(c *gin.Context) {
-        // Init client channel
-        clientChan := make(ClientChan)
-
-        //Send new client to event server
-        stream.NewClients <- clientChan
-
-        defer func() {
-            stream.ClosedClients <- clientChan
-        }()
-
-        c.Set("clientChan", clientChan)
-
-        c.Next()
-    }
 }
 
 
-// NewStream creates a new event server and returns it.
-func NewStream() (event *Event){
-    event = &Event{
-        Message:       make(chan string),
-        NewClients:    make(chan chan string),
-        ClosedClients: make(chan chan string),
-        TotalClients:  make(map[chan string]bool),
-    }
-
-    go event.listen()
-    fmt.Println("New event server created")
-
-    return
-}
-
-
-func (stream *Event) listen() {
+func (stream *Stream) listen() {
     for {
         select {
         case client := <-stream.NewClients:
+            fmt.Println("New client", client)
             stream.TotalClients[client] = true
-            fmt.Println("Client added. %d registered clients", len(stream.TotalClients))
 
         case client := <-stream.ClosedClients:
             delete(stream.TotalClients, client)
             close(client)
-            fmt.Println("Removed client. %d registered clients", len(stream.TotalClients))
 
         case eventMessage := <-stream.Message:
             for clientMessageChan := range stream.TotalClients {

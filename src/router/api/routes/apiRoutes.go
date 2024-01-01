@@ -1,7 +1,7 @@
-package api
+package routes
 
 import (
-	"github.com/MetaEMK/FGK_PASMAS_backend/router/api/debug"
+	"github.com/MetaEMK/FGK_PASMAS_backend/router/api/routes/debug"
 	"github.com/gin-gonic/gin"
 )
 

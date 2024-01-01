@@ -1,7 +1,7 @@
-package realtime
+package routes
 
 import (
-	"github.com/MetaEMK/FGK_PASMAS_backend/router/realtime/debug"
+	"github.com/MetaEMK/FGK_PASMAS_backend/router/realtime/routes/debug"
 	"github.com/gin-gonic/gin"
 )
 
