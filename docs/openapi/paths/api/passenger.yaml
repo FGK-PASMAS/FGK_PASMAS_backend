@@ -8,7 +8,7 @@ get:
         application/json:
           schema:
             $ref: '#/components/schemas/SuccessResponse'
-    'default':
+    '500':
       description: Unerwarteter Fehler
       content:
         application/json:
