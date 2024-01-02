@@ -9,7 +9,6 @@ id = 2547a226-842e-4ee8-904b-37096cabc608
 
 [config.relations.collections]
 rootDirectory = docs/apischema
-files[] = {"id":"30997389-b3106e67-7ff9-49ae-8812-abaa8227dbd1","path":"v0.1.json","metaData":{}}
 
 [config.relations.collections.metaData]
 
