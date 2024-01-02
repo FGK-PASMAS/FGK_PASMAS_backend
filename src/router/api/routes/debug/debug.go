@@ -3,9 +3,15 @@ package debug
 import (
 	"net/http"
 
+	"github.com/MetaEMK/FGK_PASMAS_backend/router/api"
 	"github.com/gin-gonic/gin"
 )
 
 func ping(c *gin.Context) {
-    c.String(http.StatusOK, "pong");
+    response := api.SuccessResponse{
+        Success: true,
+        Response: "pong",
+    }
+
+    c.JSON(http.StatusOK, response)
 }
