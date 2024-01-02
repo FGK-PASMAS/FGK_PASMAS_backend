@@ -1,0 +1,154 @@
+{
+	"info": {
+		"_postman_id": "b3106e67-7ff9-49ae-8812-abaa8227dbd1",
+		"name": "v0.1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_uid": "30997389-b3106e67-7ff9-49ae-8812-abaa8227dbd1"
+	},
+	"item": [
+		{
+			"name": "api",
+			"item": [
+				{
+					"name": "debug",
+					"item": [
+						{
+							"name": "Ping",
+							"id": "1be09e81-9d52-47e1-b6bf-e21e24a57653",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/debug/ping",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"debug",
+										"ping"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"id": "be86b8b7-73ea-485b-955e-2d5b38778667"
+				},
+				{
+					"name": "passenger",
+					"item": [
+						{
+							"name": "Get all Passengers",
+							"id": "9b0621d8-e30a-4cdf-9c09-47b7faf3a51d",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/passenger",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"passenger"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"id": "531f68bd-daf0-4f0c-9696-e99cf6920732"
+				}
+			],
+			"id": "71423a87-7e96-4f09-9369-d09ab92b7fb0"
+		},
+		{
+			"name": "realtime",
+			"item": [
+				{
+					"name": "debug",
+					"item": [
+						{
+							"name": "Connect to Channel",
+							"id": "0afadeb2-b76a-4782-b65c-11114a2b1dc0",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/realtime/debug/stream",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"realtime",
+										"debug",
+										"stream"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Ping",
+							"id": "9b02c896-6eff-480b-a25a-7d1194cae8e0",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/realtime/debug/ping",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"realtime",
+										"debug",
+										"ping"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Post Message",
+							"id": "b88925cd-0992-44ce-bae6-5d4f91a01b41",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/realtime/debug/stream",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"realtime",
+										"debug",
+										"stream"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"id": "ccff583e-c0b0-4ae9-8639-ec59b820462e"
+				}
+			],
+			"id": "908c31d5-3bfd-4198-a669-919e14df4293"
+		}
+	]
+}

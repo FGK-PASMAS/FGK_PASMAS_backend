@@ -1,0 +1,16 @@
+get:
+  summary: Holt alle Passagiere
+  description: Ruft eine Liste aller Passagiere im System ab.
+  responses:
+    '200':
+      description: Eine Liste von Passagieren
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/SuccessResponse'
+    'default':
+      description: Unerwarteter Fehler
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
