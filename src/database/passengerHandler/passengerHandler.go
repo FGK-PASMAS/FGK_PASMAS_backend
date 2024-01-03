@@ -68,7 +68,7 @@ func CreatePassenger(pass InsertPassenger) error {
             log.Debug("Successfully created passenger in database")
             return nil
         } else {
-            log.Info("Failed to create passenger in database")
+            log.Info("Failed to create passenger in database: " + err.Error())
             return err
         }
     }
