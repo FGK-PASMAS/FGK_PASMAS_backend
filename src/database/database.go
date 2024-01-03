@@ -1,14 +1,14 @@
 package database
 
 import (
-	"database/sql"
+	"context"
 
 	"github.com/MetaEMK/FGK_PASMAS_backend/logging"
-	_ "github.com/lib/pq"
+	"github.com/jackc/pgx/v5"
 )
 
-var Db *sql.DB;
 var log = logging.DbLogger
+var PgConn *pgx.Conn
 
 func SetupDatabaseConnection() {
     log.Info("Trying to connect to the database")
@@ -19,21 +19,21 @@ func SetupDatabaseConnection() {
         panic(err)
     }
 
-    db, err := sql.Open("postgres", connectionString)
+    pgx, err := pgx.Connect(context.Background(), connectionString)
 
     if err != nil {
         log.Error("Failed to open a new connection")
         panic(err)
     } else {
         log.Debug("Successfully opened a new connection")
-        Db = db
+        PgConn = pgx
     }
 
     CheckDatabaseConnection()
 }
 
 func CheckDatabaseConnection() error {
-    err := Db.Ping()
+    err := PgConn.Ping(context.Background())
 
     if err != nil {
         log.Warn("Failed to ping the database")
@@ -47,15 +47,15 @@ func InitDatabaseStructure() (error){
     statements, err := getInitDatabaseStructure()
     if(err != nil) {
         log.Error("Failed to retrieve the sql statements for creating the database structure")
-        Db.Close()
+        PgConn.Close(context.Background())
         return err
     } 
 
-    _, err = Db.Exec(statements)
+    _, err = PgConn.Exec(context.Background(), statements)
 
     if(err != nil) {
         log.Error("Failed to create the database structure")
-        Db.Close()
+        PgConn.Close(context.Background())
         panic(err)
     }
 
@@ -66,7 +66,7 @@ func InitDatabaseStructure() (error){
 
 func CloseDatabase() {
     log.Warn("Closing database connection")
-    err := Db.Close()
+    err := PgConn.Close(context.Background())
     if err != nil {
         println(err)
     }

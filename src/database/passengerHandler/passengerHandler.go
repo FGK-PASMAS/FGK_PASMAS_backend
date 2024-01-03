@@ -1,6 +1,7 @@
 package passengerhandler
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/MetaEMK/FGK_PASMAS_backend/database"
@@ -14,7 +15,7 @@ func GetPassengers() ([]SelectPassenger, error) {
 
     query := `SELECT p.id, p.last_name, p.first_name, p.weight, d.id, d.name FROM passenger p JOIN division d ON p.division_id = d.id`
 
-    rows, err := database.Db.Query(query)
+    rows, err := database.PgConn.Query(context.Background(), query)
     if err != nil {
         log.Warn("Failed to got passengers from database: " + err.Error())
         return nil, err
@@ -41,7 +42,7 @@ func GetPassengers() ([]SelectPassenger, error) {
 func GetPassengerById(id int64) (SelectPassenger, error) {
     query := `SELECT p.id, p.last_name, p.first_name, p.weight, d.id, d.name FROM passenger p JOIN division d ON p.division_id = d.id WHERE p.id=$1`
 
-    row := database.Db.QueryRow(query, id)
+    row := database.PgConn.QueryRow(context.Background(), query, id)
 
     var passenger SelectPassenger
     err := row.Scan(&passenger.Id, &passenger.LastName, &passenger.FirstName, &passenger.Weight, &passenger.Division.Id, &passenger.Division.Name)
@@ -57,23 +58,18 @@ func GetPassengerById(id int64) (SelectPassenger, error) {
 func CreatePassenger(pass InsertPassenger) error {
     query := `INSERT INTO passenger (last_name, first_name, weight, division_id) VALUES ($1, $2, $3, $4)`
 
-    res, err := database.Db.Exec(query, pass.LastName, pass.FirstName, pass.Weight, pass.DivisionId)
+    res, err := database.PgConn.Exec(context.Background(), query, pass.LastName, pass.FirstName, pass.Weight, pass.DivisionId)
     if err != nil {
         log.Warn("Failed to create passenger in database")
         return err
     } else {
-        rowsAffcted, err := res.RowsAffected()
-        if err != nil {
-            log.Warn("Failed to get number of affected rows: " + err.Error())
-            return err
+        rowsAffected := res.RowsAffected()
+        if rowsAffected == 1 {
+            log.Debug("Successfully created passenger in database")
+            return nil
         } else {
-            if rowsAffcted == 1 {
-                log.Debug("Successfully created passenger in database")
-                return nil
-            } else {
-                log.Info("Failed to create passenger in database")
-                return err
-            }
+            log.Info("Failed to create passenger in database: " + err.Error())
+            return err
         }
     }
 }
