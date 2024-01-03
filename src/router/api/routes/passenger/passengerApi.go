@@ -2,6 +2,7 @@ package passenger
 
 import (
 	"net/http"
+	"strconv"
 
 	passengerHandler "github.com/MetaEMK/FGK_PASMAS_backend/database/passengerHandler"
 	"github.com/MetaEMK/FGK_PASMAS_backend/logging"
@@ -38,7 +39,7 @@ func createPassenger(c *gin.Context) {
     var response any
     var statusCode int
 
-    var body passengerHandler.InsertPassenger
+    var body passengerHandler.PassengerStructInsert
     parseErr := c.ShouldBind(&body)
 
     if parseErr != nil {
@@ -61,6 +62,72 @@ func createPassenger(c *gin.Context) {
             response = api.SuccessResponse {
                 Success: true,
                 Response: newPass,
+            }
+        }
+    }
+    c.JSON(statusCode, response)
+}
+
+func updatePassenger(c *gin.Context) {
+    var response any
+    var statusCode int
+
+    var body passengerHandler.PassengerStructUpdate
+    parseErr := c.ShouldBind(&body)
+
+    if parseErr != nil {
+        statusCode = http.StatusBadRequest
+        response = api.ErrorResponse {
+            Success: false,
+            ErrorBody: parseErr.Error(),
+        }
+    } else {
+        err := passengerHandler.UpdatePassenger(body)
+        if err != nil {
+            statusCode = http.StatusInternalServerError
+            response = api.ErrorResponse {
+                Success: false,
+                ErrorCode: 500,
+                ErrorBody: err.Error(),
+            }
+        } else  {
+            statusCode = http.StatusOK
+            response = api.SuccessResponse {
+                Success: true,
+            }
+        }
+    }
+    c.JSON(statusCode, response)
+}
+
+func deletePassenger(c *gin.Context) {
+    var response any
+    var statusCode int
+
+    idStr := c.Param("id")
+
+    id, err := strconv.Atoi(idStr)
+
+    if err != nil {
+        statusCode = http.StatusBadRequest
+        response = api.ErrorResponse {
+            Success: false,
+            ErrorCode: 400,
+            ErrorBody: "Invalid id",
+        }
+    } else {
+        err := passengerHandler.DeletePassenger(id)
+        if err != nil {
+            statusCode = http.StatusInternalServerError
+            response = api.ErrorResponse {
+                Success: false,
+                ErrorCode: 500,
+                ErrorBody: err.Error(),
+            }
+        } else  {
+            statusCode = http.StatusOK
+            response = api.SuccessResponse {
+                Success: true,
             }
         }
     }

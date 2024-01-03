@@ -11,7 +11,7 @@ import (
 
 var log = logging.DbLogger
 
-func GetPassengers() ([]SelectPassenger, error) {
+func GetPassengers() ([]PassengerStructSelect, error) {
 
     query := `SELECT p.id, p.last_name, p.first_name, p.weight, d.id, d.name FROM passenger p JOIN division d ON p.division_id = d.id`
 
@@ -22,10 +22,10 @@ func GetPassengers() ([]SelectPassenger, error) {
     } else {
         log.Debug("Successfully got passengers from database")
 
-        var passengers []SelectPassenger = make([]SelectPassenger, 0)
+        var passengers []PassengerStructSelect = make([]PassengerStructSelect, 0)
 
         for rows.Next() {
-            var passenger SelectPassenger
+            var passenger PassengerStructSelect
 
             err = rows.Scan(&passenger.Id, &passenger.LastName, &passenger.FirstName, &passenger.Weight, &passenger.Division.Id, &passenger.Division.Name)
             if(err != nil) {
@@ -39,23 +39,23 @@ func GetPassengers() ([]SelectPassenger, error) {
     }
 }
 
-func GetPassengerById(id int64) (SelectPassenger, error) {
+func GetPassengerById(id int64) (PassengerStructSelect, error) {
     query := `SELECT p.id, p.last_name, p.first_name, p.weight, d.id, d.name FROM passenger p JOIN division d ON p.division_id = d.id WHERE p.id=$1`
 
     row := database.PgConn.QueryRow(context.Background(), query, id)
 
-    var passenger SelectPassenger
+    var passenger PassengerStructSelect
     err := row.Scan(&passenger.Id, &passenger.LastName, &passenger.FirstName, &passenger.Weight, &passenger.Division.Id, &passenger.Division.Name)
     if err != nil {
         log.Warn(fmt.Sprintf("Failed to get passenger with id %d from database: %s", id, err.Error()))
-        return SelectPassenger{}, err
+        return PassengerStructSelect{}, err
     } else {
         log.Debug("Successfully got passenger from database")
         return passenger, nil
     }
 }
 
-func CreatePassenger(pass InsertPassenger) (DatabasePassenger, error) {
+func CreatePassenger(pass PassengerStructInsert) (DatabasePassenger, error) {
     query := `INSERT INTO passenger (last_name, first_name, weight, division_id) VALUES ($1, $2, $3, $4) RETURNING id, last_name, first_name, weight, division_id`
 
     res := database.PgConn.QueryRow(context.Background(), query, pass.LastName, pass.FirstName, pass.Weight, pass.DivisionId)
@@ -71,6 +71,24 @@ func CreatePassenger(pass InsertPassenger) (DatabasePassenger, error) {
     return newPass, nil
 }
 
-func UpdatePassengerById(id int64, pass InsertPassenger) {
-    //query := `UPDATE passenger SET last_name=$2, first_name=$3, weight=$4, division_id$5 WHERE id=$1`
+func UpdatePassenger(pass PassengerStructUpdate) error {
+    query := `UPDATE passenger SET last_name=$2, first_name=$3, weight=$4, division_id=$5 WHERE id=$1`
+
+    _, err := database.PgConn.Exec(context.Background(), query, pass.Id, pass.LastName, pass.FirstName, pass.Weight, pass.DivisionId)
+    if err != nil {
+        log.Warn("Failed to update passenger in database")
+    }
+
+    return err
+}
+
+func DeletePassenger(id int) error {
+    query := `DELETE FROM passenger WHERE id=$1`
+
+    _, err := database.PgConn.Exec(context.Background(), query, id)
+    if err != nil {
+        log.Warn("Failed to delete passenger from database")
+    }
+
+    return err
 }
