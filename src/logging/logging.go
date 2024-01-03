@@ -34,6 +34,7 @@ type Logger struct {
 }
 
 var DbLogger = NewLogger("DATABASE", DEBUG)
+var ApiLogger = NewLogger("API", DEBUG)
 
 func NewLogger(prefix string, minLogLevel LogLevel) *Logger {
 	return &Logger{Prefix: prefix, MinLogLevel: minLogLevel}

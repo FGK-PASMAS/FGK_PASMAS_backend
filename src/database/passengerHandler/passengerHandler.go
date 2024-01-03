@@ -55,21 +55,22 @@ func GetPassengerById(id int64) (SelectPassenger, error) {
     }
 }
 
-func CreatePassenger(pass InsertPassenger) error {
-    query := `INSERT INTO passenger (last_name, first_name, weight, division_id) VALUES ($1, $2, $3, $4)`
+func CreatePassenger(pass InsertPassenger) (DatabasePassenger, error) {
+    query := `INSERT INTO passenger (last_name, first_name, weight, division_id) VALUES ($1, $2, $3, $4) RETURNING id, last_name, first_name, weight, division_id`
 
-    res, err := database.PgConn.Exec(context.Background(), query, pass.LastName, pass.FirstName, pass.Weight, pass.DivisionId)
+    res := database.PgConn.QueryRow(context.Background(), query, pass.LastName, pass.FirstName, pass.Weight, pass.DivisionId)
+
+    var newPass DatabasePassenger
+    err := res.Scan(&newPass.Id, &newPass.LastName, &newPass.FirstName, &newPass.Weight, &newPass.DivisionId)
     if err != nil {
-        log.Warn("Failed to create passenger in database")
-        return err
-    } else {
-        rowsAffected := res.RowsAffected()
-        if rowsAffected == 1 {
-            log.Debug("Successfully created passenger in database")
-            return nil
-        } else {
-            log.Info("Failed to create passenger in database: " + err.Error())
-            return err
-        }
+        log.Warn("Failed create passenger in database")
+        return DatabasePassenger{}, err
     }
+
+    log.Debug("Successfully created passenger in database")
+    return newPass, nil
+}
+
+func UpdatePassengerById(id int64, pass InsertPassenger) {
+    //query := `UPDATE passenger SET last_name=$2, first_name=$3, weight=$4, division_id$5 WHERE id=$1`
 }
