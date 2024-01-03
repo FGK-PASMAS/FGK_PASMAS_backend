@@ -1,6 +1,8 @@
 package passengerhandler
 
 import (
+	"fmt"
+
 	"github.com/MetaEMK/FGK_PASMAS_backend/database"
 	"github.com/MetaEMK/FGK_PASMAS_backend/logging"
 )
@@ -8,26 +10,21 @@ import (
 
 var log = logging.DbLogger
 
-func GetPassengers() ([]Passenger, error) {
-
-    checkDb, dbErr := database.CheckDatabaseConnection()
-    if checkDb == false {
-        return nil, dbErr
-    }
+func GetPassengers() ([]SelectPassenger, error) {
 
     query := `SELECT p.id, p.last_name, p.first_name, p.weight, d.id, d.name FROM passenger p JOIN division d ON p.division_id = d.id`
 
     rows, err := database.Db.Query(query)
     if err != nil {
-        log.Warn("Failed to got passengers from database")
+        log.Warn("Failed to got passengers from database: " + err.Error())
         return nil, err
     } else {
         log.Debug("Successfully got passengers from database")
 
-        var passengers []Passenger = make([]Passenger, 0)
+        var passengers []SelectPassenger = make([]SelectPassenger, 0)
 
         for rows.Next() {
-            var passenger Passenger
+            var passenger SelectPassenger
 
             err = rows.Scan(&passenger.Id, &passenger.LastName, &passenger.FirstName, &passenger.Weight, &passenger.Division.Id, &passenger.Division.Name)
             if(err != nil) {
@@ -41,3 +38,42 @@ func GetPassengers() ([]Passenger, error) {
     }
 }
 
+func GetPassengerById(id int64) (SelectPassenger, error) {
+    query := `SELECT p.id, p.last_name, p.first_name, p.weight, d.id, d.name FROM passenger p JOIN division d ON p.division_id = d.id WHERE p.id=$1`
+
+    row := database.Db.QueryRow(query, id)
+
+    var passenger SelectPassenger
+    err := row.Scan(&passenger.Id, &passenger.LastName, &passenger.FirstName, &passenger.Weight, &passenger.Division.Id, &passenger.Division.Name)
+    if err != nil {
+        log.Warn(fmt.Sprintf("Failed to get passenger with id %d from database: %s", id, err.Error()))
+        return SelectPassenger{}, err
+    } else {
+        log.Debug("Successfully got passenger from database")
+        return passenger, nil
+    }
+}
+
+func CreatePassenger(pass InsertPassenger) error {
+    query := `INSERT INTO passenger (last_name, first_name, weight, division_id) VALUES ($1, $2, $3, $4)`
+
+    res, err := database.Db.Exec(query, pass.LastName, pass.FirstName, pass.Weight, pass.DivisionId)
+    if err != nil {
+        log.Warn("Failed to create passenger in database")
+        return err
+    } else {
+        rowsAffcted, err := res.RowsAffected()
+        if err != nil {
+            log.Warn("Failed to get number of affected rows: " + err.Error())
+            return err
+        } else {
+            if rowsAffcted == 1 {
+                log.Debug("Successfully created passenger in database")
+                return nil
+            } else {
+                log.Info("Failed to create passenger in database")
+                return err
+            }
+        }
+    }
+}

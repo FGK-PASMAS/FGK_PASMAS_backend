@@ -32,17 +32,14 @@ func SetupDatabaseConnection() {
     CheckDatabaseConnection()
 }
 
-func CheckDatabaseConnection() (bool, error) {
-    log.Debug("Trying to test the database connection")
-
+func CheckDatabaseConnection() error {
     err := Db.Ping()
+
     if err != nil {
         log.Warn("Failed to ping the database")
-        return false, err
-    } else {
-        log.Debug("Successfully pinged the database")
-        return true, nil
-    }
+    } 
+
+    return err
 }
 
 func InitDatabaseStructure() (error){
