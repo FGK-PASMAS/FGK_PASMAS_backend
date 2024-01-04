@@ -10,4 +10,5 @@ properties:
         type: integer
         format: int32
     division:
+        type: object
         $ref: "#/components/schemas/Division"
