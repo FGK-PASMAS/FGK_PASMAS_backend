@@ -1,10 +1,8 @@
-ErrorResponse:
-  type: object
-  properties:
-    success:
-      type: boolean
-    errorCode:
-      type: integer
-      format: int32
-    errorBody:
-      type: string
+properties:
+  success:
+    type: boolean
+  errorCode:
+    type: integer
+    format: int32
+  errorBody:
+    type: string

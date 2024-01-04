@@ -7,13 +7,16 @@ get:
       content:
         application/json:
           schema:
-            $ref: "docs/openapi/index.yaml#/components/schemas/PassengerStructSelect"
+            type: array
+            items:
+                $ref: "#/components/Passenger/PassengerStructSelect"
     '500':
       description: Unexpected error
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ErrorResponse'
+            type: object
+            $ref: "#/components/Response/ErrorResponse"
 
 post:
   summary: Creates a passenger
@@ -24,23 +27,82 @@ post:
     content:
       application/json:
         schema:
-          $ref: "docs/openapi/index.yaml#/components/schemas/PassengerStructInsert"
+          type: object
+          $ref: "#/components/Passenger/PassengerStructInsert"
   responses:
     '200':
       description: Passenger successfully created.
       content:
         application/json:
           schema:
-            $ref: "docs/openapi/index.yaml#/components/schemas/PassengerStructSelect"
+            type: object
+            $ref: "#/components/Passenger/PassengerStructSelect"
     '400':
       description: Bad request, incorrect body format.
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ErrorResponse'
+            type: object
+            $ref: '#/components/Response/ErrorResponse'
     '500':
       description: Internal server error, failed to create passenger.
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/ErrorResponse'
+            type: object
+            $ref: '#/components/Response/ErrorResponse'
+
+put:
+  summary: Fully updated a passenger
+  description: Updates a passenger with all attributes
+  requestBody:
+    description: Passenger Object with its id.
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          $ref: "#/components/Passenger/PassengerStructUpdate"
+  responses:
+    '200':
+      description: Passenger successfully updated.
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: "#/components/Passenger/PassengerStructSelect"
+    '400':
+      description: Bad request, incorrect body format.
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: '#/components/Response/ErrorResponse'
+    '500':
+      description: Internal server error, failed to update passenger.
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: '#/components/Response/ErrorResponse'
+
+delete:
+  summary: Deletes a passenger
+  description: Deletes the passenger record with the specified ID from the system.
+  parameters:
+    - in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+      description: The unique identifier of the passenger to delete.
+  responses:
+    '204':
+      description: Passenger successfully deleted.
+    '500':
+      description: Internal server error, failed to delete passenger.
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: '#/components/Response/ErrorResponse'
