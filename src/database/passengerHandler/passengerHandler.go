@@ -55,31 +55,48 @@ func GetPassengerById(id int64) (PassengerStructSelect, error) {
     }
 }
 
-func CreatePassenger(pass PassengerStructInsert) (DatabasePassenger, error) {
-    query := `INSERT INTO passenger (last_name, first_name, weight, division_id) VALUES ($1, $2, $3, $4) RETURNING id, last_name, first_name, weight, division_id`
+func CreatePassenger(pass PassengerStructInsert) (PassengerStructSelect, error) {
+    query := `INSERT INTO passenger (last_name, first_name, weight, division_id) VALUES ($1, $2, $3, $4) RETURNING id`
 
     res := database.PgConn.QueryRow(context.Background(), query, pass.LastName, pass.FirstName, pass.Weight, pass.DivisionId)
 
-    var newPass DatabasePassenger
-    err := res.Scan(&newPass.Id, &newPass.LastName, &newPass.FirstName, &newPass.Weight, &newPass.DivisionId)
+    var id int
+    err := res.Scan(&id)
     if err != nil {
         log.Warn("Failed create passenger in database")
-        return DatabasePassenger{}, err
+        return PassengerStructSelect{}, err
+    }
+
+    newPass, err := GetPassengerById(int64(id))
+    if err != nil {
+        log.Warn("Failed to get passenger from database")
+        return PassengerStructSelect{}, err
     }
 
     log.Debug("Successfully created passenger in database")
     return newPass, nil
 }
 
-func UpdatePassenger(pass PassengerStructUpdate) error {
-    query := `UPDATE passenger SET last_name=$2, first_name=$3, weight=$4, division_id=$5 WHERE id=$1`
+func UpdatePassenger(pass PassengerStructUpdate) (PassengerStructSelect, error) {
+    query := `UPDATE passenger SET last_name=$2, first_name=$3, weight=$4, division_id=$5 WHERE id=$1 RETURNING id`
 
-    _, err := database.PgConn.Exec(context.Background(), query, pass.Id, pass.LastName, pass.FirstName, pass.Weight, pass.DivisionId)
+    res := database.PgConn.QueryRow(context.Background(), query, pass.Id, pass.LastName, pass.FirstName, pass.Weight, pass.DivisionId)
+
+    var id int
+    err := res.Scan(&id)
     if err != nil {
-        log.Warn("Failed to update passenger in database")
+        log.Warn("Failed update passenger in database")
+        return PassengerStructSelect{}, err
     }
 
-    return err
+    newPass, err := GetPassengerById(int64(id))
+    if err != nil {
+        log.Warn("Failed to get passenger from database")
+        return PassengerStructSelect{}, err
+    }
+
+    log.Debug("Successfully updated passenger in database")
+    return newPass, nil
 }
 
 func DeletePassenger(id int) error {

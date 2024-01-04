@@ -51,7 +51,7 @@ func createPassenger(c *gin.Context) {
     } else {
         newPass, err := passengerHandler.CreatePassenger(body)
         if err != nil {
-            statusCode = 500
+            statusCode = http.StatusInternalServerError
             response = api.ErrorResponse {
                 Success: false,
                 ErrorCode: 500,
@@ -82,7 +82,7 @@ func updatePassenger(c *gin.Context) {
             ErrorBody: parseErr.Error(),
         }
     } else {
-        err := passengerHandler.UpdatePassenger(body)
+        newPass, err := passengerHandler.UpdatePassenger(body)
         if err != nil {
             statusCode = http.StatusInternalServerError
             response = api.ErrorResponse {
@@ -94,6 +94,7 @@ func updatePassenger(c *gin.Context) {
             statusCode = http.StatusOK
             response = api.SuccessResponse {
                 Success: true,
+                Response: newPass,
             }
         }
     }
@@ -125,11 +126,8 @@ func deletePassenger(c *gin.Context) {
                 ErrorBody: err.Error(),
             }
         } else  {
-            statusCode = http.StatusOK
-            response = api.SuccessResponse {
-                Success: true,
-            }
+            statusCode = http.StatusNoContent
         }
     }
     c.JSON(statusCode, response)
-}
+} 
