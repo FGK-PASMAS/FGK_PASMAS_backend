@@ -17,4 +17,4 @@ delete:
         application/json:
           schema:
             type: object
-            $ref: '#/components/schema/ErrorResponse'
+            $ref: '#/components/schemas/ErrorResponse'
