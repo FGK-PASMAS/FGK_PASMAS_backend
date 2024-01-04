@@ -1,0 +1,20 @@
+delete:
+  summary: Deletes a passenger
+  description: Deletes the passenger record with the specified ID from the system.
+  parameters:
+    - in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+      description: The unique identifier of the passenger to delete.
+  responses:
+    '204':
+      description: Passenger successfully deleted.
+    '500':
+      description: Internal server error, failed to delete passenger.
+      content:
+        application/json:
+          schema:
+            type: object
+            $ref: '#/components/Response/ErrorResponse'
