@@ -1,0 +1,14 @@
+type: object
+properties:
+    id:
+        type: integer
+        format: int64
+    lastName:
+        type: string
+    firstName:
+        type: string
+    weight:
+        type: integer
+        format: int32
+    division:
+        $ref: "models/division.yaml"
