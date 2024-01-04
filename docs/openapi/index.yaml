@@ -19,13 +19,12 @@ components:
     ErrorResponse:
       $ref: "models/responses/errorResponse.yaml"
 
+    Division:
+      $ref: "models/division/division.yaml"
+
     PassengerStructSelect:
       $ref: "models/passenger/passenger_struct_select.yaml"
     PassengerStructInsert:
       $ref: "models/passenger/passenger_struct_insert.yaml"
     PassengerStructUpdate:
       $ref: "models/passenger/passenger_struct_update.yaml"
-
-
-    Division:
-    $ref: "models/division/division.yaml"
