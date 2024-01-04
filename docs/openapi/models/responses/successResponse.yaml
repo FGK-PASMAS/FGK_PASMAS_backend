@@ -1,0 +1,8 @@
+type: object
+properties:
+success:
+    type: boolean
+response:
+    type: array
+    items:
+    $ref: "models/passenger.yaml"

@@ -13,10 +13,28 @@ paths:
 components:
   schemas:
     SuccessResponse:
-      $ref: "models/response.yaml#/SuccessResponse"
+      $ref: "docs/openapi/models/responses/successResponse.yaml"
     ErrorResponse:
-      $ref: "models/response.yaml#/ErrorResponse"
-    Passenger:
-      $ref: "models/passenger.yaml"
-    Division:
-      $ref: "models/division.yaml"
+      $ref: "docs/openapi/models/responses/errorResponse.yaml"
+
+    PassengerStructSelect:
+        $ref: "docs/openapi/models/passenger/passenger_struct_select.yaml"
+    PassengerStructInsert:
+        $ref: "docs/openapi/models/passenger/passenger_struct_insert.yaml"
+    PassengerStructUpdate:
+        $ref: "docs/openapi/models/passenger/passenger_struct_update.yaml"
+
+
+  responses:
+    DefaultSuccessResponse:
+      description: Standardantwort für erfolgreiche Operationen
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/SuccessResponse"
+    DefaultErrorResponse:
+      description: Standardantwort für Fehlerzustände
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'

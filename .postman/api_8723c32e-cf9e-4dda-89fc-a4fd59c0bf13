@@ -15,8 +15,11 @@ rootDirectory = docs/api_collection
 [config.relations.apiDefinition]
 files[] = {"path":"docs/openapi/index.yaml","metaData":{}}
 files[] = {"path":"docs/openapi/models/division.yaml","metaData":{}}
-files[] = {"path":"docs/openapi/models/passenger.yaml","metaData":{}}
-files[] = {"path":"docs/openapi/models/response.yaml","metaData":{}}
+files[] = {"path":"docs/openapi/models/passenger/passenger_struct_insert.yaml","metaData":{}}
+files[] = {"path":"docs/openapi/models/passenger/passenger_struct_select.yaml","metaData":{}}
+files[] = {"path":"docs/openapi/models/passenger/passenger_struct_update.yaml","metaData":{}}
+files[] = {"path":"docs/openapi/models/responses/errorResponse.yaml","metaData":{}}
+files[] = {"path":"docs/openapi/models/responses/successResponse.yaml","metaData":{}}
 files[] = {"path":"docs/openapi/paths/api/passenger.yaml","metaData":{}}
 
 [config.relations.apiDefinition.metaData]

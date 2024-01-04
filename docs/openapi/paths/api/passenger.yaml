@@ -1,15 +1,45 @@
 get:
-  summary: Holt alle Passagiere
-  description: Ruft eine Liste aller Passagiere im System ab.
+  summary: Retrieves all passengers
+  description: Fetches a list of all passengers in the system.
   responses:
     '200':
-      description: Eine Liste von Passagieren
+      description: A list of passengers
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/SuccessResponse'
+            $ref: "docs/openapi/index.yaml#/components/schemas/PassengerStructSelect"
     '500':
-      description: Unerwarteter Fehler
+      description: Unexpected error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+post:
+  summary: Creates a passenger
+  description: Creates a new passenger record in the system.
+  requestBody:
+    description: Passenger data to be inserted.
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "docs/openapi/index.yaml#/components/schemas/PassengerStructInsert"
+  responses:
+    '200':
+      description: Passenger successfully created.
+      content:
+        application/json:
+          schema:
+            $ref: "docs/openapi/index.yaml#/components/schemas/PassengerStructSelect"
+    '400':
+      description: Bad request, incorrect body format.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    '500':
+      description: Internal server error, failed to create passenger.
       content:
         application/json:
           schema:
