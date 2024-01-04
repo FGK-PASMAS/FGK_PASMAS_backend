@@ -9,14 +9,14 @@ get:
           schema:
             type: array
             items:
-                $ref: "#/components/Passenger/PassengerStructSelect"
+                $ref: "#/components/schemas/PassengerStructSelect"
     '500':
       description: Unexpected error
       content:
         application/json:
           schema:
             type: object
-            $ref: "#/components/Response/ErrorResponse"
+            $ref: "#/components/schemas/ErrorResponse"
 
 post:
   summary: Creates a passenger
@@ -28,7 +28,7 @@ post:
       application/json:
         schema:
           type: object
-          $ref: "#/components/Passenger/PassengerStructInsert"
+          $ref: "#/components/schemas/PassengerStructInsert"
   responses:
     '200':
       description: Passenger successfully created.
@@ -36,21 +36,21 @@ post:
         application/json:
           schema:
             type: object
-            $ref: "#/components/Passenger/PassengerStructSelect"
+            $ref: "#/components/schemas/PassengerStructSelect"
     '400':
       description: Bad request, incorrect body format.
       content:
         application/json:
           schema:
             type: object
-            $ref: '#/components/Response/ErrorResponse'
+            $ref: '#/components/schemas/ErrorResponse'
     '500':
       description: Internal server error, failed to create passenger.
       content:
         application/json:
           schema:
             type: object
-            $ref: '#/components/Response/ErrorResponse'
+            $ref: '#/components/schemas/ErrorResponse'
 
 put:
   summary: Fully updated a passenger
@@ -62,7 +62,7 @@ put:
       application/json:
         schema:
           type: object
-          $ref: "#/components/Passenger/PassengerStructUpdate"
+          $ref: "#/components/schemas/PassengerStructUpdate"
   responses:
     '200':
       description: Passenger successfully updated.
@@ -70,18 +70,18 @@ put:
         application/json:
           schema:
             type: object
-            $ref: "#/components/Passenger/PassengerStructSelect"
+            $ref: "#/components/schemas/PassengerStructSelect"
     '400':
       description: Bad request, incorrect body format.
       content:
         application/json:
           schema:
             type: object
-            $ref: '#/components/Response/ErrorResponse'
+            $ref: '#/components/schemas/ErrorResponse'
     '500':
       description: Internal server error, failed to update passenger.
       content:
         application/json:
           schema:
             type: object
-            $ref: '#/components/Response/ErrorResponse'
+            $ref: '#/components/schemas/ErrorResponse'

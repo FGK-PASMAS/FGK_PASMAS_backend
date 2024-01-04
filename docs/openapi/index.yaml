@@ -13,13 +13,12 @@ paths:
     $ref: "paths/api/passenger/{id}_passenger.yaml"
 
 components:
-  Response:
+  schemas:
     SuccessResponse:
       $ref: "models/responses/successResponse.yaml"
     ErrorResponse:
       $ref: "models/responses/errorResponse.yaml"
 
-  Passenger:
     PassengerStructSelect:
       $ref: "models/passenger/passenger_struct_select.yaml"
     PassengerStructInsert:
@@ -28,20 +27,5 @@ components:
       $ref: "models/passenger/passenger_struct_update.yaml"
 
 
-  Division:
+    Division:
     $ref: "models/division/division.yaml"
-
-
-  responses:
-    DefaultSuccessResponse:
-      description: Standardantwort für erfolgreiche Operationen
-      content:
-        application/json:
-          schema:
-            $ref: "#/components/schemas/SuccessResponse"
-    DefaultErrorResponse:
-      description: Standardantwort für Fehlerzustände
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ErrorResponse'
