@@ -11,6 +11,8 @@ paths:
     $ref: "paths/api/passenger/passenger.yaml"
   /api/passenger/{id}:
     $ref: "paths/api/passenger/{id}_passenger.yaml"
+  /realtime/passenger:
+    $ref: "paths/realtime/passenger.yaml"
 
 components:
   schemas:
