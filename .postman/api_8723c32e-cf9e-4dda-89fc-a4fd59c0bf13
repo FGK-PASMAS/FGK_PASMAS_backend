@@ -22,6 +22,7 @@ files[] = {"path":"docs/openapi/models/responses/errorResponse.yaml","metaData":
 files[] = {"path":"docs/openapi/models/responses/successResponse.yaml","metaData":{}}
 files[] = {"path":"docs/openapi/paths/api/passenger/passenger.yaml","metaData":{}}
 files[] = {"path":"docs/openapi/paths/api/passenger/{id}_passenger.yaml","metaData":{}}
+files[] = {"path":"docs/openapi/paths/realtime/passenger.yaml","metaData":{}}
 
 [config.relations.apiDefinition.metaData]
 type = openapi:3
