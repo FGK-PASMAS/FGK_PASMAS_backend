@@ -13,9 +13,7 @@ var DebugStream = realtime.NewStream()
 var pingStream = realtime.NewStream()
 
 func debug(r *gin.RouterGroup) {
-    r.GET("stream", realtime.HeadersMiddleware(), DebugStream.ServeStream(), func(c *gin.Context) {
-        realtime.StreamToClient(c)
-    })
+    r.GET("stream", realtime.HeadersMiddleware(), DebugStream.ServeStream(), realtime.StreamToClient)
 
     r.POST("stream", func(c *gin.Context) {
         fmt.Println("Sending event to stream")
@@ -28,9 +26,7 @@ func debug(r *gin.RouterGroup) {
 }
 
 func ping(r *gin.RouterGroup) {
-    r.GET("ping", realtime.HeadersMiddleware(), pingStream.ServeStream(), func(c *gin.Context) {
-        realtime.StreamToClient(c)
-    })
+    r.GET("ping", realtime.HeadersMiddleware(), pingStream.ServeStream(), realtime.StreamToClient)
 }
 
 func sendPings() {

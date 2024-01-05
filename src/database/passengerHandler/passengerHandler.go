@@ -6,6 +6,8 @@ import (
 
 	"github.com/MetaEMK/FGK_PASMAS_backend/database"
 	"github.com/MetaEMK/FGK_PASMAS_backend/logging"
+	"github.com/MetaEMK/FGK_PASMAS_backend/router/realtime"
+	passStream "github.com/MetaEMK/FGK_PASMAS_backend/router/realtime/routes/passenger"
 )
 
 
@@ -74,6 +76,7 @@ func CreatePassenger(pass PassengerStructInsert) (PassengerStructSelect, error) 
     }
 
     log.Debug("Successfully created passenger in database")
+    passStream.PublishPassengerEvent(realtime.CREATED, newPass)
     return newPass, nil
 }
 
@@ -96,6 +99,7 @@ func UpdatePassenger(pass PassengerStructUpdate) (PassengerStructSelect, error) 
     }
 
     log.Debug("Successfully updated passenger in database")
+    passStream.PublishPassengerEvent(realtime.UPDATED, newPass)
     return newPass, nil
 }
 
@@ -107,5 +111,6 @@ func DeletePassenger(id int) error {
         log.Warn("Failed to delete passenger from database")
     }
 
+    passStream.PublishPassengerEvent(realtime.DELETED, id)
     return err
 }
