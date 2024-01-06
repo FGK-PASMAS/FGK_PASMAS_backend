@@ -1,6 +1,7 @@
 services:
   database:
     image: postgres
+    restart: unless-stopped
     hostname: ${DATABASE_HOSTNAME}
     ports:
       - 5432:5432
@@ -18,12 +19,14 @@ services:
 
   swagger:
     build: ../docs/openapi
+    restart: unless-stopped
     container_name: openapi
     ports:
       - 8000:80
 
   backend:
     build: ../src
+    restart: unless-stopped
     container_name: golang
     ports:
       - 8080:8080
