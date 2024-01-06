@@ -18,9 +18,9 @@ services:
 
   swagger:
     build: ../docs/openapi
-    container_name: swagger
+    container_name: openapi
     ports:
-      - 8000:8080
+      - 8000:80
 
   backend:
     build: ../src

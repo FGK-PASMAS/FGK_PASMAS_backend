@@ -1,15 +1,13 @@
-FROM node:latest as builder
+FROM redocly/cli as builder
 
-WORKDIR /swag
+WORKDIR /usr/share/openapi
 COPY . .
-RUN npm install -g multi-file-swagger
-RUN multi-file-swagger -o yaml index.yaml > pasmas.yaml
 
+RUN redocly build-docs index.yaml --output ./index.html --title PASMAS-API
 
-FROM swaggerapi/swagger-ui
+FROM redocly/redoc
 
-COPY --from=builder /swag/pasmas.yaml /swag/pasmas.yaml
+COPY --from=builder /usr/share/openapi/index.html /usr/share/nginx/html/index.html
+ENV SPEC_URL=/usr/share/nginx/html/index.html
 
-ENV SWAGGER_JSON=/swag/pasmas.yaml
-
-EXPOSE 8000
+EXPOSE 80
