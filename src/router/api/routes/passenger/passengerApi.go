@@ -5,12 +5,14 @@ import (
 	"strconv"
 
 	passengerHandler "github.com/MetaEMK/FGK_PASMAS_backend/database/passengerHandler"
+	internalerror "github.com/MetaEMK/FGK_PASMAS_backend/internalError"
 	"github.com/MetaEMK/FGK_PASMAS_backend/logging"
 	"github.com/MetaEMK/FGK_PASMAS_backend/router/api"
 	"github.com/gin-gonic/gin"
 )
 
 var log = logging.ApiLogger
+type intError = internalerror.InternalError
 
 func getPassengers(c *gin.Context) {
     passengers, err := passengerHandler.GetPassengers()
@@ -22,7 +24,7 @@ func getPassengers(c *gin.Context) {
         response = api.ErrorResponse {
             Success: false,
             ErrorCode: 500,
-            ErrorBody: err.Error(),
+            ErrorBody: err,
         }
     } else {
         statusCode = http.StatusOK
@@ -44,9 +46,13 @@ func createPassenger(c *gin.Context) {
 
     if parseErr != nil {
         statusCode = http.StatusBadRequest
+        errMessage := "Failed to parse request body"
+        log.Debug(errMessage + ": " + parseErr.Error())
+        error := intError{Type: internalerror.ParseError, Message: errMessage, Body: parseErr}
+
         response = api.ErrorResponse {
             Success: false,
-            ErrorBody: parseErr.Error(),
+            ErrorBody: error,
         }
     } else {
         newPass, err := passengerHandler.CreatePassenger(body)
@@ -55,7 +61,7 @@ func createPassenger(c *gin.Context) {
             response = api.ErrorResponse {
                 Success: false,
                 ErrorCode: 500,
-                ErrorBody: err.Error(),
+                ErrorBody: err,
             }
         } else  {
             statusCode = http.StatusOK
@@ -77,9 +83,13 @@ func updatePassenger(c *gin.Context) {
 
     if parseErr != nil {
         statusCode = http.StatusBadRequest
+        errMessage := "Failed to parse request body"
+        log.Debug(errMessage + ": " + parseErr.Error())
+        error := intError{Type: internalerror.ParseError, Message: errMessage, Body: parseErr}
+
         response = api.ErrorResponse {
             Success: false,
-            ErrorBody: parseErr.Error(),
+            ErrorBody: error,
         }
     } else {
         newPass, err := passengerHandler.UpdatePassenger(body)
@@ -88,7 +98,7 @@ func updatePassenger(c *gin.Context) {
             response = api.ErrorResponse {
                 Success: false,
                 ErrorCode: 500,
-                ErrorBody: err.Error(),
+                ErrorBody: err,
             }
         } else  {
             statusCode = http.StatusOK
@@ -111,10 +121,13 @@ func deletePassenger(c *gin.Context) {
 
     if err != nil {
         statusCode = http.StatusBadRequest
+        errMessage := "Failed to parse id"
+        log.Debug(errMessage + ": " + err.Error())
+        error := intError{Type: internalerror.ParseError, Message: errMessage, Body: err}
         response = api.ErrorResponse {
             Success: false,
             ErrorCode: 400,
-            ErrorBody: "Invalid id",
+            ErrorBody: error,
         }
     } else {
         err := passengerHandler.DeletePassenger(id)
@@ -123,7 +136,7 @@ func deletePassenger(c *gin.Context) {
             response = api.ErrorResponse {
                 Success: false,
                 ErrorCode: 500,
-                ErrorBody: err.Error(),
+                ErrorBody: err,
             }
         } else  {
             statusCode = http.StatusNoContent
