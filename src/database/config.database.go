@@ -32,7 +32,7 @@ func getConnectionString() (string, error) {
     } 
 
     if user == "" {
-        user = "fgk_pasmas"
+        user = "pasmas"
     }
 
     if database == "" {
