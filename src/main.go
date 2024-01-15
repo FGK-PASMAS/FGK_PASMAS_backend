@@ -10,6 +10,8 @@ func main() {
 
     database.InitDatabaseStructure()
 
+    database.SeedDatabase()
+
     server := router.InitRouter() 
     server.Run(":8081")
 }

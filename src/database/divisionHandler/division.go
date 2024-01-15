@@ -1,6 +1,7 @@
 package divisionhandler
 
-type Division struct {
-    Id int      `json:"id"`
-    Name string `json:"name"`
+type DivisionStructSelect struct {
+    Id int                  `json:"id"`
+    Name string             `json:"name"`
+    PassengerCapacity int   `json:"passengerCapacity"`
 }

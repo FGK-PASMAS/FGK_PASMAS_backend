@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS "division" (
     id SERIAL PRIMARY KEY,
-    name TEXT
+    name TEXT,
+    passenger_capacity INTEGER NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS "passenger" (

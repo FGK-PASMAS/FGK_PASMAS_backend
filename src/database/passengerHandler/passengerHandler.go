@@ -17,7 +17,7 @@ type intError = internalerror.InternalError
 
 func GetPassengers() ([]PassengerStructSelect, error) {
 
-	query := `SELECT p.id, p.last_name, p.first_name, p.weight, d.id, d.name FROM passenger p JOIN division d ON p.division_id = d.id`
+	query := `SELECT p.id, p.last_name, p.first_name, p.weight, d.id, d.name d.passenger_capacity FROM passenger p JOIN division d ON p.division_id = d.id`
 
 	rows, err := database.PgConn.Query(context.Background(), query)
 	if err != nil {
@@ -33,7 +33,15 @@ func GetPassengers() ([]PassengerStructSelect, error) {
 		for rows.Next() {
 			var passenger PassengerStructSelect
 
-			err = rows.Scan(&passenger.Id, &passenger.LastName, &passenger.FirstName, &passenger.Weight, &passenger.Division.Id, &passenger.Division.Name)
+			err = rows.Scan(
+                &passenger.Id,
+                &passenger.LastName,
+                &passenger.FirstName,
+                &passenger.Weight,
+                &passenger.Division.Id,
+                &passenger.Division.Name,
+                &passenger.Division.PassengerCapacity,
+            )
 			if err != nil {
 				log.Info("Could not parse passenger row from database to passenger type - skipping entry")
 				log.Debug(err.Error())
@@ -51,7 +59,15 @@ func GetPassengerById(id int64) (PassengerStructSelect, error) {
 	row := database.PgConn.QueryRow(context.Background(), query, id)
 
 	var passenger PassengerStructSelect
-	err := row.Scan(&passenger.Id, &passenger.LastName, &passenger.FirstName, &passenger.Weight, &passenger.Division.Id, &passenger.Division.Name)
+	err := row.Scan(
+        &passenger.Id,
+        &passenger.LastName,
+        &passenger.FirstName,
+        &passenger.Weight,
+        &passenger.Division.Id,
+        &passenger.Division.Name,
+        &passenger.Division.PassengerCapacity,
+    )
 
 	if err != nil {
         errMessage := fmt.Sprintf("Failed to get passenger with id %d from database", id)
