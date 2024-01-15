@@ -11,5 +11,5 @@ func main() {
     database.InitDatabaseStructure()
 
     server := router.InitRouter() 
-    server.Run(":8080")
+    server.Run(":8081")
 }
