@@ -2,45 +2,71 @@ package database
 
 import (
 	"context"
+	"time"
 
+	internalerror "github.com/MetaEMK/FGK_PASMAS_backend/internalError"
 	"github.com/MetaEMK/FGK_PASMAS_backend/logging"
 	"github.com/jackc/pgx/v5"
 )
 
 var log = logging.DbLogger
 var PgConn *pgx.Conn
+var isDatabaseConnected bool = false
 
-func SetupDatabaseConnection() {
+func SetupDatabaseConnection() error {
     log.Info("Trying to connect to the database")
 
     connectionString, err := getConnectionString()
     if err != nil {
         log.Error("Failed to generate the connectionString")
-        panic(err)
+        return internalerror.InternalError{Type: internalerror.DatabaseConnectionError, Message: "Failed to generate the connectionString", Body: err}
     }
 
     pgx, err := pgx.Connect(context.Background(), connectionString)
 
     if err != nil {
         log.Error("Failed to open a new connection")
-        panic(err)
+        return internalerror.InternalError{Type: internalerror.DatabaseConnectionError, Message: "Failed to open a new connection", Body: err}
     } else {
         log.Debug("Successfully opened a new connection")
         PgConn = pgx
     }
 
-    CheckDatabaseConnection()
+    return nil
 }
 
 func CheckDatabaseConnection() error {
     err := PgConn.Ping(context.Background())
 
     if err != nil {
-        log.Warn("Failed to ping the database")
+        error := internalerror.InternalError{Type: internalerror.DatabaseConnectionError, Message: "Failed to ping the database", Body: err}
+        return error
     } 
 
-    return err
+    return nil
 }
+
+func AutoReconnectForDatabaseConnection() {
+    for {
+        err := CheckDatabaseConnection()
+        if err != nil {
+            isDatabaseConnected = false
+            log.Error("Failed to ping the database - trying to reconnect")
+
+            //CloseDatabase()
+
+            SetupDatabaseConnection()
+
+            err = CheckDatabaseConnection()
+            if err == nil {
+                isDatabaseConnected = true
+                log.Debug("Successfully reconnected to the database")
+            }
+        }
+        time.Sleep(2 * time.Second)
+    }
+}
+
 
 func InitDatabaseStructure() (error){
     log.Info("Trying to create the database structure")

@@ -6,11 +6,16 @@ import (
 )
 
 func main() {
-    database.SetupDatabaseConnection()
+    err := database.SetupDatabaseConnection()
+    if err != nil {
+        panic(err)
+    }
 
     database.InitDatabaseStructure()
 
     database.SeedDatabase()
+
+    go database.AutoReconnectForDatabaseConnection()
 
     server := router.InitRouter() 
     server.Run(":8081")

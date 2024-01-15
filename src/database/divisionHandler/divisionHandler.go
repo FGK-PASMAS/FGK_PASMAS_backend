@@ -13,10 +13,15 @@ var log = logging.DivisionHandlerLogger
 type intError = internalerror.InternalError
 
 func GetDivision() ([]DivisionStructSelect, error) {
+    err := database.CheckDatabaseConnection()
+    if err != nil {
+        return []DivisionStructSelect{}, intError{Type: internalerror.DatabaseConnectionError, Message: "Failed to connect to database", Body: err}
+    }
+
     query := `SELECT id, name, passenger_capacity FROM division`
 
     rows, err := database.PgConn.Query(context.Background(), query)
-    //defer rows.Close()
+    defer rows.Close()
 
     if err != nil {
         errMessage := "Failed to got divisions from database"

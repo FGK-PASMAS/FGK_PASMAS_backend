@@ -16,6 +16,10 @@ var log = logging.PassHandlerLogger
 type intError = internalerror.InternalError
 
 func GetPassengers() ([]PassengerStructSelect, error) {
+    connErr := database.CheckDatabaseConnection()
+    if connErr != nil {
+        return []PassengerStructSelect{}, intError{Type: internalerror.DatabaseConnectionError, Message: "Failed to connect to database", Body: connErr}
+    }
 
 	query := `SELECT p.id, p.last_name, p.first_name, p.weight, d.id, d.name d.passenger_capacity FROM passenger p JOIN division d ON p.division_id = d.id`
 
@@ -54,6 +58,11 @@ func GetPassengers() ([]PassengerStructSelect, error) {
 }
 
 func GetPassengerById(id int64) (PassengerStructSelect, error) {
+    connErr := database.CheckDatabaseConnection()
+    if connErr != nil {
+        return PassengerStructSelect{}, intError{Type: internalerror.DatabaseConnectionError, Message: "Failed to connect to database", Body: connErr}
+    }
+
 	query := `SELECT p.id, p.last_name, p.first_name, p.weight, d.id, d.name FROM passenger p JOIN division d ON p.division_id = d.id WHERE p.id=$1`
 
 	row := database.PgConn.QueryRow(context.Background(), query, id)
@@ -79,6 +88,11 @@ func GetPassengerById(id int64) (PassengerStructSelect, error) {
 }
 
 func CreatePassenger(pass PassengerStructInsert) (PassengerStructSelect, error) {
+    connErr := database.CheckDatabaseConnection()
+    if connErr != nil {
+        return PassengerStructSelect{}, intError{Type: internalerror.DatabaseConnectionError, Message: "Failed to connect to database", Body: connErr}
+    }
+
 	query := `INSERT INTO passenger (last_name, first_name, weight, division_id) VALUES ($1, $2, $3, $4) RETURNING id`
 
 	res := database.PgConn.QueryRow(context.Background(), query, pass.LastName, pass.FirstName, pass.Weight, pass.DivisionId)
@@ -103,6 +117,10 @@ func CreatePassenger(pass PassengerStructInsert) (PassengerStructSelect, error) 
 }
 
 func UpdatePassenger(pass PassengerStructUpdate) (PassengerStructSelect, error) {
+    connErr := database.CheckDatabaseConnection()
+    if connErr != nil {
+        return PassengerStructSelect{}, intError{Type: internalerror.DatabaseConnectionError, Message: "Failed to connect to database", Body: connErr}
+    }
 	query := `UPDATE passenger SET last_name=$2, first_name=$3, weight=$4, division_id=$5 WHERE id=$1 RETURNING id`
 
 	res := database.PgConn.QueryRow(context.Background(), query, pass.Id, pass.LastName, pass.FirstName, pass.Weight, pass.DivisionId)
@@ -127,6 +145,11 @@ func UpdatePassenger(pass PassengerStructUpdate) (PassengerStructSelect, error) 
 }
 
 func DeletePassenger(id int) error {
+    connErr := database.CheckDatabaseConnection()
+    if connErr != nil {
+        return intError{Type: internalerror.DatabaseConnectionError, Message: "Failed to connect to database", Body: connErr}
+    }
+
 	query := `DELETE FROM passenger WHERE id=$1`
 
 	_, err := database.PgConn.Exec(context.Background(), query, id)
