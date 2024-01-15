@@ -16,7 +16,7 @@ func GetDivision() ([]DivisionStructSelect, error) {
     query := `SELECT id, name, passenger_capacity FROM division`
 
     rows, err := database.PgConn.Query(context.Background(), query)
-    defer rows.Close()
+    //defer rows.Close()
 
     if err != nil {
         errMessage := "Failed to got divisions from database"
@@ -26,7 +26,7 @@ func GetDivision() ([]DivisionStructSelect, error) {
 
     divisions := []DivisionStructSelect{}
     for rows.Next() {
-        division := DivisionStructSelect{}
+        var division DivisionStructSelect
         err = rows.Scan(&division.Id, &division.Name, &division.PassengerCapacity)
         if err != nil {
             errMessage := "Failed to parse one division from database - skipping"
@@ -36,5 +36,5 @@ func GetDivision() ([]DivisionStructSelect, error) {
         }
     }
 
-    return []DivisionStructSelect{}, nil
+    return divisions, nil
 }
