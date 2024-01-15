@@ -59,7 +59,15 @@ func GetPassengerById(id int64) (PassengerStructSelect, error) {
 	row := database.PgConn.QueryRow(context.Background(), query, id)
 
 	var passenger PassengerStructSelect
-	err := row.Scan(&passenger.Id, &passenger.LastName, &passenger.FirstName, &passenger.Weight, &passenger.Division.Id, &passenger.Division.Name)
+	err := row.Scan(
+        &passenger.Id,
+        &passenger.LastName,
+        &passenger.FirstName,
+        &passenger.Weight,
+        &passenger.Division.Id,
+        &passenger.Division.Name,
+        &passenger.Division.PassengerCapacity,
+    )
 
 	if err != nil {
         errMessage := fmt.Sprintf("Failed to get passenger with id %d from database", id)
