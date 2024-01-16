@@ -49,7 +49,46 @@
 						},
 						"description": "Pings the backend"
 					},
-					"response": []
+					"response": [
+						{
+							"id": "a8998ae9-44b6-4d43-90b8-d59c811017c5",
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/debug/ping",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"debug",
+										"ping"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 16 Jan 2024 10:08:20 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "34"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"response\": \"pong\"\n}"
+						}
+					]
 				}
 			],
 			"id": "dc59190f-9c6a-4ad7-84ee-dde33c28990d",
@@ -449,7 +488,45 @@
 						},
 						"description": "Gets all divisions"
 					},
-					"response": []
+					"response": [
+						{
+							"id": "ede6647f-d013-4d8d-93bc-e66b7b49a80a",
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/division",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"division"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 16 Jan 2024 10:08:01 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "181"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"response\": [\n        {\n            \"id\": 1,\n            \"name\": \"Segelflug\",\n            \"passengerCapacity\": 1\n        },\n        {\n            \"id\": 2,\n            \"name\": \"Motorselger\",\n            \"passengerCapacity\": 1\n        },\n        {\n            \"id\": 3,\n            \"name\": \"Motorflug\",\n            \"passengerCapacity\": 3\n        }\n    ]\n}"
+						}
+					]
 				}
 			],
 			"id": "09f50626-70ff-42c1-8bb3-2a1d54ec4c09"
