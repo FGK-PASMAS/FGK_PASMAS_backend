@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "9416b3e5-07bb-4dbe-8c90-2bfa5960affa",
-		"name": "v0.1",
+		"name": "Api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_uid": "30997389-9416b3e5-07bb-4dbe-8c90-2bfa5960affa"
 	},
@@ -46,12 +46,14 @@
 								"debug",
 								"ping"
 							]
-						}
+						},
+						"description": "Pings the backend"
 					},
 					"response": []
 				}
 			],
-			"id": "dc59190f-9c6a-4ad7-84ee-dde33c28990d"
+			"id": "dc59190f-9c6a-4ad7-84ee-dde33c28990d",
+			"description": "The debug endpoint is primarily for debugging purposes."
 		},
 		{
 			"name": "passenger",
@@ -92,7 +94,8 @@
 								"api",
 								"passenger"
 							]
-						}
+						},
+						"description": "Retrieves all passengers from the database and returns them as a list.  \nPlease note that the division is returned as an object."
 					},
 					"response": [
 						{
@@ -179,7 +182,8 @@
 								"api",
 								"passenger"
 							]
-						}
+						},
+						"description": "Creates a new passenger in the database.  \nPlease note that this call triggers a real-time (SSE) event upon success."
 					},
 					"response": [
 						{
@@ -275,7 +279,8 @@
 								"api",
 								"passenger"
 							]
-						}
+						},
+						"description": "Updates a passenger in the database.  \nPlease note that this call triggers a real-time (SSE) event upon success.\n\n**! This call will be changed in the future !**"
 					},
 					"response": [
 						{
@@ -360,7 +365,8 @@
 								"passenger",
 								"3"
 							]
-						}
+						},
+						"description": "Delete a passenger.  \nPlease note that if there is no passenger with the respective ID, nothing will happen, but the OK response code will still be returned."
 					},
 					"response": [
 						{
@@ -440,7 +446,8 @@
 								"api",
 								"division"
 							]
-						}
+						},
+						"description": "Gets all divisions"
 					},
 					"response": []
 				}
