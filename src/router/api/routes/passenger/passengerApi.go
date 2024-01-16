@@ -64,7 +64,7 @@ func createPassenger(c *gin.Context) {
                 ErrorBody: err,
             }
         } else  {
-            statusCode = http.StatusOK
+            statusCode = http.StatusCreated
             response = api.SuccessResponse {
                 Success: true,
                 Response: newPass,

@@ -21,12 +21,12 @@ func GetPassengers() ([]PassengerStructSelect, error) {
         return []PassengerStructSelect{}, intError{Type: internalerror.DatabaseConnectionError, Message: "Failed to connect to database", Body: connErr}
     }
 
-	query := `SELECT p.id, p.last_name, p.first_name, p.weight, d.id, d.name d.passenger_capacity FROM passenger p JOIN division d ON p.division_id = d.id`
+	query := `SELECT p.id, p.last_name, p.first_name, p.weight, d.id, d.name, d.passenger_capacity FROM passenger p JOIN division d ON p.division_id = d.id;`
 
 	rows, err := database.PgConn.Query(context.Background(), query)
 	if err != nil {
-		errMessage := "Failed to got passengers from database"
-		log.Info(errMessage)
+        errMessage := "Failed to got passengers from database"
+		log.Info(errMessage + " - " + err.Error())
 
         return nil, intError{Type: internalerror.DatabaseQueryError, Message: errMessage, Body: err}
 	} else {
@@ -63,7 +63,7 @@ func GetPassengerById(id int64) (PassengerStructSelect, error) {
         return PassengerStructSelect{}, intError{Type: internalerror.DatabaseConnectionError, Message: "Failed to connect to database", Body: connErr}
     }
 
-	query := `SELECT p.id, p.last_name, p.first_name, p.weight, d.id, d.name FROM passenger p JOIN division d ON p.division_id = d.id WHERE p.id=$1`
+	query := `SELECT p.id, p.last_name, p.first_name, p.weight, d.id, d.name, d.passenger_capacity FROM passenger p JOIN division d ON p.division_id = d.id WHERE p.id=$1`
 
 	row := database.PgConn.QueryRow(context.Background(), query, id)
 
