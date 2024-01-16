@@ -9,6 +9,8 @@ id = 8723c32e-cf9e-4dda-89fc-a4fd59c0bf13
 
 [config.relations.collections]
 rootDirectory = docs/api_collection
+files[] = {"id":"30997389-9416b3e5-07bb-4dbe-8c90-2bfa5960affa","path":"Api.json","metaData":{}}
+files[] = {"id":"30997389-afadc8dc-09ca-434c-a0a2-f38d11489810","path":"Realtime.json","metaData":{}}
 
 [config.relations.collections.metaData]
 

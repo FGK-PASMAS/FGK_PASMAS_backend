@@ -1,0 +1,559 @@
+{
+	"info": {
+		"_postman_id": "9416b3e5-07bb-4dbe-8c90-2bfa5960affa",
+		"name": "Api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_uid": "30997389-9416b3e5-07bb-4dbe-8c90-2bfa5960affa"
+	},
+	"item": [
+		{
+			"name": "debug",
+			"item": [
+				{
+					"name": "Ping",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "dabfa02a-8419-4dac-accc-aa4bc83823a1",
+								"exec": [
+									"pm.test(\"status\", function() {",
+									"    pm.response.to.have.status(200)",
+									"})",
+									"",
+									"pm.test(\"response\", function() {",
+									"    pm.response.to.have.jsonBody(\"success\", true)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "bcf1527e-7735-4a76-b2b5-071b1fc7589d",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/debug/ping",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"debug",
+								"ping"
+							]
+						},
+						"description": "Pings the backend"
+					},
+					"response": [
+						{
+							"id": "a8998ae9-44b6-4d43-90b8-d59c811017c5",
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/debug/ping",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"debug",
+										"ping"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 16 Jan 2024 10:08:20 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "34"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"response\": \"pong\"\n}"
+						}
+					]
+				}
+			],
+			"id": "dc59190f-9c6a-4ad7-84ee-dde33c28990d",
+			"description": "The debug endpoint is primarily for debugging purposes."
+		},
+		{
+			"name": "passenger",
+			"item": [
+				{
+					"name": "Get all Passengers",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "54f79042-8c6f-4bc4-a23b-343a1a4e5faf",
+								"exec": [
+									"pm.test(\"status\", function() {",
+									"    pm.response.to.have.status(200)",
+									"})",
+									"",
+									"pm.test(\"response\", function() {",
+									"    pm.response.to.have.jsonBody(\"success\", true)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "0962f615-0984-47cb-a1c4-a513bdc54e45",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/passenger",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"passenger"
+							]
+						},
+						"description": "Retrieves all passengers from the database and returns them as a list.  \nPlease note that the division is returned as an object."
+					},
+					"response": [
+						{
+							"id": "1297b0dd-8009-43d2-913b-976a77e08ab5",
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/passenger",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"passenger"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 16 Jan 2024 09:21:31 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "275"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"response\": [\n        {\n            \"id\": 1,\n            \"lastName\": \"Mustermann\",\n            \"firstName\": \"Max\",\n            \"weight\": 89,\n            \"division\": {\n                \"id\": 1,\n                \"name\": \"Segelflug\",\n                \"passengerCapacity\": 1\n            }\n        },\n        {\n            \"id\": 2,\n            \"lastName\": \"Engel\",\n            \"firstName\": \"Rainer\",\n            \"weight\": 89,\n            \"division\": {\n                \"id\": 1,\n                \"name\": \"Segelflug\",\n                \"passengerCapacity\": 1\n            }\n        }\n    ]\n}"
+						}
+					]
+				},
+				{
+					"name": "Create Passenger",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "34472b69-4b3e-486a-92b1-b2bb13295cf1",
+								"exec": [
+									"pm.test(\"status\", function() {",
+									"    pm.response.to.have.status(201)",
+									"})",
+									"",
+									"pm.test(\"response\", function() {",
+									"    pm.response.to.have.jsonBody(\"success\", true)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "603c7d96-7200-4c20-8140-73ad5f4fa5df",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"lastName\": \"Engel\",\n    \"firstName\": \"Rainer\",\n    \"weight\": 89,\n    \"divisionId\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/passenger",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"passenger"
+							]
+						},
+						"description": "Creates a new passenger in the database.  \nPlease note that this call triggers a real-time (SSE) event upon success."
+					},
+					"response": [
+						{
+							"id": "f028548e-fdc3-42cf-8297-f6c113faaaf2",
+							"name": "OK",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"lastName\": \"Mustermann\",\n    \"firstName\": \"Max\",\n    \"weight\": 89,\n    \"divisionId\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/passenger",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"passenger"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 16 Jan 2024 09:19:43 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "151"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"response\": {\n        \"id\": 1,\n        \"lastName\": \"Mustermann\",\n        \"firstName\": \"Max\",\n        \"weight\": 89,\n        \"division\": {\n            \"id\": 1,\n            \"name\": \"Segelflug\",\n            \"passengerCapacity\": 1\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Passenger",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "d736a624-7c26-4228-b416-f953b15a9b95",
+								"exec": [
+									"pm.test(\"status\", function() {",
+									"    pm.response.to.have.status(200)",
+									"})",
+									"",
+									"pm.test(\"response\", function() {",
+									"    pm.response.to.have.jsonBody(\"success\", true)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "fd867cb7-dbcc-4f07-8088-c42cc9482a5d",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1,\n    \"lastName\": \"Maria\",\n    \"firstName\": \"Musterfrau\",\n    \"weight\": 72,\n    \"divisionid\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/passenger",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"passenger"
+							]
+						},
+						"description": "Updates a passenger in the database.  \nPlease note that this call triggers a real-time (SSE) event upon success.\n\n**! This call will be changed in the future !**"
+					},
+					"response": [
+						{
+							"id": "12d427f3-f9c0-401c-8e34-fe62bd1d6ca3",
+							"name": "OK",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": 1,\n    \"lastName\": \"Maria\",\n    \"firstName\": \"Musterfrau\",\n    \"weight\": 72,\n    \"divisionid\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/passenger",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"passenger"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 16 Jan 2024 09:22:20 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "153"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"response\": {\n        \"id\": 1,\n        \"lastName\": \"Maria\",\n        \"firstName\": \"Musterfrau\",\n        \"weight\": 72,\n        \"division\": {\n            \"id\": 1,\n            \"name\": \"Segelflug\",\n            \"passengerCapacity\": 1\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Passenger",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "08658a9d-c12d-4bbe-a371-2d4423215d0d",
+								"exec": [
+									"pm.test(\"status\", function() {",
+									"    pm.response.to.have.status(204)",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "3d0bbfa4-888b-4453-97da-1724a826179b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/passenger/3",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"passenger",
+								"3"
+							]
+						},
+						"description": "Delete a passenger.  \nPlease note that if there is no passenger with the respective ID, nothing will happen, but the OK response code will still be returned."
+					},
+					"response": [
+						{
+							"id": "5754e70d-5b60-429a-a921-600c782f2e83",
+							"name": "OK",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/passenger/3",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"passenger",
+										"3"
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 16 Jan 2024 09:22:36 GMT"
+								}
+							],
+							"cookie": []
+						}
+					]
+				}
+			],
+			"id": "80bd9de5-eed8-418a-b3c9-a87b63930855"
+		},
+		{
+			"name": "division",
+			"item": [
+				{
+					"name": "Get Divisions",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "2ff5dcd5-49e6-4680-8883-1bc7a7a4bbb4",
+								"exec": [
+									"pm.test(\"status\", function() {",
+									"    pm.response.to.have.status(200)",
+									"})",
+									"",
+									"pm.test(\"response\", function() {",
+									"    pm.response.to.have.jsonBody(\"success\", true)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"id": "563838af-050a-410b-83a0-c466fdddbc74",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/division",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"division"
+							]
+						},
+						"description": "Gets all divisions"
+					},
+					"response": [
+						{
+							"id": "ede6647f-d013-4d8d-93bc-e66b7b49a80a",
+							"name": "OK",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/division",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"division"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 16 Jan 2024 10:08:01 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "181"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"response\": [\n        {\n            \"id\": 1,\n            \"name\": \"Segelflug\",\n            \"passengerCapacity\": 1\n        },\n        {\n            \"id\": 2,\n            \"name\": \"Motorselger\",\n            \"passengerCapacity\": 1\n        },\n        {\n            \"id\": 3,\n            \"name\": \"Motorflug\",\n            \"passengerCapacity\": 3\n        }\n    ]\n}"
+						}
+					]
+				}
+			],
+			"id": "09f50626-70ff-42c1-8bb3-2a1d54ec4c09"
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "2d303557-32c4-4b0e-8536-e70c151d0f3e",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "86c61266-288c-4c6d-8843-d419193f858c",
+				"type": "text/javascript",
+				"exec": [
+					"pm.test(\"Response time is less than 200ms\", function () {",
+					"    pm.expect(pm.response.responseTime).to.be.below(200);",
+					"});"
+				]
+			}
+		}
+	]
+}

@@ -1,5 +1,0 @@
-properties:
-    success:
-        type: boolean
-    response:
-        type: object
