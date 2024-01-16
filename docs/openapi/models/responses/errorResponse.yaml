@@ -1,8 +1,0 @@
-properties:
-  success:
-    type: boolean
-  errorCode:
-    type: integer
-    format: int32
-  errorBody:
-    type: object
