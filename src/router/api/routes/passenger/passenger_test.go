@@ -21,10 +21,10 @@ func TestGetPassengers(t *testing.T) {
         passengerhandler.CreatePassenger(pass2)
     })
 
-    assert.Equal(t, w.Code, http.StatusOK)
+    assert.Equal(t, http.StatusOK, w.Code)
 
     res := testutils.ParseAndValidateResponse(t, w)
-    assert.Equal(t, res.Success, true)
+    assert.Equal(t, true, res.Success)
 
     var passenger []testutils.PassengerModel
     jsonBytes, _ := json.Marshal(res.Response)
@@ -37,7 +37,7 @@ func TestGetPassengers(t *testing.T) {
     }
 }
 
-func CreatePassenger(t *testing.T) {
+func TestCreatePassenger(t *testing.T) {
     pass := passengerhandler.PassengerStructInsert{LastName: "test", FirstName: "test", Weight: 100, DivisionId: 1}
     passJson, _ := json.Marshal(pass)
 
@@ -46,10 +46,10 @@ func CreatePassenger(t *testing.T) {
 
     w := testutils.SendTestingRequest(t, req)
 
-    assert.Equal(t, w.Code, http.StatusCreated)
+    assert.Equal(t, http.StatusCreated, w.Code)
 
     res := testutils.ParseAndValidateResponse(t, w)
-    assert.Equal(t, res.Success, true)
+    assert.Equal(t, true, res.Success)
 
     var passenger testutils.PassengerModel
     jsonBytes, _ := json.Marshal(res.Response)
@@ -60,29 +60,59 @@ func CreatePassenger(t *testing.T) {
     testutils.ValidatePassengerModel(t, passenger)
 }
 
-func UpdatePassenger(t *testing.T) {
-    pass := passengerhandler.PassengerStructUpdate{LastName: "test", FirstName: "test", Weight: 100, DivisionId: 1}
-    passJson, _ := json.Marshal(pass)
+func TestUpdatePassenger(t *testing.T) {
+    passUpdateCorrect(t)
+    passUpdateWrongId(t)
+}
 
-    req, _ := http.NewRequest(http.MethodPut, "/api/passenger/", bytes.NewBuffer(passJson))
+func passUpdateCorrect(t *testing.T) {
+    pass := passengerhandler.PassengerStructInsert{LastName: "test", FirstName: "test", Weight: 100, DivisionId: 1}
+    passUpdate := passengerhandler.PassengerStructUpdate{Id: 1, LastName: "test", FirstName: "test", Weight: 100, DivisionId: 1}
+    passUpdateJson, _ := json.Marshal(passUpdate)
+
+    req, _ := http.NewRequest(http.MethodPut, "/api/passenger/", bytes.NewBuffer(passUpdateJson))
+    req.Header.Set("Content-Type", "application/json")
+
+    w := testutils.SendTestingRequest(t, req, func() {
+        passengerhandler.CreatePassenger(pass)
+    })
+
+    assert.Equal(t, http.StatusOK, w.Code)
+
+    res := testutils.ParseAndValidateResponse(t, w)
+    assert.Equal(t, true, res.Success)
+
+    var passenger testutils.PassengerModel
+    jsonBytes, _ := json.Marshal(res.Response)
+
+    err := json.Unmarshal(jsonBytes, &passenger)
+    assert.Nil(t, err)
+
+    testutils.ValidatePassengerModel(t, passenger)
+}
+
+func passUpdateWrongId(t *testing.T) {
+    //TODO: improve implementation
+    passUpdate := passengerhandler.PassengerStructUpdate{Id: 1, LastName: "test", FirstName: "test", Weight: 100, DivisionId: 1}
+    passUpdateJson, _ := json.Marshal(passUpdate)
+
+    req, _ := http.NewRequest(http.MethodPut, "/api/passenger/", bytes.NewBuffer(passUpdateJson))
     req.Header.Set("Content-Type", "application/json")
 
     w := testutils.SendTestingRequest(t, req)
 
-    assert.Equal(t, w.Code, http.StatusOK)
+    assert.Equal(t, http.StatusInternalServerError, w.Code)
 
     res := testutils.ParseAndValidateResponse(t, w)
-    assert.Equal(t, res.Success, true)
-
-    var passenger testutils.PassengerModel
-    jsonBytes, _ := json.Marshal(res.Response)
-
-    err := json.Unmarshal(jsonBytes, &passenger)
-    assert.Nil(t, err)
-
-    testutils.ValidatePassengerModel(t, passenger)
+    assert.Equal(t, res.Success, false)
 }
 
-func DeletePassenger(t *testing.T) {
+func passUpdateMissingBody(t *testing.T) {
     t.Skip("Not implemented")
+    //TODO: implement
+}
+
+func TestDeletePassenger(t *testing.T) {
+    t.Skip("Not implemented")
+    //TODO: implement
 }

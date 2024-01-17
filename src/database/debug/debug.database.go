@@ -16,6 +16,7 @@ var log = logging.DbDebugLogger
 type intErr = internalerror.InternalError
 var mode = "DEBUG"
 
+// TruncateDatabase truncates the database and seeds it with default values
 func TruncateDatabase() error {
     if mode!= "DEBUG" {
         log.Debug(mode)

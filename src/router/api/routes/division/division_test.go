@@ -14,18 +14,18 @@ func TestGetDivision(t *testing.T) {
     req, _ := http.NewRequest(http.MethodGet, "/api/division/", nil)
     w := testutils.SendTestingRequest(t, req)
 
-    assert.Equal(t, w.Code, 200)
+    assert.Equal(t, http.StatusOK, w.Code)
 
     res := testutils.ParseAndValidateResponse(t, w)
-    assert.Equal(t, res.Success, true)
+    assert.Equal(t, true, res.Success)
 
     var divisions []testutils.DivisionModel
     jsonBytes, _ := json.Marshal(res.Response)
 
     err := json.Unmarshal(jsonBytes, &divisions)
-    assert.Equal(t, err, nil)
+    assert.Nil(t, err)
 
-    assert.Equal(t, len(divisions), 3)
+    assert.Equal(t, 3, len(divisions))
 
     for _, division := range divisions {
         testutils.ValidateDivision(t, division)
