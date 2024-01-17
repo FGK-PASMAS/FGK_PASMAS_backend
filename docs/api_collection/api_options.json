@@ -1,0 +1,16 @@
+{
+    "info": {
+        "title": "PASMAS API",
+        "version": "v0.1-beta"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8080",
+            "description": "localhost"
+        },
+        {
+            "url": "http://pasmas.fg-k.de:8080",
+            "description": "Beta server"
+        }
+    ]
+}

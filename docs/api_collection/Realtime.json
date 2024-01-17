@@ -1,0 +1,113 @@
+{
+	"info": {
+		"_postman_id": "afadc8dc-09ca-434c-a0a2-f38d11489810",
+		"name": "Realtime",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_uid": "30997389-afadc8dc-09ca-434c-a0a2-f38d11489810"
+	},
+	"item": [
+		{
+			"name": "debug",
+			"item": [
+				{
+					"name": "Connect to Channel",
+					"id": "cefe6291-5cfc-4540-9723-162d3afe7039",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/realtime/debug/stream",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"realtime",
+								"debug",
+								"stream"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Ping",
+					"id": "d878e2cd-263e-4d96-a3b8-dac49c778eb2",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/realtime/debug/ping",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"realtime",
+								"debug",
+								"ping"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Post Message",
+					"id": "0dce022b-4e85-410e-b5be-62c781500172",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/realtime/debug/stream",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"realtime",
+								"debug",
+								"stream"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "a011eb82-f243-4fdd-857a-6d97ea7ffa98"
+		},
+		{
+			"name": "passenger",
+			"item": [
+				{
+					"name": "Connect to Stream",
+					"id": "50242d44-bf00-4055-8f14-3e58cbc36d1d",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/realtime/passenger",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"realtime",
+								"passenger"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "9fcb3791-73d5-44db-b593-0630e8d1e921"
+		}
+	]
+}
