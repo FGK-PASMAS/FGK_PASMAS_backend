@@ -12,11 +12,6 @@ var user = os.Getenv("DATABASE_USER")
 var password = os.Getenv("DATABASE_PASSWORD")
 var database = os.Getenv("DATABASE_NAME")
 
-// Parameters for DatabaseStructure Tasks
-var sqlFolder = "database" + sep + "sqlScripts"
-var createStructureFile = "createDatabaseStructure.sql"
-var seedDatabaseFile = "seed"
-
 func getConnectionString() (string, error) {
     //TODO: Logging
 
@@ -46,25 +41,18 @@ func getConnectionString() (string, error) {
 }
 
 // getInitDatabaseStructure returns the SQL-Statements as a string to create the database structure
-func getInitDatabaseStructure() (string, error) {
-    statements, err := readStatementsFromFile(createStructureFile)
-    return string(statements), err
+func getInitDatabaseStructure() string {
+    return structureStatements
 }
 
 
 // getSeedDatabaseQueries return the SQL-Statements as a string to seed the given table
-func getSeedDatabaseQueries(table string) (string, error) {
-    filepath := seedDatabaseFile + sep + table + ".sql"
-    statements, err := readStatementsFromFile(filepath)
-    return string(statements), err
+func getSeedDatabaseQueries(table string) string  {
+    switch table {
+    case "division":
+        return seedDivisionStatements
+    default:
+        return ""
+    }
 }
 
-// readStatementsFromFile reads the SQL-Statements from a file and returns them as a string
-func readStatementsFromFile(filepath string) (string, error) {
-    pwd, err := os.Getwd()
-    path := pwd + sep + sqlFolder + sep + filepath
-
-    statements, err := os.ReadFile(path)
-
-    return string(statements), err
-}
