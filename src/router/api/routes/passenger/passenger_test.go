@@ -8,6 +8,7 @@ import (
 
 	passengerhandler "github.com/MetaEMK/FGK_PASMAS_backend/database/passengerHandler"
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
+	"github.com/MetaEMK/FGK_PASMAS_backend/router/api"
 	testutils "github.com/MetaEMK/FGK_PASMAS_backend/testUtils"
 	"github.com/stretchr/testify/assert"
 )
@@ -63,15 +64,47 @@ func TestCreatePassenger(t *testing.T) {
 
 func TestUpdatePassenger(t *testing.T) {
     passUpdateCorrect(t)
-    passUpdateWrongId(t)
+    passUpdateError(
+        t,
+        model.PassengerStructInsert{LastName: "test", FirstName: "test", Weight: 100, DivisionId: 1},
+        []byte(`{"lastName": "test", "firstName": "test", "weight": 100, "divisionId": 1}`),
+        "/api/passenger/2",
+        http.StatusNotFound,
+        "OBJECT_NOT_FOUND",
+    )
+    passUpdateError(
+        t,
+        model.PassengerStructInsert{LastName: "test", FirstName: "test", Weight: 100, DivisionId: 1},
+        []byte(`{"firstName": "test", "weight": 100, "divisionId": 1}`),
+        "/api/passenger/1",
+        http.StatusBadRequest,
+        "INVALID_REQUEST_BODY",
+    )
+    passUpdateError(
+        t,
+        model.PassengerStructInsert{LastName: "test", FirstName: "test", Weight: 100, DivisionId: 1},
+        []byte(`{"lastName": "test", "firstName": "test", "divisionId": 1}`),
+        "/api/passenger/1",
+        http.StatusBadRequest,
+        "INVALID_REQUEST_BODY",
+    )
+
+    passUpdateError(
+        t,
+        model.PassengerStructInsert{LastName: "test", FirstName: "test", Weight: 100, DivisionId: 1},
+        []byte(`{"lastName": "test", "firstName": "test", "weight": 100, "divisionId": 5}`),
+        "/api/passenger/1",
+        http.StatusBadRequest,
+        "INVALID_OBJECT_DEPENDENCY",
+    )
 }
 
 func passUpdateCorrect(t *testing.T) {
     pass := model.PassengerStructInsert{LastName: "test", FirstName: "test", Weight: 100, DivisionId: 1}
-    passUpdate := model.PassengerStructUpdate{Id: 1, LastName: "test", FirstName: "test", Weight: 100, DivisionId: 1}
+    passUpdate := model.PassengerStructUpdate{LastName: "test", FirstName: "test", Weight: 100, DivisionId: 1}
     passUpdateJson, _ := json.Marshal(passUpdate)
 
-    req, _ := http.NewRequest(http.MethodPut, "/api/passenger/", bytes.NewBuffer(passUpdateJson))
+    req, _ := http.NewRequest(http.MethodPut, "/api/passenger/1", bytes.NewBuffer(passUpdateJson))
     req.Header.Set("Content-Type", "application/json")
 
     w := testutils.SendTestingRequest(t, req, func() {
@@ -92,20 +125,29 @@ func passUpdateCorrect(t *testing.T) {
     testutils.ValidatePassengerModel(t, passenger)
 }
 
-func passUpdateWrongId(t *testing.T) {
-    //TODO: improve implementation
-    passUpdate := model.PassengerStructUpdate{Id: 1, LastName: "test", FirstName: "test", Weight: 100, DivisionId: 1}
-    passUpdateJson, _ := json.Marshal(passUpdate)
+func passUpdateError(t *testing.T,
+    passCreate model.PassengerStructInsert,
+    passUpdateJson []byte,
+    url string,
+    expectedHttpStatusCode int,
+    expectedErrorType string,
+    ) {
 
-    req, _ := http.NewRequest(http.MethodPut, "/api/passenger/", bytes.NewBuffer(passUpdateJson))
+    req, _ := http.NewRequest(http.MethodPut, url, bytes.NewBuffer(passUpdateJson))
     req.Header.Set("Content-Type", "application/json")
 
-    w := testutils.SendTestingRequest(t, req)
+    w := testutils.SendTestingRequest(t, req, func() {
+        passengerhandler.CreatePassenger(passCreate)
+    })
 
-    assert.Equal(t, http.StatusInternalServerError, w.Code)
+    assert.Equal(t, expectedHttpStatusCode, w.Code)
 
-    res := testutils.ParseAndValidateResponse(t, w)
+    res := api.ErrorResponse{}
+    err := json.Unmarshal(w.Body.Bytes(), &res)
+    assert.Nil(t, err)
+
     assert.Equal(t, res.Success, false)
+    assert.Equal(t, expectedErrorType, res.Type, string(w.Body.Bytes()))
 }
 
 func passUpdateMissingBody(t *testing.T) {

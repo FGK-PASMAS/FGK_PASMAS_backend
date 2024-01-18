@@ -17,7 +17,6 @@ type PassengerStructInsert struct {
 }
 
 type PassengerStructUpdate struct {
-	Id         int64    `json:"id" binding:"required"`
 	LastName   string `json:"lastName" binding:"required"`
 	FirstName  string `json:"firstName"`
 	Weight     int    `json:"weight" binding:"required"`
