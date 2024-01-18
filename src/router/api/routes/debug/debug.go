@@ -21,7 +21,7 @@ func truncate(c *gin.Context) {
     err := debug.TruncateDatabase()
 
     if err != nil {
-        c.JSON(http.StatusInternalServerError, api.ErrorResponse{Success: false, ErrorBody: err})
+        c.JSON(http.StatusInternalServerError, api.ErrorResponse{Success: false, Message: err.Error()})
     } else {
         response := struct{
             Truncate string     `json:"truncate"`

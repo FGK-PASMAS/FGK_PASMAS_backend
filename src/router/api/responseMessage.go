@@ -7,6 +7,6 @@ type SuccessResponse struct {
 
 type ErrorResponse struct {
     Success bool            `json:"success"`
-    ErrorCode int           `json:"errorCode"`
-    ErrorBody interface{}   `json:"errorBody"`
+    Type string             `json:"type"`
+    Message string          `json:"body"`
 }

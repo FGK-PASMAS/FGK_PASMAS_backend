@@ -4,143 +4,98 @@ import (
 	"net/http"
 	"strconv"
 
-	passengerHandler "github.com/MetaEMK/FGK_PASMAS_backend/database/passengerHandler"
-	internalerror "github.com/MetaEMK/FGK_PASMAS_backend/internalError"
 	"github.com/MetaEMK/FGK_PASMAS_backend/logging"
+	"github.com/MetaEMK/FGK_PASMAS_backend/model"
 	"github.com/MetaEMK/FGK_PASMAS_backend/router/api"
+	pasmasservice "github.com/MetaEMK/FGK_PASMAS_backend/service/pasmasService"
 	"github.com/gin-gonic/gin"
 )
 
 var log = logging.ApiLogger
-type intError = internalerror.InternalError
 
 func getPassengers(c *gin.Context) {
-    passengers, err := passengerHandler.GetPassengers()
-    var statusCode int
-    var response interface{}
+    passengers, err := pasmasservice.GetPassengers()
 
-    if(err != nil) {
-        statusCode = http.StatusInternalServerError
-        response = api.ErrorResponse {
-            Success: false,
-            ErrorCode: 500,
-            ErrorBody: err,
-        }
+    if err != nil {
+        apiErr := api.GetErrorResponse(err)
+        apiErr.ErrorResponse.Message = err.Error()
+        c.JSON(apiErr.HttpCode, apiErr.ErrorResponse)
     } else {
-        statusCode = http.StatusOK
-        response = api.SuccessResponse {
-            Success: true,
-            Response: passengers,
-        }
+        c.JSON(http.StatusOK, api.SuccessResponse { Success: true, Response: passengers })
     }
 
-    c.JSON(statusCode, response)
 }
 
 func createPassenger(c *gin.Context) {
-    var response any
-    var statusCode int
-
-    var body passengerHandler.PassengerStructInsert
+    var body model.PassengerStructInsert
     parseErr := c.ShouldBind(&body)
 
     if parseErr != nil {
-        statusCode = http.StatusBadRequest
-        errMessage := "Failed to parse request body"
-        log.Debug(errMessage + ": " + parseErr.Error())
-        error := intError{Type: internalerror.ErrorParseError, Message: errMessage, Body: parseErr}
-
-        response = api.ErrorResponse {
-            Success: false,
-            ErrorBody: error,
-        }
-    } else {
-        newPass, err := passengerHandler.CreatePassenger(body)
-        if err != nil {
-            statusCode = http.StatusInternalServerError
-            response = api.ErrorResponse {
-                Success: false,
-                ErrorCode: 500,
-                ErrorBody: err,
-            }
-        } else  {
-            statusCode = http.StatusCreated
-            response = api.SuccessResponse {
-                Success: true,
-                Response: newPass,
-            }
-        }
+        apiErr := api.InvalidRequestBody
+        apiErr.ErrorResponse.Message = parseErr.Error()
+        c.JSON(apiErr.HttpCode, apiErr.ErrorResponse)
+        return
     }
-    c.JSON(statusCode, response)
+
+    // TODO: Validation
+    newPass, err := pasmasservice.CreatePassenger(body)
+    if err != nil {
+        apiErr := api.GetErrorResponse(err)
+        apiErr.ErrorResponse.Message = err.Error()
+        c.JSON(apiErr.HttpCode, apiErr.ErrorResponse)
+    } else {
+        c.JSON(http.StatusCreated, api.SuccessResponse { Success: true, Response: newPass })
+    }
+
 }
 
 func updatePassenger(c *gin.Context) {
-    var response any
-    var statusCode int
-
-    var body passengerHandler.PassengerStructUpdate
-    parseErr := c.ShouldBind(&body)
-
-    if parseErr != nil {
-        statusCode = http.StatusBadRequest
-        errMessage := "Failed to parse request body"
-        log.Debug(errMessage + ": " + parseErr.Error())
-        error := intError{Type: internalerror.ErrorParseError, Message: errMessage, Body: parseErr}
-
-        response = api.ErrorResponse {
-            Success: false,
-            ErrorBody: error,
-        }
-    } else {
-        newPass, err := passengerHandler.UpdatePassenger(body)
-        if err != nil {
-            statusCode = http.StatusInternalServerError
-            response = api.ErrorResponse {
-                Success: false,
-                ErrorCode: 500,
-                ErrorBody: err,
-            }
-        } else  {
-            statusCode = http.StatusOK
-            response = api.SuccessResponse {
-                Success: true,
-                Response: newPass,
-            }
-        }
+    var body model.PassengerStructUpdate
+    idStr := c.Param("id")
+    id, err := strconv.ParseInt(idStr, 10, 64)
+    if err != nil {
+        apiErr := api.InvalidRequestBody
+        apiErr.ErrorResponse.Message = "Failed to read the id as int64 from url paramenters"
+        c.JSON(apiErr.HttpCode, apiErr.ErrorResponse)
+        return
     }
-    c.JSON(statusCode, response)
+
+    parseErr := c.ShouldBind(&body)
+    if parseErr != nil {
+        apiErr := api.InvalidRequestBody
+        apiErr.ErrorResponse.Message = parseErr.Error()
+        c.JSON(apiErr.HttpCode, apiErr.ErrorResponse)
+        return
+    }
+
+    newPass, err := pasmasservice.UpdatePassenger(id, body)
+    if err != nil {
+        apiErr := api.GetErrorResponse(err)
+        apiErr.ErrorResponse.Message = err.Error()
+        c.JSON(apiErr.HttpCode, apiErr.ErrorResponse)
+    } else {
+        c.JSON(http.StatusOK, api.SuccessResponse { Success: true, Response: newPass })
+    }
 }
 
 func deletePassenger(c *gin.Context) {
-    var response any
-    var statusCode int
-
     idStr := c.Param("id")
-
-    id, err := strconv.Atoi(idStr)
+    id, err := strconv.ParseInt(idStr, 10, 64)
 
     if err != nil {
-        statusCode = http.StatusBadRequest
-        errMessage := "Failed to parse id"
-        log.Debug(errMessage + ": " + err.Error())
-        error := intError{Type: internalerror.ErrorParseError, Message: errMessage, Body: err}
-        response = api.ErrorResponse {
-            Success: false,
-            ErrorCode: 400,
-            ErrorBody: error,
-        }
-    } else {
-        err := passengerHandler.DeletePassenger(id)
-        if err != nil {
-            statusCode = http.StatusInternalServerError
-            response = api.ErrorResponse {
-                Success: false,
-                ErrorCode: 500,
-                ErrorBody: err,
-            }
-        } else  {
-            statusCode = http.StatusNoContent
-        }
+        apiErr := api.InvalidRequestBody
+        apiErr.ErrorResponse.Message = "Failed to read the id as int64 from url paramenters"
+        c.JSON(apiErr.HttpCode, apiErr.ErrorResponse)
+        return
     }
-    c.JSON(statusCode, response)
+
+    err = pasmasservice.DeletePassenger(id)
+    if err != nil {
+        apiErr := api.GetErrorResponse(err)
+        apiErr.ErrorResponse.Message = err.Error()
+        c.JSON(apiErr.HttpCode, apiErr.ErrorResponse)
+    } else {
+        c.JSON(http.StatusNoContent, nil)
+    }
+
 } 

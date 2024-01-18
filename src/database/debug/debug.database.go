@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/MetaEMK/FGK_PASMAS_backend/database"
-	internalerror "github.com/MetaEMK/FGK_PASMAS_backend/internalError"
+	dberr "github.com/MetaEMK/FGK_PASMAS_backend/database/dbErr"
 	"github.com/MetaEMK/FGK_PASMAS_backend/logging"
 )
 
@@ -13,21 +13,20 @@ import (
 
 var log = logging.DbDebugLogger
 
-type intErr = internalerror.InternalError
 var mode = "DEBUG"
 
 // TruncateDatabase truncates the database and seeds it with default values
 func TruncateDatabase() error {
     if mode!= "DEBUG" {
         log.Debug(mode)
-        return intErr{Type: internalerror.ErrorUnknownError, Message: "This is functionality is only allowed in DEBUG mode"}
+        return dberr.ErrUnknown
     }
 
     log.Warn("TRUNCATING DATABASE")
 
     connErr := database.CheckDatabaseConnection()
     if connErr != nil {
-        return intErr{Type: internalerror.ErrorDatabaseConnectionError, Message: "Failed to connect to database"}
+        return dberr.ErrNoConnection
     }
 
     query := `
@@ -37,7 +36,7 @@ func TruncateDatabase() error {
     _, err := database.PgConn.Exec(context.Background(), query)
 
     if err != nil {
-        return intErr{Type: internalerror.ErrorDatabaseQueryError, Message: "Could not run TRUNCATE Statements", Body: err}
+        return dberr.ErrQuery
     }
 
     log.Warn("TRUNCATING FINISHED - seeding")

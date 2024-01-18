@@ -2,23 +2,22 @@ package passengerhandler
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/MetaEMK/FGK_PASMAS_backend/database"
-	internalerror "github.com/MetaEMK/FGK_PASMAS_backend/internalError"
+	dberr "github.com/MetaEMK/FGK_PASMAS_backend/database/dbErr"
 	"github.com/MetaEMK/FGK_PASMAS_backend/logging"
+	"github.com/MetaEMK/FGK_PASMAS_backend/model"
 	"github.com/MetaEMK/FGK_PASMAS_backend/router/realtime"
 	passStream "github.com/MetaEMK/FGK_PASMAS_backend/router/realtime/routes/passenger"
 )
 
 var log = logging.PassHandlerLogger
 
-type intError = internalerror.InternalError
 
-func GetPassengers() ([]PassengerStructSelect, error) {
+func GetPassengers() ([]model.PassengerStructSelect, error) {
     connErr := database.CheckDatabaseConnection()
     if connErr != nil {
-        return []PassengerStructSelect{}, intError{Type: internalerror.ErrorDatabaseConnectionError, Message: "Failed to connect to database", Body: connErr}
+        return []model.PassengerStructSelect{}, connErr
     }
 
 	query := `SELECT p.id, p.last_name, p.first_name, p.weight, d.id, d.name, d.passenger_capacity FROM passenger p JOIN division d ON p.division_id = d.id;`
@@ -28,14 +27,14 @@ func GetPassengers() ([]PassengerStructSelect, error) {
         errMessage := "Failed to got passengers from database"
 		log.Info(errMessage + " - " + err.Error())
 
-        return nil, intError{Type: internalerror.ErrorDatabaseQueryError, Message: errMessage, Body: err}
+        return nil, dberr.ErrQuery
 	} else {
 		log.Debug("Successfully got passengers from database")
 
-		var passengers []PassengerStructSelect = make([]PassengerStructSelect, 0)
+		var passengers []model.PassengerStructSelect = make([]model.PassengerStructSelect, 0)
 
 		for rows.Next() {
-			var passenger PassengerStructSelect
+			var passenger model.PassengerStructSelect
 
 			err = rows.Scan(
                 &passenger.Id,
@@ -57,17 +56,17 @@ func GetPassengers() ([]PassengerStructSelect, error) {
 	}
 }
 
-func GetPassengerById(id int64) (PassengerStructSelect, error) {
+func GetPassengerById(id int64) (model.PassengerStructSelect, error) {
     connErr := database.CheckDatabaseConnection()
     if connErr != nil {
-        return PassengerStructSelect{}, intError{Type: internalerror.ErrorDatabaseConnectionError, Message: "Failed to connect to database", Body: connErr}
+        return model.PassengerStructSelect{}, dberr.ErrNoConnection
     }
 
 	query := `SELECT p.id, p.last_name, p.first_name, p.weight, d.id, d.name, d.passenger_capacity FROM passenger p JOIN division d ON p.division_id = d.id WHERE p.id=$1`
 
 	row := database.PgConn.QueryRow(context.Background(), query, id)
 
-	var passenger PassengerStructSelect
+	var passenger model.PassengerStructSelect
 	err := row.Scan(
         &passenger.Id,
         &passenger.LastName,
@@ -79,84 +78,68 @@ func GetPassengerById(id int64) (PassengerStructSelect, error) {
     )
 
 	if err != nil {
-        errMessage := fmt.Sprintf("Failed to get passenger with id %d from database", id)
-		return PassengerStructSelect{}, intError{Type: internalerror.ErrorDatabaseQueryError, Message: errMessage, Body: err}
+        return model.PassengerStructSelect{}, err
 	} else {
 		log.Debug("Successfully got passenger from database")
 		return passenger, nil
 	}
 }
 
-func CreatePassenger(pass PassengerStructInsert) (PassengerStructSelect, error) {
-    // Checking database connection
+func CreatePassenger(pass model.PassengerStructInsert) (int64, error) {
     connErr := database.CheckDatabaseConnection()
     if connErr != nil {
-        return PassengerStructSelect{}, intError{Type: internalerror.ErrorDatabaseConnectionError, Message: "Failed to connect to database", Body: connErr}
+        return -1, dberr.ErrNoConnection
     }
 
 	query := `INSERT INTO passenger (last_name, first_name, weight, division_id) VALUES ($1, $2, $3, $4) RETURNING id`
 
 	res := database.PgConn.QueryRow(context.Background(), query, pass.LastName, pass.FirstName, pass.Weight, pass.DivisionId)
 
-	var id int
+	var id int64
 	err := res.Scan(&id)
 
 	if err != nil {
-        errMessage := "Failed to create passenger in database"
-		return PassengerStructSelect{}, intError{Type: internalerror.ErrorDatabaseQueryError, Message: errMessage, Body: err}
+		return -1, dberr.ErrQuery
 	}
 
-	newPass, err := GetPassengerById(int64(id))
-	if err != nil {
-        errMessage := "Failed to get passenger from database"
-		return PassengerStructSelect{}, intError{Type: internalerror.ErrorDatabaseQueryError, Message: errMessage, Body: err}
-	}
-
-	log.Debug("Successfully created passenger in database")
-	passStream.PublishPassengerEvent(realtime.CREATED, newPass)
-	return newPass, nil
+    log.Debug("Successfully created passenger in database")
+    return id, nil
 }
 
-func UpdatePassenger(pass PassengerStructUpdate) (PassengerStructSelect, error) {
+// UpdatePassenger updates a passenger in the database
+// Returns the id of the updated passenger
+// Returns an error if the passenger could not be updated
+func UpdatePassenger(id int64, pass model.PassengerStructUpdate) (int64, error) {
     connErr := database.CheckDatabaseConnection()
     if connErr != nil {
-        return PassengerStructSelect{}, intError{Type: internalerror.ErrorDatabaseConnectionError, Message: "Failed to connect to database", Body: connErr}
+        return -1, dberr.ErrNoConnection
     }
 	query := `UPDATE passenger SET last_name=$2, first_name=$3, weight=$4, division_id=$5 WHERE id=$1 RETURNING id`
 
-	res := database.PgConn.QueryRow(context.Background(), query, pass.Id, pass.LastName, pass.FirstName, pass.Weight, pass.DivisionId)
+	res := database.PgConn.QueryRow(context.Background(), query, id, pass.LastName, pass.FirstName, pass.Weight, pass.DivisionId)
 
-	var id int
-	err := res.Scan(&id)
+	var newId int64
+	err := res.Scan(&newId)
 	if err != nil {
-        errMessage := "Failed update passenger in database"
-		return PassengerStructSelect{}, intError{Type: internalerror.ErrorDatabaseQueryError, Message: errMessage, Body: err}
+        log.Debug("Failed to update passenger: + " + err.Error())
+		return -1, dberr.ErrQuery
 	}
 
-	newPass, err := GetPassengerById(int64(id))
-	if err != nil {
-        errMessage := "Failed to get passenger from database"
-		return PassengerStructSelect{}, intError{Type: internalerror.ErrorDatabaseQueryError, Message: errMessage, Body: err}
-	}
-
-	log.Debug("Successfully updated passenger in database")
-	passStream.PublishPassengerEvent(realtime.UPDATED, newPass)
-
-	return newPass, nil
+    log.Debug("Successfully updated passenger in database")
+    return newId, nil
 }
 
-func DeletePassenger(id int) error {
+func DeletePassenger(id int64) error {
     connErr := database.CheckDatabaseConnection()
     if connErr != nil {
-        return intError{Type: internalerror.ErrorDatabaseConnectionError, Message: "Failed to connect to database", Body: connErr}
+        return dberr.ErrNoConnection
     }
 
 	query := `DELETE FROM passenger WHERE id=$1`
 
 	_, err := database.PgConn.Exec(context.Background(), query, id)
 	if err != nil {
-        errMessage := "Failed to delete passenger from database"
-        return intError{Type: internalerror.ErrorDatabaseQueryError, Message: errMessage, Body: err}
+        return dberr.ErrQuery
 	} else {
         log.Debug("Successfully deleted passenger from database")
         passStream.PublishPassengerEvent(realtime.DELETED, id)

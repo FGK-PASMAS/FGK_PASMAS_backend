@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	internalerror "github.com/MetaEMK/FGK_PASMAS_backend/internalError"
+	dberr "github.com/MetaEMK/FGK_PASMAS_backend/database/dbErr"
 	"github.com/MetaEMK/FGK_PASMAS_backend/logging"
 	"github.com/jackc/pgx/v5"
 )
@@ -19,14 +19,14 @@ func SetupDatabaseConnection() error {
     connectionString, err := getConnectionString()
     if err != nil {
         log.Error("Failed to generate the connectionString")
-        return internalerror.InternalError{Type: internalerror.ErrorDatabaseConnectionError, Message: "Failed to generate the connectionString", Body: err}
+        return err
     }
 
     pgx, err := pgx.Connect(context.Background(), connectionString)
 
     if err != nil {
         log.Error("Failed to open a new connection")
-        return internalerror.InternalError{Type: internalerror.ErrorDatabaseConnectionError, Message: "Failed to open a new connection", Body: err}
+        return err
     } else {
         log.Debug("Successfully opened a new connection")
         PgConn = pgx
@@ -39,7 +39,7 @@ func CheckDatabaseConnection() error {
     err := PgConn.Ping(context.Background())
 
     if err != nil {
-        error := internalerror.InternalError{Type: internalerror.ErrorDatabaseConnectionError, Message: "Failed to ping the database", Body: err}
+        error := dberr.ErrNoConnection
         return error
     } 
 

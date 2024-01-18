@@ -1,4 +1,4 @@
-package divisionhandler
+package model
 
 type DivisionStructSelect struct {
     Id int                  `json:"id"`

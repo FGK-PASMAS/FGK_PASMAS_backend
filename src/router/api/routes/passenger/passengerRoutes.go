@@ -5,6 +5,6 @@ import "github.com/gin-gonic/gin"
 func SetupPassengerRoutes(r *gin.RouterGroup) {
     r.GET("/", getPassengers)
     r.POST("/", createPassenger)
-    r.PUT("/", updatePassenger)
+    r.PUT("/:id", updatePassenger)
     r.DELETE("/:id", deletePassenger)
 }

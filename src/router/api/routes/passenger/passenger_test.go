@@ -7,14 +7,15 @@ import (
 	"testing"
 
 	passengerhandler "github.com/MetaEMK/FGK_PASMAS_backend/database/passengerHandler"
+	"github.com/MetaEMK/FGK_PASMAS_backend/model"
 	testutils "github.com/MetaEMK/FGK_PASMAS_backend/testUtils"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestGetPassengers(t *testing.T) {
     req, _ := http.NewRequest(http.MethodGet, "/api/passenger/", nil)
-    pass1 := passengerhandler.PassengerStructInsert{LastName: "test", FirstName: "test", Weight: 100, DivisionId: 1}
-    pass2 := passengerhandler.PassengerStructInsert{LastName: "test", FirstName: "", Weight: 100, DivisionId: 1}
+    pass1 := model.PassengerStructInsert{LastName: "test", FirstName: "test", Weight: 100, DivisionId: 1}
+    pass2 := model.PassengerStructInsert{LastName: "test", FirstName: "", Weight: 100, DivisionId: 1}
 
     w := testutils.SendTestingRequest(t, req, func() {
         passengerhandler.CreatePassenger(pass1)
@@ -38,7 +39,7 @@ func TestGetPassengers(t *testing.T) {
 }
 
 func TestCreatePassenger(t *testing.T) {
-    pass := passengerhandler.PassengerStructInsert{LastName: "test", FirstName: "test", Weight: 100, DivisionId: 1}
+    pass := model.PassengerStructInsert{LastName: "test", FirstName: "test", Weight: 100, DivisionId: 1}
     passJson, _ := json.Marshal(pass)
 
     req, _ := http.NewRequest(http.MethodPost, "/api/passenger/", bytes.NewBuffer(passJson))
@@ -66,8 +67,8 @@ func TestUpdatePassenger(t *testing.T) {
 }
 
 func passUpdateCorrect(t *testing.T) {
-    pass := passengerhandler.PassengerStructInsert{LastName: "test", FirstName: "test", Weight: 100, DivisionId: 1}
-    passUpdate := passengerhandler.PassengerStructUpdate{Id: 1, LastName: "test", FirstName: "test", Weight: 100, DivisionId: 1}
+    pass := model.PassengerStructInsert{LastName: "test", FirstName: "test", Weight: 100, DivisionId: 1}
+    passUpdate := model.PassengerStructUpdate{Id: 1, LastName: "test", FirstName: "test", Weight: 100, DivisionId: 1}
     passUpdateJson, _ := json.Marshal(passUpdate)
 
     req, _ := http.NewRequest(http.MethodPut, "/api/passenger/", bytes.NewBuffer(passUpdateJson))
@@ -93,7 +94,7 @@ func passUpdateCorrect(t *testing.T) {
 
 func passUpdateWrongId(t *testing.T) {
     //TODO: improve implementation
-    passUpdate := passengerhandler.PassengerStructUpdate{Id: 1, LastName: "test", FirstName: "test", Weight: 100, DivisionId: 1}
+    passUpdate := model.PassengerStructUpdate{Id: 1, LastName: "test", FirstName: "test", Weight: 100, DivisionId: 1}
     passUpdateJson, _ := json.Marshal(passUpdate)
 
     req, _ := http.NewRequest(http.MethodPut, "/api/passenger/", bytes.NewBuffer(passUpdateJson))
