@@ -2,7 +2,7 @@ package api
 
 type SuccessResponse struct {
     Success bool            `json:"success"`
-    Response interface{}    `json:"response"`
+    Response any            `json:"response"`
 }
 
 type ErrorResponse struct {
