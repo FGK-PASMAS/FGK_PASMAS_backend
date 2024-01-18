@@ -48,7 +48,7 @@ func createPassenger(c *gin.Context) {
         statusCode = http.StatusBadRequest
         errMessage := "Failed to parse request body"
         log.Debug(errMessage + ": " + parseErr.Error())
-        error := intError{Type: internalerror.ParseError, Message: errMessage, Body: parseErr}
+        error := intError{Type: internalerror.ErrorParseError, Message: errMessage, Body: parseErr}
 
         response = api.ErrorResponse {
             Success: false,
@@ -85,7 +85,7 @@ func updatePassenger(c *gin.Context) {
         statusCode = http.StatusBadRequest
         errMessage := "Failed to parse request body"
         log.Debug(errMessage + ": " + parseErr.Error())
-        error := intError{Type: internalerror.ParseError, Message: errMessage, Body: parseErr}
+        error := intError{Type: internalerror.ErrorParseError, Message: errMessage, Body: parseErr}
 
         response = api.ErrorResponse {
             Success: false,
@@ -123,7 +123,7 @@ func deletePassenger(c *gin.Context) {
         statusCode = http.StatusBadRequest
         errMessage := "Failed to parse id"
         log.Debug(errMessage + ": " + err.Error())
-        error := intError{Type: internalerror.ParseError, Message: errMessage, Body: err}
+        error := intError{Type: internalerror.ErrorParseError, Message: errMessage, Body: err}
         response = api.ErrorResponse {
             Success: false,
             ErrorCode: 400,

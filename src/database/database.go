@@ -19,14 +19,14 @@ func SetupDatabaseConnection() error {
     connectionString, err := getConnectionString()
     if err != nil {
         log.Error("Failed to generate the connectionString")
-        return internalerror.InternalError{Type: internalerror.DatabaseConnectionError, Message: "Failed to generate the connectionString", Body: err}
+        return internalerror.InternalError{Type: internalerror.ErrorDatabaseConnectionError, Message: "Failed to generate the connectionString", Body: err}
     }
 
     pgx, err := pgx.Connect(context.Background(), connectionString)
 
     if err != nil {
         log.Error("Failed to open a new connection")
-        return internalerror.InternalError{Type: internalerror.DatabaseConnectionError, Message: "Failed to open a new connection", Body: err}
+        return internalerror.InternalError{Type: internalerror.ErrorDatabaseConnectionError, Message: "Failed to open a new connection", Body: err}
     } else {
         log.Debug("Successfully opened a new connection")
         PgConn = pgx
@@ -36,13 +36,10 @@ func SetupDatabaseConnection() error {
 }
 
 func CheckDatabaseConnection() error {
-    if PgConn == nil {
-        return internalerror.InternalError{Type: internalerror.UnknownError, Message: "The PgConn value is nil, no connection could be established"}
-    }
     err := PgConn.Ping(context.Background())
 
     if err != nil {
-        error := internalerror.InternalError{Type: internalerror.DatabaseConnectionError, Message: "Failed to ping the database", Body: err}
+        error := internalerror.InternalError{Type: internalerror.ErrorDatabaseConnectionError, Message: "Failed to ping the database", Body: err}
         return error
     } 
 
@@ -80,6 +77,7 @@ func InitDatabaseStructure() (error){
     if(err != nil) {
         log.Error("Failed to create the database structure")
         PgConn.Close(context.Background())
+        panic(err)
     }
 
     log.Debug("Successfully created the database structure")

@@ -15,7 +15,7 @@ type intError = internalerror.InternalError
 func GetDivision() ([]DivisionStructSelect, error) {
     err := database.CheckDatabaseConnection()
     if err != nil {
-        return []DivisionStructSelect{}, intError{Type: internalerror.DatabaseConnectionError, Message: "Failed to connect to database", Body: err}
+        return []DivisionStructSelect{}, intError{Type: internalerror.ErrorDatabaseConnectionError, Message: "Failed to connect to database", Body: err}
     }
 
     query := `SELECT id, name, passenger_capacity FROM division`
@@ -26,7 +26,7 @@ func GetDivision() ([]DivisionStructSelect, error) {
     if err != nil {
         errMessage := "Failed to got divisions from database"
         log.Info(errMessage)
-        return []DivisionStructSelect{}, intError{Type: internalerror.DatabaseQueryError, Message: errMessage, Body: err}
+        return []DivisionStructSelect{}, intError{Type: internalerror.ErrorDatabaseQueryError, Message: errMessage, Body: err}
     }
 
     divisions := []DivisionStructSelect{}
@@ -42,4 +42,25 @@ func GetDivision() ([]DivisionStructSelect, error) {
     }
 
     return divisions, nil
+}
+
+func GetDivisionById(id int) (DivisionStructSelect, error) {
+    err := database.CheckDatabaseConnection()
+    if err != nil {
+        return DivisionStructSelect{}, intError{Type: internalerror.ErrorDatabaseConnectionError, Message: "Failed to connect to database", Body: err}
+    }
+
+    query := `SELECT id, name, passenger_capacity FROM division WHERE id = $1`
+
+    row := database.PgConn.QueryRow(context.Background(), query, id)
+
+    var division DivisionStructSelect
+    err = row.Scan(&division.Id, &division.Name, &division.PassengerCapacity)
+    if err != nil {
+        errMessage := "Failed to parse one division from database - skipping"
+        log.Info(errMessage)
+        return DivisionStructSelect{}, intError{Type: internalerror.ErrorDatabaseQueryError, Message: errMessage, Body: err}
+    }
+
+    return division, nil
 }

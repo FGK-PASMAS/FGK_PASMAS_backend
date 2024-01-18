@@ -20,14 +20,14 @@ var mode = "DEBUG"
 func TruncateDatabase() error {
     if mode!= "DEBUG" {
         log.Debug(mode)
-        return intErr{Type: internalerror.UnknownError, Message: "This is functionality is only allowed in DEBUG mode"}
+        return intErr{Type: internalerror.ErrorUnknownError, Message: "This is functionality is only allowed in DEBUG mode"}
     }
 
     log.Warn("TRUNCATING DATABASE")
 
     connErr := database.CheckDatabaseConnection()
     if connErr != nil {
-        return intErr{Type: internalerror.DatabaseConnectionError, Message: "Failed to connect to database"}
+        return intErr{Type: internalerror.ErrorDatabaseConnectionError, Message: "Failed to connect to database"}
     }
 
     query := `
@@ -37,7 +37,7 @@ func TruncateDatabase() error {
     _, err := database.PgConn.Exec(context.Background(), query)
 
     if err != nil {
-        return intErr{Type: internalerror.DatabaseQueryError, Message: "Could not run TRUNCATE Statements", Body: err}
+        return intErr{Type: internalerror.ErrorDatabaseQueryError, Message: "Could not run TRUNCATE Statements", Body: err}
     }
 
     log.Warn("TRUNCATING FINISHED - seeding")
