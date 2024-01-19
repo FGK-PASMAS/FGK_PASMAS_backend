@@ -11,7 +11,7 @@ import (
 
 
 func TestGetDivision(t *testing.T) {
-    req, _ := http.NewRequest(http.MethodGet, "/api/division/", nil)
+    req, _ := http.NewRequest(http.MethodGet, "/api/divisions", nil)
     w := testutils.SendTestingRequest(t, req)
 
     assert.Equal(t, http.StatusOK, w.Code)

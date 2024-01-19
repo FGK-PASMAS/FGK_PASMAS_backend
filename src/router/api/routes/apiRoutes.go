@@ -8,13 +8,13 @@ import (
 )
 
 func InitApiRoutes(r *gin.RouterGroup) {
-    divisionRoutes := r.Group("division")
+    divisionRoutes := r.Group("divisions")
     division.SetupDivisionRoutes(divisionRoutes)
+
+    passengerRoutes := r.Group("passengers")
+    passenger.SetupPassengerRoutes(passengerRoutes)
 
     api_debug := r.Group("debug")
     debug.SetupDebugRoutes(api_debug)
-
-    passengerRoutes := r.Group("passenger")
-    passenger.SetupPassengerRoutes(passengerRoutes)
 
 }

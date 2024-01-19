@@ -5,6 +5,8 @@ import (
 	divisionhandler "github.com/MetaEMK/FGK_PASMAS_backend/database/divisionHandler"
 	passengerhandler "github.com/MetaEMK/FGK_PASMAS_backend/database/passengerHandler"
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
+	"github.com/MetaEMK/FGK_PASMAS_backend/router/realtime"
+	"github.com/MetaEMK/FGK_PASMAS_backend/router/realtime/routes/passenger"
 )
 
 func GetPassengers() ([]model.PassengerStructSelect, error) {
@@ -36,6 +38,7 @@ func CreatePassenger(pass model.PassengerStructInsert) (model.PassengerStructSel
         return model.PassengerStructSelect{}, ErrObjectCreatedFailed
     }
 
+    passenger.PublishPassengerEvent(realtime.CREATED, newPass)
     return newPass, nil
 }
 
@@ -73,6 +76,7 @@ func UpdatePassenger(id int64, pass model.PassengerStructUpdate) (model.Passenge
         return model.PassengerStructSelect{}, ErrObjectCreatedFailed
     }
 
+    passenger.PublishPassengerEvent(realtime.UPDATED, newPass)
     return newPass, nil
 }
 
@@ -95,5 +99,6 @@ func DeletePassenger(id int64) error {
         return err
     }
 
+    passenger.PublishPassengerEvent(realtime.DELETED, id)
     return nil
 }

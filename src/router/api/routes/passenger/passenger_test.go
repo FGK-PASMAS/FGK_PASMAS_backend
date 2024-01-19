@@ -13,9 +13,11 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+var endpoint = "/api/passengers"
+
 func TestGetPassengers(t *testing.T) {
     env := testutils.InitRouter(true)
-    req, _ := http.NewRequest(http.MethodGet, "/api/passenger/", nil)
+    req, _ := http.NewRequest(http.MethodGet, endpoint, nil)
     pass1 := testutils.CreateDummyPassengerCreate()
     pass2 := testutils.CreateDummyPassengerCreate()
 
@@ -46,7 +48,7 @@ func TestCreatePassenger(t *testing.T) {
     pass := testutils.CreateDummyPassengerCreate()
     passJson, _ := json.Marshal(pass)
 
-    req, _ := http.NewRequest(http.MethodPost, "/api/passenger/", bytes.NewBuffer(passJson))
+    req, _ := http.NewRequest(http.MethodPost, endpoint, bytes.NewBuffer(passJson))
     req.Header.Set("Content-Type", "application/json")
 
     res := env.SendTestingRequestSuccess (
@@ -67,7 +69,7 @@ func TestCreatePassenger(t *testing.T) {
     passError := model.PassengerStructInsert{LastName: "test", FirstName: "test", Weight: 100, DivisionId: 5}
     passErrorJson, _ := json.Marshal(passError)
 
-    reqError, _ := http.NewRequest(http.MethodPost, "/api/passenger/", bytes.NewBuffer(passErrorJson))
+    reqError, _ := http.NewRequest(http.MethodPost, endpoint, bytes.NewBuffer(passErrorJson))
     reqError.Header.Set("Content-Type", "application/json")
 
     env.SendTestingRequestError (
@@ -80,7 +82,7 @@ func TestCreatePassenger(t *testing.T) {
 
     // Body validation should fail
     passWrongBody := []byte(`{"lastName": "test", "firstName": "test", "divisionId": 1}`)
-    reqWrongBody, _ := http.NewRequest(http.MethodPost, "/api/passenger/", bytes.NewBuffer(passWrongBody))
+    reqWrongBody, _ := http.NewRequest(http.MethodPost, endpoint, bytes.NewBuffer(passWrongBody))
     reqWrongBody.Header.Set("Content-Type", "application/json")
 
     env.SendTestingRequestError (
@@ -100,7 +102,7 @@ func TestUpdatePassenger(t *testing.T) {
         &env,
         model.PassengerStructInsert{LastName: "test", FirstName: "test", Weight: 100, DivisionId: 1},
         []byte(`{"lastName": "test", "firstName": "test", "weight": 100, "divisionId": 1}`),
-        "/api/passenger/2",
+        endpoint + "/2",
         http.StatusNotFound,
         "OBJECT_NOT_FOUND",
     )
@@ -109,7 +111,7 @@ func TestUpdatePassenger(t *testing.T) {
         &env,
         model.PassengerStructInsert{LastName: "test", FirstName: "test", Weight: 100, DivisionId: 1},
         []byte(`{"firstName": "test", "weight": 100, "divisionId": 1}`),
-        "/api/passenger/1",
+        endpoint + "/1",
         http.StatusBadRequest,
         "INVALID_REQUEST_BODY",
     )
@@ -118,7 +120,7 @@ func TestUpdatePassenger(t *testing.T) {
         &env,
         model.PassengerStructInsert{LastName: "test", FirstName: "test", Weight: 100, DivisionId: 1},
         []byte(`{"lastName": "test", "firstName": "test", "divisionId": 1}`),
-        "/api/passenger/1",
+        endpoint + "/1",
         http.StatusBadRequest,
         "INVALID_REQUEST_BODY",
     )
@@ -128,7 +130,7 @@ func TestUpdatePassenger(t *testing.T) {
         &env,
         model.PassengerStructInsert{LastName: "test", FirstName: "test", Weight: 100, DivisionId: 1},
         []byte(`{"lastName": "test", "firstName": "test", "weight": 100, "divisionId": 5}`),
-        "/api/passenger/1",
+        endpoint + "/1",
         http.StatusBadRequest,
         "INVALID_OBJECT_DEPENDENCY",
     )
@@ -139,7 +141,7 @@ func passUpdateCorrect(t *testing.T, env *testutils.TestEnv) {
     passUpdate := testutils.DummyUpdatePassenger()
     passUpdateJson, _ := json.Marshal(passUpdate)
 
-    req, _ := http.NewRequest(http.MethodPut, "/api/passenger/1", bytes.NewBuffer(passUpdateJson))
+    req, _ := http.NewRequest(http.MethodPut, endpoint + "/1", bytes.NewBuffer(passUpdateJson))
     req.Header.Set("Content-Type", "application/json")
 
     res := env.SendTestingRequestSuccess (
@@ -190,7 +192,7 @@ func TestDeletePassenger(t *testing.T) {
     env := testutils.InitRouter(true)
     pass := testutils.CreateDummyPassengerCreate()
 
-    req, _ := http.NewRequest(http.MethodDelete, "/api/passenger/1", nil)
+    req, _ := http.NewRequest(http.MethodDelete, endpoint + "/1", nil)
 
     env.SendTestingRequestError (
         t,
