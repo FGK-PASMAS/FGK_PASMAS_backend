@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	internalerror "github.com/MetaEMK/FGK_PASMAS_backend/internalError"
+	dberr "github.com/MetaEMK/FGK_PASMAS_backend/database/dbErr"
 	"github.com/MetaEMK/FGK_PASMAS_backend/logging"
 	"github.com/jackc/pgx/v5"
 )
@@ -19,14 +19,14 @@ func SetupDatabaseConnection() error {
     connectionString, err := getConnectionString()
     if err != nil {
         log.Error("Failed to generate the connectionString")
-        return internalerror.InternalError{Type: internalerror.DatabaseConnectionError, Message: "Failed to generate the connectionString", Body: err}
+        return err
     }
 
     pgx, err := pgx.Connect(context.Background(), connectionString)
 
     if err != nil {
         log.Error("Failed to open a new connection")
-        return internalerror.InternalError{Type: internalerror.DatabaseConnectionError, Message: "Failed to open a new connection", Body: err}
+        return err
     } else {
         log.Debug("Successfully opened a new connection")
         PgConn = pgx
@@ -39,7 +39,7 @@ func CheckDatabaseConnection() error {
     err := PgConn.Ping(context.Background())
 
     if err != nil {
-        error := internalerror.InternalError{Type: internalerror.DatabaseConnectionError, Message: "Failed to ping the database", Body: err}
+        error := dberr.ErrNoConnection
         return error
     } 
 
@@ -70,14 +70,9 @@ func AutoReconnectForDatabaseConnection() {
 
 func InitDatabaseStructure() (error){
     log.Info("Trying to create the database structure")
-    statements, err := getInitDatabaseStructure()
-    if(err != nil) {
-        log.Error("Failed to retrieve the sql statements for creating the database structure")
-        PgConn.Close(context.Background())
-        return err
-    } 
+    statements := getInitDatabaseStructure()
 
-    _, err = PgConn.Exec(context.Background(), statements)
+    _, err := PgConn.Exec(context.Background(), statements)
 
     if(err != nil) {
         log.Error("Failed to create the database structure")
@@ -114,17 +109,12 @@ func SeedDatabase() {
     } else if len(divisions) == 0 {
         log.Debug("No divisions found in the database - seeding the division table")
 
-        statements, err := getSeedDatabaseQueries("division")
+        statements := getSeedDatabaseQueries("division")
+        _, err = PgConn.Exec(context.Background(), statements)
         if err != nil {
-            log.Error("Failed to retrieve the sql statements for seeding the division table")
-
+            log.Error("Failed to seed the division table")
         } else {
-            _, err = PgConn.Exec(context.Background(), statements)
-            if err != nil {
-                log.Error("Failed to seed the division table")
-            } else {
-                log.Debug("Successfully seeded the division table")
-            }
+            log.Debug("Successfully seeded the division table")
         }
     } else {
         log.Debug("Division table is already seeded")
