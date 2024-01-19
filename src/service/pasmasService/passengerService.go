@@ -2,7 +2,6 @@ package pasmasservice
 
 import (
 	dberr "github.com/MetaEMK/FGK_PASMAS_backend/database/dbErr"
-	divisionhandler "github.com/MetaEMK/FGK_PASMAS_backend/database/divisionHandler"
 	passengerhandler "github.com/MetaEMK/FGK_PASMAS_backend/database/passengerHandler"
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
 	"github.com/MetaEMK/FGK_PASMAS_backend/router/realtime"
@@ -15,16 +14,6 @@ func GetPassengers() ([]model.PassengerStructSelect, error) {
 
 func CreatePassenger(pass model.PassengerStructInsert) (model.PassengerStructSelect, error) {
     // Check for dependencies
-    // Check for division
-    _, err := divisionhandler.GetDivisionById(pass.DivisionId)
-    if err != nil {
-        if err == dberr.ErrNoRows {
-            return model.PassengerStructSelect{}, ErrObjectDependencyDivisionMissing
-        } else {
-            return model.PassengerStructSelect{}, err
-        }
-    }
-
 
     // Create passenger
     id, err := passengerhandler.CreatePassenger(pass)
@@ -49,16 +38,6 @@ func UpdatePassenger(id int64, pass model.PassengerStructUpdate) (model.Passenge
     if err != nil {
         if(err == dberr.ErrNoRows) {
             return model.PassengerStructSelect{}, ErrObjectNotFound
-        } else {
-            return model.PassengerStructSelect{}, err
-        }
-    }
-
-    // Check for division
-    _, err = divisionhandler.GetDivisionById(pass.DivisionId)
-    if err != nil {
-        if err == dberr.ErrNoRows {
-            return model.PassengerStructSelect{}, ErrObjectDependencyDivisionMissing
         } else {
             return model.PassengerStructSelect{}, err
         }

@@ -20,7 +20,7 @@ func GetPassengers() ([]model.PassengerStructSelect, error) {
         return []model.PassengerStructSelect{}, connErr
     }
 
-	query := `SELECT p.id, p.last_name, p.first_name, p.weight, d.id, d.name, d.passenger_capacity FROM passenger p JOIN division d ON p.division_id = d.id;`
+	query := `SELECT id, p.last_name, p.first_name, p.weight FROM passenger p;`
 
 	rows, err := database.PgConn.Query(context.Background(), query)
 	if err != nil {
@@ -41,9 +41,6 @@ func GetPassengers() ([]model.PassengerStructSelect, error) {
                 &passenger.LastName,
                 &passenger.FirstName,
                 &passenger.Weight,
-                &passenger.Division.Id,
-                &passenger.Division.Name,
-                &passenger.Division.PassengerCapacity,
             )
 			if err != nil {
 				log.Info("Could not parse passenger row from database to passenger type - skipping entry")
@@ -62,7 +59,7 @@ func GetPassengerById(id int64) (model.PassengerStructSelect, error) {
         return model.PassengerStructSelect{}, dberr.ErrNoConnection
     }
 
-	query := `SELECT p.id, p.last_name, p.first_name, p.weight, d.id, d.name, d.passenger_capacity FROM passenger p JOIN division d ON p.division_id = d.id WHERE p.id=$1`
+	query := `SELECT p.id, p.last_name, p.first_name, p.weight FROM passenger p WHERE p.id=$1`
 
 	row := database.PgConn.QueryRow(context.Background(), query, id)
 
@@ -72,9 +69,6 @@ func GetPassengerById(id int64) (model.PassengerStructSelect, error) {
         &passenger.LastName,
         &passenger.FirstName,
         &passenger.Weight,
-        &passenger.Division.Id,
-        &passenger.Division.Name,
-        &passenger.Division.PassengerCapacity,
     )
 
 	if err != nil {
@@ -91,9 +85,9 @@ func CreatePassenger(pass model.PassengerStructInsert) (int64, error) {
         return -1, dberr.ErrNoConnection
     }
 
-	query := `INSERT INTO passenger (last_name, first_name, weight, division_id) VALUES ($1, $2, $3, $4) RETURNING id`
+	query := `INSERT INTO passenger (last_name, first_name, weight) VALUES ($1, $2, $3) RETURNING id`
 
-	res := database.PgConn.QueryRow(context.Background(), query, pass.LastName, pass.FirstName, pass.Weight, pass.DivisionId)
+	res := database.PgConn.QueryRow(context.Background(), query, pass.LastName, pass.FirstName, pass.Weight)
 
 	var id int64
 	err := res.Scan(&id)
@@ -114,9 +108,9 @@ func UpdatePassenger(id int64, pass model.PassengerStructUpdate) (int64, error) 
     if connErr != nil {
         return -1, dberr.ErrNoConnection
     }
-	query := `UPDATE passenger SET last_name=$2, first_name=$3, weight=$4, division_id=$5 WHERE id=$1 RETURNING id`
+	query := `UPDATE passenger SET last_name=$2, first_name=$3, weight=$4 WHERE id=$1 RETURNING id`
 
-	res := database.PgConn.QueryRow(context.Background(), query, id, pass.LastName, pass.FirstName, pass.Weight, pass.DivisionId)
+	res := database.PgConn.QueryRow(context.Background(), query, id, pass.LastName, pass.FirstName, pass.Weight)
 
 	var newId int64
 	err := res.Scan(&newId)

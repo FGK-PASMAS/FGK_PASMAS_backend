@@ -11,10 +11,7 @@ var structureStatements = `
         id BIGSERIAL PRIMARY KEY,
         last_name TEXT,
         first_name TEXT,
-        weight INTEGER NOT NULL,
-        division_id INTEGER,
-
-        FOREIGN KEY(division_id) REFERENCES division(id)
+        weight INTEGER NOT NULL
     );
 `
 

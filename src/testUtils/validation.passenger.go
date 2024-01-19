@@ -12,7 +12,6 @@ type PassengerModel struct {
 	LastName  string                    `json:"lastName"`
 	FirstName string                    `json:"firstName"`
 	Weight    int                       `json:"weight"`
-	Division  DivisionModel             `json:"division"`
 }
 
 
@@ -21,7 +20,6 @@ func CreateDummyPassengerCreate() model.PassengerStructInsert {
         LastName: "test",
         FirstName: "test",
         Weight: 100,
-        DivisionId: 1,
     }
 }
 
@@ -30,7 +28,6 @@ func DummyUpdatePassenger() model.PassengerStructUpdate {
         LastName: "test",
         FirstName: "test",
         Weight: 100,
-        DivisionId: 1,
     }
 }
 
@@ -41,5 +38,4 @@ func ValidatePassengerModel(t *testing.T, pass PassengerModel) {
     assert.GreaterOrEqual(t, len(pass.LastName), 1, "LastName should not be empty")
     assert.NotNil(t, pass.FirstName)
     assert.GreaterOrEqual(t, pass.Weight, 1, "Weight should not be empty")
-    ValidateDivision(t, pass.Division)
 }

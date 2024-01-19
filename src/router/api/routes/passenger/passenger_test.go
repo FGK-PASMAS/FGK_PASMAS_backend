@@ -66,20 +66,6 @@ func TestCreatePassenger(t *testing.T) {
     assert.Nil(t, err)
     testutils.ValidatePassengerModel(t, passenger)
 
-    passError := model.PassengerStructInsert{LastName: "test", FirstName: "test", Weight: 100, DivisionId: 5}
-    passErrorJson, _ := json.Marshal(passError)
-
-    reqError, _ := http.NewRequest(http.MethodPost, endpoint, bytes.NewBuffer(passErrorJson))
-    reqError.Header.Set("Content-Type", "application/json")
-
-    env.SendTestingRequestError (
-        t,
-        reqError,
-        func() {},
-        http.StatusBadRequest,
-        "INVALID_OBJECT_DEPENDENCY",
-    )
-
     // Body validation should fail
     passWrongBody := []byte(`{"lastName": "test", "firstName": "test", "divisionId": 1}`)
     reqWrongBody, _ := http.NewRequest(http.MethodPost, endpoint, bytes.NewBuffer(passWrongBody))
@@ -100,8 +86,8 @@ func TestUpdatePassenger(t *testing.T) {
     passUpdateError(
         t,
         &env,
-        model.PassengerStructInsert{LastName: "test", FirstName: "test", Weight: 100, DivisionId: 1},
-        []byte(`{"lastName": "test", "firstName": "test", "weight": 100, "divisionId": 1}`),
+        testutils.CreateDummyPassengerCreate(),
+        []byte(`{"lastName": "test", "firstName": "test", "weight": 100}`),
         endpoint + "/2",
         http.StatusNotFound,
         "OBJECT_NOT_FOUND",
@@ -109,8 +95,8 @@ func TestUpdatePassenger(t *testing.T) {
     passUpdateError(
         t,
         &env,
-        model.PassengerStructInsert{LastName: "test", FirstName: "test", Weight: 100, DivisionId: 1},
-        []byte(`{"firstName": "test", "weight": 100, "divisionId": 1}`),
+        testutils.CreateDummyPassengerCreate(),
+        []byte(`{"firstName": "test", "weight": 100}`),
         endpoint + "/1",
         http.StatusBadRequest,
         "INVALID_REQUEST_BODY",
@@ -118,21 +104,11 @@ func TestUpdatePassenger(t *testing.T) {
     passUpdateError(
         t,
         &env,
-        model.PassengerStructInsert{LastName: "test", FirstName: "test", Weight: 100, DivisionId: 1},
-        []byte(`{"lastName": "test", "firstName": "test", "divisionId": 1}`),
+        testutils.CreateDummyPassengerCreate(),
+        []byte(`{"lastName": "test", "firstName": "test"}`),
         endpoint + "/1",
         http.StatusBadRequest,
         "INVALID_REQUEST_BODY",
-    )
-
-    passUpdateError(
-        t,
-        &env,
-        model.PassengerStructInsert{LastName: "test", FirstName: "test", Weight: 100, DivisionId: 1},
-        []byte(`{"lastName": "test", "firstName": "test", "weight": 100, "divisionId": 5}`),
-        endpoint + "/1",
-        http.StatusBadRequest,
-        "INVALID_OBJECT_DEPENDENCY",
     )
 }
 
