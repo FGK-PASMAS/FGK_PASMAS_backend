@@ -68,7 +68,7 @@ func (env *TestEnv) SendTestingRequestSuccess(t *testing.T, req *http.Request, p
 }
 
 
-func (env *TestEnv) SendTestingRequestError(t *testing.T, req *http.Request, prepFunc func(), expectedHttpCode int, expectedSuccess bool, expectedErrorType string) api.ErrorResponse {
+func (env *TestEnv) SendTestingRequestError(t *testing.T, req *http.Request, prepFunc func(), expectedHttpCode int, expectedErrorType string) api.ErrorResponse {
     prepFunc()
 
     w := httptest.NewRecorder()
@@ -80,7 +80,7 @@ func (env *TestEnv) SendTestingRequestError(t *testing.T, req *http.Request, pre
     err := json.Unmarshal(w.Body.Bytes(), &res)
     assert.Nilf(t, err, "Could now Unmarshal json: %s", w.Body.String())
 
-    assert.Equal(t, expectedSuccess, res.Success, res.Success)
+    assert.Equal(t, false, res.Success, res.Success)
     assert.Equal(t, expectedErrorType, res.Type, res.Type)
 
     return res
