@@ -3,6 +3,7 @@ package testutils
 import (
 	"testing"
 
+	"github.com/MetaEMK/FGK_PASMAS_backend/model"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -12,6 +13,25 @@ type PassengerModel struct {
 	FirstName string                    `json:"firstName"`
 	Weight    int                       `json:"weight"`
 	Division  DivisionModel             `json:"division"`
+}
+
+
+func CreateDummyPassengerCreate() model.PassengerStructInsert {
+    return model.PassengerStructInsert{
+        LastName: "test",
+        FirstName: "test",
+        Weight: 100,
+        DivisionId: 1,
+    }
+}
+
+func DummyUpdatePassenger() model.PassengerStructUpdate {
+    return model.PassengerStructUpdate{
+        LastName: "test",
+        FirstName: "test",
+        Weight: 100,
+        DivisionId: 1,
+    }
 }
 
 

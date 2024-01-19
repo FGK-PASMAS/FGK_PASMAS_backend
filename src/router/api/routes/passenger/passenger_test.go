@@ -6,27 +6,29 @@ import (
 	"net/http"
 	"testing"
 
+	"github.com/MetaEMK/FGK_PASMAS_backend/database/debug"
 	passengerhandler "github.com/MetaEMK/FGK_PASMAS_backend/database/passengerHandler"
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
-	"github.com/MetaEMK/FGK_PASMAS_backend/router/api"
 	testutils "github.com/MetaEMK/FGK_PASMAS_backend/testUtils"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestGetPassengers(t *testing.T) {
+    env := testutils.InitRouter(true)
     req, _ := http.NewRequest(http.MethodGet, "/api/passenger/", nil)
-    pass1 := model.PassengerStructInsert{LastName: "test", FirstName: "test", Weight: 100, DivisionId: 1}
-    pass2 := model.PassengerStructInsert{LastName: "test", FirstName: "", Weight: 100, DivisionId: 1}
+    pass1 := testutils.CreateDummyPassengerCreate()
+    pass2 := testutils.CreateDummyPassengerCreate()
 
-    w := testutils.SendTestingRequest(t, req, func() {
-        passengerhandler.CreatePassenger(pass1)
-        passengerhandler.CreatePassenger(pass2)
-    })
-
-    assert.Equal(t, http.StatusOK, w.Code)
-
-    res := testutils.ParseAndValidateResponse(t, w)
-    assert.Equal(t, true, res.Success)
+    res := env.SendTestingRequestSuccess (
+        t,
+        req,
+        func() {
+            passengerhandler.CreatePassenger(pass1)
+            passengerhandler.CreatePassenger(pass2)
+        },
+        http.StatusOK,
+        true,
+    )
 
     var passenger []testutils.PassengerModel
     jsonBytes, _ := json.Marshal(res.Response)
@@ -40,32 +42,64 @@ func TestGetPassengers(t *testing.T) {
 }
 
 func TestCreatePassenger(t *testing.T) {
-    pass := model.PassengerStructInsert{LastName: "test", FirstName: "test", Weight: 100, DivisionId: 1}
+    env := testutils.InitRouter(true)
+    pass := testutils.CreateDummyPassengerCreate()
     passJson, _ := json.Marshal(pass)
 
     req, _ := http.NewRequest(http.MethodPost, "/api/passenger/", bytes.NewBuffer(passJson))
     req.Header.Set("Content-Type", "application/json")
 
-    w := testutils.SendTestingRequest(t, req)
+    res := env.SendTestingRequestSuccess (
+        t,
+        req,
+        func() {},
+        http.StatusCreated,
+        true,
+    )
 
-    assert.Equal(t, http.StatusCreated, w.Code)
-
-    res := testutils.ParseAndValidateResponse(t, w)
-    assert.Equal(t, true, res.Success)
-
+    // Depenendy on divsion should fail
     var passenger testutils.PassengerModel
     jsonBytes, _ := json.Marshal(res.Response)
-
     err := json.Unmarshal(jsonBytes, &passenger)
     assert.Nil(t, err)
-
     testutils.ValidatePassengerModel(t, passenger)
+
+    passError := model.PassengerStructInsert{LastName: "test", FirstName: "test", Weight: 100, DivisionId: 5}
+    passErrorJson, _ := json.Marshal(passError)
+
+    reqError, _ := http.NewRequest(http.MethodPost, "/api/passenger/", bytes.NewBuffer(passErrorJson))
+    reqError.Header.Set("Content-Type", "application/json")
+
+    env.SendTestingRequestError (
+        t,
+        reqError,
+        func() {},
+        http.StatusBadRequest,
+        false,
+        "INVALID_OBJECT_DEPENDENCY",
+    )
+
+    // Body validation should fail
+    passWrongBody := []byte(`{"lastName": "test", "firstName": "test", "divisionId": 1}`)
+    reqWrongBody, _ := http.NewRequest(http.MethodPost, "/api/passenger/", bytes.NewBuffer(passWrongBody))
+    reqWrongBody.Header.Set("Content-Type", "application/json")
+
+    env.SendTestingRequestError (
+        t,
+        reqWrongBody,
+        func() {},
+        http.StatusBadRequest,
+        false,
+        "INVALID_REQUEST_BODY",
+    )
 }
 
 func TestUpdatePassenger(t *testing.T) {
-    passUpdateCorrect(t)
+    env := testutils.InitRouter(true)
+    passUpdateCorrect(t, &env)
     passUpdateError(
         t,
+        &env,
         model.PassengerStructInsert{LastName: "test", FirstName: "test", Weight: 100, DivisionId: 1},
         []byte(`{"lastName": "test", "firstName": "test", "weight": 100, "divisionId": 1}`),
         "/api/passenger/2",
@@ -74,6 +108,7 @@ func TestUpdatePassenger(t *testing.T) {
     )
     passUpdateError(
         t,
+        &env,
         model.PassengerStructInsert{LastName: "test", FirstName: "test", Weight: 100, DivisionId: 1},
         []byte(`{"firstName": "test", "weight": 100, "divisionId": 1}`),
         "/api/passenger/1",
@@ -82,6 +117,7 @@ func TestUpdatePassenger(t *testing.T) {
     )
     passUpdateError(
         t,
+        &env,
         model.PassengerStructInsert{LastName: "test", FirstName: "test", Weight: 100, DivisionId: 1},
         []byte(`{"lastName": "test", "firstName": "test", "divisionId": 1}`),
         "/api/passenger/1",
@@ -91,6 +127,7 @@ func TestUpdatePassenger(t *testing.T) {
 
     passUpdateError(
         t,
+        &env,
         model.PassengerStructInsert{LastName: "test", FirstName: "test", Weight: 100, DivisionId: 1},
         []byte(`{"lastName": "test", "firstName": "test", "weight": 100, "divisionId": 5}`),
         "/api/passenger/1",
@@ -99,22 +136,23 @@ func TestUpdatePassenger(t *testing.T) {
     )
 }
 
-func passUpdateCorrect(t *testing.T) {
-    pass := model.PassengerStructInsert{LastName: "test", FirstName: "test", Weight: 100, DivisionId: 1}
-    passUpdate := model.PassengerStructUpdate{LastName: "test", FirstName: "test", Weight: 100, DivisionId: 1}
+func passUpdateCorrect(t *testing.T, env *testutils.TestEnv) {
+    pass := testutils.CreateDummyPassengerCreate()
+    passUpdate := testutils.DummyUpdatePassenger()
     passUpdateJson, _ := json.Marshal(passUpdate)
 
     req, _ := http.NewRequest(http.MethodPut, "/api/passenger/1", bytes.NewBuffer(passUpdateJson))
     req.Header.Set("Content-Type", "application/json")
 
-    w := testutils.SendTestingRequest(t, req, func() {
-        passengerhandler.CreatePassenger(pass)
-    })
-
-    assert.Equal(t, http.StatusOK, w.Code)
-
-    res := testutils.ParseAndValidateResponse(t, w)
-    assert.Equal(t, true, res.Success)
+    res := env.SendTestingRequestSuccess (
+        t,
+        req,
+        func() {
+            passengerhandler.CreatePassenger(pass)
+        },
+        http.StatusOK,
+        true,
+    )
 
     var passenger testutils.PassengerModel
     jsonBytes, _ := json.Marshal(res.Response)
@@ -125,7 +163,9 @@ func passUpdateCorrect(t *testing.T) {
     testutils.ValidatePassengerModel(t, passenger)
 }
 
-func passUpdateError(t *testing.T,
+func passUpdateError(
+    t *testing.T,
+    env *testutils.TestEnv,
     passCreate model.PassengerStructInsert,
     passUpdateJson []byte,
     url string,
@@ -136,26 +176,42 @@ func passUpdateError(t *testing.T,
     req, _ := http.NewRequest(http.MethodPut, url, bytes.NewBuffer(passUpdateJson))
     req.Header.Set("Content-Type", "application/json")
 
-    w := testutils.SendTestingRequest(t, req, func() {
-        passengerhandler.CreatePassenger(passCreate)
-    })
-
-    assert.Equal(t, expectedHttpStatusCode, w.Code)
-
-    res := api.ErrorResponse{}
-    err := json.Unmarshal(w.Body.Bytes(), &res)
-    assert.Nil(t, err)
-
-    assert.Equal(t, res.Success, false)
-    assert.Equal(t, expectedErrorType, res.Type, string(w.Body.Bytes()))
-}
-
-func passUpdateMissingBody(t *testing.T) {
-    t.Skip("Not implemented")
-    //TODO: implement
+    env.SendTestingRequestError (
+        t,
+        req,
+        func() {
+            debug.TruncateDatabase()
+            passengerhandler.CreatePassenger(passCreate)
+        },
+        expectedHttpStatusCode,
+        false,
+        expectedErrorType,
+    )
 }
 
 func TestDeletePassenger(t *testing.T) {
-    t.Skip("Not implemented")
-    //TODO: implement
+    env := testutils.InitRouter(true)
+    pass := testutils.CreateDummyPassengerCreate()
+
+    req, _ := http.NewRequest(http.MethodDelete, "/api/passenger/1", nil)
+
+    env.SendTestingRequestError (
+        t,
+        req,
+        func() {},
+        http.StatusNotFound,
+        false,
+        "OBJECT_NOT_FOUND",
+    )
+
+    env.SendTestingRequestSuccess(
+        t, 
+        req,
+        func() {
+            passengerhandler.CreatePassenger(pass)
+        },
+        http.StatusNoContent,
+        false,
+    )
+
 }
