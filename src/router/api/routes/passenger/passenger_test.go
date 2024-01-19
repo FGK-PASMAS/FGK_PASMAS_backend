@@ -75,7 +75,6 @@ func TestCreatePassenger(t *testing.T) {
         reqError,
         func() {},
         http.StatusBadRequest,
-        false,
         "INVALID_OBJECT_DEPENDENCY",
     )
 
@@ -89,7 +88,6 @@ func TestCreatePassenger(t *testing.T) {
         reqWrongBody,
         func() {},
         http.StatusBadRequest,
-        false,
         "INVALID_REQUEST_BODY",
     )
 }
@@ -184,7 +182,6 @@ func passUpdateError(
             passengerhandler.CreatePassenger(passCreate)
         },
         expectedHttpStatusCode,
-        false,
         expectedErrorType,
     )
 }
@@ -200,7 +197,6 @@ func TestDeletePassenger(t *testing.T) {
         req,
         func() {},
         http.StatusNotFound,
-        false,
         "OBJECT_NOT_FOUND",
     )
 

@@ -35,3 +35,18 @@ func TestTruncate(t *testing.T) {
     result := testutils.ParseAndValidateResponse(t, w)
     assert.Equal(t, result.Success, expectedResult, "Response.Success shows false: " + w.Body.String())
 }
+
+func TestHealthCheck(t *testing.T) {
+    env := testutils.InitRouter(true)
+    req, _ := http.NewRequest(http.MethodGet, "/api/debug/healthcheck", nil)
+    res := env.SendTestingRequestSuccess(
+        t,
+        req,
+        func() {},
+        http.StatusOK,
+        true,
+    )
+
+    result := res.Response.(map[string]interface{})
+    assert.Equal(t, "successfull", result["databaseConnection"])
+}
