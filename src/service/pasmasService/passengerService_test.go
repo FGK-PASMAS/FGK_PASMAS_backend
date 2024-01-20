@@ -15,8 +15,21 @@ func comparePassengers(t *testing.T, expectedPass *model.Passenger, actualPass *
     assert.Equalf(t, expectedPass.Weight, actualPass.Weight, "Weight %d is not equal to %d", expectedPass.Weight, actualPass.Weight)
 }
 
+func createDummyPassenger(t *testing.T) model.Passenger {
+    return model.Passenger{
+        LastName: "TestCreatePassenger",
+        FirstName: "pasmasServiceTest",
+        Weight: 42,
+    }
+}
+
 func TestGetPassengers(t *testing.T) {
     initDB(t)
+
+    pasmasservice.CreatePassenger(createDummyPassenger(t))
+    pasmasservice.CreatePassenger(createDummyPassenger(t))
+    p, _:= pasmasservice.CreatePassenger(createDummyPassenger(t))
+    pasmasservice.DeletePassenger(p.ID)
 
     pass, err := pasmasservice.GetPassengers()
     if err != nil {
@@ -24,11 +37,7 @@ func TestGetPassengers(t *testing.T) {
         t.FailNow()
     }
 
-    assert.IsType(t, []model.Passenger{}, pass)
-
-    for _, p := range pass {
-        assert.Nilf(t, p.DeletedAt, "Passenger %d is marked as deleted", p.ID)
-    }
+    assert.Equal(t, 2, len(pass), "Passenger count is not equal to 2; 3 were created, 1 was deleted")
 }
 
 func TestCreatePassenger(t *testing.T) {

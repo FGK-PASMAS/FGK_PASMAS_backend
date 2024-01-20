@@ -20,7 +20,15 @@ func initDB(t *testing.T) {
         assert.Nil(t, err)
         t.FailNow()
     } else  {
-        databasehandler.InitGorm(db)
+        err = databasehandler.InitGorm(db).Error
+        if err != nil {
+            t.Fatalf("Error while initializing database: %s", err.Error())
+        }
+
+        err := databasehandler.ResetDatabase()
+        if err != nil {
+            t.Fatalf("Error while resetting database: %s", err.Error())
+        }
     }
 }
 func TestGetDivisions(t *testing.T) {

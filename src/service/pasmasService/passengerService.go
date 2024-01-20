@@ -7,7 +7,7 @@ import (
 )
 func GetPassengers() ([]model.Passenger, error) {
     passengers := []model.Passenger{}
-    result := dh.Db.Where("deleted_at != null").Find(&passengers)
+    result := dh.Db.Where("deleted_at IS NULL").Find(&passengers)
 
     return passengers, result.Error
 }

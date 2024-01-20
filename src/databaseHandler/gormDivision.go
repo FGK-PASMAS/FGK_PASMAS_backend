@@ -5,6 +5,10 @@ import "github.com/MetaEMK/FGK_PASMAS_backend/model"
 func initDivision() {
     Db.AutoMigrate(&model.Division{})
 
+    SeedDivision()
+}
+
+func SeedDivision() error {
     divs := []model.Division{
         { Name: "Segelflug", PassengerCapacity: 1},
         { Name: "Motorsegler", PassengerCapacity: 1},
@@ -22,4 +26,5 @@ func initDivision() {
         }
     }
 
+    return nil
 }
