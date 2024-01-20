@@ -135,13 +135,16 @@
 					},
 					"response": [
 						{
-							"id": "cd8abf19-0efc-4b12-bb98-c1fe83957f2c",
+							"id": "727830f0-b601-44cc-abbc-f71a65ca88dc",
 							"name": "200",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "/api/passengers",
+									"raw": "{{url}}/api/passengers",
+									"host": [
+										"{{url}}"
+									],
 									"path": [
 										"api",
 										"passengers"
@@ -158,15 +161,15 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 19 Jan 2024 13:16:54 GMT"
+									"value": "Sat, 20 Jan 2024 23:01:16 GMT"
 								},
 								{
 									"key": "Content-Length",
-									"value": "281"
+									"value": "379"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"success\": true,\n    \"response\": [\n        {\n            \"id\": 1,\n            \"lastName\": \"Max\",\n            \"firstName\": \"Mustermann\",\n            \"weight\": 42\n        },\n        {\n            \"id\": 2,\n            \"lastName\": \"Maria\",\n            \"firstName\": \"Musterfrau\",\n            \"weight\": 42\n        }\n    ]\n}"
+							"body": "{\n    \"Success\": true,\n    \"Response\": [\n        {\n            \"ID\": 1,\n            \"CreatedAt\": \"2024-01-20T23:44:09.861067+01:00\",\n            \"UpdatedAt\": \"2024-01-21T00:00:09.847031+01:00\",\n            \"DeletedAt\": null,\n            \"LastName\": \"Max\",\n            \"FirstName\": \"Mustermann\",\n            \"Weight\": 72\n        },\n        {\n            \"ID\": 2,\n            \"CreatedAt\": \"2024-01-21T00:01:10.968387+01:00\",\n            \"UpdatedAt\": \"2024-01-21T00:01:10.968387+01:00\",\n            \"DeletedAt\": null,\n            \"LastName\": \"Maria\",\n            \"FirstName\": \"Musterfrau\",\n            \"Weight\": 42\n        }\n    ]\n}"
 						}
 					]
 				},
@@ -199,7 +202,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"lastName\": \"Max\",\n    \"firstName\": \"Mustermann\",\n    \"weight\": 42,\n    \"divisionId\": 1\n}",
+							"raw": "{\n    \"lastName\": \"Max\",\n    \"firstName\": \"Mustermann\",\n    \"weight\": 42\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -220,7 +223,7 @@
 					},
 					"response": [
 						{
-							"id": "94dee038-d947-43ff-9dcc-178870fbc348",
+							"id": "4c1b5a68-70c8-4242-adfa-ed94bc697a9e",
 							"name": "201",
 							"originalRequest": {
 								"method": "POST",
@@ -235,7 +238,10 @@
 									}
 								},
 								"url": {
-									"raw": "/api/passengers",
+									"raw": "{{url}}/api/passengers",
+									"host": [
+										"{{url}}"
+									],
 									"path": [
 										"api",
 										"passengers"
@@ -252,25 +258,25 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 19 Jan 2024 13:14:28 GMT"
+									"value": "Sat, 20 Jan 2024 22:44:09 GMT"
 								},
 								{
 									"key": "Content-Length",
-									"value": "151"
+									"value": "201"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"success\": true,\n    \"response\": {\n        \"id\": 1,\n        \"lastName\": \"Max\",\n        \"firstName\": \"Mustermann\",\n        \"weight\": 42\n    }\n}"
+							"body": "{\n    \"Success\": true,\n    \"Response\": {\n        \"ID\": 1,\n        \"CreatedAt\": \"2024-01-20T23:44:09.861067+01:00\",\n        \"UpdatedAt\": \"2024-01-20T23:44:09.861067+01:00\",\n        \"DeletedAt\": null,\n        \"LastName\": \"Max\",\n        \"FirstName\": \"Mustermann\",\n        \"Weight\": 42\n    }\n}"
 						},
 						{
-							"id": "e7381e6a-4aee-4a62-a1d3-b8a937ef0c65",
+							"id": "53ce8b83-7b58-4699-b86d-511f40a4f7a4",
 							"name": "400 - INVALID_REQUEST_BODY",
 							"originalRequest": {
 								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"lastName\": \"Max\",\n    \"firstName\": \"Mustermann\"\n}",
+									"raw": "{\n    \"lastName\": \"Max\",\n    \"firstName\": \"Mustermann\",\n    \"divisionId\": 1\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -298,15 +304,15 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 19 Jan 2024 13:15:24 GMT"
+									"value": "Sat, 20 Jan 2024 22:44:34 GMT"
 								},
 								{
 									"key": "Content-Length",
-									"value": "157"
+									"value": "84"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"success\": false,\n    \"type\": \"INVALID_REQUEST_BODY\",\n    \"body\": \"Key: 'PassengerStructInsert.Weight' Error:Field validation for 'Weight' failed on the 'required' tag\"\n}"
+							"body": "{\n    \"Success\": false,\n    \"Type\": \"INVALID_REQUEST_BODY\",\n    \"Message\": \"Weight must be >= 0\"\n}"
 						}
 					]
 				},
@@ -339,7 +345,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\": 1,\n    \"lastName\": \"Max\",\n    \"firstName\": \"Mustermann\",\n    \"weight\": 72,\n    \"divisionid\": 1\n}",
+							"raw": "{\n    \"lastName\": \"Max\",\n    \"firstName\": \"Mustermann\",\n    \"weight\": 72\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -368,57 +374,6 @@
 					},
 					"response": [
 						{
-							"id": "88adad61-e855-4a0f-8431-03121f4aeaed",
-							"name": "200",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"id\": 1,\n    \"lastName\": \"Max\",\n    \"firstName\": \"Mustermann\",\n    \"weight\": 72,\n    \"divisionid\": 1\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "/api/passengers/:id",
-									"path": [
-										"api",
-										"passengers",
-										":id"
-									],
-									"variable": [
-										{
-											"key": "id",
-											"value": "1",
-											"description": "passenger id"
-										}
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Date",
-									"value": "Fri, 19 Jan 2024 13:17:28 GMT"
-								},
-								{
-									"key": "Content-Length",
-									"value": "151"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"success\": true,\n    \"response\": {\n        \"id\": 1,\n        \"lastName\": \"Max\",\n        \"firstName\": \"Mustermann\",\n        \"weight\": 72\n    }\n}"
-						},
-						{
 							"id": "10781527-ad7f-4cd6-b73e-ce301ee7dec1",
 							"name": "400 - INVALID_REQUEST_BODY",
 							"originalRequest": {
@@ -426,7 +381,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"id\": 1,\n    \"lastName\": \"Max\",\n    \"firstName\": \"Mustermann\"\n}",
+									"raw": "{\n    \"lastName\": \"Max\",\n    \"firstName\": \"Mustermann\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -470,7 +425,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"success\": false,\n    \"type\": \"INVALID_REQUEST_BODY\",\n    \"body\": \"Key: 'PassengerStructUpdate.Weight' Error:Field validation for 'Weight' failed on the 'required' tag\"\n}"
+							"body": "{\n    \"Success\": false,\n    \"Type\": \"INVALID_REQUEST_BODY\",\n    \"Message\": \"Weight must be >= 0\"\n}"
 						},
 						{
 							"id": "3c10cfd2-d253-44d8-ad0b-2b359dcacb39",
@@ -524,7 +479,61 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"success\": false,\n    \"type\": \"OBJECT_NOT_FOUND\",\n    \"body\": \"No object found\"\n}"
+							"body": "{\n    \"Success\": false,\n    \"Type\": \"OBJECT_NOT_FOUND\",\n    \"Message\": \"record not found\"\n}"
+						},
+						{
+							"id": "4a5058c6-dea6-4bc4-9904-c05e997324f2",
+							"name": "200",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"lastName\": \"Max\",\n    \"firstName\": \"Mustermann\",\n    \"weight\": 72\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/passengers/:id",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"passengers",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "passenger id"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 20 Jan 2024 22:58:29 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "201"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"Success\": true,\n    \"Response\": {\n        \"ID\": 1,\n        \"CreatedAt\": \"2024-01-20T23:44:09.861067+01:00\",\n        \"UpdatedAt\": \"2024-01-20T23:58:29.407691+01:00\",\n        \"DeletedAt\": null,\n        \"LastName\": \"Max\",\n        \"FirstName\": \"Mustermann\",\n        \"Weight\": 72\n    }\n}"
 						}
 					]
 				},
@@ -589,7 +598,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "1",
+											"value": "20",
 											"description": "passenger id"
 										}
 									]
@@ -613,7 +622,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"success\": false,\n    \"type\": \"OBJECT_NOT_FOUND\",\n    \"body\": \"No object found\"\n}"
+							"body": "{\n    \"Success\": false,\n    \"Type\": \"OBJECT_NOT_FOUND\",\n    \"Message\": \"record not found\"\n}"
 						},
 						{
 							"id": "961d2372-3bfd-44df-ba48-c2189850f251",
@@ -704,13 +713,16 @@
 					},
 					"response": [
 						{
-							"id": "97040a22-f907-458a-b962-2eca8e7ae037",
+							"id": "f846f31b-9b6c-4415-bcff-f10962e254a8",
 							"name": "200",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "/api/divisions",
+									"raw": "{{url}}/api/divisions",
+									"host": [
+										"{{url}}"
+									],
 									"path": [
 										"api",
 										"divisions"
@@ -727,15 +739,15 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 19 Jan 2024 13:11:44 GMT"
+									"value": "Sat, 20 Jan 2024 23:01:30 GMT"
 								},
 								{
 									"key": "Content-Length",
-									"value": "181"
+									"value": "513"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"success\": true,\n    \"response\": [\n        {\n            \"id\": 1,\n            \"name\": \"Segelflug\",\n            \"passengerCapacity\": 1\n        },\n        {\n            \"id\": 2,\n            \"name\": \"Motorsegler\",\n            \"passengerCapacity\": 1\n        },\n        {\n            \"id\": 3,\n            \"name\": \"Motorflug\",\n            \"passengerCapacity\": 3\n        }\n    ]\n}"
+							"body": "{\n    \"Success\": true,\n    \"Response\": [\n        {\n            \"ID\": 1,\n            \"CreatedAt\": \"2024-01-20T23:43:38.305637+01:00\",\n            \"UpdatedAt\": \"2024-01-20T23:58:00.417658+01:00\",\n            \"DeletedAt\": null,\n            \"Name\": \"Segelflug\",\n            \"PassengerCapacity\": 1\n        },\n        {\n            \"ID\": 2,\n            \"CreatedAt\": \"2024-01-20T23:43:38.310771+01:00\",\n            \"UpdatedAt\": \"2024-01-20T23:58:00.42271+01:00\",\n            \"DeletedAt\": null,\n            \"Name\": \"Motorsegler\",\n            \"PassengerCapacity\": 1\n        },\n        {\n            \"ID\": 3,\n            \"CreatedAt\": \"2024-01-20T23:43:38.313031+01:00\",\n            \"UpdatedAt\": \"2024-01-20T23:58:00.426956+01:00\",\n            \"DeletedAt\": null,\n            \"Name\": \"Motorflug\",\n            \"PassengerCapacity\": 3\n        }\n    ]\n}"
 						}
 					]
 				}
