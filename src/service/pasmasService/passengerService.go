@@ -7,7 +7,7 @@ import (
 )
 func GetPassengers() ([]model.Passenger, error) {
     passengers := []model.Passenger{}
-    result := dh.Db.Find(&passengers)
+    result := dh.Db.Where("deleted_at != null").Find(&passengers)
 
     return passengers, result.Error
 }
@@ -39,7 +39,7 @@ func UpdatePassenger(id uint, pass model.Passenger) (model.Passenger, error) {
     return oldPass, nil
 }
 
-func DeletePassenger(id int64) error {
+func DeletePassenger(id uint) error {
     pass := model.Passenger{}
     result := dh.Db.First(&pass, id)
     if result.Error != nil {

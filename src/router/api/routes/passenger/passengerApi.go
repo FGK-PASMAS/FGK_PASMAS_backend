@@ -89,7 +89,7 @@ func deletePassenger(c *gin.Context) {
         return
     }
 
-    err = pasmasservice.DeletePassenger(id)
+    err = pasmasservice.DeletePassenger(uint(id))
     if err != nil {
         apiErr := api.GetErrorResponse(err)
         apiErr.ErrorResponse.Message = err.Error()
