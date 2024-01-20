@@ -27,7 +27,7 @@ func getPassengers(c *gin.Context) {
 }
 
 func createPassenger(c *gin.Context) {
-    var body model.PassengerStructInsert
+    var body model.Passenger
     parseErr := c.ShouldBind(&body)
 
     if parseErr != nil {
@@ -50,9 +50,9 @@ func createPassenger(c *gin.Context) {
 }
 
 func updatePassenger(c *gin.Context) {
-    var body model.PassengerStructUpdate
+    var body model.Passenger
     idStr := c.Param("id")
-    id, err := strconv.ParseInt(idStr, 10, 64)
+    id, err := strconv.ParseUint(idStr, 10, 64)
     if err != nil {
         apiErr := api.InvalidRequestBody
         apiErr.ErrorResponse.Message = "Failed to read the id as int64 from url paramenters"
@@ -68,7 +68,7 @@ func updatePassenger(c *gin.Context) {
         return
     }
 
-    newPass, err := pasmasservice.UpdatePassenger(id, body)
+    newPass, err := pasmasservice.UpdatePassenger(uint(id), body)
     if err != nil {
         apiErr := api.GetErrorResponse(err)
         apiErr.ErrorResponse.Message = err.Error()
@@ -89,7 +89,7 @@ func deletePassenger(c *gin.Context) {
         return
     }
 
-    err = pasmasservice.DeletePassenger(id)
+    err = pasmasservice.DeletePassenger(uint(id))
     if err != nil {
         apiErr := api.GetErrorResponse(err)
         apiErr.ErrorResponse.Message = err.Error()

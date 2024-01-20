@@ -8,7 +8,6 @@ import (
 // SetupDebugRoutes sets up the debug routes
 func SetupDebugRoutes(g *gin.RouterGroup) {
     g.GET("/ping", ping)
-    g.POST("/truncate", truncate)
     g.GET("/healthcheck", healthCheck)
 }
 

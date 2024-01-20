@@ -1,28 +1,25 @@
 package main
 
 import (
-	"os"
-
-	"github.com/MetaEMK/FGK_PASMAS_backend/database"
+	databasehandler "github.com/MetaEMK/FGK_PASMAS_backend/databaseHandler"
 	"github.com/MetaEMK/FGK_PASMAS_backend/router"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
 var mode = "DEBUG"
 
 func main() {
-    os.Setenv("MODE", mode)
-    os.Setenv("GIN_MODE", mode)
 
-    err := database.SetupDatabaseConnection()
+    dsn := databasehandler.GetConnectionString()
+    db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
+
+    })
     if err != nil {
-        panic(err)
+        panic("failed to connect database")
     }
 
-    database.InitDatabaseStructure()
-
-    database.SeedDatabase()
-
-    go database.AutoReconnectForDatabaseConnection()
+    databasehandler.InitGorm(db)
 
     server := router.InitRouter() 
     server.Run(":8080")

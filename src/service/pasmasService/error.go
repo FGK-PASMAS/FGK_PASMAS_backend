@@ -3,7 +3,7 @@ package pasmasservice
 import (
 	"errors"
 
-	dberr "github.com/MetaEMK/FGK_PASMAS_backend/database/dbErr"
+	"gorm.io/gorm"
 )
 
 //The following errors are returned by the database handler
@@ -11,17 +11,10 @@ var (
     //This error occurs when an unknown error occurs
     ErrUnknown = errors.New("UnknownError")
 
-    // Error occurs when connection to database is lost
-    ErrNoDbConnection = dberr.ErrNoConnection
-
-    //Error occurs when a database query fails to execute
-    ErrDbQuery = dberr.ErrQuery
-
-    //Error occurs when no rows are returned - only for transactions into other Errors needed
-    errDbNoRows = dberr.ErrNoRows
+    ErrDataBaseErr = errors.New("An error with the database occured")
 
     // This error occurs when no object is found
-    ErrObjectNotFound = errors.New("No object found")
+    ErrObjectNotFound = gorm.ErrRecordNotFound
 
     // This error occurs when the object already exists
     ErrObjectAlreadyExists = errors.New("Object already exists")

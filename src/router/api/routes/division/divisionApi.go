@@ -3,13 +3,13 @@ package division
 import (
 	"net/http"
 
-	divisionhandler "github.com/MetaEMK/FGK_PASMAS_backend/database/divisionHandler"
 	"github.com/MetaEMK/FGK_PASMAS_backend/router/api"
+	pasmasservice "github.com/MetaEMK/FGK_PASMAS_backend/service/pasmasService"
 	"github.com/gin-gonic/gin"
 )
 
 func getDivisions(c *gin.Context) {
-    divisions, err := divisionhandler.GetDivisions()
+    divisions, err := pasmasservice.GetDivisions()
 
     if err != nil {
         apiErr := api.GetErrorResponse(err)

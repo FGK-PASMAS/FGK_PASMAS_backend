@@ -1,21 +1,8 @@
 package debugservice
 
-import (
-	"github.com/MetaEMK/FGK_PASMAS_backend/database"
-	"github.com/MetaEMK/FGK_PASMAS_backend/model"
-)
+import dh "github.com/MetaEMK/FGK_PASMAS_backend/databaseHandler"
 
-func GetHealthCheck() model.HealthCheckResponse {
-    res :=  model.HealthCheckResponse{}
-
-    dbErr := database.CheckDatabaseConnection()
-    if(dbErr != nil) {
-        res.DatabaseConnection = dbErr.Error()
-    } else {
-        res.DatabaseConnection = "successfull"
-    }
-
-    
-    return res
+func TruncateData() {
+    dh.Db.Exec("TRUNCATE TABLE passengers RESTART IDENTITY")
+    dh.Db.Exec("TRUNCATE TABLE division RESTART IDENTITY")
 }
-

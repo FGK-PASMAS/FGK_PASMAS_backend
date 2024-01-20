@@ -1,83 +1,52 @@
 package pasmasservice
 
 import (
-	dberr "github.com/MetaEMK/FGK_PASMAS_backend/database/dbErr"
-	passengerhandler "github.com/MetaEMK/FGK_PASMAS_backend/database/passengerHandler"
+	dh "github.com/MetaEMK/FGK_PASMAS_backend/databaseHandler"
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
-	"github.com/MetaEMK/FGK_PASMAS_backend/router/realtime"
-	"github.com/MetaEMK/FGK_PASMAS_backend/router/realtime/routes/passenger"
+	"github.com/MetaEMK/FGK_PASMAS_backend/validator"
 )
+func GetPassengers() ([]model.Passenger, error) {
+    passengers := []model.Passenger{}
+    result := dh.Db.Where("deleted_at IS NULL").Find(&passengers)
 
-func GetPassengers() ([]model.PassengerStructSelect, error) {
-    return passengerhandler.GetPassengers()
+    return passengers, result.Error
 }
 
-func CreatePassenger(pass model.PassengerStructInsert) (model.PassengerStructSelect, error) {
-    // Check for dependencies
-
-    // Create passenger
-    id, err := passengerhandler.CreatePassenger(pass)
+func CreatePassenger(pass model.Passenger) (model.Passenger, error) {
+    err := validator.ValidatePassenger(pass)
     if err != nil {
-        return model.PassengerStructSelect{}, err
+        return model.Passenger{}, err
     }
 
-    //Get Passenger
-    newPass, err := passengerhandler.GetPassengerById(id)
-    if err != nil {
-        return model.PassengerStructSelect{}, ErrObjectCreatedFailed
-    }
-
-    passenger.PublishPassengerEvent(realtime.CREATED, newPass)
-    return newPass, nil
+    result := dh.Db.Create(&pass)
+    return pass, result.Error
 }
 
-func UpdatePassenger(id int64, pass model.PassengerStructUpdate) (model.PassengerStructSelect, error) {
-    // Check for dependencies
-    // Check for old passenger
-    _, err := passengerhandler.GetPassengerById(id)
+func UpdatePassenger(id uint, pass model.Passenger) (model.Passenger, error) {
+    err := validator.ValidatePassenger(pass)
     if err != nil {
-        if(err == dberr.ErrNoRows) {
-            return model.PassengerStructSelect{}, ErrObjectNotFound
-        } else {
-            return model.PassengerStructSelect{}, err
-        }
+        return model.Passenger{}, err
     }
 
-    // Update passenger
-    newId, err := passengerhandler.UpdatePassenger(id, pass)
-    if err != nil {
-        return model.PassengerStructSelect{}, err
+    oldPass := model.Passenger{}
+    result := dh.Db.First(&oldPass, id)
+    if result.Error != nil {
+        return model.Passenger{}, result.Error
     }
 
-    //Get GetPassenger
-    newPass, err := passengerhandler.GetPassengerById(newId)
-    if err != nil {
-        return model.PassengerStructSelect{}, ErrObjectCreatedFailed
-    }
+    result = dh.Db.Model(&oldPass).Updates(pass)
 
-    passenger.PublishPassengerEvent(realtime.UPDATED, newPass)
-    return newPass, nil
+    return oldPass, nil
 }
 
-func DeletePassenger(id int64) error {
-    // Check for dependencies
-    // Check for passenger to delete
-    _, err := passengerhandler.GetPassengerById(id)
-    if err != nil {
-        if(err == dberr.ErrNoRows) {
-            return ErrObjectNotFound
-        } else {
-            return err
-        }
+func DeletePassenger(id uint) error {
+    pass := model.Passenger{}
+    result := dh.Db.First(&pass, id)
+    if result.Error != nil {
+        return result.Error
     }
 
+    result = dh.Db.Delete(&pass)
 
-    // Delete passenger
-    err = passengerhandler.DeletePassenger(id)
-    if err != nil {
-        return err
-    }
-
-    passenger.PublishPassengerEvent(realtime.DELETED, id)
-    return nil
+    return result.Error
 }

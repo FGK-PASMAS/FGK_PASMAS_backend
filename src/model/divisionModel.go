@@ -1,7 +1,11 @@
 package model
 
-type DivisionStructSelect struct {
-    Id int                  `json:"id"`
-    Name string             `json:"name"`
-    PassengerCapacity int   `json:"passengerCapacity"`
+import (
+	"gorm.io/gorm"
+)
+
+type Division struct {
+    gorm.Model
+    Name                string
+    PassengerCapacity   uint
 }

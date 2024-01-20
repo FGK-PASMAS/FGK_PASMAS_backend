@@ -1,12 +1,12 @@
 package api
 
 type SuccessResponse struct {
-    Success bool            `json:"success"`
-    Response any            `json:"response"`
+    Success bool
+    Response any
 }
 
 type ErrorResponse struct {
-    Success bool            `json:"success"`
-    Type string             `json:"type"`
-    Message string          `json:"body"`
+    Success bool
+    Type string
+    Message string
 }
