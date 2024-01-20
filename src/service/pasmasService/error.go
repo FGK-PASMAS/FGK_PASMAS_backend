@@ -11,6 +11,8 @@ var (
     //This error occurs when an unknown error occurs
     ErrUnknown = errors.New("UnknownError")
 
+    ErrDataBaseErr = errors.New("An error with the database occured")
+
     // This error occurs when no object is found
     ErrObjectNotFound = gorm.ErrRecordNotFound
 

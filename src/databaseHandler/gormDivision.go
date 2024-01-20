@@ -19,7 +19,6 @@ func initDivision() {
             Db.Create(&div)
         } else {
             Db.Model(&d).Updates(div)
-            println("Division already exists")
         }
     }
 

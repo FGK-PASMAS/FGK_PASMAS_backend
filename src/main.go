@@ -11,7 +11,7 @@ var mode = "DEBUG"
 
 func main() {
 
-    dsn := "host=localhost user=pasmas password=password dbname=pasmas port=5432 sslmode=disable TimeZone=Asia/Shanghai"
+    dsn := databasehandler.GetConnectionString()
     db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
 
     })
