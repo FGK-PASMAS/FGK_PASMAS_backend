@@ -753,6 +753,111 @@
 				}
 			],
 			"id": "a49f0f74-c4f6-46e2-8b8b-a2c0220edd76"
+		},
+		{
+			"name": "flight - WIP",
+			"item": [
+				{
+					"name": "Get all flights",
+					"id": "4e491601-05d2-4603-bfab-b0b5d50fd958",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/flights",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"flights"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Flight",
+					"id": "96f06ef4-dba9-40ef-b761-7d8773e243ed",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Type\": \"BLOCKED\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/api/flights",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"flights"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Flight",
+					"id": "0544e330-9543-48f4-a33e-5da134dfbe71",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/flights/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"flights",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Passenger",
+					"id": "a0547f02-da1f-412a-9084-87b5dd1eed48",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/flights/1",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"flights",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "73408e2c-1066-4a51-8473-51c81958f1af"
 		}
 	],
 	"event": [
