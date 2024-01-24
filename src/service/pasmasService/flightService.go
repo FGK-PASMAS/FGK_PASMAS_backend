@@ -42,6 +42,18 @@ func ReserveFlight(flight *model.Flight) (*model.Flight, error) {
     return flight, result.Error
 }
 
+func DeleteFlights(id uint) error {
+    flight := model.Flight{}
+
+    result := dh.Db.Delete(&flight, id)
+
+    if result.RowsAffected != 1 {
+        return ErrObjectNotFound
+    }
+
+    return result.Error
+}
+
 func CheckIfSlotIsFree(flight *model.Flight) bool {
     //TODO: Plane
 

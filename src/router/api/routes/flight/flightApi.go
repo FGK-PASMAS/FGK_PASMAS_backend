@@ -85,12 +85,18 @@ func updateFlight(c *gin.Context) {
 
 func deleteFlight(c *gin.Context) {
     idStr := c.Param("id")
-    _, err := strconv.ParseUint(idStr, 10, 64)
+    id, err := strconv.ParseUint(idStr, 10, 64)
 
     if err != nil {
         res := api.GetErrorResponse(err)
         c.JSON(res.HttpCode, res.ErrorResponse)
     } else {
-        c.JSON(204, nil)
+        err := pasmasservice.DeleteFlights(uint(id))
+        if err != nil {
+            res := api.GetErrorResponse(err)
+            c.JSON(res.HttpCode, res.ErrorResponse)
+        } else {
+            c.JSON(204, nil)
+        }
     }
 }
