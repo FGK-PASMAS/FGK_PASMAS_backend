@@ -115,3 +115,14 @@ func HeadersMiddleware() gin.HandlerFunc {
 		c.Next()
 	}
 }
+
+func (s *Stream) PublishEvent(actionType ActionType, data interface{}) {
+    body := RealtimeBodyModel {
+        Action: actionType,
+        Data: data,
+    }
+
+    bodyString := body.ToJson()
+
+    s.SendEvent(bodyString)
+}

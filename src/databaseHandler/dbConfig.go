@@ -27,5 +27,5 @@ func GetConnectionString() string {
         database = "pasmas"
     }
 
-    return fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=5432 sslmode=disable TimeZone=Europe/Berlin", hostname, user, password, database)
+    return fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=5432 sslmode=disable", hostname, user, password, database)
 }

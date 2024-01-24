@@ -3,6 +3,7 @@ package pasmasservice
 import (
 	dh "github.com/MetaEMK/FGK_PASMAS_backend/databaseHandler"
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
+	"github.com/MetaEMK/FGK_PASMAS_backend/router/realtime"
 	"github.com/MetaEMK/FGK_PASMAS_backend/validator"
 )
 func GetPassengers() ([]model.Passenger, error) {
@@ -19,6 +20,7 @@ func CreatePassenger(pass model.Passenger) (model.Passenger, error) {
     }
 
     result := dh.Db.Create(&pass)
+    realtime.PassengerStream.PublishEvent(realtime.CREATED, pass)
     return pass, result.Error
 }
 
@@ -35,7 +37,7 @@ func UpdatePassenger(id uint, pass model.Passenger) (model.Passenger, error) {
     }
 
     result = dh.Db.Model(&oldPass).Updates(pass)
-
+    realtime.PassengerStream.PublishEvent(realtime.UPDATED, oldPass)
     return oldPass, nil
 }
 
@@ -47,6 +49,6 @@ func DeletePassenger(id uint) error {
     }
 
     result = dh.Db.Delete(&pass)
-
+    realtime.PassengerStream.PublishEvent(realtime.DELETED, pass)
     return result.Error
 }
