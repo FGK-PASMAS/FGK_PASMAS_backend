@@ -82,32 +82,48 @@
 			"id": "c656543c-1ec0-41fa-b93f-2f74da334f84"
 		},
 		{
-			"name": "passenger",
-			"item": [
-				{
-					"name": "Connect to Stream",
-					"id": "9a6f0493-86b3-4863-92f3-7720ddfea008",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{url}}/realtime/passenger",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"realtime",
-								"passenger"
-							]
-						}
-					},
-					"response": []
+			"name": "Connect to PassengerStream",
+			"id": "9a6f0493-86b3-4863-92f3-7720ddfea008",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/realtime/passengers",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"realtime",
+						"passengers"
+					]
 				}
-			],
-			"id": "4db3ccee-e567-4990-8928-5ca497177a38"
+			},
+			"response": []
+		},
+		{
+			"name": "Connect to FlightStream",
+			"id": "a2626411-5598-480e-aeff-3db10fa331e5",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/realtime/flights",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"realtime",
+						"flights"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

@@ -169,7 +169,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"Success\": true,\n    \"Response\": [\n        {\n            \"ID\": 1,\n            \"CreatedAt\": \"2024-01-20T23:44:09.861067+01:00\",\n            \"UpdatedAt\": \"2024-01-21T00:00:09.847031+01:00\",\n            \"DeletedAt\": null,\n            \"LastName\": \"Max\",\n            \"FirstName\": \"Mustermann\",\n            \"Weight\": 72\n        },\n        {\n            \"ID\": 2,\n            \"CreatedAt\": \"2024-01-21T00:01:10.968387+01:00\",\n            \"UpdatedAt\": \"2024-01-21T00:01:10.968387+01:00\",\n            \"DeletedAt\": null,\n            \"LastName\": \"Maria\",\n            \"FirstName\": \"Musterfrau\",\n            \"Weight\": 42\n        }\n    ]\n}"
+							"body": "{\n    \"Success\": true,\n    \"Response\": [\n        {\n            \"ID\": 2,\n            \"CreatedAt\": \"2024-01-25T10:11:17.638258+01:00\",\n            \"UpdatedAt\": \"2024-01-25T10:11:17.638258+01:00\",\n            \"DeletedAt\": null,\n            \"LastName\": \"Mustermann\",\n            \"FirstName\": \"Max\",\n            \"Weight\": 42,\n            \"FlightID\": 5\n        },\n        {\n            \"ID\": 1,\n            \"CreatedAt\": \"2024-01-25T10:11:17.638258+01:00\",\n            \"UpdatedAt\": \"2024-01-25T10:11:17.638258+01:00\",\n            \"DeletedAt\": null,\n            \"LastName\": \"Musterfrau\",\n            \"FirstName\": \"Maria\",\n            \"Weight\": 42,\n            \"FlightID\": 5\n        }\n    ]\n}"
 						}
 					]
 				},
@@ -202,7 +202,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"lastName\": \"Max\",\n    \"firstName\": \"Mustermann\",\n    \"weight\": 42\n}",
+							"raw": "{\n    \"LastName\": \"Max\",\n    \"FirstName\": \"Mustermann\",\n    \"Weight\": 42\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -230,7 +230,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"lastName\": \"Max\",\n    \"firstName\": \"Mustermann\",\n    \"weight\": 42\n}",
+									"raw": "{\n    \"LastName\": \"Max\",\n    \"FirstName\": \"Mustermann\",\n    \"Weight\": 42\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -345,7 +345,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"lastName\": \"Max\",\n    \"firstName\": \"Mustermann\",\n    \"weight\": 72\n}",
+							"raw": "{\n    \"FirstName\": \"Max\",\n    \"LastName\": \"Mustermann\",\n    \"Weight\": 72\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -482,14 +482,14 @@
 							"body": "{\n    \"Success\": false,\n    \"Type\": \"OBJECT_NOT_FOUND\",\n    \"Message\": \"record not found\"\n}"
 						},
 						{
-							"id": "4a5058c6-dea6-4bc4-9904-c05e997324f2",
+							"id": "5b2c68f3-27d8-4681-ad43-4220f98cd454",
 							"name": "200",
 							"originalRequest": {
 								"method": "PUT",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"lastName\": \"Max\",\n    \"firstName\": \"Mustermann\",\n    \"weight\": 72\n}",
+									"raw": "{\n    \"FirstName\": \"Max\",\n    \"LastName\": \"Mustermann\",\n    \"Weight\": 72\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -525,15 +525,15 @@
 								},
 								{
 									"key": "Date",
-									"value": "Sat, 20 Jan 2024 22:58:29 GMT"
+									"value": "Thu, 25 Jan 2024 09:37:54 GMT"
 								},
 								{
 									"key": "Content-Length",
-									"value": "201"
+									"value": "214"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"Success\": true,\n    \"Response\": {\n        \"ID\": 1,\n        \"CreatedAt\": \"2024-01-20T23:44:09.861067+01:00\",\n        \"UpdatedAt\": \"2024-01-20T23:58:29.407691+01:00\",\n        \"DeletedAt\": null,\n        \"LastName\": \"Max\",\n        \"FirstName\": \"Mustermann\",\n        \"Weight\": 72\n    }\n}"
+							"body": "{\n    \"Success\": true,\n    \"Response\": {\n        \"ID\": 1,\n        \"CreatedAt\": \"2024-01-25T10:29:16.133932+01:00\",\n        \"UpdatedAt\": \"2024-01-25T10:37:54.142351+01:00\",\n        \"DeletedAt\": null,\n        \"LastName\": \"Mustermann\",\n        \"FirstName\": \"Max\",\n        \"Weight\": 72,\n        \"FlightID\": 1\n    }\n}"
 						}
 					]
 				},
@@ -777,10 +777,48 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"id": "4f9c1ec3-241c-446d-b609-bcdb9f4e8c44",
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/flights",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"flights"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 25 Jan 2024 09:38:30 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "638"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"ID\": 1,\n        \"CreatedAt\": \"2024-01-25T10:28:42.835171+01:00\",\n        \"UpdatedAt\": \"2024-01-25T10:29:16.131948+01:00\",\n        \"DeletedAt\": null,\n        \"Type\": \"RESERVED\",\n        \"FuelAtDeparture\": 420,\n        \"DepartureTime\": \"2024-01-24T13:28:41+01:00\",\n        \"ArrivalTime\": \"2024-01-24T13:53:41+01:00\",\n        \"Passengers\": [\n            {\n                \"ID\": 1,\n                \"CreatedAt\": \"2024-01-25T10:29:16.133932+01:00\",\n                \"UpdatedAt\": \"2024-01-25T10:37:54.142351+01:00\",\n                \"DeletedAt\": null,\n                \"LastName\": \"Mustermann\",\n                \"FirstName\": \"Max\",\n                \"Weight\": 72,\n                \"FlightID\": 1\n            },\n            {\n                \"ID\": 2,\n                \"CreatedAt\": \"2024-01-25T10:29:16.133932+01:00\",\n                \"UpdatedAt\": \"2024-01-25T10:29:16.133932+01:00\",\n                \"DeletedAt\": null,\n                \"LastName\": \"Mustermann\",\n                \"FirstName\": \"Maria\",\n                \"Weight\": 42,\n                \"FlightID\": 1\n            }\n        ]\n    }\n]"
+						}
+					]
 				},
 				{
-					"name": "Create Flight",
+					"name": "Flight reservation",
 					"id": "96f06ef4-dba9-40ef-b761-7d8773e243ed",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -790,7 +828,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"Type\": \"BLOCKED\"\n}",
+							"raw": "{\n    \"Type\": \"RESERVED\",\n    \"DepartureTime\": \"2024-01-24T12:28:41Z\",\n    \"FuelAtDeparture\": 420\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -808,33 +846,294 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"id": "0d2284d0-a3b1-43ed-be78-b24c9f8a3fe0",
+							"name": "201",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Type\": \"RESERVED\",\n    \"DepartureTime\": \"2024-01-24T12:28:41Z\",\n    \"FuelAtDeparture\": 420\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/flights",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"flights"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 25 Jan 2024 09:28:42 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "281"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"Success\": true,\n    \"Response\": {\n        \"ID\": 1,\n        \"CreatedAt\": \"2024-01-25T10:28:42.835171+01:00\",\n        \"UpdatedAt\": \"2024-01-25T10:28:42.835171+01:00\",\n        \"DeletedAt\": null,\n        \"Type\": \"RESERVED\",\n        \"FuelAtDeparture\": 420,\n        \"DepartureTime\": \"2024-01-24T12:28:41Z\",\n        \"ArrivalTime\": \"2024-01-24T12:53:41Z\",\n        \"Passengers\": null\n    }\n}"
+						},
+						{
+							"id": "afeba0d4-62de-4daa-aa33-e2bee995c40f",
+							"name": "400 - Slot not free",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Type\": \"RESERVED\",\n    \"DepartureTime\": \"2024-01-24T12:28:41Z\",\n    \"FuelAtDeparture\": 420\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/flights",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"flights"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 25 Jan 2024 09:41:37 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "76"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"Success\": false,\n    \"Type\": \"INVALID_REQUEST_BODY\",\n    \"Message\": \"Slot is not free\"\n}"
+						},
+						{
+							"id": "c8645ca3-4670-4e63-9122-6f1f720dc0be",
+							"name": "400 - INVALID_REQUEST_BODY",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Type\": \"RESERVED\",\n    \"DepartureTime\": \"2024-01-24T12:28:41Z\",\n    \"FuelAtDeparture\": 420\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/flights",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"flights"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 25 Jan 2024 09:42:17 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "87"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"Success\": false,\n    \"Type\": \"INVALID_REQUEST_BODY\",\n    \"Message\": \"Departure time is not valid\"\n}"
+						}
+					]
 				},
 				{
-					"name": "Update Flight",
-					"id": "0544e330-9543-48f4-a33e-5da134dfbe71",
+					"name": "Flight booking",
+					"id": "08298f22-6b40-4dd3-9151-80761b400c86",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
 					"request": {
-						"method": "PUT",
+						"method": "PATCH",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"Type\": \"BOOKED\",\n    \"Passengers\": [\n        {\n            \"LastName\": \"Mustermann\",\n            \"FirstName\": \"Max\",\n            \"Weight\": 42\n        },\n        {\n            \"LastName\": \"Mustermann\",\n            \"FirstName\": \"Maria\",\n            \"Weight\": 42\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
 						"url": {
-							"raw": "{{url}}/api/flights/1",
+							"raw": "{{url}}/api/flights/:id",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"api",
 								"flights",
-								"1"
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"id": "e33623a2-2654-4f0f-b356-cc3e610ed083",
+							"name": "200",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Type\": \"BOOKED\",\n    \"Passengers\": [\n        {\n            \"LastName\": \"Mustermann\",\n            \"FirstName\": \"Max\",\n            \"Weight\": 42\n        },\n        {\n            \"LastName\": \"Mustermann\",\n            \"FirstName\": \"Maria\",\n            \"Weight\": 42\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/flights/:id",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"flights",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 25 Jan 2024 09:29:16 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "664"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"Success\": true,\n    \"Response\": {\n        \"ID\": 1,\n        \"CreatedAt\": \"2024-01-25T10:28:42.835171+01:00\",\n        \"UpdatedAt\": \"2024-01-25T10:29:16.131948+01:00\",\n        \"DeletedAt\": null,\n        \"Type\": \"RESERVED\",\n        \"FuelAtDeparture\": 420,\n        \"DepartureTime\": \"2024-01-24T13:28:41+01:00\",\n        \"ArrivalTime\": \"2024-01-24T13:53:41+01:00\",\n        \"Passengers\": [\n            {\n                \"ID\": 1,\n                \"CreatedAt\": \"2024-01-25T10:29:16.133932+01:00\",\n                \"UpdatedAt\": \"2024-01-25T10:29:16.133932+01:00\",\n                \"DeletedAt\": null,\n                \"LastName\": \"Mustermann\",\n                \"FirstName\": \"Max\",\n                \"Weight\": 42,\n                \"FlightID\": 1\n            },\n            {\n                \"ID\": 2,\n                \"CreatedAt\": \"2024-01-25T10:29:16.133932+01:00\",\n                \"UpdatedAt\": \"2024-01-25T10:29:16.133932+01:00\",\n                \"DeletedAt\": null,\n                \"LastName\": \"Mustermann\",\n                \"FirstName\": \"Maria\",\n                \"Weight\": 42,\n                \"FlightID\": 1\n            }\n        ]\n    }\n}"
+						},
+						{
+							"id": "1f6f37b9-961c-4d66-b948-7818b4f930ce",
+							"name": "404",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Type\": \"BOOKED\",\n    \"Passengers\": [\n        {\n            \"LastName\": \"Mustermann\",\n            \"FirstName\": \"Max\",\n            \"Weight\": 42\n        },\n        {\n            \"LastName\": \"Mustermann\",\n            \"FirstName\": \"Maria\",\n            \"Weight\": 42\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/flights/:id",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"flights",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 25 Jan 2024 09:45:46 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "72"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"Success\": false,\n    \"Type\": \"OBJECT_NOT_FOUND\",\n    \"Message\": \"record not found\"\n}"
+						}
+					]
 				},
 				{
-					"name": "Delete Passenger",
+					"name": "Delete Flight",
 					"id": "a0547f02-da1f-412a-9084-87b5dd1eed48",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -843,18 +1142,111 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/api/flights/1",
+							"raw": "{{url}}/api/flights/:id",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"api",
 								"flights",
-								"1"
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1",
+									"description": "id of flight"
+								}
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"id": "eb52a0f6-73e6-4b42-b50e-a324d047acb2",
+							"name": "204",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/flights/:id",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"flights",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "id of flight"
+										}
+									]
+								}
+							},
+							"status": "No Content",
+							"code": 204,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 25 Jan 2024 09:45:26 GMT"
+								}
+							],
+							"cookie": []
+						},
+						{
+							"id": "dc99fe46-6dc5-4dab-abc6-5fca4c629f91",
+							"name": "404",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/flights/:id",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"flights",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "id of flight"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 25 Jan 2024 09:45:34 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "72"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"Success\": false,\n    \"Type\": \"OBJECT_NOT_FOUND\",\n    \"Message\": \"record not found\"\n}"
+						}
+					]
 				}
 			],
 			"id": "73408e2c-1066-4a51-8473-51c81958f1af"
