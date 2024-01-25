@@ -36,6 +36,7 @@ func ReserveFlight(flight *model.Flight) (*model.Flight, error) {
         return &model.Flight{}, ErrSlotIsNotFree
     }
     //TODO: Check parameters for this flight
+    //fuel check
 
     result := dh.Db.Create(flight)
 

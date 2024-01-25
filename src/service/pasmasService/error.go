@@ -29,3 +29,9 @@ var(
     // This error occurs when the dependent division of the object are not found
     ErrObjectDependencyDivisionMissing = errors.New("Division does not exist")
 ) 
+
+
+var (
+    ErrTooLessFuel = errors.New("Not enough fuel for this flight")
+    ErrTooMuchFuel = errors.New("More fuel than the plane can hold")
+)

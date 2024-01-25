@@ -9,5 +9,6 @@ import (
 func SetupDebugRoutes(g *gin.RouterGroup) {
     g.GET("/ping", ping)
     g.GET("/healthcheck", healthCheck)
+    g.POST("/reset", resetDatabase)
 }
 

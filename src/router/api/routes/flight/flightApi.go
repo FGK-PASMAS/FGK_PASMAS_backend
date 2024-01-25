@@ -21,7 +21,10 @@ func getFlights(c *gin.Context) {
         res := api.GetErrorResponse(err)
         c.JSON(res.HttpCode, res.ErrorResponse)
     } else {
-        response = flights
+        response = api.SuccessResponse {
+            Success: true,
+            Response: flights,
+        }
         httpCode = 200
     }
 
