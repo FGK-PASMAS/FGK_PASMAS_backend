@@ -16,6 +16,7 @@ type Flight struct {
     ArrivalTime         time.Time
 
     //Pilot               interface{}     //TODO: Add Pilot reference
+    Passengers          []Passenger         `gorm:"foreignKey:FlightID"`
 }
 
 

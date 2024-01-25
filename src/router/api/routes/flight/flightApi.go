@@ -1,6 +1,7 @@
 package flight
 
 import (
+	"net/http"
 	"strconv"
 
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
@@ -63,12 +64,30 @@ func createFlight(c *gin.Context) {
     c.JSON(httpCode, response)
 }
 
-func updateFlight(c *gin.Context) {
+func bookFlight(c *gin.Context) {
     idStr := c.Param("id")
     id, err := strconv.ParseUint(idStr, 10, 64)
 
+    var arr []byte
+    n, _ := c.Request.Body.Read(arr)
+    println(string(arr))
+    println(n)
+
     flight := model.Flight{}
     c.ShouldBind(&flight)
+
+    var newFlight *model.Flight
+
+    switch flight.Type {
+        case model.FsReserved:
+            err = api.ErrNotImplemented
+        case model.FsBlocked:
+            err = api.ErrNotImplemented
+        case model.FsBooked:
+            newFlight, err = pasmasservice.BookFlight(uint(id), &flight.Passengers)
+        default: 
+            err = api.ErrInvalidFlightType
+    }
 
     if err != nil {
         res := api.GetErrorResponse(err)
@@ -77,9 +96,10 @@ func updateFlight(c *gin.Context) {
         flight.ID = uint(id)
         response := api.SuccessResponse {
             Success: true,
-            Response: flight,
+            Response: newFlight,
         }
-        c.JSON(200, response)
+
+        c.JSON(http.StatusOK, response)
     }
 }
 

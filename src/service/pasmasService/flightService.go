@@ -2,6 +2,7 @@ package pasmasservice
 
 import (
 	"errors"
+	"fmt"
 	"time"
 
 	dh "github.com/MetaEMK/FGK_PASMAS_backend/databaseHandler"
@@ -16,7 +17,7 @@ var (
 
 func GetFlights() (*[]model.Flight, error) {
     flights := []model.Flight{}
-    result := dh.Db.Find(&flights)
+    result := dh.Db.Preload("Passengers").Find(&flights)
 
     return &flights, result.Error
 }
@@ -40,6 +41,44 @@ func ReserveFlight(flight *model.Flight) (*model.Flight, error) {
 
     realtime.FlightStream.PublishEvent(realtime.CREATED, flight)
     return flight, result.Error
+}
+
+func BookFlight(id uint, passengers *[]model.Passenger) (*model.Flight, error) {
+    for _, pass := range *passengers {
+        err := validator.ValidatePassenger(pass)
+        if err != nil {
+            println(fmt.Sprintf("Passenger %v is invalid", pass))
+            return &model.Flight{}, err
+        }
+    }
+
+    flight := model.Flight{}
+    res := dh.Db.First(&flight, id)
+
+    if res.Error != nil {
+        return &model.Flight{}, res.Error
+    }
+
+    // db := dh.Db.Begin()
+    // for _, pass := range *passengers {
+    //     p, err := CreatePassenger(pass)
+    //     if err != nil {
+    //         db.Rollback()
+    //         return &model.Flight{}, err
+    //     } else {
+    //         flight.Passengers = append(flight.Passengers, p)
+    //     }
+    // }
+
+    flight.Passengers = *passengers
+
+    result := dh.Db.Model(&flight).Updates(&flight)
+    if result.Error != nil {
+        return &model.Flight{}, result.Error
+    } else {
+        realtime.FlightStream.PublishEvent(realtime.UPDATED, &flight)
+        return &flight, nil
+    }
 }
 
 func DeleteFlights(id uint) error {
@@ -72,3 +111,4 @@ func CheckIfSlotIsFree(flight *model.Flight) bool {
 
     return false
 }
+

@@ -37,8 +37,12 @@ func UpdatePassenger(id uint, pass model.Passenger) (model.Passenger, error) {
     }
 
     result = dh.Db.Model(&oldPass).Updates(pass)
-    realtime.PassengerStream.PublishEvent(realtime.UPDATED, oldPass)
-    return oldPass, nil
+    if result.Error != nil {
+        realtime.PassengerStream.PublishEvent(realtime.UPDATED, oldPass)
+        return oldPass, nil
+    }
+
+    return model.Passenger{}, result.Error
 }
 
 func DeletePassenger(id uint) error {
