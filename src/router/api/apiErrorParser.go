@@ -41,6 +41,10 @@ func GetErrorResponse(err error) ApiError {
             ErrInvalidFlightType:
                 obj = InvalidRequestBody
 
+        case pasmasservice.ErrSlotIsNotFree:
+            obj = InvalidRequestBody
+
+
         default:
             obj = unknownError
     }

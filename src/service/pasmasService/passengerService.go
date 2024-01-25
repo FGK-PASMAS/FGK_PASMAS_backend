@@ -8,7 +8,7 @@ import (
 )
 func GetPassengers() ([]model.Passenger, error) {
     passengers := []model.Passenger{}
-    result := dh.Db.Where("deleted_at IS NULL").Find(&passengers)
+    result := dh.Db.Find(&passengers)
 
     return passengers, result.Error
 }
@@ -38,11 +38,11 @@ func UpdatePassenger(id uint, pass model.Passenger) (model.Passenger, error) {
 
     result = dh.Db.Model(&oldPass).Updates(pass)
     if result.Error != nil {
-        realtime.PassengerStream.PublishEvent(realtime.UPDATED, oldPass)
-        return oldPass, nil
+        return model.Passenger{}, result.Error
     }
 
-    return model.Passenger{}, result.Error
+    realtime.PassengerStream.PublishEvent(realtime.UPDATED, oldPass)
+    return oldPass, nil
 }
 
 func DeletePassenger(id uint) error {
