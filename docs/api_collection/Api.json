@@ -86,6 +86,68 @@
 							"body": "{\n    \"success\": true,\n    \"response\": \"pong\"\n}"
 						}
 					]
+				},
+				{
+					"name": "New Request",
+					"id": "a91d92b9-0dc3-4ab7-bf13-68f237b68a68",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/debug/reset",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"debug",
+								"reset"
+							]
+						}
+					},
+					"response": [
+						{
+							"id": "8746bb95-aa83-4fde-96f7-1990c3535cb9",
+							"name": "200",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/debug/reset",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"debug",
+										"reset"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 25 Jan 2024 13:09:32 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "32"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"Success\": true,\n    \"Response\": null\n}"
+						}
+					]
 				}
 			],
 			"id": "25a47d97-1afc-48cf-82c8-09ef1e8f74e1",
@@ -894,52 +956,6 @@
 							"body": "{\n    \"Success\": true,\n    \"Response\": {\n        \"ID\": 1,\n        \"CreatedAt\": \"2024-01-25T10:28:42.835171+01:00\",\n        \"UpdatedAt\": \"2024-01-25T10:28:42.835171+01:00\",\n        \"DeletedAt\": null,\n        \"Type\": \"RESERVED\",\n        \"FuelAtDeparture\": 420,\n        \"DepartureTime\": \"2024-01-24T12:28:41Z\",\n        \"ArrivalTime\": \"2024-01-24T12:53:41Z\",\n        \"Passengers\": null\n    }\n}"
 						},
 						{
-							"id": "afeba0d4-62de-4daa-aa33-e2bee995c40f",
-							"name": "400 - Slot not free",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"Type\": \"RESERVED\",\n    \"DepartureTime\": \"2024-01-24T12:28:41Z\",\n    \"FuelAtDeparture\": 420\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/api/flights",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"api",
-										"flights"
-									]
-								}
-							},
-							"status": "Bad Request",
-							"code": 400,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Date",
-									"value": "Thu, 25 Jan 2024 09:41:37 GMT"
-								},
-								{
-									"key": "Content-Length",
-									"value": "76"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"Success\": false,\n    \"Type\": \"INVALID_REQUEST_BODY\",\n    \"Message\": \"Slot is not free\"\n}"
-						},
-						{
 							"id": "c8645ca3-4670-4e63-9122-6f1f720dc0be",
 							"name": "400 - INVALID_REQUEST_BODY",
 							"originalRequest": {
@@ -984,6 +1000,52 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"Success\": false,\n    \"Type\": \"INVALID_REQUEST_BODY\",\n    \"Message\": \"Departure time is not valid\"\n}"
+						},
+						{
+							"id": "bbab9e7d-1d83-4c46-8585-81b4514d78fa",
+							"name": "409 - FLIGHT_SLOT_NOT_FREE",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Type\": \"RESERVED\",\n    \"DepartureTime\": \"2024-01-24T12:28:41Z\",\n    \"FuelAtDeparture\": 420\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/flights",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"flights"
+									]
+								}
+							},
+							"status": "Conflict",
+							"code": 409,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 25 Jan 2024 13:11:27 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "76"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"Success\": false,\n    \"Type\": \"FLIGHT_SLOT_NOT_FREE\",\n    \"Message\": \"Slot is not free\"\n}"
 						}
 					]
 				},
