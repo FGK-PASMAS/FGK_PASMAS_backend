@@ -16,11 +16,17 @@ func getPlanes(c *gin.Context) {
     var planes *[]model.Plane
     var err error
 
-    includes, err := pasmasservice.ParsePlaneInclude(c)
-    if err == nil {
-        planes, err = pasmasservice.GetPlanes(includes, nil)
+    includes, incErr := pasmasservice.ParsePlaneInclude(c)
+    filters, filtErr := pasmasservice.ParsePlaneFilter(c)
+    if incErr == nil && filtErr == nil {
+        planes, err = pasmasservice.GetPlanes(includes, filters)
+    } else {
+        if incErr != nil {
+            err = incErr
+        } else {
+            err = filtErr
+        }
     }
-
 
     if err != nil {
         res := api.GetErrorResponse(err)

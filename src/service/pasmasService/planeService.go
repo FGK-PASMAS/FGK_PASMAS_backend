@@ -55,6 +55,24 @@ func ParsePlaneInclude(c *gin.Context) (*PlaneInclude, error) {
     return &include, nil
 }
 
+func ParsePlaneFilter(c *gin.Context) (*PlaneFilter, error) {
+    divIdStr := c.Query("divisionId")
+
+    filter := PlaneFilter{}
+
+    if divIdStr != "" {
+        var err error
+        id, err := strconv.ParseUint(divIdStr, 10, 32)
+        filter.DivisionId = uint(id)
+
+        if err != nil {
+            return nil, ErrIncludeNotSupported
+        }
+    }
+
+    return &filter, nil
+}
+
 func GetPlanes(planeInclude *PlaneInclude, planeFilter *PlaneFilter) (*[]model.Plane, error) {
     res := dh.Db
     planes := &[]model.Plane{}
