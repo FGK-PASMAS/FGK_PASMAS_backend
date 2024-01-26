@@ -16,29 +16,29 @@ func getFlights(c *gin.Context) {
     var err error
     var flights *[]model.Flight
 
-    idStr := c.Param("id")
-    if idStr != "" {
-        id, err := strconv.ParseUint(idStr, 10, 64)
-        if err != nil {
-            res := api.GetErrorResponse(err)
-            response = res.ErrorResponse
-            httpCode = res.HttpCode
-        } else {
-            flights, err = pasmasservice.GetFlightByDivisionId(uint(id))
-        }
+    includes, incErr := pasmasservice.ParseFlightInclude(c)
+    filters, filtErr := pasmasservice.ParseFlightFilter(c)
+
+    if incErr == nil && filtErr == nil {
+        flights, err = pasmasservice.GetFlights(includes, filters)
     } else {
-        flights, err = pasmasservice.GetFlights()
+        if incErr != nil {
+            err = incErr
+        } else {
+            err = filtErr
+        }
     }
 
     if err != nil {
         res := api.GetErrorResponse(err)
-        c.JSON(res.HttpCode, res.ErrorResponse)
+        response = res.ErrorResponse
+        httpCode = res.HttpCode
     } else {
         response = api.SuccessResponse {
             Success: true,
             Response: flights,
         }
-        httpCode = 200
+        httpCode = http.StatusOK
     }
 
     c.JSON(httpCode, response)
@@ -46,7 +46,7 @@ func getFlights(c *gin.Context) {
 
 func createFlight(c *gin.Context) {
     var response interface{}
-    var httpCode int = 500
+    var httpCode int
 
     flight := model.Flight{}
     c.ShouldBind(&flight)
@@ -74,7 +74,7 @@ func createFlight(c *gin.Context) {
             Success: true,
             Response: newFlight,
         }
-        httpCode = 201
+        httpCode = http.StatusCreated
     }
 
     c.JSON(httpCode, response)
@@ -83,11 +83,6 @@ func createFlight(c *gin.Context) {
 func bookFlight(c *gin.Context) {
     idStr := c.Param("id")
     id, err := strconv.ParseUint(idStr, 10, 64)
-
-    var arr []byte
-    n, _ := c.Request.Body.Read(arr)
-    println(string(arr))
-    println(n)
 
     flight := model.Flight{}
     c.ShouldBind(&flight)
@@ -100,7 +95,7 @@ func bookFlight(c *gin.Context) {
         case model.FsBlocked:
             err = api.ErrNotImplemented
         case model.FsBooked:
-            newFlight, err = pasmasservice.BookFlight(uint(id), &flight.Passengers)
+            newFlight, err = pasmasservice.BookFlight(uint(id), flight.Passengers)
         default: 
             err = api.ErrInvalidFlightType
     }

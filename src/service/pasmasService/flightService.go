@@ -2,31 +2,127 @@ package pasmasservice
 
 import (
 	"errors"
-	"fmt"
+	"strconv"
 	"time"
 
 	dh "github.com/MetaEMK/FGK_PASMAS_backend/databaseHandler"
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
 	"github.com/MetaEMK/FGK_PASMAS_backend/router/realtime"
 	"github.com/MetaEMK/FGK_PASMAS_backend/validator"
+	"github.com/gin-gonic/gin"
 )
+
+type FlightInclude struct {
+    IncludePassengers bool
+    IncludePlane bool
+    IncludePilot bool
+}
+
+type FlightFilter struct {
+    DivisionId uint
+    PlaneId uint
+}
 
 var (
     ErrSlotIsNotFree = errors.New("Slot is not free")
 )
 
-func GetFlights() (*[]model.Flight, error) {
-    flights := []model.Flight{}
-    result := dh.Db.Preload("Passengers").Find(&flights)
+func ParseFlightInclude(c *gin.Context) (*FlightInclude, error) {
+    incPassStr := c.Query("includePassengers")
+    incPlaneStr := c.Query("includePlane")
+    incPilotStr := c.Query("includePilot")
 
-    return &flights, result.Error
+    include := FlightInclude{}
+
+    if incPassStr != "" {
+        var err error
+        include.IncludePassengers, err = strconv.ParseBool(incPassStr)
+
+        if err != nil {
+            return nil, ErrIncludeNotSupported
+        }
+    }
+
+    if incPlaneStr != "" {
+        var err error
+        include.IncludePlane, err = strconv.ParseBool(incPlaneStr)
+
+        if err != nil {
+            return nil, ErrIncludeNotSupported
+        }
+    }
+
+    if incPilotStr != "" {
+        var err error
+        include.IncludePilot, err = strconv.ParseBool(incPilotStr)
+
+        if err != nil {
+            return nil, ErrIncludeNotSupported
+        }
+    }
+
+    return &include, nil
 }
 
-func GetFlightByDivisionId(id uint) (*[]model.Flight, error) {
-    flights := []model.Flight{}
-    result := dh.Db.Where("division_id = ?", id).Preload("Passengers").Preload("Planes").Find(&flights)
+func ParseFlightFilter(c *gin.Context) (*FlightFilter, error) {
+    divIdStr := c.Query("divisionId")
+    planeIdStr := c.Query("planeId")
 
-    return &flights, result.Error
+    filter := FlightFilter{}
+
+    if divIdStr != "" {
+        var err error
+        id, err := strconv.ParseUint(divIdStr, 10, 64)
+        filter.DivisionId = uint(id)
+
+        if err != nil {
+            return nil, ErrIncludeNotSupported
+        }
+    }
+
+    if planeIdStr != "" {
+        var err error
+        d, err := strconv.ParseUint(planeIdStr, 10, 64)
+        filter.PlaneId = uint(d)
+
+        if err != nil {
+            return nil, ErrIncludeNotSupported
+        }
+    }
+
+    return &filter, nil
+}
+
+func GetFlights(include *FlightInclude, filter *FlightFilter) (*[]model.Flight, error) {
+    res := dh.Db
+    flights := &[]model.Flight{}
+
+    if include != nil {
+        if include.IncludePassengers {
+            res = res.Preload("Passengers")
+        }
+
+        if include.IncludePlane {
+            res = res.Joins("Plane")
+        }
+
+        if include.IncludePilot {
+            res = res.Joins("Pilot")
+        }
+    }
+
+    if filter != nil {
+        if filter.DivisionId != 0 {
+            res = res.Joins("Plane").Where("division_id = ?", filter.DivisionId)
+        }
+
+        if filter.PlaneId != 0 {
+            res = res.Where("plane_id = ?", filter.PlaneId)
+        }
+    }
+
+    res.Find(flights)
+    return flights, res.Error
 }
 
 func ReserveFlight(flight *model.Flight) (*model.Flight, error) {
@@ -55,7 +151,6 @@ func BookFlight(id uint, passengers *[]model.Passenger) (*model.Flight, error) {
     for _, pass := range *passengers {
         err := validator.ValidatePassenger(pass)
         if err != nil {
-            println(fmt.Sprintf("Passenger %v is invalid", pass))
             return &model.Flight{}, err
         }
     }
@@ -67,18 +162,7 @@ func BookFlight(id uint, passengers *[]model.Passenger) (*model.Flight, error) {
         return &model.Flight{}, res.Error
     }
 
-    // db := dh.Db.Begin()
-    // for _, pass := range *passengers {
-    //     p, err := CreatePassenger(pass)
-    //     if err != nil {
-    //         db.Rollback()
-    //         return &model.Flight{}, err
-    //     } else {
-    //         flight.Passengers = append(flight.Passengers, p)
-    //     }
-    // }
-
-    flight.Passengers = *passengers
+    flight.Passengers = passengers
 
     result := dh.Db.Model(&flight).Updates(&flight)
     if result.Error != nil {

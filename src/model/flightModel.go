@@ -16,7 +16,7 @@ type Flight struct {
     PlaneId             uint                
     Plane               *Plane               `gorm:"foreignKey:PlaneId"`
     //Pilot               interface{}     //TODO: Add Pilot reference
-    Passengers          []Passenger         `gorm:"foreignKey:FlightID"`
+    Passengers          *[]Passenger         `gorm:"foreignKey:FlightID"`
 }
 
 
