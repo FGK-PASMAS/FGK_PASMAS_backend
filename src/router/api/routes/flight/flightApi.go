@@ -13,9 +13,22 @@ import (
 func getFlights(c *gin.Context) {
     var response interface{}
     var httpCode int = 500
+    var err error
+    var flights *[]model.Flight
 
-    flights, err := pasmasservice.GetFlights()
-
+    idStr := c.Param("id")
+    if idStr != "" {
+        id, err := strconv.ParseUint(idStr, 10, 64)
+        if err != nil {
+            res := api.GetErrorResponse(err)
+            response = res.ErrorResponse
+            httpCode = res.HttpCode
+        } else {
+            flights, err = pasmasservice.GetFlightByDivisionId(uint(id))
+        }
+    } else {
+        flights, err = pasmasservice.GetFlights()
+    }
 
     if err != nil {
         res := api.GetErrorResponse(err)

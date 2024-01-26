@@ -19,6 +19,7 @@ var (
     flightSlotNotFree = ApiError { HttpCode: http.StatusConflict, ErrorResponse: ErrorResponse { Success: false, Type: "FLIGHT_SLOT_NOT_FREE"} }
     objectNotFound = ApiError { HttpCode: http.StatusNotFound, ErrorResponse: ErrorResponse { Success: false, Type: "OBJECT_NOT_FOUND"} }
     notImplemented = ApiError { HttpCode: http.StatusNotImplemented, ErrorResponse: ErrorResponse { Success: false, Type: "NOT_IMPLEMENTED"} }
+    notValidParameters = ApiError { HttpCode: http.StatusBadRequest, ErrorResponse: ErrorResponse { Success: false, Type: "NOT_VALID_PARAMETERS"} }
 )
 
 var (
@@ -45,6 +46,8 @@ func GetErrorResponse(err error) ApiError {
         case pasmasservice.ErrSlotIsNotFree:
             obj = flightSlotNotFree
 
+        case pasmasservice.ErrIncludeNotSupported:
+            obj = notValidParameters
 
         default:
             obj = unknownError

@@ -28,6 +28,7 @@ var (
 var(
     // This error occurs when the dependent division of the object are not found
     ErrObjectDependencyDivisionMissing = errors.New("Division does not exist")
+    ErrIncludeNotSupported = errors.New("Include not supported")
 ) 
 
 

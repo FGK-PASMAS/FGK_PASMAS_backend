@@ -8,7 +8,7 @@ import (
 )
 func GetPassengers() ([]model.Passenger, error) {
     passengers := []model.Passenger{}
-    result := dh.Db.Find(&passengers)
+    result := dh.Db.Joins("Flight").Find(&passengers)
 
     return passengers, result.Error
 }

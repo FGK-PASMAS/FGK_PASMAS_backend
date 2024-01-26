@@ -22,6 +22,13 @@ func GetFlights() (*[]model.Flight, error) {
     return &flights, result.Error
 }
 
+func GetFlightByDivisionId(id uint) (*[]model.Flight, error) {
+    flights := []model.Flight{}
+    result := dh.Db.Where("division_id = ?", id).Preload("Passengers").Preload("Planes").Find(&flights)
+
+    return &flights, result.Error
+}
+
 func ReserveFlight(flight *model.Flight) (*model.Flight, error) {
     err := validator.ValidateFlightReservation(flight)
     if err != nil {

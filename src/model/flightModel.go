@@ -9,12 +9,12 @@ import (
 type Flight struct {
     gorm.Model
     Type                FlightType
-    //Plane               interface{}     //TODO: Add Plane reference
-
     FuelAtDeparture     float32
     DepartureTime       time.Time
     ArrivalTime         time.Time
 
+    PlaneId             uint                
+    Plane               *Plane               `gorm:"foreignKey:PlaneId"`
     //Pilot               interface{}     //TODO: Add Pilot reference
     Passengers          []Passenger         `gorm:"foreignKey:FlightID"`
 }
