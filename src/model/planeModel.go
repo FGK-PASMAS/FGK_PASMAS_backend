@@ -32,7 +32,8 @@ type Plane struct {
 	// Aircrafts division f.E. "Motorflug"
 	DivisionId uint     `json:"-" gorm:"index"`
 	Division   *Division `gorm:"foreignKey:DivisionId;OnUpdate:CASCADE;OnDelete:RESTRICT"`
-	//Pilots
+
+    Pilots *[]Pilot `gorm:"many2many:AllowedPlanes;"`
 
     Flights *[]Flight `gorm:"foreignKey:PlaneId"`
 }

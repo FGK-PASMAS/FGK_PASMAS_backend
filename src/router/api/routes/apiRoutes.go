@@ -5,6 +5,7 @@ import (
 	"github.com/MetaEMK/FGK_PASMAS_backend/router/api/routes/division"
 	"github.com/MetaEMK/FGK_PASMAS_backend/router/api/routes/flight"
 	"github.com/MetaEMK/FGK_PASMAS_backend/router/api/routes/passenger"
+	"github.com/MetaEMK/FGK_PASMAS_backend/router/api/routes/pilots"
 	"github.com/MetaEMK/FGK_PASMAS_backend/router/api/routes/plane"
 	"github.com/gin-gonic/gin"
 )
@@ -22,7 +23,9 @@ func InitApiRoutes(r *gin.RouterGroup) {
     planeRoutes := r.Group("planes")
     plane.SetupPlaneRoutes(planeRoutes)
 
+    pilotRoutes := r.Group("pilots")
+    pilots.SetupPilotRoutes(pilotRoutes)
+
     api_debug := r.Group("debug")
     debug.SetupDebugRoutes(api_debug)
-
 }
