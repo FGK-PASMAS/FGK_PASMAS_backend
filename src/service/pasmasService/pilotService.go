@@ -1,7 +1,6 @@
 package pasmasservice
 
 import (
-	"fmt"
 	"strconv"
 
 	dh "github.com/MetaEMK/FGK_PASMAS_backend/databaseHandler"
@@ -55,12 +54,10 @@ func ParsePilotFilter(c *gin.Context) (*PilotFilter, error) {
 func GetPilots(include *PilotInclude, filter *PilotFilter) (*[]model.Pilot, error) {
     db := dh.Db
     var pilots *[]model.Pilot
-    println(fmt.Sprintf("Include: %v, Filter: %v", include, filter))
 
     if include != nil {
         if include.Plane {
-            println("Include plane")
-            db = db.Model(&model.Pilot{}).Preload("AllowedPlanes")
+            db = db.Model(&model.Pilot{}).Preload("AllowedPilots")
         }
     }
 

@@ -5,7 +5,7 @@ import "github.com/MetaEMK/FGK_PASMAS_backend/model"
 func initDivision() {
     Db.AutoMigrate(&model.Division{})
 
-    SeedDivision()
+    defer SeedDivision()
 }
 
 func SeedDivision() error {

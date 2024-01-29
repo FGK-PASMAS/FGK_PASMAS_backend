@@ -4,8 +4,9 @@ import "gorm.io/gorm"
 
 type Pilot struct {
     gorm.Model
-    FirstName string 
-    LastName string
-    Weight int
-    AllowedPlanes *[]Plane `gorm:"many2many:AllowedPlanes;"`
+    FirstName string `gorm:"uniqueIndex:idx_name"`
+    LastName  string `gorm:"uniqueIndex:idx_name"`
+    Weight    int
+    AllowedPilots *[]Plane `gorm:"many2many:AllowedPilots" json:"AllowedPlanes"`
 }
+

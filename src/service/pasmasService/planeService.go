@@ -10,7 +10,7 @@ import (
 
 type PlaneInclude struct {
     IncludeFlights bool
-    IncludePilots bool
+    IncludeAllowedPilots bool
     IncludePrefPilot bool
 }
 
@@ -36,7 +36,7 @@ func ParsePlaneInclude(c *gin.Context) (*PlaneInclude, error) {
 
     if incPilotStr != "" {
         var err error
-        include.IncludePilots, err = strconv.ParseBool(incPilotStr)
+        include.IncludeAllowedPilots, err = strconv.ParseBool(incPilotStr)
 
         if err != nil {
             return nil, ErrIncludeNotSupported
@@ -79,15 +79,15 @@ func GetPlanes(planeInclude *PlaneInclude, planeFilter *PlaneFilter) (*[]model.P
 
     if planeInclude != nil {
         if planeInclude.IncludeFlights {
-            res = dh.Db.Preload("Flights")
+            res = res.Preload("Flights")
         }
 
-        if planeInclude.IncludePilots {
-            res = dh.Db.Preload("Pilots")
+        if planeInclude.IncludeAllowedPilots {
+            res = res.Model(&model.Plane{}).Preload("AllowedPilots")
         }
 
         if planeInclude.IncludePrefPilot {
-            res = dh.Db.Preload("PrefPilot")
+            res = res.Preload("PrefPilot")
         }
     }
 

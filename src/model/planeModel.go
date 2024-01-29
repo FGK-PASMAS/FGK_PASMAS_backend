@@ -6,7 +6,7 @@ type Plane struct {
 	gorm.Model
 
 	// Aricraft Registration f.E. D-ELHN
-	Registration string `gorm:"unique;not null"`
+    Registration string `gorm:"unique;not null"`
 
 	// Aircraft Type f.E. C172
 	AircraftType string `gorm:"not null"`
@@ -33,7 +33,8 @@ type Plane struct {
 	DivisionId uint     `json:"-" gorm:"index"`
 	Division   *Division `gorm:"foreignKey:DivisionId;OnUpdate:CASCADE;OnDelete:RESTRICT"`
 
-    Pilots *[]Pilot `gorm:"many2many:AllowedPlanes;"`
+    AllowedPilots *[]Pilot `gorm:"many2many:AllowedPilots;"`
+    //PrefPilot *Pilot `gorm:"foreignKey:PrefPilot;OnUpdate:CASCADE;OnDelete:RESTRICT"`
 
     Flights *[]Flight `gorm:"foreignKey:PlaneId"`
 }
