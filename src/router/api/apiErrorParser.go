@@ -18,6 +18,7 @@ var (
     InvalidRequestBody = ApiError { HttpCode: http.StatusBadRequest, ErrorResponse: ErrorResponse { Success: false, Type: "INVALID_REQUEST_BODY"} }
     flightSlotNotFree = ApiError { HttpCode: http.StatusConflict, ErrorResponse: ErrorResponse { Success: false, Type: "FLIGHT_SLOT_NOT_FREE"} }
     objectNotFound = ApiError { HttpCode: http.StatusNotFound, ErrorResponse: ErrorResponse { Success: false, Type: "OBJECT_NOT_FOUND"} }
+    dependencyNotFound = ApiError { HttpCode: http.StatusBadRequest, ErrorResponse: ErrorResponse { Success: false, Type: "DEPENDENCY_NOT_FOUND"} }
     notImplemented = ApiError { HttpCode: http.StatusNotImplemented, ErrorResponse: ErrorResponse { Success: false, Type: "NOT_IMPLEMENTED"} }
     notValidParameters = ApiError { HttpCode: http.StatusBadRequest, ErrorResponse: ErrorResponse { Success: false, Type: "NOT_VALID_PARAMETERS"} }
 )
@@ -38,10 +39,12 @@ func GetErrorResponse(err error) ApiError {
         case // InvalidRequestBody
             validator.ErrPassengerWeight,
             validator.ErrPassengerLastName,
-
             validator.ErrInvalidDepartureTime,
             ErrInvalidFlightType:
                 obj = InvalidRequestBody
+
+        case pasmasservice.ErrObjectDependencyMissing:
+            obj = dependencyNotFound
 
         case pasmasservice.ErrSlotIsNotFree:
             obj = flightSlotNotFree

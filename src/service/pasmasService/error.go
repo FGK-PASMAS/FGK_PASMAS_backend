@@ -27,7 +27,7 @@ var (
 //The following errors occur when a dependency is missing
 var(
     // This error occurs when the dependent division of the object are not found
-    ErrObjectDependencyDivisionMissing = errors.New("Division does not exist")
+    ErrObjectDependencyMissing = errors.New("A dependent ressource does not exist")
     ErrIncludeNotSupported = errors.New("Include not supported")
 ) 
 

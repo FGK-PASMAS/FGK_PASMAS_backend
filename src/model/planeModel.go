@@ -34,7 +34,8 @@ type Plane struct {
 	Division   *Division `gorm:"foreignKey:DivisionId;OnUpdate:CASCADE;OnDelete:RESTRICT"`
 
     AllowedPilots *[]Pilot `gorm:"many2many:AllowedPilots;"`
-    //PrefPilot *Pilot `gorm:"foreignKey:PrefPilot;OnUpdate:CASCADE;OnDelete:RESTRICT"`
+    PrefPilotId uint `json:"-"`
+    PrefPilot *Pilot `gorm:"foreignKey:PrefPilotId"`
 
     Flights *[]Flight `gorm:"foreignKey:PlaneId"`
 }

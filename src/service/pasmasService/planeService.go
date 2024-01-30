@@ -56,7 +56,7 @@ func ParsePlaneInclude(c *gin.Context) (*PlaneInclude, error) {
 }
 
 func ParsePlaneFilter(c *gin.Context) (*PlaneFilter, error) {
-    divIdStr := c.Query("divisionId")
+    divIdStr := c.Query("byDivisionId")
 
     filter := PlaneFilter{}
 
@@ -99,4 +99,25 @@ func GetPlanes(planeInclude *PlaneInclude, planeFilter *PlaneFilter) (*[]model.P
 
     res = res.Find(planes)
     return planes, res.Error
+}
+
+func UpdatePrefPilot(planeId uint, pilotId uint) (*model.Plane, error) {
+    plane := &model.Plane{}
+    pilot := &model.Pilot{}
+
+    err := dh.Db.First(plane, planeId).Error
+    if err != nil {
+        return &model.Plane{}, ErrObjectNotFound
+    }
+
+    err = dh.Db.First(pilot, pilotId).Error
+    if err != nil {
+        return &model.Plane{}, ErrObjectDependencyMissing
+    }
+
+    //plane.PrefPilotId = pilotId
+    plane.PrefPilot = pilot
+
+    err = dh.Db.Model(plane).Updates(plane).Preload("PrefPilot").Error
+    return plane, err
 }
