@@ -45,7 +45,7 @@ func (stream *Stream) ServeStream() gin.HandlerFunc {
 }
 
 // SendEvent sends an event to all clients in this stream.
-func (stream *Stream) SendEvent(eventMessage string) {
+func (stream *Stream) sendEvent(eventMessage string) {
     stream.Message <- eventMessage
 }
 
@@ -124,5 +124,5 @@ func (s *Stream) PublishEvent(actionType ActionType, data interface{}) {
 
     bodyString := body.ToJson()
 
-    s.SendEvent(bodyString)
+    s.sendEvent(bodyString)
 }
