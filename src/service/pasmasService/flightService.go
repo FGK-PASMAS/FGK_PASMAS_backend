@@ -210,6 +210,7 @@ func BookFlight(id uint, passengers *[]model.Passenger) (*model.Flight, error) {
 }
 
 func DeleteFlights(id uint) error {
+    var err error
     flight := model.Flight{}
 
     result := dh.Db.Delete(&flight, id)
@@ -217,6 +218,10 @@ func DeleteFlights(id uint) error {
     if result.RowsAffected != 1 {
         return ErrObjectNotFound
     }
+
+    err = errors.Join(err, result.Error)
+
+    result = dh.Db.Delete(&model.Passenger{}, "flight_id = ?", id)
 
     return result.Error
 }
