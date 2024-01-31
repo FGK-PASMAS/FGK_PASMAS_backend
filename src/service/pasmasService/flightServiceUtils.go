@@ -13,6 +13,8 @@ var (
     ErrNoPilotAvailable = errors.New("No valid pilot available")
     ErrNoStartFuelFound = errors.New("No start fuel found")
     ErrMaxSeatPayload = errors.New("maxSeatPayload was exceeded")
+    ErrTooManyPassenger = errors.New("too many passengers for this plane")
+    ErrTooLessPassenger = errors.New("A flight needs to have at least one passenger")
     ErrOverloaded = errors.New("MTOW is exceeded")
 )
 
@@ -88,12 +90,21 @@ func checkFlightValidation(flight model.Flight) error {
     plane := model.Plane{}
     pilot := model.Pilot{}
 
-    planeErr := dh.Db.First(&plane, flight.PlaneId).Error
+    planeErr := dh.Db.Preload("Division").First(&plane, flight.PlaneId).Error
     pilotErr := dh.Db.First(&pilot, flight.PilotId).Error
 
     err = errors.Join(err, planeErr, pilotErr)
     if err != nil {
-        return err
+        return ErrObjectDependencyMissing
+    }
+
+    // Validate number of passengers
+    if len(*flight.Passengers) > int(plane.Division.PassengerCapacity) {
+        return ErrTooManyPassenger
+    }
+
+    if len(*flight.Passengers) == 0 {
+        return ErrTooLessPassenger
     }
 
     // Validate if flight is overweight
