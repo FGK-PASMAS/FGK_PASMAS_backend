@@ -8,7 +8,8 @@ import (
 
 type Flight struct {
     gorm.Model
-    Status                FlightType
+    Status               FlightType
+    Description         *string
     FuelAtDeparture     float32
     DepartureTime       time.Time
     ArrivalTime         time.Time

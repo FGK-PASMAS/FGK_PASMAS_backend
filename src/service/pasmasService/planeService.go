@@ -93,7 +93,7 @@ func GetPlanes(planeInclude *PlaneInclude, planeFilter *PlaneFilter) (*[]model.P
 
     if planeFilter != nil {
         if planeFilter.DivisionId != 0 {
-            res = dh.Db.Where("division_id = ?", planeFilter.DivisionId)
+            res = res.Where("division_id = ?", planeFilter.DivisionId)
         }
     }
 
