@@ -53,6 +53,8 @@ func calculatePilot(passWeight uint, fuelAmount float32, plane model.Plane) (mod
         pilot = *plane.PrefPilot
     }
 
+    println(pilot.ID)
+
     baseETOW += passWeight
     baseETOW += plane.EmptyWeight
     baseETOW += uint(fuelAmount * plane.FuelConversionFactor)
@@ -71,7 +73,10 @@ func calculatePilot(passWeight uint, fuelAmount float32, plane model.Plane) (mod
             }
         }
 
-        // This case happens when no pilot is found who can fly this flight
+        if newPilot.ID == 0 {
+            return model.Pilot{}, ErrOverloaded
+        }
+
         pilot = newPilot
     }
 

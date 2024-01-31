@@ -159,7 +159,9 @@ func ReserveFlight(flight *model.Flight) (*model.Flight, error) {
         if err != nil {
             return &model.Flight{}, err
         }
+
         flight.PilotId = pilot.ID
+        println(flight.PilotId)
     }
 
     if !checkIfSlotIsFree(flight) {
