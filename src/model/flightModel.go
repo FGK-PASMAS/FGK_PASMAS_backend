@@ -14,9 +14,10 @@ type Flight struct {
     ArrivalTime         time.Time
 
     PlaneId             uint                
-    Plane               *Plane               `gorm:"foreignKey:PlaneId"`
-    //Pilot               interface{}     //TODO: Add Pilot reference
-    Passengers          *[]Passenger         `gorm:"foreignKey:FlightID"`
+    Plane               *Plane                  `gorm:"foreignKey:PlaneId"`
+    PilotId             uint
+    Pilot               *Pilot                  `gorm:"foreignKey:PilotId"`
+    Passengers          *[]Passenger            `gorm:"foreignKey:FlightID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
 }
 
 

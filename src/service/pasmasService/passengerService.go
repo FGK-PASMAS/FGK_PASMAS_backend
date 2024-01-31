@@ -8,13 +8,13 @@ import (
 )
 func GetPassengers() ([]model.Passenger, error) {
     passengers := []model.Passenger{}
-    result := dh.Db.Joins("Flight").Find(&passengers)
+    result := dh.Db.Preload("Flight").Find(&passengers)
 
     return passengers, result.Error
 }
 
 func CreatePassenger(pass model.Passenger) (model.Passenger, error) {
-    err := validator.ValidatePassenger(pass)
+    err := validator.ValidatePassengerForReserve(pass)
     if err != nil {
         return model.Passenger{}, err
     }
@@ -25,7 +25,7 @@ func CreatePassenger(pass model.Passenger) (model.Passenger, error) {
 }
 
 func UpdatePassenger(id uint, pass model.Passenger) (model.Passenger, error) {
-    err := validator.ValidatePassenger(pass)
+    err := validator.ValidatePassengerForReserve(pass)
     if err != nil {
         return model.Passenger{}, err
     }

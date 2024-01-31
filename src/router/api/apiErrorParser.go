@@ -43,8 +43,11 @@ func GetErrorResponse(err error) ApiError {
             ErrInvalidFlightType:
                 obj = InvalidRequestBody
 
-        case pasmasservice.ErrObjectDependencyMissing:
-            obj = dependencyNotFound
+        case 
+            validator.ErrInvalidPilot,
+            validator.ErrInvalidPlane,
+            pasmasservice.ErrObjectDependencyMissing:
+                obj = dependencyNotFound
 
         case pasmasservice.ErrSlotIsNotFree:
             obj = flightSlotNotFree

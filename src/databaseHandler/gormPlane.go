@@ -27,6 +27,7 @@ func SeedPlane() {
     Db.FirstOrCreate(&model.Plane{}, model.Plane{
         Registration: "D-ELXX",
         AircraftType: "C172",
+        FuelStartAmount: 100,
         FuelMaxCapacity: 140,
         FuelburnPerFlight: 20,
         FuelConversionFactor: 0.72,
@@ -39,6 +40,7 @@ func SeedPlane() {
     Db.FirstOrCreate(&model.Plane{}, model.Plane{
         Registration: "D-ESXX",
         AircraftType: "C172",
+        FuelStartAmount: 80,
         FuelMaxCapacity: 120,
         FuelburnPerFlight: 15,
         FuelConversionFactor: 0.72,
@@ -51,6 +53,7 @@ func SeedPlane() {
     Db.FirstOrCreate(&model.Plane{}, model.Plane{
         Registration: "D-ESYY",
         AircraftType: "C172",
+        FuelStartAmount: 160,
         FuelMaxCapacity: 180,
         FuelburnPerFlight: 20,
         FuelConversionFactor: 0.72,
@@ -63,6 +66,7 @@ func SeedPlane() {
     Db.FirstOrCreate(&model.Plane{}, model.Plane{
         Registration: "D-EFXX",
         AircraftType: "PA28",
+        FuelStartAmount: 100,
         FuelMaxCapacity: 140,
         FuelburnPerFlight: 20,
         FuelConversionFactor: 0.72,
@@ -75,6 +79,7 @@ func SeedPlane() {
     Db.FirstOrCreate(&model.Plane{}, model.Plane{
         Registration: "D-KOXX",
         AircraftType: "HK36",
+        FuelStartAmount: 80,
         FuelMaxCapacity: 80,
         FuelburnPerFlight: 10,
         FuelConversionFactor: 0.72,
@@ -87,6 +92,7 @@ func SeedPlane() {
     Db.FirstOrCreate(&model.Plane{}, model.Plane{
         Registration: "D-KIXX",
         AircraftType: "SF25C",
+        FuelStartAmount: 40,
         FuelMaxCapacity: 40,
         FuelburnPerFlight: 5,
         FuelConversionFactor: 0.72,
@@ -99,6 +105,7 @@ func SeedPlane() {
     Db.FirstOrCreate(&model.Plane{}, model.Plane{
         Registration: "D-0761",
         AircraftType: "ASK21",
+        FuelStartAmount: 0,
         FuelMaxCapacity: -1,
         FuelburnPerFlight: -1,
         FuelConversionFactor: -1,
@@ -111,6 +118,7 @@ func SeedPlane() {
     Db.FirstOrCreate(&model.Plane{}, model.Plane{
         Registration: "D-7208",
         AircraftType: "Duo Discus",
+        FuelStartAmount: 0,
         FuelMaxCapacity: -1,
         FuelburnPerFlight: -1,
         FuelConversionFactor: -1,

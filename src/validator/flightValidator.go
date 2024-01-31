@@ -12,24 +12,30 @@ func ValidateFlightReservation(flight *model.Flight) error {
         return ErrInvalidFlightType
     }
 
-    // if flight.Plane == nil {
-    //     return ErrInvalidPlane
-    // }
+    if flight.PlaneId == 0 {
+        return ErrInvalidPlane
+    }
     
     if flight.DepartureTime.IsZero() {
         return ErrInvalidDepartureTime
     }
 
-    // if flight.Pilot == nil {
-    //     return ErrInvalidPilot
-    // }
+    var err error
+    if len(*flight.Passengers) == 0 {
+        return ErrInvalidPassenger
+    } else {
+        for _, p := range *flight.Passengers {
+            err = errors.Join(err, ValidatePassengerForReserve(p))
+        }
+    }
 
-    return nil
+    return err
 }
 
 var (
     ErrInvalidFlightType = errors.New("Type is not reserved")
-    ErrInvalidPlane = errors.New("Plane is not valid")
+    ErrInvalidPlane = errors.New("PlaneId is not valid")
     ErrInvalidDepartureTime = errors.New("Departure time is not valid")
-    ErrInvalidPilot = errors.New("Pilot is not valid")
+    ErrInvalidPilot = errors.New("PilotId is not valid")
+    ErrInvalidPassenger = errors.New("Invalid or no passenger")
 )

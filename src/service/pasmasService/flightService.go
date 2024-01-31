@@ -3,7 +3,6 @@ package pasmasservice
 import (
 	"errors"
 	"strconv"
-	"time"
 
 	dh "github.com/MetaEMK/FGK_PASMAS_backend/databaseHandler"
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
@@ -126,6 +125,7 @@ func GetFlights(include *FlightInclude, filter *FlightFilter) (*[]model.Flight, 
 }
 
 func ReserveFlight(flight *model.Flight) (*model.Flight, error) {
+    var plane model.Plane
     err := validator.ValidateFlightReservation(flight)
     if err != nil {
         return &model.Flight{}, err
@@ -135,21 +135,52 @@ func ReserveFlight(flight *model.Flight) (*model.Flight, error) {
         flight.ArrivalTime = flight.DepartureTime.Add(flightTimeDuration)
     }
 
-    if !CheckIfSlotIsFree(flight) {
+    err = dh.Db.First(&plane, flight.PlaneId).Error
+    if err != nil {
+        return &model.Flight{}, err
+    }
+
+
+    var fuelAmount float32 = 0
+    if plane.FuelMaxCapacity != -1 {
+        fuelAmount, err = calculateFuelAtDeparture(*flight, plane)
+        if err != nil {
+            return &model.Flight{}, err
+        }
+    }
+
+    passWeight, err := calculatePassWeight(*flight.Passengers, plane.MaxSeatPayload)
+    if err != nil {
+        return &model.Flight{}, err
+    }
+
+    if flight.PilotId == 0 {
+        pilot, err := calculatePilot(passWeight, fuelAmount, plane)
+        if err != nil {
+            return &model.Flight{}, err
+        }
+        flight.PilotId = pilot.ID
+    }
+
+    if !checkIfSlotIsFree(flight) {
         return &model.Flight{}, ErrSlotIsNotFree
     }
-    //TODO: Check parameters for this flight
-    //fuel check
+
+    checkErr := checkFlightValidation(*flight)
+    if checkErr != nil {
+        return &model.Flight{}, checkErr
+    }
 
     result := dh.Db.Create(flight)
 
+    flight.FuelAtDeparture = fuelAmount
     realtime.FlightStream.PublishEvent(realtime.CREATED, flight)
     return flight, result.Error
 }
 
 func BookFlight(id uint, passengers *[]model.Passenger) (*model.Flight, error) {
     for _, pass := range *passengers {
-        err := validator.ValidatePassenger(pass)
+        err := validator.ValidatePassengerForBooking(pass)
         if err != nil {
             return &model.Flight{}, err
         }
@@ -163,6 +194,11 @@ func BookFlight(id uint, passengers *[]model.Passenger) (*model.Flight, error) {
     }
 
     flight.Passengers = passengers
+
+    err := checkFlightValidation(flight)
+    if err != nil {
+        return &model.Flight{}, err
+    }
 
     result := dh.Db.Model(&flight).Updates(&flight)
     if result.Error != nil {
@@ -183,24 +219,5 @@ func DeleteFlights(id uint) error {
     }
 
     return result.Error
-}
-
-func CheckIfSlotIsFree(flight *model.Flight) bool {
-    //TODO: Plane
-
-    flights := []model.Flight{}
-    arr_time := flight.ArrivalTime.Truncate(time.Minute).Local()
-    dep_time := flight.DepartureTime.Truncate(time.Minute).Local()
-    result := dh.Db.Where("arrival_time >= ?", dep_time).Where("departure_time <= ?", arr_time).Find(&flights)
-
-    if result.Error != nil {
-        return false
-    }
-
-    if len(flights) == 0 {
-        return true
-    }
-
-    return false
 }
 
