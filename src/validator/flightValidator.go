@@ -8,7 +8,7 @@ import (
 
 
 func ValidateFlightReservation(flight *model.Flight) error {
-    if flight.Type != model.FsReserved {
+    if flight.Status != model.FsReserved {
         return ErrInvalidFlightType
     }
 

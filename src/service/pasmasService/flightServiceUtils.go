@@ -132,7 +132,7 @@ func calculateFuelAtDeparture(flight model.Flight, plane model.Plane) (float32, 
 
     // Get one flight before this
     beforeFlight := model.Flight{}
-    err := dh.Db.Not("type = ?", model.FsBlocked).Where("plane_id = ?", flight.PlaneId).Where("departure_time < ?", flight.DepartureTime).Order("departure_time DESC").First(&beforeFlight).Error
+    err := dh.Db.Not("status = ?", model.FsBlocked).Where("plane_id = ?", flight.PlaneId).Where("departure_time < ?", flight.DepartureTime).Order("departure_time DESC").First(&beforeFlight).Error
     if err == gorm.ErrRecordNotFound {
         return float32(plane.FuelStartAmount), nil
     }

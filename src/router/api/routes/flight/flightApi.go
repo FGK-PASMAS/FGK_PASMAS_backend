@@ -54,7 +54,7 @@ func createFlight(c *gin.Context) {
     var newFlight *model.Flight
     var err error
 
-    switch flight.Type {
+    switch flight.Status {
         case model.FsReserved:
             newFlight, err = pasmasservice.ReserveFlight(&flight)
         case model.FsBlocked:
@@ -89,7 +89,7 @@ func bookFlight(c *gin.Context) {
 
     var newFlight *model.Flight
 
-    switch flight.Type {
+    switch flight.Status {
         case model.FsReserved:
             err = api.ErrNotImplemented
         case model.FsBlocked:
