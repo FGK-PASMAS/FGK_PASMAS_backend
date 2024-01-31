@@ -16,7 +16,7 @@ type ApiError struct {
 var (
     unknownError = ApiError { HttpCode: http.StatusInternalServerError, ErrorResponse: ErrorResponse { Success: false, Type: "UNKNOWN_ERROR"} }
     InvalidRequestBody = ApiError { HttpCode: http.StatusBadRequest, ErrorResponse: ErrorResponse { Success: false, Type: "INVALID_REQUEST_BODY"} }
-    flightSlotNotFree = ApiError { HttpCode: http.StatusConflict, ErrorResponse: ErrorResponse { Success: false, Type: "FLIGHT_SLOT_NOT_FREE"} }
+    invalidFlightLogic = ApiError { HttpCode: http.StatusConflict, ErrorResponse: ErrorResponse { Success: false, Type: "INVALID_FLIGHT_LOGIC"} }
     objectNotFound = ApiError { HttpCode: http.StatusNotFound, ErrorResponse: ErrorResponse { Success: false, Type: "OBJECT_NOT_FOUND"} }
     dependencyNotFound = ApiError { HttpCode: http.StatusBadRequest, ErrorResponse: ErrorResponse { Success: false, Type: "DEPENDENCY_NOT_FOUND"} }
     notImplemented = ApiError { HttpCode: http.StatusNotImplemented, ErrorResponse: ErrorResponse { Success: false, Type: "NOT_IMPLEMENTED"} }
@@ -43,14 +43,25 @@ func GetErrorResponse(err error) ApiError {
             ErrInvalidFlightType:
                 obj = InvalidRequestBody
 
+        // dependencyNotFound
         case 
             validator.ErrInvalidPilot,
             validator.ErrInvalidPlane,
             pasmasservice.ErrObjectDependencyMissing:
                 obj = dependencyNotFound
 
-        case pasmasservice.ErrSlotIsNotFree:
-            obj = flightSlotNotFree
+        // invalidFlightLogic
+        case 
+            pasmasservice.ErrNoPilotAvailable,
+            pasmasservice.ErrNoStartFuelFound,
+            pasmasservice.ErrMaxSeatPayload,
+            pasmasservice.ErrTooManyPassenger,
+            pasmasservice.ErrTooLessPassenger,
+            pasmasservice.ErrTooMuchFuel,
+            pasmasservice.ErrTooLessFuel,
+            pasmasservice.ErrOverloaded,
+            pasmasservice.ErrSlotIsNotFree:
+                obj = invalidFlightLogic
 
         case pasmasservice.ErrIncludeNotSupported:
             obj = notValidParameters
