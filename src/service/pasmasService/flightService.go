@@ -24,6 +24,7 @@ type FlightFilter struct {
 
 var (
     ErrSlotIsNotFree = errors.New("Slot is not free")
+    ErrFlightStatusDoesNotFitProcess = errors.New("Flight status does not fit process")
 )
 
 func ParseFlightInclude(c *gin.Context) (*FlightInclude, error) {
@@ -141,7 +142,6 @@ func FlightPlanning(planeId uint, departureTime time.Time, arrivalTime *time.Tim
 
     if arrivalTime == nil || arrivalTime.IsZero() {
         arrTime := departureTime.Add(plane.FlightDuration)
-        println(arrTime.String())
         newFlight.ArrivalTime = arrTime
     } else {
         newFlight.ArrivalTime = *arrivalTime
@@ -177,7 +177,11 @@ func FlightReservation(flightId uint, passengers *[]model.Passenger, description
         return &model.Flight{}, err
     }
 
-    flight.Status = model.FsBooked
+    if flight.Status != model.FsPlanned {
+        return &model.Flight{}, ErrFlightStatusDoesNotFitProcess
+    }
+
+    flight.Status = model.FsReserved
 
     passWeight, err := calculatePassWeight(*passengers, flight.Plane.MaxSeatPayload)
     if err != nil {
@@ -219,6 +223,9 @@ func BookFlight(id uint, passengers *[]model.Passenger, description *string) (*m
         return &model.Flight{}, ErrObjectNotFound
     }
 
+    if flight.Status != model.FsReserved {
+        return &model.Flight{}, ErrFlightStatusDoesNotFitProcess
+    }
     flight.Status = model.FsBooked
 
     if description != nil {
@@ -270,9 +277,7 @@ func DeleteFlights(id uint) error {
         go realtime.PassengerStream.PublishEvent(realtime.DELETED, flight.Passengers)
         go realtime.FlightStream.PublishEvent(realtime.DELETED, flight)
     }
-    for _, p := range *flight.Passengers{
-        realtime.PassengerStream.PublishEvent(realtime.DELETED, &p)
-    }
+
     return result.Error
 }
 

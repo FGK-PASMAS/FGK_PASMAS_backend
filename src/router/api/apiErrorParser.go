@@ -52,6 +52,7 @@ func GetErrorResponse(err error) ApiError {
 
         // invalidFlightLogic
         case 
+            pasmasservice.ErrFlightStatusDoesNotFitProcess,
             pasmasservice.ErrNoPilotAvailable,
             pasmasservice.ErrNoStartFuelFound,
             pasmasservice.ErrMaxSeatPayload,

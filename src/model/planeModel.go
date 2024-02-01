@@ -15,7 +15,7 @@ type Plane struct {
 	// Aircraft Type f.E. C172
 	AircraftType string `gorm:"not null"`
 
-    // Default FlightDuration in Default FlightDuration in minutes
+    // Default FlightDuration in Default FlightDuration in NanoSeconds
     FlightDuration time.Duration `gorm:"not null"`
 
 	// Maximum amount of fuel this plane can take in liters; -1 if not applicable
