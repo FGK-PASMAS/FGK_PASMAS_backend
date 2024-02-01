@@ -10,13 +10,13 @@ type Flight struct {
     gorm.Model
     Status               FlightType
     Description         *string
-    FuelAtDeparture     float32
+    FuelAtDeparture     *float32
     DepartureTime       time.Time
     ArrivalTime         time.Time
 
     PlaneId             uint                
     Plane               *Plane                  `gorm:"foreignKey:PlaneId"`
-    PilotId             uint
+    PilotId             *uint
     Pilot               *Pilot                  `gorm:"foreignKey:PilotId"`
     Passengers          *[]Passenger            `gorm:"foreignKey:FlightID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
 }
@@ -25,7 +25,8 @@ type Flight struct {
 type FlightType string
 
 const (
-    FsBlocked = "BLOCKED"
+    FsPlanned = "PLANNED"
     FsReserved = "RESERVED"
     FsBooked = "BOOKED"
+    FsBlocked = "BLOCKED"
 )

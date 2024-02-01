@@ -32,6 +32,20 @@ func ValidateFlightReservation(flight *model.Flight) error {
     return err
 }
 
+func ValidateFlightPlaning(flight *model.Flight) error {
+    var err error
+
+    if flight.PlaneId == 0 {
+        err = errors.Join(err, ErrInvalidPlane)
+    }
+
+    if flight.DepartureTime.IsZero() {
+        err = errors.Join(err, ErrInvalidDepartureTime)
+    }
+
+    return err
+}
+
 var (
     ErrInvalidFlightType = errors.New("Type is not reserved")
     ErrInvalidPlane = errors.New("PlaneId is not valid")

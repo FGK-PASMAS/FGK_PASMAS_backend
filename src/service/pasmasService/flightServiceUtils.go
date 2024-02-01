@@ -18,21 +18,15 @@ var (
     ErrOverloaded = errors.New("MTOW is exceeded")
 )
 
-func checkIfSlotIsFree(flight *model.Flight) bool {
+func checkIfSlotIsFree(planeId uint, departueTime time.Time, arrivalTime time.Time) bool {
     flights := []model.Flight{}
-    arr_time := flight.ArrivalTime.Truncate(time.Minute).Local()
-    dep_time := flight.DepartureTime.Truncate(time.Minute).Local()
-    result := dh.Db.Where("plane_id = ?", flight.PlaneId).Where("arrival_time >= ?", dep_time).Where("departure_time <= ?", arr_time).Find(&flights)
+    result := dh.Db.Where("plane_id = ?", planeId).Where("arrival_time >= ?", departueTime).Where("departure_time <= ?", arrivalTime).Find(&flights)
 
     if result.Error != nil {
         return false
     }
 
-    if len(flights) == 0 {
-        return true
-    }
-
-    return false
+    return len(flights) == 0
 }
 
 func calculatePilot(passWeight uint, fuelAmount float32, plane model.Plane) (model.Pilot, error) {
@@ -109,7 +103,7 @@ func checkFlightValidation(flight model.Flight) error {
     // Validate if flight is overweight
     var etow float32 = 0
     etow += float32(plane.EmptyWeight)
-    etow += flight.FuelAtDeparture * plane.FuelConversionFactor
+    etow += *flight.FuelAtDeparture * plane.FuelConversionFactor
     etow += float32(pilot.Weight)
 
     for _, p := range *flight.Passengers {
@@ -137,22 +131,24 @@ func calculatePassWeight(passengers []model.Passenger, maxSeatPayload int) (uint
     return weight, nil
 }
 
-func calculateFuelAtDeparture(flight model.Flight, plane model.Plane) (float32, error) {
-    if flight.FuelAtDeparture != 0 {
-        if flight.FuelAtDeparture > float32(plane.FuelMaxCapacity) {
+func calculateFuelAtDeparture(flight *model.Flight, plane model.Plane) (float32, error) {
+    if flight.FuelAtDeparture != nil && *flight.FuelAtDeparture != 0 {
+        if *flight.FuelAtDeparture > float32(plane.FuelMaxCapacity) {
             return 0, ErrTooMuchFuel
         }
-        return flight.FuelAtDeparture, nil
+        return *flight.FuelAtDeparture, nil
     }
 
     // Get one flight before this
     beforeFlight := model.Flight{}
     err := dh.Db.Not("status = ?", model.FsBlocked).Where("plane_id = ?", flight.PlaneId).Where("departure_time < ?", flight.DepartureTime).Order("departure_time DESC").First(&beforeFlight).Error
     if err == gorm.ErrRecordNotFound {
+        fuel := float32(plane.FuelStartAmount)
+        flight.FuelAtDeparture = &fuel
         return float32(plane.FuelStartAmount), nil
     }
 
-    value, err := calculateFuelAtDeparture(beforeFlight, plane)
+    value, err := calculateFuelAtDeparture(&beforeFlight, plane)
     value -= plane.FuelburnPerFlight
 
     if value <= 0 {

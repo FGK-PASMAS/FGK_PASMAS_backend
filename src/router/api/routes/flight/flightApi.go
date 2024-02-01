@@ -44,25 +44,43 @@ func getFlights(c *gin.Context) {
     c.JSON(httpCode, response)
 }
 
-func createFlight(c *gin.Context) {
+func flightPlanning(c *gin.Context) {
     var response interface{}
     var httpCode int
 
-    flight := model.Flight{}
-    c.ShouldBind(&flight)
+    var input FlightPlanning
+    err := c.ShouldBind(&input)
 
-    var newFlight *model.Flight
+    flight, err := pasmasservice.FlightPlanning(input.PlaneId, input.DepartureTime, input.ArrivalTime, input.Description)
+
+    if err != nil {
+        res := api.GetErrorResponse(err)
+        httpCode = res.HttpCode
+        response = res.ErrorResponse
+    } else {
+        response = api.SuccessResponse {
+            Success: true,
+            Response: flight,
+        }
+        httpCode = http.StatusCreated
+    }
+
+    c.JSON(httpCode, response)
+}
+
+func flightReservation(c *gin.Context) {
+    var response interface{}
+    var httpCode int
     var err error
+    var flight *model.Flight
 
-    switch flight.Status {
-        case model.FsReserved:
-            newFlight, err = pasmasservice.ReserveFlight(&flight)
-        case model.FsBlocked:
-            err = api.ErrNotImplemented
-        case model.FsBooked:
-            err = api.ErrNotImplemented
-        default: 
-            err = api.ErrInvalidFlightStatus
+    var input FlightReservation
+    err = c.ShouldBind(&input)
+
+    idStr := c.Param("id")
+    id, err := strconv.ParseUint(idStr, 10, 64)
+    if err == nil {
+        flight, err = pasmasservice.FlightReservation(uint(id), &input.Passengers, input.Description)
     }
 
     if err != nil {
@@ -72,7 +90,7 @@ func createFlight(c *gin.Context) {
     } else {
         response = api.SuccessResponse {
             Success: true,
-            Response: newFlight,
+            Response: flight,
         }
         httpCode = http.StatusCreated
     }
@@ -80,34 +98,25 @@ func createFlight(c *gin.Context) {
     c.JSON(httpCode, response)
 }
 
-func bookFlight(c *gin.Context) {
+func flightBooking(c *gin.Context) {
+    var flight *model.Flight
     idStr := c.Param("id")
     id, err := strconv.ParseUint(idStr, 10, 64)
 
-    flight := model.Flight{}
-    c.ShouldBind(&flight)
+    var input FlightBooking
+    c.ShouldBind(&input)
 
-    var newFlight *model.Flight
-
-    switch flight.Status {
-        case model.FsReserved:
-            err = api.ErrNotImplemented
-        case model.FsBlocked:
-            err = api.ErrNotImplemented
-        case model.FsBooked:
-            newFlight, err = pasmasservice.BookFlight(uint(id), flight.Passengers)
-        default: 
-            err = api.ErrInvalidFlightStatus
+    if err == nil {
+        flight, err = pasmasservice.BookFlight(uint(id), &input.Passengers, input.Description)
     }
 
     if err != nil {
         res := api.GetErrorResponse(err)
         c.JSON(res.HttpCode, res.ErrorResponse)
     } else {
-        flight.ID = uint(id)
         response := api.SuccessResponse {
             Success: true,
-            Response: newFlight,
+            Response: flight,
         }
 
         c.JSON(http.StatusOK, response)

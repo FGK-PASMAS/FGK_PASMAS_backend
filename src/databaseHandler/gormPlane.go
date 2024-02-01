@@ -1,6 +1,8 @@
 package databasehandler
 
 import (
+	"time"
+
 	"github.com/MetaEMK/FGK_PASMAS_backend/logging"
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
 )
@@ -27,6 +29,7 @@ func SeedPlane() {
     Db.FirstOrCreate(&model.Plane{}, model.Plane{
         Registration: "D-ELXX",
         AircraftType: "C172",
+        FlightDuration: time.Duration(24 * time.Minute),
         FuelStartAmount: 100,
         FuelMaxCapacity: 140,
         FuelburnPerFlight: 20,
@@ -40,6 +43,7 @@ func SeedPlane() {
     Db.FirstOrCreate(&model.Plane{}, model.Plane{
         Registration: "D-ESXX",
         AircraftType: "C172",
+        FlightDuration: time.Duration(24 * time.Minute),
         FuelStartAmount: 80,
         FuelMaxCapacity: 120,
         FuelburnPerFlight: 15,
@@ -53,6 +57,7 @@ func SeedPlane() {
     Db.FirstOrCreate(&model.Plane{}, model.Plane{
         Registration: "D-ESYY",
         AircraftType: "C172",
+        FlightDuration: time.Duration(24 * time.Minute),
         FuelStartAmount: 160,
         FuelMaxCapacity: 180,
         FuelburnPerFlight: 20,
@@ -66,6 +71,7 @@ func SeedPlane() {
     Db.FirstOrCreate(&model.Plane{}, model.Plane{
         Registration: "D-EFXX",
         AircraftType: "PA28",
+        FlightDuration: time.Duration(24 * time.Minute),
         FuelStartAmount: 100,
         FuelMaxCapacity: 140,
         FuelburnPerFlight: 20,
@@ -79,6 +85,7 @@ func SeedPlane() {
     Db.FirstOrCreate(&model.Plane{}, model.Plane{
         Registration: "D-KOXX",
         AircraftType: "HK36",
+        FlightDuration: time.Duration(24 * time.Minute),
         FuelStartAmount: 80,
         FuelMaxCapacity: 80,
         FuelburnPerFlight: 10,
@@ -92,6 +99,7 @@ func SeedPlane() {
     Db.FirstOrCreate(&model.Plane{}, model.Plane{
         Registration: "D-KIXX",
         AircraftType: "SF25C",
+        FlightDuration: time.Duration(24 * time.Minute),
         FuelStartAmount: 40,
         FuelMaxCapacity: 40,
         FuelburnPerFlight: 5,
@@ -105,6 +113,7 @@ func SeedPlane() {
     Db.FirstOrCreate(&model.Plane{}, model.Plane{
         Registration: "D-0761",
         AircraftType: "ASK21",
+        FlightDuration: time.Duration(10 * time.Minute),
         FuelStartAmount: 0,
         FuelMaxCapacity: -1,
         FuelburnPerFlight: -1,
@@ -118,6 +127,7 @@ func SeedPlane() {
     Db.FirstOrCreate(&model.Plane{}, model.Plane{
         Registration: "D-7208",
         AircraftType: "Duo Discus",
+        FlightDuration: time.Duration(10 * time.Minute),
         FuelStartAmount: 0,
         FuelMaxCapacity: -1,
         FuelburnPerFlight: -1,
@@ -128,4 +138,3 @@ func SeedPlane() {
         DivisionId: segelflug.ID,
     })
 }
-

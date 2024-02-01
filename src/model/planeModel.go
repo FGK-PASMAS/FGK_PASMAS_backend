@@ -1,6 +1,10 @@
 package model
 
-import "gorm.io/gorm"
+import (
+	"time"
+
+	"gorm.io/gorm"
+)
 
 type Plane struct {
 	gorm.Model
@@ -10,6 +14,9 @@ type Plane struct {
 
 	// Aircraft Type f.E. C172
 	AircraftType string `gorm:"not null"`
+
+    // Default FlightDuration in Default FlightDuration in minutes
+    FlightDuration time.Duration `gorm:"not null"`
 
 	// Maximum amount of fuel this plane can take in liters; -1 if not applicable
 	FuelMaxCapacity int `gorm:"not null"`
