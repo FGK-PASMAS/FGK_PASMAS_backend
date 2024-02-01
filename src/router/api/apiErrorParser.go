@@ -24,7 +24,7 @@ var (
 )
 
 var (
-    ErrInvalidFlightType = errors.New("Flight type is not valid")
+    ErrInvalidFlightStatus = errors.New("Flight status is not valid")
     ErrInvalidPlane = errors.New("Plane is not valid")
     ErrNotImplemented = errors.New("Functionality not implemented")
 )
@@ -40,7 +40,7 @@ func GetErrorResponse(err error) ApiError {
             validator.ErrPassengerWeight,
             validator.ErrPassengerLastName,
             validator.ErrInvalidDepartureTime,
-            ErrInvalidFlightType:
+            ErrInvalidFlightStatus:
                 obj = InvalidRequestBody
 
         // dependencyNotFound

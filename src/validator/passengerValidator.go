@@ -26,11 +26,11 @@ func ValidatePassengerForBooking(pass model.Passenger) error {
         return ErrPassengerId
     }
 
-    if pass.Weight <= 0 {
-        return ErrPassengerWeight
+    if pass.LastName == "" {
+        return ErrPassengerLastName
     }
 
-    if pass.LastName == "" {
+    if pass.FirstName == "" {
         return ErrPassengerLastName
     }
 

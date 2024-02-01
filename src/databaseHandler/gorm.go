@@ -26,9 +26,12 @@ func ResetDatabase() error {
     transaction.Exec("TRUNCATE TABLE passengers RESTART IDENTITY CASCADE")
     transaction.Exec("TRUNCATE TABLE flights RESTART IDENTITY CASCADE")
     transaction.Exec("TRUNCATE TABLE planes RESTART IDENTITY CASCADE")
+    transaction.Exec("TRUNCATE TABLE pilots RESTART IDENTITY CASCADE")
     transaction.Commit()
 
     SeedDivision()
+    SeedPlane()
+    SeedPilot()
 
     return transaction.Error
 }

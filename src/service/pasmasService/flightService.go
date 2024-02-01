@@ -137,7 +137,7 @@ func ReserveFlight(flight *model.Flight) (*model.Flight, error) {
 
     err = dh.Db.First(&plane, flight.PlaneId).Error
     if err != nil {
-        return &model.Flight{}, err
+        return &model.Flight{}, ErrObjectDependencyMissing
     }
 
 
@@ -161,7 +161,6 @@ func ReserveFlight(flight *model.Flight) (*model.Flight, error) {
         }
 
         flight.PilotId = pilot.ID
-        println(flight.PilotId)
     }
 
     if !checkIfSlotIsFree(flight) {
@@ -177,6 +176,9 @@ func ReserveFlight(flight *model.Flight) (*model.Flight, error) {
 
     flight.FuelAtDeparture = fuelAmount
     realtime.FlightStream.PublishEvent(realtime.CREATED, flight)
+    for _, p := range *flight.Passengers {
+        realtime.PassengerStream.PublishEvent(realtime.CREATED, &p)
+    }
     return flight, result.Error
 }
 
@@ -189,13 +191,17 @@ func BookFlight(id uint, passengers *[]model.Passenger) (*model.Flight, error) {
     }
 
     flight := model.Flight{}
-    res := dh.Db.First(&flight, id)
-
+    res := dh.Db.Preload("Passengers").First(&flight, id)
     if res.Error != nil {
         return &model.Flight{}, res.Error
     }
 
-    flight.Passengers = passengers
+    for _, p := range *passengers {
+        status := partialUpdatePassenger(flight.Passengers, p)
+        if !status {
+            return &model.Flight{}, ErrObjectDependencyMissing
+        }
+    }
 
     err := checkFlightValidation(flight)
     if err != nil {
@@ -207,6 +213,9 @@ func BookFlight(id uint, passengers *[]model.Passenger) (*model.Flight, error) {
         return &model.Flight{}, result.Error
     } else {
         realtime.FlightStream.PublishEvent(realtime.UPDATED, &flight)
+        for _, p := range *flight.Passengers{
+            realtime.PassengerStream.PublishEvent(realtime.UPDATED, &p)
+        }
         return &flight, nil
     }
 }
@@ -215,6 +224,7 @@ func DeleteFlights(id uint) error {
     var err error
     flight := model.Flight{}
 
+    dh.Db.Preload("Passengers").First(&flight, id)
     result := dh.Db.Delete(&flight, id)
 
     if result.RowsAffected != 1 {
@@ -223,8 +233,11 @@ func DeleteFlights(id uint) error {
 
     err = errors.Join(err, result.Error)
 
-    result = dh.Db.Delete(&model.Passenger{}, "flight_id = ?", id)
-
+    result = dh.Db.Delete(&flight.Passengers)
+    realtime.FlightStream.PublishEvent(realtime.DELETED, &flight)
+    for _, p := range *flight.Passengers{
+        realtime.PassengerStream.PublishEvent(realtime.DELETED, &p)
+    }
     return result.Error
 }
 

@@ -62,7 +62,7 @@ func createFlight(c *gin.Context) {
         case model.FsBooked:
             err = api.ErrNotImplemented
         default: 
-            err = api.ErrInvalidFlightType
+            err = api.ErrInvalidFlightStatus
     }
 
     if err != nil {
@@ -97,7 +97,7 @@ func bookFlight(c *gin.Context) {
         case model.FsBooked:
             newFlight, err = pasmasservice.BookFlight(uint(id), flight.Passengers)
         default: 
-            err = api.ErrInvalidFlightType
+            err = api.ErrInvalidFlightStatus
     }
 
     if err != nil {

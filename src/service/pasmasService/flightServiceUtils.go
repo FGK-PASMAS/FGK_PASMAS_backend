@@ -55,7 +55,6 @@ func calculatePilot(passWeight uint, fuelAmount float32, plane model.Plane) (mod
         pilot = *plane.PrefPilot
     }
 
-    println(pilot.ID)
 
     baseETOW += passWeight
     baseETOW += plane.EmptyWeight
@@ -89,7 +88,7 @@ func checkFlightValidation(flight model.Flight) error {
     var err error
     plane := model.Plane{}
     pilot := model.Pilot{}
-
+    
     planeErr := dh.Db.Preload("Division").First(&plane, flight.PlaneId).Error
     pilotErr := dh.Db.First(&pilot, flight.PilotId).Error
 
@@ -161,4 +160,26 @@ func calculateFuelAtDeparture(flight model.Flight, plane model.Plane) (float32, 
     }
 
     return value, nil
+}
+
+func partialUpdatePassenger(oldPass *[]model.Passenger, newPass model.Passenger) bool {
+    for _, p := range *oldPass {
+        if p.ID == newPass.ID {
+            if newPass.LastName != "" {
+                p.LastName = newPass.LastName
+            }
+
+            if newPass.FirstName != "" {
+                p.FirstName = newPass.FirstName
+            }
+
+            if newPass.Weight > 0 {
+                p.Weight = newPass.Weight
+            }
+
+            return true
+        }
+    }
+
+    return false
 }
