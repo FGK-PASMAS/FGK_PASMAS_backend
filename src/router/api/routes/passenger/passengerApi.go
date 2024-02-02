@@ -37,7 +37,6 @@ func createPassenger(c *gin.Context) {
         return
     }
 
-    // TODO: Validation
     newPass, err := pasmasservice.CreatePassenger(body)
     if err != nil {
         apiErr := api.GetErrorResponse(err)

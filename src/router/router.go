@@ -2,9 +2,9 @@ package router
 
 import (
 	apiRoutes "github.com/MetaEMK/FGK_PASMAS_backend/router/api/routes"
-	realtimeRoutes "github.com/MetaEMK/FGK_PASMAS_backend/router/realtime/routes"
+	"github.com/MetaEMK/FGK_PASMAS_backend/router/realtime"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-    "github.com/gin-contrib/cors"
 )
 
 // InitRouter initializes the router
@@ -18,7 +18,7 @@ func InitRouter() *gin.Engine {
     realtimeRouter := r.Group("/realtime")
 
     apiRoutes.InitApiRoutes(apiRouter)
-    realtimeRoutes.InitRealtimeRoutes(realtimeRouter)
+    realtime.SetupRealtimeRoutes(realtimeRouter)
 
     return r
 }

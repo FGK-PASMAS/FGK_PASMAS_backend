@@ -8,4 +8,5 @@ type Division struct {
     gorm.Model
     Name                string
     PassengerCapacity   uint
+    Planes              []Plane         `gorm:"foreignKey:DivisionId"`
 }

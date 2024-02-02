@@ -45,7 +45,7 @@ func (stream *Stream) ServeStream() gin.HandlerFunc {
 }
 
 // SendEvent sends an event to all clients in this stream.
-func (stream *Stream) SendEvent(eventMessage string) {
+func (stream *Stream) sendEvent(eventMessage string) {
     stream.Message <- eventMessage
 }
 
@@ -114,4 +114,16 @@ func HeadersMiddleware() gin.HandlerFunc {
 		c.Writer.Header().Set("Transfer-Encoding", "chunked")
 		c.Next()
 	}
+}
+
+func (s *Stream) PublishEvent(actionType ActionType, data ...interface{}) {
+    for _, obj := range data {
+        body := RealtimeBodyModel {
+            Action: actionType,
+            Data: obj,
+        }
+
+        bodyString := body.ToJson()
+        s.sendEvent(bodyString)
+    }
 }

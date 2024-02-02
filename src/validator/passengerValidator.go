@@ -8,16 +8,29 @@ import (
 
 
 var (
+    ErrPassengerId = errors.New("Id must not empty")
     ErrPassengerWeight = errors.New("Weight must be >= 0")
     ErrPassengerLastName = errors.New("Name must not be empty")
 )
 
-func ValidatePassenger(pass model.Passenger) error {
+func ValidatePassengerForReserve(pass model.Passenger) error {
     if pass.Weight <= 0 {
         return ErrPassengerWeight
     }
 
-    if len(pass.LastName) == 0 {
+    return nil
+}
+
+func ValidatePassengerForBooking(pass model.Passenger) error {
+    if pass.ID <= 0 {
+        return ErrPassengerId
+    }
+
+    if pass.LastName == "" {
+        return ErrPassengerLastName
+    }
+
+    if pass.FirstName == "" {
         return ErrPassengerLastName
     }
 
