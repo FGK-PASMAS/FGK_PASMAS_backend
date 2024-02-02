@@ -247,7 +247,22 @@ func BookFlight(id uint, passengers *[]model.Passenger, description *string) (*m
         return &model.Flight{}, err
     }
 
-    err = dh.Db.Updates(&flight).Error
+    db := dh.Db.Begin().Debug()
+
+    for index := range *flight.Passengers {
+        println((*flight.Passengers)[index].ID)
+        err = dh.Db.Debug().Updates(&(*flight.Passengers)[index]).Error
+    }
+
+    db = db.Updates(&flight)
+
+    if db.Error != nil {
+        db.Rollback()
+        return &model.Flight{}, db.Error
+    } else {
+        err = db.Commit().Error
+    }
+
     if err != nil {
         return &model.Flight{}, err
     } else {

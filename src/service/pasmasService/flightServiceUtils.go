@@ -159,18 +159,18 @@ func calculateFuelAtDeparture(flight *model.Flight, plane model.Plane) (float32,
 }
 
 func partialUpdatePassenger(oldPass *[]model.Passenger, newPass model.Passenger) bool {
-    for _, p := range *oldPass {
-        if p.ID == newPass.ID {
+    for index := range *oldPass {
+        if (*oldPass)[index].ID == newPass.ID {
             if newPass.LastName != "" {
-                p.LastName = newPass.LastName
+                (*oldPass)[index].LastName= newPass.LastName
             }
 
             if newPass.FirstName != "" {
-                p.FirstName = newPass.FirstName
+                (*oldPass)[index].FirstName = newPass.FirstName
             }
 
             if newPass.Weight > 0 {
-                p.Weight = newPass.Weight
+                (*oldPass)[index].Weight = newPass.Weight
             }
 
             return true
