@@ -1,59 +1,7 @@
-# FGK_PASMAS_backend
+# PASMAS
+The **PAS**senger **M**anagement **AS**sistant (PASMAS) is a system designed to make it easier for smaller flying clubs to manage sightseeing flights on open days.
+The assistant allows you to manage the various flight slots for each aircraft. It also performs flight logic calculations such as the maximum take-off mass which prevents overloaded flights.
 
-## Wichtiger Hinweis
-
-Bitte beachten Sie, dass dieses Projekt noch in der Entwicklungsphase ist. Einige Funktionen sind möglicherweise noch nicht vollständig implementiert oder können Änderungen unterliegen.
-
-## Voraussetzungen
-
-Bevor Sie mit der Installation beginnen, stellen Sie sicher, dass Sie folgende Voraussetzungen erfüllt haben:
-
-- Go 
-
-## Installation
-
-Folgen Sie diesen Schritten, um das Projekt zu installieren:
-
-1. Klonen Sie das Repository:
-
-   ```bash
-   git clone https://github.com/MetaEMK/FGK_PASMAS_backend
-   ```
-
-3. Wechseln sie in den docker Ordner:
-     ```bash
-     cd FGK_PASMAS_backend/docker
-     ```
-4. Kopieren sie die .env.example Datei und passen Sie an:
-    ```bash
-    cp .env.example .env
-    ```
-    **Bitte passen Sie alle Werte wenn nötig an**
-
-5. Starten der Datenbank:
-    ```bash
-    docker compose up -d
-
-3. Wechseln Sie in das Source Verzeichnis:
-
-   ```bash
-   cd ../src
-   ```
-
-4. Installieren Sie die erforderlichen Abhängigkeiten:
-
-   ```bash
-   go mod tidy
-   ```
-
-5. Bauen Sie das Projekt oder führen Sie es testweise aus:
-
-   ```bash
-   go run main.go
-   ```
-
-   ODER
-
-   ```bash
-   go build
-   ```
+## Important note
+Please note that this project is still in the development phase. Some functions may not yet be fully implemented or may be changed.
+A detailed description of installation and use follows after implementation of the most important functions.
