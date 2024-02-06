@@ -6,12 +6,13 @@ import (
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
 )
 
-type FlightPlanning struct {
+type FlightCreation struct {
     Description     *string
     DepartureTime   time.Time
     ArrivalTime     *time.Time
 
     PlaneId         uint
+    Passengers      *[]model.Passenger
 }
 
 type FlightReservation struct {

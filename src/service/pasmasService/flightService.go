@@ -3,7 +3,6 @@ package pasmasservice
 import (
 	"errors"
 	"strconv"
-	"time"
 
 	dh "github.com/MetaEMK/FGK_PASMAS_backend/databaseHandler"
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
@@ -18,13 +17,15 @@ type FlightInclude struct {
 }
 
 type FlightFilter struct {
-    DivisionId uint
-    PlaneId uint
+    ByDivisionId uint
+    ByPlaneId uint
 }
 
 var (
     ErrSlotIsNotFree = errors.New("Slot is not free")
     ErrFlightStatusDoesNotFitProcess = errors.New("Flight status does not fit process")
+    ErrDepartureTimeIsZero = errors.New("Departure time is zero")
+    ErrInvalidArrivalTime = errors.New("Invalid arrival time")
 )
 
 func ParseFlightInclude(c *gin.Context) (*FlightInclude, error) {
@@ -65,15 +66,15 @@ func ParseFlightInclude(c *gin.Context) (*FlightInclude, error) {
 }
 
 func ParseFlightFilter(c *gin.Context) (*FlightFilter, error) {
-    divIdStr := c.Query("divisionId")
-    planeIdStr := c.Query("planeId")
+    divIdStr := c.Query("byDivisionId")
+    planeIdStr := c.Query("byPlaneId")
 
     filter := FlightFilter{}
 
     if divIdStr != "" {
         var err error
         id, err := strconv.ParseUint(divIdStr, 10, 64)
-        filter.DivisionId = uint(id)
+        filter.ByDivisionId = uint(id)
 
         if err != nil {
             return nil, ErrIncludeNotSupported
@@ -83,7 +84,7 @@ func ParseFlightFilter(c *gin.Context) (*FlightFilter, error) {
     if planeIdStr != "" {
         var err error
         d, err := strconv.ParseUint(planeIdStr, 10, 64)
-        filter.PlaneId = uint(d)
+        filter.ByPlaneId = uint(d)
 
         if err != nil {
             return nil, ErrIncludeNotSupported
@@ -112,12 +113,12 @@ func GetFlights(include *FlightInclude, filter *FlightFilter) (*[]model.Flight, 
     }
 
     if filter != nil {
-        if filter.DivisionId != 0 {
-            res = res.Joins("Plane").Where("division_id = ?", filter.DivisionId)
+        if filter.ByDivisionId != 0 {
+            res = res.Joins("Plane").Where("division_id = ?", filter.ByDivisionId)
         }
 
-        if filter.PlaneId != 0 {
-            res = res.Where("plane_id = ?", filter.PlaneId)
+        if filter.ByPlaneId != 0 {
+            res = res.Where("plane_id = ?", filter.ByPlaneId)
         }
     }
 
@@ -125,47 +126,73 @@ func GetFlights(include *FlightInclude, filter *FlightFilter) (*[]model.Flight, 
     return flights, res.Error
 }
 
-func FlightPlanning(planeId uint, departureTime time.Time, arrivalTime *time.Time, description *string) (*model.Flight, error) {
-    var plane model.Plane
+func FlightCreation(flight *model.Flight, passengers *[]model.Passenger) error {
     var err error
-    var newFlight model.Flight
+    var plane model.Plane
 
-    newFlight.Status = model.FsPlanned
-    newFlight.Description = description
-    newFlight.DepartureTime = departureTime
-
-    err = dh.Db.First(&plane, planeId).Error
-    if err == ErrObjectNotFound {
-        return &model.Flight{}, ErrObjectDependencyMissing
-    }
-    newFlight.PlaneId = plane.ID
-
-    if arrivalTime == nil || arrivalTime.IsZero() {
-        arrTime := departureTime.Add(plane.FlightDuration)
-        newFlight.ArrivalTime = arrTime
-    } else {
-        newFlight.ArrivalTime = *arrivalTime
-    }
-
-    if !checkIfSlotIsFree(newFlight.PlaneId, newFlight.DepartureTime, newFlight.ArrivalTime) {
-        return &model.Flight{}, ErrSlotIsNotFree
-    }
-
-    fuelAmount, err := calculateFuelAtDeparture(&newFlight, plane)
+    err = dh.Db.First(&plane, flight.PlaneId).Error
     if err != nil {
-        return &model.Flight{},err
+        return err
+    }
+
+    if flight.DepartureTime.IsZero() {
+        return ErrDepartureTimeIsZero
+    }
+
+    if flight.ArrivalTime.IsZero() {
+        flight.ArrivalTime = flight.DepartureTime.Add(plane.FlightDuration)
+    } else {
+        if flight.ArrivalTime.Before(flight.DepartureTime) {
+            return ErrInvalidArrivalTime
+        }
+    }
+
+    fuelAmount, err := calculateFuelAtDeparture(flight, plane)
+    if err != nil {
+        return err
+    }
+
+    passWeight, err := calculatePassWeight(*passengers, plane.MaxSeatPayload)
+    if err != nil {
+        return err
+    }
+
+    pilot, err := calculatePilot(passWeight, fuelAmount, plane)
+    if err != nil {
+        return err
+    }
+    flight.Pilot = &pilot
+
+    if(!checkIfSlotIsFree(flight.PlaneId, flight.DepartureTime, flight.ArrivalTime)) {
+        return ErrSlotIsNotFree
     }
 
     if err == nil {
-        err = dh.Db.Create(&newFlight).Error
-        if err == nil {
-            newFlight.FuelAtDeparture = &fuelAmount
-            go realtime.FlightStream.PublishEvent(realtime.CREATED, &newFlight)
-            return &newFlight, nil
+        db := dh.Db.Begin()
+        db.Create(flight)
+
+        for index := range *passengers {
+            (*passengers)[index].FlightID = flight.ID
+            PassengerCreate(db, &(*passengers)[index])
+        }
+
+        if db.Error != nil {
+            db.Rollback()
+            return db.Error
+        } else {
+            err = db.Commit().Error
+            if err != nil {
+                return err
+            }
+
+            flight.Passengers = passengers
+
+            go realtime.FlightStream.PublishEvent(realtime.CREATED, flight)
+            go realtime.PassengerStream.PublishEvent(realtime.CREATED, *passengers)
         }
     }
-    
-    return &model.Flight{}, err
+
+    return err
 }
 
 func FlightReservation(flightId uint, passengers *[]model.Passenger, description *string) (*model.Flight, error) {
@@ -217,6 +244,7 @@ func FlightReservation(flightId uint, passengers *[]model.Passenger, description
 func BookFlight(id uint, passengers *[]model.Passenger, description *string) (*model.Flight, error) {
     var flight model.Flight
     var err error
+
 
     err = dh.Db.Preload("Plane").Preload("Passengers").First(&flight).Error
     if err != nil {

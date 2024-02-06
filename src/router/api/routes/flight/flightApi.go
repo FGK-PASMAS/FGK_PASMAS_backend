@@ -48,10 +48,13 @@ func flightPlanning(c *gin.Context) {
     var response interface{}
     var httpCode int
 
-    var input FlightPlanning
-    err := c.ShouldBind(&input)
+    var flight model.Flight
+    err := c.ShouldBind(&flight)
 
-    flight, err := pasmasservice.FlightPlanning(input.PlaneId, input.DepartureTime, input.ArrivalTime, input.Description)
+    passengers:= flight.Passengers
+    flight.Passengers = nil
+
+    err = pasmasservice.FlightCreation(&flight, passengers)
 
     if err != nil {
         res := api.GetErrorResponse(err)

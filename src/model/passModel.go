@@ -10,7 +10,7 @@ type Passenger struct {
     FirstName           string
     Weight              uint            `gorm:"not null"`
 
-    FlightID            *uint           `gorm:"index"`
+    FlightID            uint           `gorm:"index"`
     Flight              *Flight         `gorm:"foreignKey:FlightID"`
 }
 

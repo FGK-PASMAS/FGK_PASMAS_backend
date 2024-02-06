@@ -1,11 +1,19 @@
 package pasmasservice
 
 import (
+	"errors"
+
 	dh "github.com/MetaEMK/FGK_PASMAS_backend/databaseHandler"
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
 	"github.com/MetaEMK/FGK_PASMAS_backend/router/realtime"
 	"github.com/MetaEMK/FGK_PASMAS_backend/validator"
+	"gorm.io/gorm"
 )
+
+var (
+    ErrPassengerWeightIsZero = errors.New("Passenger weight must > 0")
+)
+
 func GetPassengers() ([]model.Passenger, error) {
     passengers := []model.Passenger{}
     result := dh.Db.Preload("Flight").Find(&passengers)
@@ -13,15 +21,26 @@ func GetPassengers() ([]model.Passenger, error) {
     return passengers, result.Error
 }
 
-func CreatePassenger(pass model.Passenger) (model.Passenger, error) {
-    err := validator.ValidatePassengerForReserve(pass)
-    if err != nil {
-        return model.Passenger{}, err
+func PassengerCreate(db *gorm.DB, pass *model.Passenger) *gorm.DB {
+    if db == nil {
+        db = dh.Db
     }
 
-    result := dh.Db.Create(&pass)
-    realtime.PassengerStream.PublishEvent(realtime.CREATED, pass)
-    return pass, result.Error
+    if pass.Weight <= 0 {
+        db.AddError(ErrPassengerWeightIsZero)
+    }
+
+    if pass.FlightID == 0 && pass.Flight == nil {
+        db.AddError(ErrObjectDependencyMissing)
+    }
+
+    err := db.Create(pass).Error
+
+    if err == ErrObjectNotFound {
+        db.AddError(ErrObjectDependencyMissing)
+    }
+
+    return db
 }
 
 func UpdatePassenger(id uint, pass model.Passenger) (model.Passenger, error) {
