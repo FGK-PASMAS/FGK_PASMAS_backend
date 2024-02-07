@@ -6,6 +6,7 @@ import (
 
 	dh "github.com/MetaEMK/FGK_PASMAS_backend/databaseHandler"
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
+	"github.com/MetaEMK/FGK_PASMAS_backend/router/realtime"
 	"gorm.io/gorm"
 )
 
@@ -18,15 +19,15 @@ var (
     ErrOverloaded = errors.New("MTOW is exceeded")
 )
 
-func checkIfSlotIsFree(planeId uint, departueTime time.Time, arrivalTime time.Time) bool {
-    flights := []model.Flight{}
-    result := dh.Db.Where("plane_id = ?", planeId).Where("arrival_time >= ?", departueTime).Where("departure_time <= ?", arrivalTime).Find(&flights)
+func checkIfSlotIsFree(planeId uint, departureTime time.Time, arrivalTime time.Time) bool {
+    var count int64
+    result := dh.Db.Model(&model.Flight{}).Where("plane_id = ?", planeId).Where("departure_time < ? AND arrival_time > ?", arrivalTime, departureTime).Count(&count)
 
     if result.Error != nil {
         return false
     }
 
-    return len(flights) == 0
+    return count == 0
 }
 
 func calculatePilot(passWeight uint, fuelAmount float32, plane model.Plane) (model.Pilot, error) {
@@ -158,24 +159,82 @@ func calculateFuelAtDeparture(flight *model.Flight, plane model.Plane) (float32,
     return value, nil
 }
 
-func partialUpdatePassenger(oldPass *[]model.Passenger, newPass model.Passenger) bool {
-    for index := range *oldPass {
-        if (*oldPass)[index].ID == newPass.ID {
-            if newPass.LastName != "" {
-                (*oldPass)[index].LastName= newPass.LastName
+func partialUpdatePassengers(db *gorm.DB, oldPass *[]model.Passenger, newPass *[]model.Passenger) {
+    if oldPass == nil || newPass == nil {
+        return
+    }
+
+    if db == nil {
+        db = dh.Db.Begin()
+    }
+
+    for i := range *newPass {
+        switch (*newPass)[i].Action {
+        case model.ActionCreate:
+            passengerCreate(db, &(*newPass)[i])
+            tmp := append(*oldPass, (*newPass)[i])
+            oldPass = &tmp
+        case model.ActionUpdate:
+            status := false
+            for j := range *oldPass {
+                if (*newPass)[i].ID == (*oldPass)[j].ID {
+                    partialUpdatePassenger(db, (*oldPass)[j].ID, &(*newPass)[i])
+                    (*oldPass)[j] = (*newPass)[i]
+                    status = true
+                }
             }
 
-            if newPass.FirstName != "" {
-                (*oldPass)[index].FirstName = newPass.FirstName
+            if !status {
+                db.AddError(ErrObjectNotFound)
             }
+        }
+    }
+}
 
-            if newPass.Weight > 0 {
-                (*oldPass)[index].Weight = newPass.Weight
-            }
+// partialUpdateFlight updates the newFlight with all set data from newFlight. 0 or "" values means that the field should be set to nil
+func partialUpdateFlight(db *gorm.DB, id uint, newFlight *model.Flight) {
+    if db == nil {
+        db = dh.Db
+    }
+    
+    oldFlight := model.Flight{}
+    err := dh.Db.First(&oldFlight, id).Error
+    if err != nil {
+        db.AddError(err)
+        return
+    }
 
-            return true
+    if newFlight.Description != nil {
+        if *newFlight.Description == "" {
+            oldFlight.Description = nil
+        } else {
+            oldFlight.Description = newFlight.Description
+        }
+    } 
+
+    if newFlight.FuelAtDeparture != nil {
+        if *newFlight.FuelAtDeparture == 0 {
+            oldFlight.FuelAtDeparture = nil
+        } else {
+            oldFlight.FuelAtDeparture = newFlight.FuelAtDeparture
         }
     }
 
-    return false
+    db.Updates(oldFlight)
+    newFlight = &oldFlight
+}
+
+func sendRealtimeEventsForPassengers(passengers []model.Passenger, defaultActionType realtime.ActionType) {
+    for _, p := range passengers {
+        switch p.Action {
+        case model.ActionCreate:
+            realtime.PassengerStream.PublishEvent(realtime.CREATED, p)
+        case model.ActionUpdate:
+            realtime.PassengerStream.PublishEvent(realtime.UPDATED, p)
+        case model.ActionDelete:
+            realtime.PassengerStream.PublishEvent(realtime.DELETED, p)
+        default:
+            realtime.PassengerStream.PublishEvent(defaultActionType, p)
+        }
+    }
 }

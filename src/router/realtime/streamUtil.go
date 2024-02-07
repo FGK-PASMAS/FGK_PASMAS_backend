@@ -26,7 +26,7 @@ type Stream struct {
 type ClientChan chan string
 
 // addClient adds a new client to the clients map.
-func (stream *Stream) ServeStream() gin.HandlerFunc {
+func (stream *Stream) serveStream() gin.HandlerFunc {
     return func(c *gin.Context) {
         // Init client channel
         clientChan := make(ClientChan)
@@ -49,8 +49,8 @@ func (stream *Stream) sendEvent(eventMessage string) {
     stream.Message <- eventMessage
 }
 
-// NewStream creates a new event server and returns it.
-func NewStream() (event *Stream){
+// newStream creates a new event server and returns it.
+func newStream() (event *Stream){
     event = &Stream{
         Message:       make(chan string),
         NewClients:    make(chan chan string),
@@ -62,7 +62,7 @@ func NewStream() (event *Stream){
     return
 }
 
-func StreamToClient(c *gin.Context) {
+func streamToClient(c *gin.Context) {
         v, err := c.Get("clientChan")
         if !err {
             fmt.Println("Error getting clientChan")
@@ -105,8 +105,8 @@ func (stream *Stream) listen() {
     }
 }
 
-// HeadersMiddleware sets headers for server-sent events.
-func HeadersMiddleware() gin.HandlerFunc {
+// headersMiddleware sets headers for server-sent events.
+func headersMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		c.Writer.Header().Set("Content-Type", "text/event-stream")
 		c.Writer.Header().Set("Cache-Control", "no-cache")
