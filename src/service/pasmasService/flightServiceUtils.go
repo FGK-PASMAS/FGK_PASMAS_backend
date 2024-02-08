@@ -7,6 +7,7 @@ import (
 	dh "github.com/MetaEMK/FGK_PASMAS_backend/databaseHandler"
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
 	"github.com/MetaEMK/FGK_PASMAS_backend/router/realtime"
+	"github.com/MetaEMK/FGK_PASMAS_backend/validator"
 	"gorm.io/gorm"
 )
 
@@ -120,12 +121,28 @@ func checkFlightValidation(flight model.Flight) error {
 }
 
 
-func calculatePassWeight(passengers []model.Passenger, maxSeatPayload int) (uint, error) {
+func checkPassengerAndCalcWeight(passengers []model.Passenger, maxSeatPayload int, min uint, max uint, fullPassCheck bool) (uint, error) {
+    if len(passengers) > int(max) {
+        return 0, ErrTooManyPassenger
+    }
+
+    if len(passengers) < int(min) {
+        return 0, ErrTooLessPassenger
+    }
+
     weight := uint(0)
     for _, p := range passengers {
         if maxSeatPayload > 0 && p.Weight > uint(maxSeatPayload){
             return 0, ErrMaxSeatPayload
         }
+
+        if fullPassCheck {
+            err := validator.ValidatePassengerForBooking(p)
+            if err != nil {
+                return 0, err
+            }
+        }
+
         weight += p.Weight
     }
 
@@ -173,7 +190,7 @@ func partialUpdatePassengers(db *gorm.DB, oldPass *[]model.Passenger, newPass *[
         case model.ActionCreate:
             passengerCreate(db, &(*newPass)[i])
             tmp := append(*oldPass, (*newPass)[i])
-            oldPass = &tmp
+            *oldPass = tmp
         case model.ActionUpdate:
             status := false
             for j := range *oldPass {
@@ -202,6 +219,10 @@ func partialUpdateFlight(db *gorm.DB, id uint, newFlight *model.Flight) {
     if err != nil {
         db.AddError(err)
         return
+    }
+
+    if newFlight.Status == model.FsBooked && oldFlight.Status == model.FsReserved {
+        oldFlight.Status = newFlight.Status
     }
 
     if newFlight.Description != nil {

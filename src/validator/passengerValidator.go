@@ -34,5 +34,9 @@ func ValidatePassengerForBooking(pass model.Passenger) error {
         return ErrPassengerLastName
     }
 
+    if pass.Weight <= 0 {
+        return ErrPassengerWeight
+    }
+
     return nil
 }

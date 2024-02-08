@@ -40,7 +40,7 @@ type Plane struct {
     MaxSeatPayload int `gorm:"not null"`
 
 	// Aircrafts division f.E. "Motorflug"
-	DivisionId uint     `json:"-" gorm:"index"`
+	DivisionId uint     `gorm:"index"`
 	Division   *Division `gorm:"foreignKey:DivisionId;OnUpdate:CASCADE;OnDelete:RESTRICT"`
 
     // Contains all pilots who are allowed to fly this aircraft

@@ -16,7 +16,7 @@ type ApiError struct {
 var (
     unknownError = ApiError { HttpCode: http.StatusInternalServerError, ErrorResponse: ErrorResponse { Success: false, Type: "UNKNOWN_ERROR"} }
     InvalidRequestBody = ApiError { HttpCode: http.StatusBadRequest, ErrorResponse: ErrorResponse { Success: false, Type: "INVALID_REQUEST_BODY"} }
-    invalidFlightLogic = ApiError { HttpCode: http.StatusConflict, ErrorResponse: ErrorResponse { Success: false, Type: "INVALID_FLIGHT_LOGIC"} }
+    invalidFlightLogic = ApiError { HttpCode: http.StatusBadRequest, ErrorResponse: ErrorResponse { Success: false, Type: "INVALID_FLIGHT_LOGIC"} }
     objectNotFound = ApiError { HttpCode: http.StatusNotFound, ErrorResponse: ErrorResponse { Success: false, Type: "OBJECT_NOT_FOUND"} }
     dependencyNotFound = ApiError { HttpCode: http.StatusBadRequest, ErrorResponse: ErrorResponse { Success: false, Type: "DEPENDENCY_NOT_FOUND"} }
     notImplemented = ApiError { HttpCode: http.StatusNotImplemented, ErrorResponse: ErrorResponse { Success: false, Type: "NOT_IMPLEMENTED"} }
@@ -37,9 +37,6 @@ func GetErrorResponse(err error) ApiError {
             obj = objectNotFound
 
         case // InvalidRequestBody
-            validator.ErrPassengerWeight,
-            validator.ErrPassengerLastName,
-            validator.ErrInvalidDepartureTime,
             ErrInvalidFlightStatus:
                 obj = InvalidRequestBody
 
@@ -52,6 +49,9 @@ func GetErrorResponse(err error) ApiError {
 
         // invalidFlightLogic
         case 
+            validator.ErrPassengerWeight,
+            validator.ErrPassengerLastName,
+            validator.ErrInvalidDepartureTime,
             pasmasservice.ErrFlightStatusDoesNotFitProcess,
             pasmasservice.ErrNoPilotAvailable,
             pasmasservice.ErrNoStartFuelFound,
@@ -61,7 +61,8 @@ func GetErrorResponse(err error) ApiError {
             pasmasservice.ErrTooMuchFuel,
             pasmasservice.ErrTooLessFuel,
             pasmasservice.ErrOverloaded,
-            pasmasservice.ErrSlotIsNotFree:
+            pasmasservice.ErrSlotIsNotFree,
+            pasmasservice.ErrDepartureTimeIsZero:
                 obj = invalidFlightLogic
 
         case pasmasservice.ErrIncludeNotSupported:
