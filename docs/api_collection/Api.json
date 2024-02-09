@@ -155,7 +155,7 @@
 			"name": "passenger",
 			"item": [
 				{
-					"name": "Get all Passengers",
+					"name": "get all Passengers",
 					"event": [
 						{
 							"listen": "test",
@@ -444,7 +444,7 @@
 					]
 				},
 				{
-					"name": "01 - flight planning",
+					"name": "01 - flight creation",
 					"id": "f9564607-429c-4125-8e6d-37379c5091a6",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -454,7 +454,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"DepartureTime\": \"2024-01-24T14:30:00Z\",\n    \"Description\": null, // optional - This is a string\n    \"ArrivalTime\": null, // optional - \"this is a time - see departuretime for an example\"\n    \"PlaneId\": 1\n}",
+							"raw": "{\n    \"DepartureTime\": \"2024-01-24T14:30:00Z\",\n    \"PlaneId\": 1,\n    \"Description\": null,                // optional - This is a string\n    \"ArrivalTime\": null,                // optional - \"this is a time - see departuretime for an example\"\n    \"Passengers\": [                     // optional \n        {\n            \"LastName\": \"Mustermann\",   // optional\n            \"FirstName\": \"Max\",         // optional\n            \"Weight\": 80\n        }\n    ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -462,28 +462,27 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/api/flights/planning",
+							"raw": "{{url}}/api/flights",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"api",
-								"flights",
-								"planning"
+								"flights"
 							]
 						},
 						"description": "However, flightlogic does not perform any calculations except for fuel calculation. This is the first step in the 'flight creation' process. It creates a new flight in the 'planned' status, blocking only the flight slot for any other flight. The arrival time will be determined by the plane's 'FlightDuration' parameter."
 					},
 					"response": [
 						{
-							"id": "d7878b31-12a0-4044-9940-e425314aa8f6",
+							"id": "cef3dc4c-9590-4d2b-bf64-c3f219bf86ea",
 							"name": "201",
 							"originalRequest": {
 								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"DepartureTime\": \"2024-01-24T14:30:00Z\",\n    \"Description\": null, // optional - This is a string\n    \"ArrivalTime\": null, // optional - \"this is a time - see departuretime for an example\"\n    \"PlaneId\": 1\n}",
+									"raw": "{\n    \"DepartureTime\": \"2024-01-24T14:30:00Z\",\n    \"PlaneId\": 1,\n    \"Description\": null,                // optional - This is a string\n    \"ArrivalTime\": null,                // optional - \"this is a time - see departuretime for an example\"\n    \"Passengers\": [                     // optional \n        {\n            \"LastName\": \"Mustermann\",   // optional\n            \"FirstName\": \"Max\",         // optional\n            \"Weight\": 80\n        }\n    ]\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -491,14 +490,13 @@
 									}
 								},
 								"url": {
-									"raw": "{{url}}/api/flights/planning",
+									"raw": "{{url}}/api/flights",
 									"host": [
 										"{{url}}"
 									],
 									"path": [
 										"api",
-										"flights",
-										"planning"
+										"flights"
 									]
 								}
 							},
@@ -512,30 +510,30 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 02 Feb 2024 11:27:26 GMT"
+									"value": "Fri, 09 Feb 2024 10:42:22 GMT"
 								},
 								{
 									"key": "Content-Length",
-									"value": "354"
+									"value": "770"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"Success\": true,\n    \"Response\": {\n        \"ID\": 1,\n        \"CreatedAt\": \"2024-02-02T12:27:26.709667+01:00\",\n        \"UpdatedAt\": \"2024-02-02T12:27:26.709667+01:00\",\n        \"DeletedAt\": null,\n        \"Status\": \"PLANNED\",\n        \"Description\": null,\n        \"FuelAtDeparture\": 100,\n        \"DepartureTime\": \"2024-01-24T14:30:00Z\",\n        \"ArrivalTime\": \"2024-01-24T14:54:00Z\",\n        \"PlaneId\": 1,\n        \"Plane\": null,\n        \"PilotId\": null,\n        \"Pilot\": null,\n        \"Passengers\": null\n    }\n}"
+							"body": "{\n    \"Success\": true,\n    \"Response\": {\n        \"ID\": 2,\n        \"CreatedAt\": \"2024-02-09T11:42:22.750938316+01:00\",\n        \"UpdatedAt\": \"2024-02-09T11:42:22.750938316+01:00\",\n        \"DeletedAt\": null,\n        \"Status\": \"RESERVED\",\n        \"Description\": null,\n        \"FuelAtDeparture\": null,\n        \"DepartureTime\": \"2024-01-24T14:30:00Z\",\n        \"ArrivalTime\": \"2024-01-24T14:54:00Z\",\n        \"PlaneId\": 1,\n        \"Plane\": null,\n        \"PilotId\": 2,\n        \"Pilot\": {\n            \"ID\": 2,\n            \"CreatedAt\": \"2024-02-08T15:11:24.395393+01:00\",\n            \"UpdatedAt\": \"2024-02-08T15:11:24.395393+01:00\",\n            \"DeletedAt\": null,\n            \"FirstName\": \"Dennis\",\n            \"LastName\": \"Kornwestheim\",\n            \"Weight\": 72,\n            \"AllowedPlanes\": null\n        },\n        \"Passengers\": [\n            {\n                \"ID\": 5,\n                \"CreatedAt\": \"2024-02-09T11:42:22.751536391+01:00\",\n                \"UpdatedAt\": \"2024-02-09T11:42:22.751536391+01:00\",\n                \"DeletedAt\": null,\n                \"LastName\": \"Mustermann\",\n                \"FirstName\": \"Max\",\n                \"Weight\": 80,\n                \"FlightID\": 2,\n                \"Flight\": null,\n                \"Action\": \"\"\n            }\n        ]\n    }\n}"
 						}
 					]
 				},
 				{
-					"name": "02 - flight reservation",
+					"name": "02 - flight update",
 					"id": "4db00b93-db15-4763-8ec7-37b54f5f5f42",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
 					"request": {
-						"method": "POST",
+						"method": "PATCH",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"Description\": null, // \"This is a string - empty string means -> removing description \"\n    \"Passengers\": [\n        {\n            \"LastName\": \"Mustermann\", // optional - string\n            \"Firstname\": null, // optional - string\n            \"Weight\": 80\n        },\n        {\n            \"Weight\": 80\n        },\n        {\n            \"Weight\": 25\n        }\n    ]\n}",
+							"raw": "{\n    \"Status\": \"RESERVED\",               // RESERVED | BOOKED\n    \"Description\": null,                // \"This is a string - empty string means -> removing description \"\n    \"Passengers\": [                     // optional - when setting BOOKED status all created passengers must have a lastname, firstname an weight. Each flight must have at least one passenger and a maximum number of passengers as permitted by the division.\n        {\n            \"Action\": \"UPDATE\",         // CREATE | UPDATE | DELETE\n            \"ID\": 1,\n            \"LastName\": \"Mustermann\",   // optional\n            \"FirstName\": \"Max\",         // optional\n            \"Weight\": 80\n        },        \n        {\n            \"Action\": \"CREATE\",         // CREATE | UPDATE | DELETE\n            \"LastName\": \"Mustermann\",   // optional\n            \"FirstName\": \"Maria\",         // optional\n            \"Weight\": 80\n        },\n        {\n            \"Action\": \"DELETE\",         // CREATE | UPDATE | DELETE\n            \"ID\": 2\n        }\n    ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -543,111 +541,13 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/api/flights/reservation/:id",
+							"raw": "{{url}}/api/flights/:id",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"api",
 								"flights",
-								"reservation",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "1",
-									"description": "id of flight in \"planned\" status"
-								}
-							]
-						},
-						"description": "This is the second step in the 'flight creation' process.  \nIt updates a flight from 'planned' to 'reserved' status, performing flight logic calculations such as pilot selection and weight checking.\n\nIt creates passengers for this flight with at least the weight attribute. Other attributes are optional and can be set later"
-					},
-					"response": [
-						{
-							"id": "1094fe76-5149-41dc-af44-2b50fc4c3134",
-							"name": "201",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"Description\": null, // \"This is a string - empty string means -> removing description \"\n    \"Passengers\": [\n        {\n            \"Weight\": 80\n        },\n        {\n            \"Weight\": 80\n        },\n        {\n            \"Weight\": 25\n        }\n    ]\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/api/flights/reservation/:id",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"api",
-										"flights",
-										"reservation",
-										":id"
-									],
-									"variable": [
-										{
-											"key": "id",
-											"value": "1",
-											"description": "id of flight in \"planned\" status"
-										}
-									]
-								}
-							},
-							"status": "Created",
-							"code": 201,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Date",
-									"value": "Fri, 02 Feb 2024 11:41:30 GMT"
-								},
-								{
-									"key": "Content-Length",
-									"value": "1326"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"Success\": true,\n    \"Response\": {\n        \"ID\": 1,\n        \"CreatedAt\": \"2024-02-02T12:27:26.709667+01:00\",\n        \"UpdatedAt\": \"2024-02-02T12:41:30.627333+01:00\",\n        \"DeletedAt\": null,\n        \"Status\": \"RESERVED\",\n        \"Description\": null,\n        \"FuelAtDeparture\": 100,\n        \"DepartureTime\": \"2024-01-24T15:30:00+01:00\",\n        \"ArrivalTime\": \"2024-01-24T15:54:00+01:00\",\n        \"PlaneId\": 1,\n        \"Plane\": {\n            \"ID\": 1,\n            \"CreatedAt\": \"2024-02-02T12:23:41.095744+01:00\",\n            \"UpdatedAt\": \"2024-02-02T12:23:41.095744+01:00\",\n            \"DeletedAt\": null,\n            \"Registration\": \"D-ELXX\",\n            \"AircraftType\": \"C172\",\n            \"FlightDuration\": 1440000000000,\n            \"FuelMaxCapacity\": 140,\n            \"FuelburnPerFlight\": 20,\n            \"FuelConversionFactor\": 0.72,\n            \"MTOW\": 1050,\n            \"EmptyWeight\": 650,\n            \"MaxSeatPayload\": -1,\n            \"Division\": null,\n            \"AllowedPilots\": null,\n            \"PrefPilotId\": null,\n            \"PrefPilot\": null,\n            \"Flights\": null\n        },\n        \"PilotId\": 2,\n        \"Pilot\": null,\n        \"Passengers\": [\n            {\n                \"ID\": 1,\n                \"CreatedAt\": \"2024-02-02T12:41:30.628143+01:00\",\n                \"UpdatedAt\": \"2024-02-02T12:41:30.628143+01:00\",\n                \"DeletedAt\": null,\n                \"LastName\": \"\",\n                \"FirstName\": \"\",\n                \"Weight\": 80,\n                \"FlightID\": 1,\n                \"Flight\": null\n            },\n            {\n                \"ID\": 2,\n                \"CreatedAt\": \"2024-02-02T12:41:30.628143+01:00\",\n                \"UpdatedAt\": \"2024-02-02T12:41:30.628143+01:00\",\n                \"DeletedAt\": null,\n                \"LastName\": \"\",\n                \"FirstName\": \"\",\n                \"Weight\": 80,\n                \"FlightID\": 1,\n                \"Flight\": null\n            },\n            {\n                \"ID\": 3,\n                \"CreatedAt\": \"2024-02-02T12:41:30.628143+01:00\",\n                \"UpdatedAt\": \"2024-02-02T12:41:30.628143+01:00\",\n                \"DeletedAt\": null,\n                \"LastName\": \"\",\n                \"FirstName\": \"\",\n                \"Weight\": 25,\n                \"FlightID\": 1,\n                \"Flight\": null\n            }\n        ]\n    }\n}"
-						}
-					]
-				},
-				{
-					"name": "03 - flight booking",
-					"id": "4e30fbc7-fa66-433a-92e4-3204406bc518",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"Description\": null, // \"This is a string - empty string means -> removing description \"\n    \"Passengers\": [\n        {\n            \"ID\": 1,\n            \"LastName\": \"Schreiner\",\n            \"FirstName\": \"Max\"\n        },\n        {\n            \"ID\": 2,\n            \"LastName\": \"Mustermann\",\n            \"FirstName\": \"Maria\"\n        },\n        {\n            \"ID\": 3,\n            \"LastName\": \"Musterkind\",\n            \"FirstName\": \"Thomas\",\n            \"Weight\": 80\n        }\n    ]\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}/api/flights/booking/:id",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"api",
-								"flights",
-								"booking",
 								":id"
 							],
 							"variable": [
@@ -658,18 +558,18 @@
 								}
 							]
 						},
-						"description": "This is the third step in the 'flight creation' process. It updated a flight from 'reserved' to 'booked', validating and finalizing the flight.\n\nIt also gives you the possibility to edit all the passengers which you previously created."
+						"description": "This is the second step in the 'flight creation' process.  \nIt updates a flight from 'planned' to 'reserved' status, performing flight logic calculations such as pilot selection and weight checking.\n\nIt creates passengers for this flight with at least the weight attribute. Other attributes are optional and can be set later"
 					},
 					"response": [
 						{
-							"id": "3a88069c-86e3-4236-9786-a4c1c5cd8071",
-							"name": "201",
+							"id": "21ce02db-a842-4c8d-ad22-f7bce10ad62d",
+							"name": "200",
 							"originalRequest": {
-								"method": "POST",
+								"method": "PATCH",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"Description\": null, // \"This is a string - empty string means -> removing description \"\n    \"Passengers\": [\n        {\n            \"ID\": 1,\n            \"LastName\": \"Schreiner\",\n            \"FirstName\": \"Max\"\n        },\n        {\n            \"ID\": 2,\n            \"LastName\": \"Mustermann\",\n            \"FirstName\": \"Maria\"\n        },\n        {\n            \"ID\": 3,\n            \"LastName\": \"Musterkind\",\n            \"FirstName\": \"Thomas\",\n            \"Weight\": 80\n        }\n    ]\n}",
+									"raw": "{\n    \"Status\": \"RESERVED\",               // RESERVED | BOOKED\n    \"Description\": null,                // \"This is a string - empty string means -> removing description \"\n    \"Passengers\": [                     // optional - when setting BOOKED status all created passengers must have a lastname, firstname an weight. Each flight must have at least one passenger and a maximum number of passengers as permitted by the division.\n        {\n            \"Action\": \"UPDATE\",         // CREATE | UPDATE | DELETE\n            \"ID\": 1,\n            \"LastName\": \"Mustermann\",   // optional\n            \"FirstName\": \"Max\",         // optional\n            \"Weight\": 80\n        },        \n        {\n            \"Action\": \"CREATE\",         // CREATE | UPDATE | DELETE\n            \"LastName\": \"Mustermann\",   // optional\n            \"FirstName\": \"Maria\",         // optional\n            \"Weight\": 80\n        },\n        {\n            \"Action\": \"DELETE\",         // CREATE | UPDATE | DELETE\n            \"ID\": 2\n        }\n    ]\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -677,14 +577,13 @@
 									}
 								},
 								"url": {
-									"raw": "{{url}}/api/flights/booking/:id",
+									"raw": "{{url}}/api/flights/:id",
 									"host": [
 										"{{url}}"
 									],
 									"path": [
 										"api",
 										"flights",
-										"booking",
 										":id"
 									],
 									"variable": [
@@ -706,15 +605,15 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 02 Feb 2024 12:49:28 GMT"
+									"value": "Fri, 09 Feb 2024 11:16:21 GMT"
 								},
 								{
 									"key": "Content-Length",
-									"value": "1367"
+									"value": "787"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"Success\": true,\n    \"Response\": {\n        \"ID\": 1,\n        \"CreatedAt\": \"2024-02-02T13:40:55.508527+01:00\",\n        \"UpdatedAt\": \"2024-02-02T13:49:28.519775+01:00\",\n        \"DeletedAt\": null,\n        \"Status\": \"BOOKED\",\n        \"Description\": null,\n        \"FuelAtDeparture\": 100,\n        \"DepartureTime\": \"2024-01-24T15:30:00+01:00\",\n        \"ArrivalTime\": \"2024-01-24T15:54:00+01:00\",\n        \"PlaneId\": 1,\n        \"Plane\": {\n            \"ID\": 1,\n            \"CreatedAt\": \"2024-02-02T13:40:53.380584+01:00\",\n            \"UpdatedAt\": \"2024-02-02T13:40:53.380584+01:00\",\n            \"DeletedAt\": null,\n            \"Registration\": \"D-ELXX\",\n            \"AircraftType\": \"C172\",\n            \"FlightDuration\": 1440000000000,\n            \"FuelMaxCapacity\": 140,\n            \"FuelburnPerFlight\": 20,\n            \"FuelConversionFactor\": 0.72,\n            \"MTOW\": 1050,\n            \"EmptyWeight\": 650,\n            \"MaxSeatPayload\": -1,\n            \"Division\": null,\n            \"AllowedPilots\": null,\n            \"PrefPilotId\": null,\n            \"PrefPilot\": null,\n            \"Flights\": null\n        },\n        \"PilotId\": 2,\n        \"Pilot\": null,\n        \"Passengers\": [\n            {\n                \"ID\": 1,\n                \"CreatedAt\": \"2024-02-02T13:40:57.765638+01:00\",\n                \"UpdatedAt\": \"2024-02-02T13:49:28.509519+01:00\",\n                \"DeletedAt\": null,\n                \"LastName\": \"Schreiner\",\n                \"FirstName\": \"Max\",\n                \"Weight\": 80,\n                \"FlightID\": 1,\n                \"Flight\": null\n            },\n            {\n                \"ID\": 2,\n                \"CreatedAt\": \"2024-02-02T13:40:57.765638+01:00\",\n                \"UpdatedAt\": \"2024-02-02T13:49:28.512784+01:00\",\n                \"DeletedAt\": null,\n                \"LastName\": \"Mustermann\",\n                \"FirstName\": \"Maria\",\n                \"Weight\": 80,\n                \"FlightID\": 1,\n                \"Flight\": null\n            },\n            {\n                \"ID\": 3,\n                \"CreatedAt\": \"2024-02-02T13:40:57.765638+01:00\",\n                \"UpdatedAt\": \"2024-02-02T13:49:28.515604+01:00\",\n                \"DeletedAt\": null,\n                \"LastName\": \"Musterkind\",\n                \"FirstName\": \"Thomas\",\n                \"Weight\": 80,\n                \"FlightID\": 1,\n                \"Flight\": null\n            }\n        ]\n    }\n}"
+							"body": "{\n    \"Success\": true,\n    \"Response\": {\n        \"ID\": 1,\n        \"CreatedAt\": \"2024-02-09T12:16:19.566578+01:00\",\n        \"UpdatedAt\": \"2024-02-09T12:16:21.287665+01:00\",\n        \"DeletedAt\": null,\n        \"Status\": \"RESERVED\",\n        \"Description\": null,\n        \"FuelAtDeparture\": 100,\n        \"DepartureTime\": \"2024-01-24T15:30:00+01:00\",\n        \"ArrivalTime\": \"2024-01-24T15:54:00+01:00\",\n        \"PlaneId\": 1,\n        \"Plane\": null,\n        \"PilotId\": 2,\n        \"Pilot\": null,\n        \"Passengers\": [\n            {\n                \"ID\": 1,\n                \"CreatedAt\": \"2024-02-09T12:16:19.567173+01:00\",\n                \"UpdatedAt\": \"2024-02-09T12:16:21.288349+01:00\",\n                \"DeletedAt\": null,\n                \"LastName\": \"Mustermann\",\n                \"FirstName\": \"Max\",\n                \"Weight\": 80,\n                \"FlightID\": 1,\n                \"Flight\": null,\n                \"Action\": \"\"\n            },\n            {\n                \"ID\": 3,\n                \"CreatedAt\": \"2024-02-09T12:16:21.288615+01:00\",\n                \"UpdatedAt\": \"2024-02-09T12:16:21.288615+01:00\",\n                \"DeletedAt\": null,\n                \"LastName\": \"Mustermann\",\n                \"FirstName\": \"Maria\",\n                \"Weight\": 80,\n                \"FlightID\": 1,\n                \"Flight\": null,\n                \"Action\": \"\"\n            }\n        ]\n    }\n}"
 						}
 					]
 				},
