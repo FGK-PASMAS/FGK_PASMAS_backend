@@ -22,7 +22,7 @@ type Plane struct {
 	FuelMaxCapacity int `gorm:"not null"`
 
     // Fuel amount to start with
-    FuelStartAmount uint `json:"-"`
+    FuelStartAmount uint 
 
 	// Fuel consumption per flight in liters; -1 if not applicable
 	FuelburnPerFlight float32 `gorm:"not null"`
