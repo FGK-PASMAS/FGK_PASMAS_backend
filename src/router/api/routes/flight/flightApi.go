@@ -44,14 +44,17 @@ func getFlights(c *gin.Context) {
     c.JSON(httpCode, response)
 }
 
-func flightPlanning(c *gin.Context) {
+func flightCreation(c *gin.Context) {
     var response interface{}
     var httpCode int
 
-    var input FlightPlanning
-    err := c.ShouldBind(&input)
+    var flight model.Flight
+    err := c.ShouldBind(&flight)
 
-    flight, err := pasmasservice.FlightPlanning(input.PlaneId, input.DepartureTime, input.ArrivalTime, input.Description)
+    passengers:= flight.Passengers
+    flight.Passengers = nil
+
+    err = pasmasservice.FlightCreation(&flight, passengers)
 
     if err != nil {
         res := api.GetErrorResponse(err)
@@ -68,19 +71,18 @@ func flightPlanning(c *gin.Context) {
     c.JSON(httpCode, response)
 }
 
-func flightReservation(c *gin.Context) {
+func flightUpdate(c *gin.Context) {
     var response interface{}
     var httpCode int
     var err error
-    var flight *model.Flight
 
-    var input FlightReservation
-    err = c.ShouldBind(&input)
+    var flight model.Flight
+    err = c.ShouldBind(&flight)
 
     idStr := c.Param("id")
     id, err := strconv.ParseUint(idStr, 10, 64)
     if err == nil {
-        flight, err = pasmasservice.FlightReservation(uint(id), &input.Passengers, input.Description)
+        err = pasmasservice.FlightUpdate(uint(id), &flight)
     }
 
     if err != nil {
@@ -92,35 +94,10 @@ func flightReservation(c *gin.Context) {
             Success: true,
             Response: flight,
         }
-        httpCode = http.StatusCreated
+        httpCode = http.StatusOK
     }
 
     c.JSON(httpCode, response)
-}
-
-func flightBooking(c *gin.Context) {
-    var flight *model.Flight
-    idStr := c.Param("id")
-    id, err := strconv.ParseUint(idStr, 10, 64)
-
-    var input FlightBooking
-    c.ShouldBind(&input)
-
-    if err == nil {
-        flight, err = pasmasservice.BookFlight(uint(id), &input.Passengers, input.Description)
-    }
-
-    if err != nil {
-        res := api.GetErrorResponse(err)
-        c.JSON(res.HttpCode, res.ErrorResponse)
-    } else {
-        response := api.SuccessResponse {
-            Success: true,
-            Response: flight,
-        }
-
-        c.JSON(http.StatusOK, response)
-    }
 }
 
 func deleteFlight(c *gin.Context) {

@@ -4,8 +4,7 @@ import "github.com/gin-gonic/gin"
 
 func SetupFlightRoutes(gr gin.RouterGroup) {
     gr.GET("", getFlights)
-    gr.POST("/planning", flightPlanning)
-    gr.POST("/reservation/:id", flightReservation)
-    gr.POST("/booking/:id", flightBooking)
+    gr.POST("", flightCreation)
+    gr.PATCH("/:id", flightUpdate)
     gr.DELETE("/:id", deleteFlight)
 }

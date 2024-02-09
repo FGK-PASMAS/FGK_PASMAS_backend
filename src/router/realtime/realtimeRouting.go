@@ -7,9 +7,9 @@ import (
 )
 
 
-var FlightStream = NewStream()
-var PassengerStream = NewStream()
-var pingStream = NewStream()
+var FlightStream = newStream()
+var PassengerStream = newStream()
+var pingStream = newStream()
 
 func SetupRealtimeRoutes(r *gin.RouterGroup) {
     subscribeToStream(r, "/passengers", PassengerStream)
@@ -20,7 +20,7 @@ func SetupRealtimeRoutes(r *gin.RouterGroup) {
 }
 
 func subscribeToStream(r *gin.RouterGroup, url string, stream *Stream) {
-    r.GET(url, HeadersMiddleware(), stream.ServeStream(), StreamToClient)
+    r.GET(url, headersMiddleware(), stream.serveStream(), streamToClient)
 }
 
 func sendPings() {

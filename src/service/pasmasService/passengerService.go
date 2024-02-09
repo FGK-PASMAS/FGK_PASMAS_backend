@@ -1,11 +1,18 @@
 package pasmasservice
 
 import (
+	"errors"
+
 	dh "github.com/MetaEMK/FGK_PASMAS_backend/databaseHandler"
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
 	"github.com/MetaEMK/FGK_PASMAS_backend/router/realtime"
-	"github.com/MetaEMK/FGK_PASMAS_backend/validator"
+	"gorm.io/gorm"
 )
+
+var (
+    ErrPassengerWeightIsZero = errors.New("Passenger weight must > 0")
+)
+
 func GetPassengers() ([]model.Passenger, error) {
     passengers := []model.Passenger{}
     result := dh.Db.Preload("Flight").Find(&passengers)
@@ -13,36 +20,39 @@ func GetPassengers() ([]model.Passenger, error) {
     return passengers, result.Error
 }
 
-func CreatePassenger(pass model.Passenger) (model.Passenger, error) {
-    err := validator.ValidatePassengerForReserve(pass)
+// partialUpdatePassenger updates the newPass with all its attributes.
+// 0 or "" values mean that the field should be set nil.
+// Nil values are not updated in the database. The newPass is updated in the database and returned.
+func partialUpdatePassenger(db *gorm.DB, id uint, newPass *model.Passenger) {
+    var oldPass model.Passenger
+    if db == nil {
+        db = dh.Db
+    }
+
+    if newPass.Weight <= 0 {
+        db.AddError(ErrPassengerWeightIsZero)
+    }
+
+    err := db.First(&oldPass, id).Error
     if err != nil {
-        return model.Passenger{}, err
+        db.AddError(err)
+        return
     }
 
-    result := dh.Db.Create(&pass)
-    realtime.PassengerStream.PublishEvent(realtime.CREATED, pass)
-    return pass, result.Error
-}
-
-func UpdatePassenger(id uint, pass model.Passenger) (model.Passenger, error) {
-    err := validator.ValidatePassengerForReserve(pass)
-    if err != nil {
-        return model.Passenger{}, err
+    if newPass.Weight > 0 {
+        oldPass.Weight = newPass.Weight
     }
 
-    oldPass := model.Passenger{}
-    result := dh.Db.First(&oldPass, id)
-    if result.Error != nil {
-        return model.Passenger{}, result.Error
+    if newPass.LastName != "" {
+        oldPass.LastName = newPass.LastName
     }
 
-    result = dh.Db.Model(&oldPass).Updates(pass)
-    if result.Error != nil {
-        return model.Passenger{}, result.Error
+    if newPass.FirstName != "" {
+        oldPass.FirstName = newPass.FirstName
     }
 
-    realtime.PassengerStream.PublishEvent(realtime.UPDATED, oldPass)
-    return oldPass, nil
+    db.Updates(&oldPass)
+    newPass = &oldPass
 }
 
 func DeletePassenger(id uint) error {
