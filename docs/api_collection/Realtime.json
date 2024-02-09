@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "d8d88d92-fc1c-4a5b-9dc1-3ba53def86b6",
+		"_postman_id": "a400cf42-7330-485b-923d-6fc39f188b2f",
 		"name": "Realtime",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_uid": "30997389-d8d88d92-fc1c-4a5b-9dc1-3ba53def86b6"
+		"_uid": "30997389-a400cf42-7330-485b-923d-6fc39f188b2f"
 	},
 	"item": [
 		{
@@ -11,7 +11,7 @@
 			"item": [
 				{
 					"name": "Connect to Channel",
-					"id": "f03ca0e9-0b37-41d9-a3eb-bd7273d7e165",
+					"id": "adb17b79-ba11-40d7-b916-f0752e239050",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -34,7 +34,7 @@
 				},
 				{
 					"name": "Ping",
-					"id": "375f1425-dd04-4d5d-b77a-195fbfc9b303",
+					"id": "8034ba40-df00-4e54-bda1-92c9e98d32a7",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -57,7 +57,7 @@
 				},
 				{
 					"name": "Post Message",
-					"id": "91fe17a9-11ef-4a5d-83b2-bcfd70f30ce1",
+					"id": "353a48a2-31f4-4cbb-9a90-04827a90e5ad",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -79,11 +79,11 @@
 					"response": []
 				}
 			],
-			"id": "c656543c-1ec0-41fa-b93f-2f74da334f84"
+			"id": "1d097dd2-5161-48cd-a839-8b30719369b1"
 		},
 		{
 			"name": "Connect to PassengerStream",
-			"id": "9a6f0493-86b3-4863-92f3-7720ddfea008",
+			"id": "dfc2ac9d-d1f6-44c6-8df9-9c325eaf66fb",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -105,7 +105,7 @@
 		},
 		{
 			"name": "Connect to FlightStream",
-			"id": "a2626411-5598-480e-aeff-3db10fa331e5",
+			"id": "d534cd78-e831-4c92-a8e1-81693fe85702",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},

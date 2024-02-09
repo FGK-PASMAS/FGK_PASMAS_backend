@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "56086f54-6699-4e7d-82bf-33f28736b90f",
+		"_postman_id": "02336975-210a-41de-a5d9-98bef05979c1",
 		"name": "Api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_uid": "30997389-56086f54-6699-4e7d-82bf-33f28736b90f"
+		"_uid": "30997389-02336975-210a-41de-a5d9-98bef05979c1"
 	},
 	"item": [
 		{
@@ -15,7 +15,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "29fa411e-5933-486e-bae7-3d25ed854c81",
+								"id": "3506ef5a-0a29-4d99-9dda-e5adea8382a9",
 								"exec": [
 									"pm.test(\"status\", function() {",
 									"    pm.response.to.have.status(200)",
@@ -29,7 +29,7 @@
 							}
 						}
 					],
-					"id": "23bd59ea-e82a-46b7-a974-990fff5914ec",
+					"id": "13a93bf1-5062-4c48-99b4-e55dad074b8a",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -51,7 +51,7 @@
 					},
 					"response": [
 						{
-							"id": "7ed701b7-f2a4-43e9-bc9a-799a64907c54",
+							"id": "675fda14-afd3-4b1b-921b-408df5a85340",
 							"name": "OK",
 							"originalRequest": {
 								"method": "GET",
@@ -89,7 +89,7 @@
 				},
 				{
 					"name": "Database reset",
-					"id": "a91d92b9-0dc3-4ab7-bf13-68f237b68a68",
+					"id": "13bebeec-c3ac-4815-99f0-01b8191c962e",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -111,7 +111,7 @@
 					},
 					"response": [
 						{
-							"id": "8746bb95-aa83-4fde-96f7-1990c3535cb9",
+							"id": "9f62fb3a-5877-4ca6-a180-36256baf1f69",
 							"name": "200",
 							"originalRequest": {
 								"method": "POST",
@@ -148,7 +148,7 @@
 					]
 				}
 			],
-			"id": "25a47d97-1afc-48cf-82c8-09ef1e8f74e1",
+			"id": "8000fd6c-f690-4ba6-bea9-445ce143fe01",
 			"description": "The debug endpoint is primarily for debugging purposes."
 		},
 		{
@@ -160,7 +160,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "cfa3368f-17d5-4a83-90e0-d1b2273d5eb6",
+								"id": "8be6a109-2f99-4871-abf9-2798b36bc02d",
 								"exec": [
 									"pm.test(\"status\", function() {",
 									"    pm.response.to.have.status(200)",
@@ -174,7 +174,7 @@
 							}
 						}
 					],
-					"id": "36247526-14b5-425a-8d04-9dfac563307d",
+					"id": "3d223665-6fbd-4acf-96a1-e6254bb6f53a",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -195,7 +195,7 @@
 					},
 					"response": [
 						{
-							"id": "727830f0-b601-44cc-abbc-f71a65ca88dc",
+							"id": "fa7e37db-3d0f-4e45-b48d-634c3bfe8fe3",
 							"name": "200",
 							"originalRequest": {
 								"method": "GET",
@@ -229,391 +229,9 @@
 							"body": "{\n    \"Success\": true,\n    \"Response\": [\n        {\n            \"ID\": 2,\n            \"CreatedAt\": \"2024-01-25T10:11:17.638258+01:00\",\n            \"UpdatedAt\": \"2024-01-25T10:11:17.638258+01:00\",\n            \"DeletedAt\": null,\n            \"LastName\": \"Mustermann\",\n            \"FirstName\": \"Max\",\n            \"Weight\": 42,\n            \"FlightID\": 5\n        },\n        {\n            \"ID\": 1,\n            \"CreatedAt\": \"2024-01-25T10:11:17.638258+01:00\",\n            \"UpdatedAt\": \"2024-01-25T10:11:17.638258+01:00\",\n            \"DeletedAt\": null,\n            \"LastName\": \"Musterfrau\",\n            \"FirstName\": \"Maria\",\n            \"Weight\": 42,\n            \"FlightID\": 5\n        }\n    ]\n}"
 						}
 					]
-				},
-				{
-					"name": "Create Passenger",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "3ff4469b-d150-4104-a656-50306a930a8d",
-								"exec": [
-									"pm.test(\"status\", function() {",
-									"    pm.response.to.have.status(201)",
-									"})",
-									"",
-									"pm.test(\"response\", function() {",
-									"    pm.response.to.have.jsonBody(\"success\", true)",
-									"})"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"id": "9427160c-064f-4b8f-a2da-16cd2c8931ac",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"LastName\": \"Max\",\n    \"FirstName\": \"Mustermann\",\n    \"Weight\": 42\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}/api/passengers",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"api",
-								"passengers"
-							]
-						},
-						"description": "_**DEBUG ONLY:**_  \nThis endpoint creates a passenger without a flight binding (FlightId = null)"
-					},
-					"response": [
-						{
-							"id": "4c1b5a68-70c8-4242-adfa-ed94bc697a9e",
-							"name": "201",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"LastName\": \"Max\",\n    \"FirstName\": \"Mustermann\",\n    \"Weight\": 42\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "/api/passengers",
-									"path": [
-										"api",
-										"passengers"
-									]
-								}
-							},
-							"status": "Created",
-							"code": 201,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Date",
-									"value": "Sat, 20 Jan 2024 22:44:09 GMT"
-								},
-								{
-									"key": "Content-Length",
-									"value": "201"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"Success\": true,\n    \"Response\": {\n        \"ID\": 1,\n        \"CreatedAt\": \"2024-01-20T23:44:09.861067+01:00\",\n        \"UpdatedAt\": \"2024-01-20T23:44:09.861067+01:00\",\n        \"DeletedAt\": null,\n        \"LastName\": \"Max\",\n        \"FirstName\": \"Mustermann\",\n        \"Weight\": 42\n    }\n}"
-						},
-						{
-							"id": "53ce8b83-7b58-4699-b86d-511f40a4f7a4",
-							"name": "400 - INVALID_REQUEST_BODY",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"lastName\": \"Max\",\n    \"firstName\": \"Mustermann\",\n    \"divisionId\": 1\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/api/passengers",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"api",
-										"passengers"
-									]
-								}
-							},
-							"status": "Bad Request",
-							"code": 400,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Date",
-									"value": "Sat, 20 Jan 2024 22:44:34 GMT"
-								},
-								{
-									"key": "Content-Length",
-									"value": "84"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"Success\": false,\n    \"Type\": \"INVALID_REQUEST_BODY\",\n    \"Message\": \"Weight must be >= 0\"\n}"
-						}
-					]
-				},
-				{
-					"name": "Update Passenger",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "eb99fda3-8c86-4638-bf30-93e4bf46ba11",
-								"exec": [
-									"pm.test(\"status\", function() {",
-									"    pm.response.to.have.status(200)",
-									"})",
-									"",
-									"pm.test(\"response\", function() {",
-									"    pm.response.to.have.jsonBody(\"success\", true)",
-									"})"
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"id": "9639f753-b49d-4f29-8be0-6a12609d3387",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"FirstName\": \"Max\",\n    \"LastName\": \"Mustermann\",\n    \"Weight\": 72\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "{{url}}/api/passengers/:id",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"api",
-								"passengers",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "1",
-									"description": "passenger id"
-								}
-							]
-						},
-						"description": "Updates a passenger in the database."
-					},
-					"response": [
-						{
-							"id": "5b2c68f3-27d8-4681-ad43-4220f98cd454",
-							"name": "200",
-							"originalRequest": {
-								"method": "PUT",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"FirstName\": \"Max\",\n    \"LastName\": \"Mustermann\",\n    \"Weight\": 72\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/api/passengers/:id",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"api",
-										"passengers",
-										":id"
-									],
-									"variable": [
-										{
-											"key": "id",
-											"value": "1",
-											"description": "passenger id"
-										}
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Date",
-									"value": "Thu, 25 Jan 2024 09:37:54 GMT"
-								},
-								{
-									"key": "Content-Length",
-									"value": "214"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"Success\": true,\n    \"Response\": {\n        \"ID\": 1,\n        \"CreatedAt\": \"2024-01-25T10:29:16.133932+01:00\",\n        \"UpdatedAt\": \"2024-01-25T10:37:54.142351+01:00\",\n        \"DeletedAt\": null,\n        \"LastName\": \"Mustermann\",\n        \"FirstName\": \"Max\",\n        \"Weight\": 72,\n        \"FlightID\": 1\n    }\n}"
-						}
-					]
-				},
-				{
-					"name": "Delete Passenger",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "d3dd2fe6-1445-4450-b9e8-121fae7f3996",
-								"exec": [
-									"pm.test(\"status\", function() {",
-									"    pm.response.to.have.status(204)",
-									"})",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"id": "99d3f9ce-cff8-40a3-86ff-3d12e3b66e57",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "DELETE",
-						"header": [],
-						"url": {
-							"raw": "{{url}}/api/passengers/:id",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"api",
-								"passengers",
-								":id"
-							],
-							"variable": [
-								{
-									"key": "id",
-									"value": "1",
-									"description": "passenger id"
-								}
-							]
-						},
-						"description": "Delete a passenger."
-					},
-					"response": [
-						{
-							"id": "d86b7c32-5b10-4131-adc0-68e9a054aafe",
-							"name": "404",
-							"originalRequest": {
-								"method": "DELETE",
-								"header": [],
-								"url": {
-									"raw": "/api/passengers/:id",
-									"path": [
-										"api",
-										"passengers",
-										":id"
-									],
-									"variable": [
-										{
-											"key": "id",
-											"value": "20",
-											"description": "passenger id"
-										}
-									]
-								}
-							},
-							"status": "Not Found",
-							"code": 404,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Date",
-									"value": "Fri, 19 Jan 2024 13:13:54 GMT"
-								},
-								{
-									"key": "Content-Length",
-									"value": "68"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"Success\": false,\n    \"Type\": \"OBJECT_NOT_FOUND\",\n    \"Message\": \"record not found\"\n}"
-						},
-						{
-							"id": "961d2372-3bfd-44df-ba48-c2189850f251",
-							"name": "204",
-							"originalRequest": {
-								"method": "DELETE",
-								"header": [],
-								"url": {
-									"raw": "{{url}}/api/passengers/:id",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"api",
-										"passengers",
-										":id"
-									],
-									"variable": [
-										{
-											"key": "id",
-											"value": "1",
-											"description": "passenger id"
-										}
-									]
-								}
-							},
-							"status": "No Content",
-							"code": 204,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Date",
-									"value": "Fri, 19 Jan 2024 13:14:52 GMT"
-								}
-							],
-							"cookie": []
-						}
-					]
 				}
 			],
-			"id": "cb329518-377b-4304-b89c-a07a03276314"
+			"id": "09749177-93e3-4980-b3fd-ab3d5566d506"
 		},
 		{
 			"name": "division",
@@ -624,7 +242,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "adb0546f-5114-4f8a-a546-b44d417e1015",
+								"id": "a9e4e341-d570-4832-9f88-757f0f66eda7",
 								"exec": [
 									"pm.test(\"status\", function() {",
 									"    pm.response.to.have.status(200)",
@@ -638,7 +256,7 @@
 							}
 						}
 					],
-					"id": "a5822158-0bcf-4454-aca7-c5cacd376e03",
+					"id": "e10a7e88-db69-41c8-bf43-b8ad04c721d5",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -659,7 +277,7 @@
 					},
 					"response": [
 						{
-							"id": "f846f31b-9b6c-4415-bcff-f10962e254a8",
+							"id": "231c80e1-0a17-4d20-8724-5ea39ad8cafa",
 							"name": "200",
 							"originalRequest": {
 								"method": "GET",
@@ -695,14 +313,14 @@
 					]
 				}
 			],
-			"id": "a49f0f74-c4f6-46e2-8b8b-a2c0220edd76"
+			"id": "acc5f470-1ec8-4313-98a3-3f87011996a7"
 		},
 		{
 			"name": "flight",
 			"item": [
 				{
 					"name": "get all flights",
-					"id": "4e491601-05d2-4603-bfab-b0b5d50fd958",
+					"id": "8083b9ff-30d6-4538-bd1a-f9f9f9543fd0",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -756,7 +374,7 @@
 					},
 					"response": [
 						{
-							"id": "36185afd-7304-4b46-8cd9-49c6190507cc",
+							"id": "138b2fbe-90d0-4589-b304-84313de32e58",
 							"name": "201",
 							"originalRequest": {
 								"method": "GET",
@@ -827,7 +445,7 @@
 				},
 				{
 					"name": "01 - flight planning",
-					"id": "4a75a75a-6290-45d8-8ac6-86f8f292db2c",
+					"id": "f9564607-429c-4125-8e6d-37379c5091a6",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -858,7 +476,7 @@
 					},
 					"response": [
 						{
-							"id": "23e4ad25-1605-4c7a-a4fb-b6eb62c06e13",
+							"id": "d7878b31-12a0-4044-9940-e425314aa8f6",
 							"name": "201",
 							"originalRequest": {
 								"method": "POST",
@@ -908,7 +526,7 @@
 				},
 				{
 					"name": "02 - flight reservation",
-					"id": "cb67a217-21f4-426d-bedb-849a3e771606",
+					"id": "4db00b93-db15-4763-8ec7-37b54f5f5f42",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -947,7 +565,7 @@
 					},
 					"response": [
 						{
-							"id": "6018fddf-ea4a-440b-8606-c4cf5cceee69",
+							"id": "1094fe76-5149-41dc-af44-2b50fc4c3134",
 							"name": "201",
 							"originalRequest": {
 								"method": "POST",
@@ -1005,7 +623,7 @@
 				},
 				{
 					"name": "03 - flight booking",
-					"id": "9bb425ae-6ea5-4aee-89a5-83db730f4500",
+					"id": "4e30fbc7-fa66-433a-92e4-3204406bc518",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1044,7 +662,7 @@
 					},
 					"response": [
 						{
-							"id": "e22fac5e-05af-44c5-bc72-5e8ec9c42ec3",
+							"id": "3a88069c-86e3-4236-9786-a4c1c5cd8071",
 							"name": "201",
 							"originalRequest": {
 								"method": "POST",
@@ -1102,7 +720,7 @@
 				},
 				{
 					"name": "delete Flight",
-					"id": "a0547f02-da1f-412a-9084-87b5dd1eed48",
+					"id": "00663ecd-fcef-425d-8bd2-869bd3ab0020",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1131,7 +749,7 @@
 					},
 					"response": [
 						{
-							"id": "eb52a0f6-73e6-4b42-b50e-a324d047acb2",
+							"id": "4314c832-300c-460e-8929-d3d4c6a6d395",
 							"name": "204",
 							"originalRequest": {
 								"method": "DELETE",
@@ -1171,7 +789,7 @@
 							"cookie": []
 						},
 						{
-							"id": "dc99fe46-6dc5-4dab-abc6-5fca4c629f91",
+							"id": "12e1f6d4-89c7-47bd-af9b-c54e4cc22451",
 							"name": "404",
 							"originalRequest": {
 								"method": "DELETE",
@@ -1218,14 +836,14 @@
 					]
 				}
 			],
-			"id": "73408e2c-1066-4a51-8473-51c81958f1af"
+			"id": "96bceff8-0f80-4faf-a4cd-d25c45cde6bb"
 		},
 		{
 			"name": "plane",
 			"item": [
 				{
 					"name": "get planes",
-					"id": "76b34efa-f007-4a32-bf80-e31e17fdf4bb",
+					"id": "7d068bf4-bffd-4929-a200-fbab942ac128",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1268,7 +886,7 @@
 					},
 					"response": [
 						{
-							"id": "17f01ba3-aca9-4712-a465-b07947828e0a",
+							"id": "b6aca867-22e9-4b40-80b4-ca4c24e69d0c",
 							"name": "200",
 							"originalRequest": {
 								"method": "GET",
@@ -1327,14 +945,14 @@
 					]
 				}
 			],
-			"id": "a75ebe18-baae-4561-8874-d53676132158"
+			"id": "ae64286a-0fa8-45e3-8dd9-19dd09c934f4"
 		},
 		{
 			"name": "pilots",
 			"item": [
 				{
 					"name": "get pilots",
-					"id": "e490557d-b32d-4f5b-abd3-61de7b8cb481",
+					"id": "364e1577-8a42-4e4d-9191-cd85eb590136",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1367,7 +985,7 @@
 					},
 					"response": [
 						{
-							"id": "8e955f33-f2d7-4c1f-b2d5-feac8a451432",
+							"id": "d2dbfc0a-27a0-435c-acc5-555ee69a6fa0",
 							"name": "200",
 							"originalRequest": {
 								"method": "GET",
@@ -1419,14 +1037,14 @@
 					]
 				}
 			],
-			"id": "5f5e8782-7071-4084-9939-d30f670798a9"
+			"id": "034ceed8-68c5-438c-8115-7635634fd056"
 		}
 	],
 	"event": [
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "d633b776-d622-44b0-a3fc-dda112a8977c",
+				"id": "12678837-541f-45c3-b40b-f8c99b12a28b",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -1436,7 +1054,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "61f54190-70e1-4c8a-9357-b58b22fdd684",
+				"id": "8d4b5064-4fb1-49f9-8e84-f7a6aa9aa63d",
 				"type": "text/javascript",
 				"exec": [
 					"pm.test(\"Response time is less than 200ms\", function () {",
