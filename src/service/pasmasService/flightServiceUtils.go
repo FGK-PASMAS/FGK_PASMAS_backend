@@ -186,6 +186,7 @@ func partialUpdatePassengers(db *gorm.DB, oldPass *[]model.Passenger, newPass *[
     }
 
     for i := range *newPass {
+        println((*newPass)[i].Action)
         switch (*newPass)[i].Action {
         case model.ActionCreate:
             passengerCreate(db, &(*newPass)[i])
@@ -204,6 +205,8 @@ func partialUpdatePassengers(db *gorm.DB, oldPass *[]model.Passenger, newPass *[
             if !status {
                 db.AddError(ErrObjectNotFound)
             }
+        case model.ActionDelete:
+            passengerDelete(db, (*newPass)[i].ID)
         }
     }
 }

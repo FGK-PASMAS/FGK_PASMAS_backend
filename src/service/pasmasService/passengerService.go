@@ -20,28 +20,6 @@ func GetPassengers() ([]model.Passenger, error) {
     return passengers, result.Error
 }
 
-func passengerCreate(db *gorm.DB, pass *model.Passenger) {
-    if db == nil {
-        db = dh.Db
-    }
-
-    pass.ID = 0
-
-    if pass.Weight <= 0 {
-        db.AddError(ErrPassengerWeightIsZero)
-    }
-
-    if pass.FlightID == 0 && pass.Flight == nil {
-        db.AddError(ErrObjectDependencyMissing)
-    }
-
-    err := db.Create(pass).Error
-
-    if err == ErrObjectNotFound {
-        db.AddError(ErrObjectDependencyMissing)
-    }
-}
-
 // partialUpdatePassenger updates the newPass with all its attributes.
 // 0 or "" values mean that the field should be set nil.
 // Nil values are not updated in the database. The newPass is updated in the database and returned.

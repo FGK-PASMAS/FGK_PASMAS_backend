@@ -94,7 +94,7 @@ func flightUpdate(c *gin.Context) {
             Success: true,
             Response: flight,
         }
-        httpCode = http.StatusCreated
+        httpCode = http.StatusOK
     }
 
     c.JSON(httpCode, response)
