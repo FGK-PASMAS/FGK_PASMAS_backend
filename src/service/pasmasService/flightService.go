@@ -298,7 +298,9 @@ func DeleteFlights(id uint) error {
 
     err = errors.Join(err, result.Error)
 
-    result = dh.Db.Delete(&flight.Passengers)
+    if len(*flight.Passengers) > 0 {
+        result = dh.Db.Delete(&flight.Passengers)
+    }
 
     if result.Error != nil {
         go realtime.PassengerStream.PublishEvent(realtime.DELETED, flight.Passengers)
