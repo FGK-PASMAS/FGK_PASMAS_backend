@@ -7,6 +7,7 @@ import (
 )
 
 
+// passengerCreate creates a new passenger in the database and updating the pass pointer with the new values
 func passengerCreate(db *gorm.DB, pass *model.Passenger) {
     if db == nil {
         db = dh.Db
@@ -29,6 +30,7 @@ func passengerCreate(db *gorm.DB, pass *model.Passenger) {
     }
 }
 
+// passengerDelete deletes a passenger from the database
 func passengerDelete(db *gorm.DB, id uint) {
     if db == nil {
         db = dh.Db

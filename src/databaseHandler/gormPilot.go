@@ -5,17 +5,18 @@ import (
 
 	"github.com/MetaEMK/FGK_PASMAS_backend/logging"
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
+	"gorm.io/gorm"
 )
 
 var log = logging.DbLogger
 
-func initPilot() {
+func initPilot(db *gorm.DB) {
     Db.AutoMigrate(&model.Pilot{})
 
-    SeedPilot()
+    SeedPilot(db)
 }
 
-func SeedPilot() {
+func SeedPilot(db *gorm.DB) {
     pilots := []model.Pilot{
         {FirstName: "Tobias", LastName: "Kornwestheim", Weight: 68, AllowedPilots: &[]model.Plane{{Registration: "D-0761"}, {Registration: "D-7208"}}},
         {FirstName: "Dennis", LastName: "Kornwestheim", Weight: 72, AllowedPilots: &[]model.Plane{{Registration: "D-0761"}, {Registration: "D-7208"}, {Registration: "D-KOXX"}, {Registration: "D-ELXX"}}},
@@ -30,7 +31,7 @@ func SeedPilot() {
     }
 
     for _, pilot := range pilots {
-        err := CreateOrUpdatePilot(&pilot)
+        err := createOrUpdatePilot(db, &pilot)
 
         if err != nil {
             log.Warn(fmt.Sprintf("PilotSeeder: Error while seeding pilot %s %s: %s", pilot.FirstName, pilot.LastName, err))
@@ -38,11 +39,15 @@ func SeedPilot() {
     }
 }
 
-func CreateOrUpdatePilot(pilot *model.Pilot) error {
+func createOrUpdatePilot(db *gorm.DB, pilot *model.Pilot) error {
+    if db == nil {
+        db = Db
+    }
+
     aircrafts := []model.Plane{}
     for _, registration := range *pilot.AllowedPilots{
         aircraft := model.Plane{}
-        err := Db.Where("registration = ?", registration.Registration).First(&aircraft).Error
+        err := Db.Preload("PrefPilot").Where("registration = ?", registration.Registration).First(&aircraft).Error
         if err != nil {
             log.Info(fmt.Sprintf("PilotSeeder: No aircraft with registration %s found - creating pilot without aircraft binding", registration.Registration))
         }
@@ -53,6 +58,13 @@ func CreateOrUpdatePilot(pilot *model.Pilot) error {
 
     pilot.AllowedPilots = &aircrafts
     
-    err := Db.Where("last_name = ?", pilot.LastName).Where("first_name = ?", pilot.FirstName).FirstOrCreate(&pilot).Error
+    err := db.Where("last_name = ?", pilot.LastName).Where("first_name = ?", pilot.FirstName).FirstOrCreate(&pilot).Error
+
+    for _, a := range aircrafts {
+        if a.PrefPilot == nil || a.PrefPilot.Weight < pilot.Weight {
+            db.Model(&model.Plane{}).Where("id = ?", a.ID).UpdateColumn("PrefPilotId", pilot.ID)
+        }
+    }
+
     return err
 }

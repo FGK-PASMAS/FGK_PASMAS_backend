@@ -12,8 +12,10 @@ func InitGorm(dbConn *gorm.DB) *gorm.DB {
 
 
     initDivision()
-    initPlane()
-    initPilot()
+
+    initPlane(nil)
+    initPilot(nil)
+
     initFlight()
     initPassenger()
 
@@ -29,9 +31,11 @@ func ResetDatabase() error {
     transaction.Exec("TRUNCATE TABLE pilots RESTART IDENTITY CASCADE")
     transaction.Commit()
 
+    seed := Db.Begin()
     SeedDivision()
-    SeedPlane()
-    SeedPilot()
+    SeedPlane(seed)
+    SeedPilot(seed)
+    seed.Commit()
 
     return transaction.Error
 }
