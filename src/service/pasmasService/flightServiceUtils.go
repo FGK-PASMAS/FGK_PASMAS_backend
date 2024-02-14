@@ -20,6 +20,9 @@ var (
     ErrOverloaded = errors.New("MTOW is exceeded")
 )
 
+// checkIfSlotIsFree checks if the slot is free for the given planeid, departureTime and arrivalTime
+//
+// returns true if the slot is free, false if not
 func checkIfSlotIsFree(planeId uint, departureTime time.Time, arrivalTime time.Time) bool {
     var count int64
     result := dh.Db.Model(&model.Flight{}).Where("plane_id = ?", planeId).Where("departure_time < ? AND arrival_time > ?", arrivalTime, departureTime).Count(&count)
@@ -159,7 +162,8 @@ func calculateFuelAtDeparture(flight *model.Flight, plane model.Plane) (float32,
 
     // Get one flight before this
     beforeFlight := model.Flight{}
-    err := dh.Db.Not("status = ?", model.FsBlocked).Where("plane_id = ?", flight.PlaneId).Where("departure_time < ?", flight.DepartureTime).Order("departure_time DESC").First(&beforeFlight).Error
+    err := dh.Db.Not("status = ?", model.FsBlocked) .Where("plane_id = ?", flight.PlaneId) .Where("departure_time < ?", flight.DepartureTime) .Order("departure_time DESC").First(&beforeFlight).Error
+
     if err == gorm.ErrRecordNotFound {
         fuel := float32(plane.FuelStartAmount)
         flight.FuelAtDeparture = &fuel

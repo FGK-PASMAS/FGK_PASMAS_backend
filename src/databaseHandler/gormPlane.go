@@ -5,14 +5,18 @@ import (
 
 	"github.com/MetaEMK/FGK_PASMAS_backend/logging"
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
+	"gorm.io/gorm"
 )
 
-func initPlane() {
+func initPlane(db *gorm.DB) {
     Db.AutoMigrate(&model.Plane{})
-    SeedPlane()
+    SeedPlane(db)
 }
 
-func SeedPlane() {
+func SeedPlane(db *gorm.DB) {
+    if db == nil {
+        db = Db
+    }
     motorflug := model.Division{}
     motorsegler := model.Division{}
     segelflug := model.Division{}
@@ -26,7 +30,7 @@ func SeedPlane() {
         return
     }
 
-    Db.FirstOrCreate(&model.Plane{}, model.Plane{
+    db.FirstOrCreate(&model.Plane{}, model.Plane{
         Registration: "D-ELXX",
         AircraftType: "C172",
         FlightDuration: time.Duration(24 * time.Minute),
@@ -40,7 +44,7 @@ func SeedPlane() {
         DivisionId: motorflug.ID,
     })
 
-    Db.FirstOrCreate(&model.Plane{}, model.Plane{
+    db.FirstOrCreate(&model.Plane{}, model.Plane{
         Registration: "D-ESXX",
         AircraftType: "C172",
         FlightDuration: time.Duration(24 * time.Minute),
@@ -54,7 +58,7 @@ func SeedPlane() {
         DivisionId: motorflug.ID,
     })
 
-    Db.FirstOrCreate(&model.Plane{}, model.Plane{
+    db.FirstOrCreate(&model.Plane{}, model.Plane{
         Registration: "D-ESYY",
         AircraftType: "C172",
         FlightDuration: time.Duration(24 * time.Minute),
@@ -68,7 +72,7 @@ func SeedPlane() {
         DivisionId: motorflug.ID,
     })
 
-    Db.FirstOrCreate(&model.Plane{}, model.Plane{
+    db.FirstOrCreate(&model.Plane{}, model.Plane{
         Registration: "D-EFXX",
         AircraftType: "PA28",
         FlightDuration: time.Duration(24 * time.Minute),
@@ -82,7 +86,7 @@ func SeedPlane() {
         DivisionId: motorflug.ID,
     })
 
-    Db.FirstOrCreate(&model.Plane{}, model.Plane{
+    db.FirstOrCreate(&model.Plane{}, model.Plane{
         Registration: "D-KOXX",
         AircraftType: "HK36",
         FlightDuration: time.Duration(24 * time.Minute),
@@ -96,7 +100,7 @@ func SeedPlane() {
         DivisionId: motorsegler.ID,
     })
 
-    Db.FirstOrCreate(&model.Plane{}, model.Plane{
+    db.FirstOrCreate(&model.Plane{}, model.Plane{
         Registration: "D-KIXX",
         AircraftType: "SF25C",
         FlightDuration: time.Duration(24 * time.Minute),
@@ -110,7 +114,7 @@ func SeedPlane() {
         DivisionId: motorsegler.ID,
     })
 
-    Db.FirstOrCreate(&model.Plane{}, model.Plane{
+    db.FirstOrCreate(&model.Plane{}, model.Plane{
         Registration: "D-0761",
         AircraftType: "ASK21",
         FlightDuration: time.Duration(10 * time.Minute),
@@ -124,7 +128,7 @@ func SeedPlane() {
         DivisionId: segelflug.ID,
     })
 
-    Db.FirstOrCreate(&model.Plane{}, model.Plane{
+    db.FirstOrCreate(&model.Plane{}, model.Plane{
         Registration: "D-7208",
         AircraftType: "Duo Discus",
         FlightDuration: time.Duration(10 * time.Minute),
