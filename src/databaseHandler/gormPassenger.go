@@ -3,6 +3,7 @@ package databasehandler
 import (
 	cerror "github.com/MetaEMK/FGK_PASMAS_backend/cError"
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
+	"github.com/MetaEMK/FGK_PASMAS_backend/router/realtime"
 	"gorm.io/gorm"
 )
 
@@ -11,7 +12,7 @@ func initPassenger() {
 }
 
 
-func CreatePassenger(db *gorm.DB, pass model.Passenger) (newPassenger model.Passenger, err error) {
+func CreatePassenger(db *gorm.DB, rt *realtime.RealtimeHandler, pass model.Passenger) (newPassenger model.Passenger, err error) {
     if db == nil {
         db = Db
     }
@@ -36,7 +37,10 @@ func CreatePassenger(db *gorm.DB, pass model.Passenger) (newPassenger model.Pass
     }
     db.AddError(err)
 
-    newPassenger = pass
+    if err == nil {
+        newPassenger = pass
+        rt.AddEvent(realtime.PassengerStream, realtime.CREATED, newPassenger)
+    }
     return
 }
 
@@ -47,10 +51,20 @@ partialUpdatePassenger updates the newPass with all its attributes.
 
 - Nil values are not updated in the database. The newPass is updated in the database and returned.
 */
-func PartialUpdatePassenger(db *gorm.DB, id uint, newPass *model.Passenger) {
+func PartialUpdatePassenger(db *gorm.DB, rt *realtime.RealtimeHandler, id uint, newPass *model.Passenger) {
     var oldPass model.Passenger
     if db == nil {
         db = Db
+        rt = realtime.NewRealtimeHandler()
+        defer func() {
+            if db.Error == nil {
+                rt.PublishEvents()
+            }
+        }()
+    }
+
+    if rt == nil {
+        return
     }
 
     if newPass.Weight <= 0 {
@@ -81,30 +95,49 @@ func PartialUpdatePassenger(db *gorm.DB, id uint, newPass *model.Passenger) {
         oldPass.FirstName = newPass.FirstName
     }
 
-    db.Updates(&oldPass)
-    newPass = &oldPass
+    err = db.Updates(&oldPass).Error
+
+    if err != nil {
+        db.AddError(err)
+    } else {
+        *newPass = oldPass
+        rt.AddEvent(realtime.PassengerStream, realtime.UPDATED, oldPass)
+    }
 }
 
 // passengerDelete deletes a passenger from the database
-func DeletePassenger(db *gorm.DB, id uint) (passenger model.Passenger, err error) {
+func DeletePassenger(db *gorm.DB, rt *realtime.RealtimeHandler, id uint) (passenger model.Passenger, err error) {
     if db == nil {
         db = Db
+        rt = realtime.NewRealtimeHandler()
+        defer func() {
+            if db.Error == nil {
+                rt.PublishEvents()
+            }
+        }()
+    }
+
+    if rt == nil {
+        err = cerror.ErrNoRealtimeHandlerFound
+        return
     }
 
     passenger = model.Passenger{}
     err = db.First(&passenger, id).Error
 
-    switch err {
-    case gorm.ErrRecordNotFound:
-        db.AddError(cerror.ErrObjectNotFound)
-    default:
-        db.AddError(err)
+    if err == cerror.ErrObjectNotFound {
+        err = cerror.ErrObjectDependencyMissing
+    }
+
+    if err != nil {
+        return
     }
 
     err = db.Delete(&passenger).Error
     if err != nil {
         db.AddError(err)
+    } else {
+        rt.AddEvent(realtime.PassengerStream, realtime.DELETED, passenger)
     }
-
     return
 }

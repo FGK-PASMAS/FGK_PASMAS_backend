@@ -187,19 +187,17 @@ func FlightCreation(flight *model.Flight, passengers *[]model.Passenger) (newFli
     }
 
     if err == nil {
-        newFlight, newPassengers, err = dh.CreateFlight(nil, *flight, paxs)
+        newFlight, newPassengers, err = dh.CreateFlight(nil, nil, *flight, paxs)
         if err != nil {
             return 
         }
-
-        go realtime.FlightStream.PublishEvent(realtime.CREATED, flight)
-        go sendRealtimeEventsForPassengers(*passengers, realtime.CREATED)
     }
 
     return
 }
 
-func FlightUpdate(flightId uint, newFlightData model.Flight) (flight model.Flight, passengers []model.Passenger, err error) {
+func FlightUpdate(flightId uint, newFlightData model.Flight) (flight model.Flight, err error) {
+    var passengers []model.Passenger
     var plane model.Plane
     if newFlightData.Passengers != nil {
         passengers = *newFlightData.Passengers
@@ -221,27 +219,27 @@ func FlightUpdate(flightId uint, newFlightData model.Flight) (flight model.Fligh
     }
 
     db := dh.Db.Begin()
+    rt := realtime.NewRealtimeHandler()
     defer func() {
         if err != nil {
             db.Rollback()
         } else {
             err = db.Commit().Error
-            if err != nil {
-                dh.Db.Preload("Passengers").First(&newFlightData, flightId)
-                go realtime.FlightStream.PublishEvent(realtime.UPDATED, flight)
-                go sendRealtimeEventsForPassengers(passengers, realtime.PING)
+            if err == nil {
+                dh.Db.Preload("Passengers").First(&flight, flightId)
+                rt.PublishEvents()
             }
         }
     }()
 
     passTMP := flight.Passengers
-    flight, err = dh.PartialUpdateFlight(db, flightId, newFlightData)
+    flight, err = dh.PartialUpdateFlight(db, rt, flightId, newFlightData)
     flight.Passengers = passTMP
 
     for index := range passengers {
         passengers[index].FlightID = flight.ID
     }
-    partialUpdatePassengers(db, flight.Passengers, &passengers)
+    partialUpdatePassengers(db, rt, flight.Passengers, &passengers)
 
 
     var minPass uint
@@ -281,25 +279,8 @@ func FlightUpdate(flightId uint, newFlightData model.Flight) (flight model.Fligh
     return 
 }
 
-func DeleteFlights(id uint) error {
-    flight := model.Flight{}
-
-    dh.Db.Preload("Passengers").First(&flight, id)
-    result := dh.Db.Delete(&flight, id)
-
-    if result.RowsAffected != 1 {
-        return ErrObjectNotFound
-    }
-
-    if len(*flight.Passengers) > 0 {
-        result = dh.Db.Delete(&flight.Passengers)
-    }
-
-    if result.Error != nil {
-        go realtime.PassengerStream.PublishEvent(realtime.DELETED, flight.Passengers)
-        go realtime.FlightStream.PublishEvent(realtime.DELETED, flight)
-    }
-
-    return result.Error
+func DeleteFlights(id uint) (err error){
+    _, _, err = dh.DeleteFlight(nil, nil, id)
+    return
 }
 

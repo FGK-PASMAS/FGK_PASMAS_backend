@@ -29,11 +29,16 @@ func sendPings() {
             Description string
             Value       string
         }
-
         res.Description = "The The current time is:"
         res.Value = time.Now().In(time.UTC).String()
-        pingStream.PublishEvent(PING, res)
 
+        event := realtimeEvent {
+            Stream: pingStream,
+            Action: OTHER,
+            Data: res,
+        }
+
+        event.publishEvent()
         time.Sleep(2 * time.Second)
     }
 }

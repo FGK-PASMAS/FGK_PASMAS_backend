@@ -5,7 +5,6 @@ import (
 
 	dh "github.com/MetaEMK/FGK_PASMAS_backend/databaseHandler"
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
-	"github.com/MetaEMK/FGK_PASMAS_backend/router/realtime"
 )
 
 var (
@@ -19,14 +18,8 @@ func GetPassengers() ([]model.Passenger, error) {
     return passengers, result.Error
 }
 
-func DeletePassenger(id uint) error {
-    pass := model.Passenger{}
-    result := dh.Db.First(&pass, id)
-    if result.Error != nil {
-        return result.Error
-    }
+func DeletePassenger(id uint) (passenger model.Passenger, err error){
+    passenger, err = dh.DeletePassenger(nil, nil, id)
 
-    result = dh.Db.Delete(&pass)
-    realtime.PassengerStream.PublishEvent(realtime.DELETED, pass)
-    return result.Error
+    return
 }

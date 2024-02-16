@@ -1,6 +1,7 @@
 package databasehandler
 
 import (
+	"github.com/MetaEMK/FGK_PASMAS_backend/router/realtime"
 	"gorm.io/gorm"
 )
 
@@ -38,12 +39,14 @@ func ResetDatabase() error {
     return transaction.Error
 }
 
-func CommitOrRollback(db *gorm.DB) {
+func CommitOrRollback(db *gorm.DB, rt *realtime.RealtimeHandler) {
     if db.Error == nil {
         err := db.Commit().Error
         if err != nil {
             db.AddError(err)
             db.Rollback()
+        } else {
+            rt.PublishEvents()
         }
     } else {
         db.Rollback()

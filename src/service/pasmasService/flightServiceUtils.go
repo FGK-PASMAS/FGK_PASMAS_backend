@@ -180,21 +180,24 @@ func calculateFuelAtDeparture(flight *model.Flight, plane model.Plane) (float32,
     return value, nil
 }
 
-func partialUpdatePassengers(db *gorm.DB, oldPass *[]model.Passenger, newPass *[]model.Passenger) {
+func partialUpdatePassengers(db *gorm.DB, rt *realtime.RealtimeHandler, oldPass *[]model.Passenger, newPass *[]model.Passenger) {
     if oldPass == nil || newPass == nil {
         return
     }
 
     if db == nil {
         db = dh.Db.Begin()
-        defer dh.CommitOrRollback(db)
+        if rt == nil {
+            rt = realtime.NewRealtimeHandler()
+        }
+        defer dh.CommitOrRollback(db, rt)
     }
 
     for i := range *newPass {
         println((*newPass)[i].Action)
         switch (*newPass)[i].Action {
         case model.ActionCreate:
-            pass, err := dh.CreatePassenger(db, (*newPass)[i])
+            pass, err := dh.CreatePassenger(db, rt, (*newPass)[i])
             if err == nil {
                 tmp := append(*oldPass, pass)
                 *oldPass = tmp
@@ -205,7 +208,7 @@ func partialUpdatePassengers(db *gorm.DB, oldPass *[]model.Passenger, newPass *[
             status := false
             for j := range *oldPass {
                 if (*newPass)[i].ID == (*oldPass)[j].ID {
-                    dh.PartialUpdatePassenger(db, (*oldPass)[j].ID, &(*newPass)[i])
+                    dh.PartialUpdatePassenger(db, rt, (*oldPass)[j].ID, &(*newPass)[i])
                     (*oldPass)[j] = (*newPass)[i]
                     status = true
                 }
@@ -215,23 +218,7 @@ func partialUpdatePassengers(db *gorm.DB, oldPass *[]model.Passenger, newPass *[
                 db.AddError(ErrObjectNotFound)
             }
         case model.ActionDelete:
-            dh.DeletePassenger(db, (*newPass)[i].ID)
-        }
-    }
-}
-
-
-func sendRealtimeEventsForPassengers(passengers []model.Passenger, defaultActionType realtime.ActionType) {
-    for _, p := range passengers {
-        switch p.Action {
-        case model.ActionCreate:
-            realtime.PassengerStream.PublishEvent(realtime.CREATED, p)
-        case model.ActionUpdate:
-            realtime.PassengerStream.PublishEvent(realtime.UPDATED, p)
-        case model.ActionDelete:
-            realtime.PassengerStream.PublishEvent(realtime.DELETED, p)
-        default:
-            realtime.PassengerStream.PublishEvent(defaultActionType, p)
+            dh.DeletePassenger(db, rt, (*newPass)[i].ID)
         }
     }
 }
