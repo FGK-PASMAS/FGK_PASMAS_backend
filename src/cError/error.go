@@ -1,9 +1,13 @@
 package cerror
 
-import "errors"
+import (
+	"errors"
+
+	"gorm.io/gorm"
+)
 
 var (
     ErrPassengerWeightIsZero = errors.New("Passenger weight is zero")
     ErrObjectDependencyMissing = errors.New("Object dependency missing")
-    ErrObjectNotFound = errors.New("Object not found")
+    ErrObjectNotFound = gorm.ErrRecordNotFound
 )

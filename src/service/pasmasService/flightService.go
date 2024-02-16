@@ -129,103 +129,112 @@ func GetFlights(include *FlightInclude, filter *FlightFilter) (*[]model.Flight, 
     return flights, res.Error
 }
 
-func FlightCreation(flight *model.Flight, passengers *[]model.Passenger) error {
-    var err error
+func FlightCreation(flight *model.Flight, passengers *[]model.Passenger) (newFlight model.Flight, newPassengers []model.Passenger, err error) {
     var plane model.Plane
     flight.Status = model.FsReserved
 
     err = dh.Db.Preload("Division").First(&plane, flight.PlaneId).Error
     if err != nil {
         if err == ErrObjectNotFound {
-            return ErrObjectDependencyMissing
+            err = ErrObjectDependencyMissing
+            return 
         }
 
-        return err
+        return 
     }
 
     if flight.DepartureTime.IsZero() {
-        return ErrDepartureTimeIsZero
+        err = ErrDepartureTimeIsZero
+        return 
     }
 
     if flight.ArrivalTime.IsZero() {
         flight.ArrivalTime = flight.DepartureTime.Add(plane.FlightDuration)
     } else {
         if flight.ArrivalTime.Before(flight.DepartureTime) {
-            return ErrInvalidArrivalTime
+            err = ErrInvalidArrivalTime
+            return 
         }
     }
 
     fuelAmount, err := calculateFuelAtDeparture(flight, plane)
     if err != nil {
-        return err
+        return 
     }
 
-    if passengers == nil {
-        passengers = &[]model.Passenger{}
+    var paxs []model.Passenger
+    if passengers != nil {
+        paxs = *passengers
     }
-    passWeight, err := checkPassengerAndCalcWeight(*passengers, plane.MaxSeatPayload, 0, plane.Division.PassengerCapacity, false)
+
+
+    passWeight, err := checkPassengerAndCalcWeight(paxs, plane.MaxSeatPayload, 0, plane.Division.PassengerCapacity, false)
     if err != nil {
-        return err
+        return 
     }
 
     pilot, err := calculatePilot(passWeight, fuelAmount, plane)
     if err != nil {
-        return err
+        return 
     }
     flight.Pilot = &pilot
 
     flightCreation.Lock()
     defer flightCreation.Unlock()
     if(!checkIfSlotIsFree(flight.PlaneId, flight.DepartureTime, flight.ArrivalTime)) {
-        return ErrSlotIsNotFree
+        err = ErrSlotIsNotFree
+        return
     }
 
     if err == nil {
-        db := dh.Db.Begin()
-
-        dh.CreateFlight(db, flight, passengers)
-
-        if db.Error != nil {
-            db.Rollback()
-            return db.Error
-        } else {
-            err = db.Commit().Error
-            if err != nil {
-                return err
-            }
-            flight.Passengers = passengers
-
-            go realtime.FlightStream.PublishEvent(realtime.CREATED, flight)
-            go realtime.PassengerStream.PublishEvent(realtime.CREATED, *passengers)
+        newFlight, newPassengers, err = dh.CreateFlight(nil, *flight, paxs)
+        if err != nil {
+            return 
         }
+
+        go realtime.FlightStream.PublishEvent(realtime.CREATED, flight)
+        go sendRealtimeEventsForPassengers(*passengers, realtime.CREATED)
     }
 
-    return err
+    return
 }
 
-func FlightUpdate(flightId uint, newFlightData *model.Flight) (error) {
-    var flight model.Flight
-    var passengers []model.Passenger
+func FlightUpdate(flightId uint, newFlightData model.Flight) (flight model.Flight, passengers []model.Passenger, err error) {
     if newFlightData.Passengers != nil {
         passengers = *newFlightData.Passengers
     }
 
-    err := dh.Db.Preload("Plane").Preload("Passengers").First(&flight, flightId).Error
+    err = dh.Db.Preload("Plane").Preload("Passengers").First(&flight, flightId).Error
     if err != nil {
-        return err
+        return
     }
 
     if flight.Status != model.FsReserved {
-        return ErrFlightStatusDoesNotFitProcess
+        err = ErrFlightStatusDoesNotFitProcess
+        return
     }
 
     err = dh.Db.Preload("Division").First(&flight.Plane, flight.PlaneId).Error
     if err != nil {
-        return err
+        return 
     }
 
     db := dh.Db.Begin()
-    partialUpdateFlight(db, flightId, newFlightData)
+    defer func() {
+        if err != nil {
+            db.Rollback()
+        } else {
+            err = db.Commit().Error
+            if err != nil {
+                dh.Db.Preload("Passengers").First(&newFlightData, flightId)
+                go realtime.FlightStream.PublishEvent(realtime.UPDATED, flight)
+                go sendRealtimeEventsForPassengers(passengers, realtime.PING)
+            }
+        }
+    }()
+
+    flight, err = dh.PartialUpdateFlight(db, flightId, newFlightData)
+
     for index := range passengers {
         passengers[index].FlightID = flight.ID
     }
@@ -247,20 +256,17 @@ func FlightUpdate(flightId uint, newFlightData *model.Flight) (error) {
         fullPassCheck,
     )
     if err != nil {
-        db.Rollback()
-        return err
+        return 
     }
 
     fuelAmount, err := calculateFuelAtDeparture(&flight, *flight.Plane)
     if err != nil {
-        db.Rollback()
-        return err
+        return
     }
 
     pilot, err := calculatePilot(passWeight, fuelAmount, *flight.Plane)
     if err != nil {
-        db.Rollback()
-        return err
+        return
     }
     flight.PilotId = &pilot.ID
 
@@ -269,22 +275,7 @@ func FlightUpdate(flightId uint, newFlightData *model.Flight) (error) {
     }
 
     err = checkFlightValidation(flight)
-    if err != nil {
-        db.Rollback()
-        return err
-    }
-
-    err = db.Commit().Error
-    if err != nil {
-        db.Rollback()
-        return err
-    }
-
-    dh.Db.Preload("Passengers").First(&newFlightData, flightId)
-    go realtime.FlightStream.PublishEvent(realtime.UPDATED, flight)
-    go sendRealtimeEventsForPassengers(passengers, realtime.PING)
-
-    return err
+    return 
 }
 
 func DeleteFlights(id uint) error {

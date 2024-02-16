@@ -31,9 +31,21 @@ func ResetDatabase() error {
 
     seed := Db.Begin()
     SeedDivision()
-    SeedPlane(seed)
-    SeedPilot(seed)
+    SeedPlane(nil)
+    SeedPilot(nil)
     seed.Commit()
 
     return transaction.Error
 }
+
+func CommitOrRollback(db *gorm.DB) {
+    if db.Error == nil {
+        err := db.Commit().Error
+        if err != nil {
+            db.AddError(err)
+            db.Rollback()
+        }
+    } else {
+        db.Rollback()
+    }
+} 

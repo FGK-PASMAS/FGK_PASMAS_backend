@@ -187,20 +187,25 @@ func partialUpdatePassengers(db *gorm.DB, oldPass *[]model.Passenger, newPass *[
 
     if db == nil {
         db = dh.Db.Begin()
+        defer dh.CommitOrRollback(db)
     }
 
     for i := range *newPass {
         println((*newPass)[i].Action)
         switch (*newPass)[i].Action {
         case model.ActionCreate:
-            dh.CreatePassenger(db, &(*newPass)[i])
-            tmp := append(*oldPass, (*newPass)[i])
-            *oldPass = tmp
+            pass, err := dh.CreatePassenger(db, (*newPass)[i])
+            if err == nil {
+                tmp := append(*oldPass, pass)
+                *oldPass = tmp
+            } else {
+                db.AddError(err)
+            }
         case model.ActionUpdate:
             status := false
             for j := range *oldPass {
                 if (*newPass)[i].ID == (*oldPass)[j].ID {
-                    partialUpdatePassenger(db, (*oldPass)[j].ID, &(*newPass)[i])
+                    dh.PartialUpdatePassenger(db, (*oldPass)[j].ID, &(*newPass)[i])
                     (*oldPass)[j] = (*newPass)[i]
                     status = true
                 }
@@ -215,42 +220,6 @@ func partialUpdatePassengers(db *gorm.DB, oldPass *[]model.Passenger, newPass *[
     }
 }
 
-// partialUpdateFlight updates the newFlight with all set data from newFlight. 0 or "" values means that the field should be set to nil
-func partialUpdateFlight(db *gorm.DB, id uint, newFlight *model.Flight) {
-    if db == nil {
-        db = dh.Db
-    }
-    
-    oldFlight := model.Flight{}
-    err := dh.Db.First(&oldFlight, id).Error
-    if err != nil {
-        db.AddError(err)
-        return
-    }
-
-    if newFlight.Status == model.FsBooked && oldFlight.Status == model.FsReserved {
-        oldFlight.Status = newFlight.Status
-    }
-
-    if newFlight.Description != nil {
-        if *newFlight.Description == "" {
-            oldFlight.Description = nil
-        } else {
-            oldFlight.Description = newFlight.Description
-        }
-    } 
-
-    if newFlight.FuelAtDeparture != nil {
-        if *newFlight.FuelAtDeparture == 0 {
-            oldFlight.FuelAtDeparture = nil
-        } else {
-            oldFlight.FuelAtDeparture = newFlight.FuelAtDeparture
-        }
-    }
-
-    db.Updates(oldFlight)
-    newFlight = &oldFlight
-}
 
 func sendRealtimeEventsForPassengers(passengers []model.Passenger, defaultActionType realtime.ActionType) {
     for _, p := range passengers {
