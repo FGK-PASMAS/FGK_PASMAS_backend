@@ -200,11 +200,12 @@ func FlightCreation(flight *model.Flight, passengers *[]model.Passenger) (newFli
 }
 
 func FlightUpdate(flightId uint, newFlightData model.Flight) (flight model.Flight, passengers []model.Passenger, err error) {
+    var plane model.Plane
     if newFlightData.Passengers != nil {
         passengers = *newFlightData.Passengers
     }
 
-    err = dh.Db.Preload("Plane").Preload("Passengers").First(&flight, flightId).Error
+    err = dh.Db.Preload("Passengers").Preload("Plane").First(&flight, flightId).Error
     if err != nil {
         return
     }
@@ -214,7 +215,7 @@ func FlightUpdate(flightId uint, newFlightData model.Flight) (flight model.Fligh
         return
     }
 
-    err = dh.Db.Preload("Division").First(&flight.Plane, flight.PlaneId).Error
+    err = dh.Db.Preload("Division").First(&plane, flight.PlaneId).Error
     if err != nil {
         return 
     }
@@ -233,7 +234,9 @@ func FlightUpdate(flightId uint, newFlightData model.Flight) (flight model.Fligh
         }
     }()
 
+    passTMP := flight.Passengers
     flight, err = dh.PartialUpdateFlight(db, flightId, newFlightData)
+    flight.Passengers = passTMP
 
     for index := range passengers {
         passengers[index].FlightID = flight.ID
@@ -250,21 +253,21 @@ func FlightUpdate(flightId uint, newFlightData model.Flight) (flight model.Fligh
 
     passWeight, err := checkPassengerAndCalcWeight(
         *flight.Passengers,
-        flight.Plane.MaxSeatPayload,
+        plane.MaxSeatPayload,
         minPass,
-        flight.Plane.Division.PassengerCapacity,
+        plane.Division.PassengerCapacity,
         fullPassCheck,
     )
     if err != nil {
         return 
     }
 
-    fuelAmount, err := calculateFuelAtDeparture(&flight, *flight.Plane)
+    fuelAmount, err := calculateFuelAtDeparture(&flight, plane)
     if err != nil {
         return
     }
 
-    pilot, err := calculatePilot(passWeight, fuelAmount, *flight.Plane)
+    pilot, err := calculatePilot(passWeight, fuelAmount, plane)
     if err != nil {
         return
     }
