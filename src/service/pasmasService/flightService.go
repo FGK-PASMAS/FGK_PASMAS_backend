@@ -182,12 +182,8 @@ func FlightCreation(flight *model.Flight, passengers *[]model.Passenger) error {
 
     if err == nil {
         db := dh.Db.Begin()
-        db.Create(flight)
 
-        for index := range *passengers {
-            (*passengers)[index].FlightID = flight.ID
-            passengerCreate(db, &(*passengers)[index])
-        }
+        dh.CreateFlight(db, flight, passengers)
 
         if db.Error != nil {
             db.Rollback()
@@ -243,7 +239,13 @@ func FlightUpdate(flightId uint, newFlightData *model.Flight) (error) {
         fullPassCheck = true
     }
 
-    passWeight, err := checkPassengerAndCalcWeight(*flight.Passengers, flight.Plane.MaxSeatPayload, minPass, flight.Plane.Division.PassengerCapacity, fullPassCheck)
+    passWeight, err := checkPassengerAndCalcWeight(
+        *flight.Passengers,
+        flight.Plane.MaxSeatPayload,
+        minPass,
+        flight.Plane.Division.PassengerCapacity,
+        fullPassCheck,
+    )
     if err != nil {
         db.Rollback()
         return err
@@ -286,7 +288,6 @@ func FlightUpdate(flightId uint, newFlightData *model.Flight) (error) {
 }
 
 func DeleteFlights(id uint) error {
-    var err error
     flight := model.Flight{}
 
     dh.Db.Preload("Passengers").First(&flight, id)
@@ -295,8 +296,6 @@ func DeleteFlights(id uint) error {
     if result.RowsAffected != 1 {
         return ErrObjectNotFound
     }
-
-    err = errors.Join(err, result.Error)
 
     if len(*flight.Passengers) > 0 {
         result = dh.Db.Delete(&flight.Passengers)

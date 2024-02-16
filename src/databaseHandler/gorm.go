@@ -1,7 +1,6 @@
 package databasehandler
 
 import (
-	//"github.com/MetaEMK/FGK_PASMAS_backend/model"
 	"gorm.io/gorm"
 )
 
@@ -9,7 +8,6 @@ var Db *gorm.DB
 
 func InitGorm(dbConn *gorm.DB) *gorm.DB {
     Db = dbConn
-
 
     initDivision()
 
