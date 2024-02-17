@@ -11,35 +11,36 @@ func initPassenger() {
     Db.AutoMigrate(&model.Passenger{})
 }
 
+// GetPassengers returns all passengers from the database
+func GetPassengers() (passengers []model.Passenger, err error) {
+    err = Db.Preload("Flight").Find(&passengers).Error
+    return
+}
 
-func CreatePassenger(db *gorm.DB, rt *realtime.RealtimeHandler, pass model.Passenger) (newPassenger model.Passenger, err error) {
-    if db == nil {
-        db = Db
-    }
-
+func (dh *DatabaseHandler) CreatePassenger(pass model.Passenger) (newPassenger model.Passenger, err error) {
     pass.ID = 0
 
     if pass.Weight <= 0 {
         err = cerror.ErrPassengerWeightIsZero
-        db.AddError(err)
+        dh.Db.AddError(err)
         return
     }
 
     if pass.FlightID == 0 && pass.Flight == nil {
         err = cerror.ErrObjectDependencyMissing
-        db.AddError(err)
+        dh.Db.AddError(err)
         return
     }
 
-    err = db.Create(&pass).Error
+    err = dh.Db.Create(&pass).Error
     if err == cerror.ErrObjectNotFound {
         err = cerror.ErrObjectDependencyMissing
     }
-    db.AddError(err)
+    dh.Db.AddError(err)
 
     if err == nil {
         newPassenger = pass
-        rt.AddEvent(realtime.PassengerStream, realtime.CREATED, newPassenger)
+        dh.rt.AddEvent(realtime.PassengerStream, realtime.CREATED, newPassenger)
     }
     return
 }
@@ -51,35 +52,22 @@ partialUpdatePassenger updates the newPass with all its attributes.
 
 - Nil values are not updated in the database. The newPass is updated in the database and returned.
 */
-func PartialUpdatePassenger(db *gorm.DB, rt *realtime.RealtimeHandler, id uint, newPass *model.Passenger) {
+func (dh DatabaseHandler) PartialUpdatePassenger(id uint, newPass *model.Passenger) {
     var oldPass model.Passenger
-    if db == nil {
-        db = Db
-        rt = realtime.NewRealtimeHandler()
-        defer func() {
-            if db.Error == nil {
-                rt.PublishEvents()
-            }
-        }()
-    }
-
-    if rt == nil {
-        return
-    }
 
     if newPass.Weight <= 0 {
-        db.AddError(cerror.ErrPassengerWeightIsZero)
+        dh.Db.AddError(cerror.ErrPassengerWeightIsZero)
     }
 
-    err := db.First(&oldPass, id).Error
+    err := dh.Db.First(&oldPass, id).Error
     switch err {
     case gorm.ErrRecordNotFound:
-        db.AddError(cerror.ErrObjectDependencyMissing)
+        dh.Db.AddError(cerror.ErrObjectDependencyMissing)
     default:
-        db.AddError(err)
+        dh.Db.AddError(err)
     }
 
-    if db.Error != nil{
+    if dh.Db.Error != nil{
         return
     }
 
@@ -95,35 +83,20 @@ func PartialUpdatePassenger(db *gorm.DB, rt *realtime.RealtimeHandler, id uint, 
         oldPass.FirstName = newPass.FirstName
     }
 
-    err = db.Updates(&oldPass).Error
+    err = dh.Db.Updates(&oldPass).Error
 
     if err != nil {
-        db.AddError(err)
+        dh.Db.AddError(err)
     } else {
         *newPass = oldPass
-        rt.AddEvent(realtime.PassengerStream, realtime.UPDATED, oldPass)
+        dh.rt.AddEvent(realtime.PassengerStream, realtime.UPDATED, oldPass)
     }
 }
 
 // passengerDelete deletes a passenger from the database
-func DeletePassenger(db *gorm.DB, rt *realtime.RealtimeHandler, id uint) (passenger model.Passenger, err error) {
-    if db == nil {
-        db = Db
-        rt = realtime.NewRealtimeHandler()
-        defer func() {
-            if db.Error == nil {
-                rt.PublishEvents()
-            }
-        }()
-    }
-
-    if rt == nil {
-        err = cerror.ErrNoRealtimeHandlerFound
-        return
-    }
-
+func (dh *DatabaseHandler) DeletePassenger(id uint) (passenger model.Passenger, err error) {
     passenger = model.Passenger{}
-    err = db.First(&passenger, id).Error
+    err = dh.Db.First(&passenger, id).Error
 
     if err == cerror.ErrObjectNotFound {
         err = cerror.ErrObjectDependencyMissing
@@ -133,11 +106,11 @@ func DeletePassenger(db *gorm.DB, rt *realtime.RealtimeHandler, id uint) (passen
         return
     }
 
-    err = db.Delete(&passenger).Error
+    err = dh.Db.Delete(&passenger).Error
     if err != nil {
-        db.AddError(err)
+        dh.Db.AddError(err)
     } else {
-        rt.AddEvent(realtime.PassengerStream, realtime.DELETED, passenger)
+        dh.rt.AddEvent(realtime.PassengerStream, realtime.DELETED, passenger)
     }
     return
 }

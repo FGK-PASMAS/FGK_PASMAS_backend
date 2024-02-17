@@ -7,6 +7,20 @@ import (
 
 var Db *gorm.DB
 
+type DatabaseHandler struct {
+    Db *gorm.DB
+    rt *realtime.RealtimeHandler
+}
+
+func NewDatabaseHandler() (dh *DatabaseHandler) {
+    dh = &DatabaseHandler{
+        Db: Db.Begin(),
+        rt: realtime.NewRealtimeHandler(),
+    }
+
+    return
+}
+
 func InitGorm(dbConn *gorm.DB) *gorm.DB {
     Db = dbConn
 
@@ -39,16 +53,16 @@ func ResetDatabase() error {
     return transaction.Error
 }
 
-func CommitOrRollback(db *gorm.DB, rt *realtime.RealtimeHandler) {
-    if db.Error == nil {
-        err := db.Commit().Error
+func (dh *DatabaseHandler) CommitOrRollback(err error) {
+    if dh.Db.Error == nil && err == nil {
+        err := dh.Db.Commit().Error
         if err != nil {
-            db.AddError(err)
-            db.Rollback()
+            dh.Db.AddError(err)
+            dh.Db.Rollback()
         } else {
-            rt.PublishEvents()
+            dh.rt.PublishEvents()
         }
     } else {
-        db.Rollback()
+        dh.Db.Rollback()
     }
 } 

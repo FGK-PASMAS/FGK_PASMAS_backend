@@ -26,7 +26,7 @@ const (
 
 var actionTypeStrings = []string{"CREATED", "UPDATED", "DELETED", "OTHER"}
 
-func (a ActionType) marshalJSON() ([]byte, error) {
+func (a ActionType) MarshalJSON() ([]byte, error) {
     if a < CREATED || a > OTHER {
         return nil, fmt.Errorf("invalid action type")
     }

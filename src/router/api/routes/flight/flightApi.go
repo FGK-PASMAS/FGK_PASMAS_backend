@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"strconv"
 
+	databasehandler "github.com/MetaEMK/FGK_PASMAS_backend/databaseHandler"
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
 	"github.com/MetaEMK/FGK_PASMAS_backend/router/api"
 	pasmasservice "github.com/MetaEMK/FGK_PASMAS_backend/service/pasmasService"
@@ -14,10 +15,10 @@ func getFlights(c *gin.Context) {
     var response interface{}
     var httpCode int = 500
     var err error
-    var flights *[]model.Flight
+    var flights []model.Flight
 
-    includes, incErr := pasmasservice.ParseFlightInclude(c)
-    filters, filtErr := pasmasservice.ParseFlightFilter(c)
+    includes, incErr := databasehandler.ParseFlightInclude(c)
+    filters, filtErr := databasehandler.ParseFlightFilter(c)
 
     if incErr == nil && filtErr == nil {
         flights, err = pasmasservice.GetFlights(includes, filters)

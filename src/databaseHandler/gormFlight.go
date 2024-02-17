@@ -1,47 +1,47 @@
 package databasehandler
 
 import (
-	cerror "github.com/MetaEMK/FGK_PASMAS_backend/cError"
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
 	"github.com/MetaEMK/FGK_PASMAS_backend/router/realtime"
-	"gorm.io/gorm"
 )
 
 func initFlight() {
     Db.AutoMigrate(&model.Flight{})
 }
 
-func CreateFlight(db *gorm.DB, rt *realtime.RealtimeHandler, flight model.Flight, passengers []model.Passenger) (newFlight model.Flight, newPassengers []model.Passenger, err error) {
-    if db == nil {
-        db = Db.Begin()
-        rt = realtime.NewRealtimeHandler()
-        defer func() {
-            CommitOrRollback(db, rt)
-            err = db.Error
-        }()
-    }
+func GetFlights(include *FlightInclude, filter *FlightFilter) (flights []model.Flight, err error) {
+    db := Db
+    db = interpretFlightConfig(db, include, filter)
 
-    if rt == nil {
-        err = cerror.ErrNoRealtimeHandlerFound
-        return
-    }
+    err = db.Find(&flights).Error
+    return 
+}
 
+func GetFlightById(id uint, include *FlightInclude) (flight model.Flight, err error) {
+    db := Db
+    db = interpretFlightConfig(db, include, nil)
+
+    db.First(&flight, id)
+    return flight, db.Error
+}
+
+func (dh *DatabaseHandler) CreateFlight(flight model.Flight, passengers []model.Passenger) (newFlight model.Flight, newPassengers []model.Passenger, err error) {
     flight.ID = 0
     flight.Passengers = nil
-    err = db.Create(&flight).Error
+    err = dh.Db.Create(&flight).Error
 
     if err != nil {
-        db.AddError(err)
+        dh.Db.AddError(err)
         return
     } 
 
-    rt.AddEvent(realtime.FlightStream, realtime.CREATED, flight)
+    dh.rt.AddEvent(realtime.FlightStream, realtime.CREATED, flight)
 
     for index := range passengers {
         passengers[index].FlightID = flight.ID
-        pass, err := CreatePassenger(db, rt, passengers[index])
+        pass, err := dh.CreatePassenger(passengers[index])
 
-        db.AddError(err)
+        dh.Db.AddError(err)
         newPassengers = append(newPassengers, pass)
     }
 
@@ -51,25 +51,10 @@ func CreateFlight(db *gorm.DB, rt *realtime.RealtimeHandler, flight model.Flight
 }
 
 // partialUpdateFlight updates the newFlight with all set data from newFlight. 0 or "" values means that the field should be set to nil
-func PartialUpdateFlight(db *gorm.DB, rt *realtime.RealtimeHandler, id uint, newFlightData model.Flight) (flight model.Flight, err error) {
-    if db == nil {
-        db = Db
-        rt = realtime.NewRealtimeHandler()
-        defer func() {
-            if err == nil {
-                rt.PublishEvents()
-            }
-        }()
-    }
-
-    if rt == nil {
-        err = cerror.ErrNoRealtimeHandlerFound
-        return
-    }
-    
-    err = Db.First(&flight, id).Error
+func (dh *DatabaseHandler) PartialUpdateFlight(id uint, newFlightData model.Flight) (flight model.Flight, err error) {
+    err = dh.Db.First(&flight, id).Error
     if err != nil {
-        db.AddError(err)
+        dh.Db.AddError(err)
         return
     }
 
@@ -93,45 +78,30 @@ func PartialUpdateFlight(db *gorm.DB, rt *realtime.RealtimeHandler, id uint, new
         }
     }
 
-    err = db.Updates(&flight).Error
+    err = dh.Db.Updates(&flight).Error
     if err == nil {
-        rt.AddEvent(realtime.FlightStream, realtime.UPDATED, flight)
+        dh.rt.AddEvent(realtime.FlightStream, realtime.UPDATED, flight)
     }
 
     return
 }
 
 // DeleteFlight deletes the flight with the given id and all its passengers. It returns the deleted flight and all its passengers.
-func DeleteFlight(db *gorm.DB, rt *realtime.RealtimeHandler, id uint) (flight model.Flight, passengers []model.Passenger, err error) {
-    if db == nil {
-        db = Db.Begin()
-        rt = realtime.NewRealtimeHandler()
-        defer func() {
-            err = db.Error
-        }()
-        defer CommitOrRollback(db, rt)
-    }
-
-    if rt == nil {
-        err = cerror.ErrNoRealtimeHandlerFound
-        return
-    }
-
-    err = db.Preload("Passengers").First(&flight, id).Error
+func (dh *DatabaseHandler) DeleteFlight(id uint) (flight model.Flight, passengers []model.Passenger, err error) {
+    err = dh.Db.Preload("Passengers").First(&flight, id).Error
     if err != nil {
         return
     }
     passengers = *flight.Passengers
 
-    err = db.Delete(&flight, id).Error
+    err = dh.Db.Delete(&flight, id).Error
     if err != nil {
         return
     } 
-    rt.AddEvent(realtime.FlightStream, realtime.DELETED, flight)
+    dh.rt.AddEvent(realtime.FlightStream, realtime.DELETED, flight)
 
     for _, p := range passengers{
-        _, delErr := DeletePassenger(db, rt, p.ID)
-        db.AddError(delErr)
+        dh.DeletePassenger(p.ID)
     }
 
     return
