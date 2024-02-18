@@ -4,6 +4,7 @@ import (
 	"errors"
 	"time"
 
+	cerror "github.com/MetaEMK/FGK_PASMAS_backend/cError"
 	databasehandler "github.com/MetaEMK/FGK_PASMAS_backend/databaseHandler"
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
 	"github.com/MetaEMK/FGK_PASMAS_backend/validator"
@@ -213,10 +214,13 @@ func partialUpdatePassengers(dh *databasehandler.DatabaseHandler, oldPass *[]mod
             }
 
             if !status {
-                dh.Db.AddError(ErrObjectNotFound)
+                dh.Db.AddError(ErrObjectDependencyMissing)
             }
         case model.ActionDelete:
             dh.DeletePassenger((*newPass)[i].ID)
+        
+        default:
+            dh.Db.AddError(cerror.ErrPassengerActionNotValid)
         }
     }
 }

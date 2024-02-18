@@ -82,7 +82,7 @@ func FlightCreation(flight *model.Flight, passengers *[]model.Passenger) (newFli
     if err == nil {
         dh := databasehandler.NewDatabaseHandler()
         newFlight, newPassengers, err = dh.CreateFlight(*flight, paxs)
-        dh.CommitOrRollback(err)
+        err = dh.CommitOrRollback(err)
     }
 
     return
@@ -93,7 +93,7 @@ func FlightUpdate(flightId uint, newFlightData model.Flight) (flight model.Fligh
     var plane model.Plane
     dh := databasehandler.NewDatabaseHandler()
     defer func() {
-        dh.CommitOrRollback(err)
+        err = dh.CommitOrRollback(err)
         if err == nil {
             flight, err = databasehandler.GetFlightById(flightId, &databasehandler.FlightInclude{IncludePassengers: true, IncludePlane: true})
         }
@@ -170,7 +170,7 @@ func DeleteFlights(id uint) (err error){
     dh := databasehandler.NewDatabaseHandler()
     _, _, err = dh.DeleteFlight(id)
 
-    dh.CommitOrRollback(err)
+    err = dh.CommitOrRollback(err)
     return
 }
 

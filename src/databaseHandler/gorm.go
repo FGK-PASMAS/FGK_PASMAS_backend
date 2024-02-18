@@ -53,7 +53,7 @@ func ResetDatabase() error {
     return transaction.Error
 }
 
-func (dh *DatabaseHandler) CommitOrRollback(err error) {
+func (dh *DatabaseHandler) CommitOrRollback(err error) error {
     if dh.Db.Error == nil && err == nil {
         err := dh.Db.Commit().Error
         if err != nil {
@@ -65,4 +65,6 @@ func (dh *DatabaseHandler) CommitOrRollback(err error) {
     } else {
         dh.Db.Rollback()
     }
+
+    return dh.Db.Error
 } 

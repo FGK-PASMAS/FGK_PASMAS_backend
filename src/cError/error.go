@@ -15,4 +15,5 @@ var (
     ErrFilterNotSupported = errors.New("Filter not supported")
 
     ErrRealtimeEventCouldNotBeCreated = errors.New("Realtime event could not be created")
+    ErrPassengerActionNotValid = errors.New("Passenger action not valid")
 )
