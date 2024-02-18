@@ -66,6 +66,7 @@ func streamToClient(c *gin.Context) {
         v, err := c.Get("clientChan")
         if !err {
             fmt.Println("Error getting clientChan")
+            fmt.Printf("%v \n", err)
             return
         }
 

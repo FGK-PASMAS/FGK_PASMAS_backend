@@ -13,6 +13,7 @@ var pingStream = newStream()
 func SetupRealtimeRoutes(r *gin.RouterGroup) {
     subscribeToStream(r, "/passengers", PassengerStream)
     subscribeToStream(r, "/pings", pingStream)
+    subscribeToFlightByDivisionEndpoint(r)
 
     go sendPings()
 }
