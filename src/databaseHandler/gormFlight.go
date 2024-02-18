@@ -13,7 +13,7 @@ func GetFlights(include *FlightInclude, filter *FlightFilter) (flights []model.F
     db := Db
     db = interpretFlightConfig(db, include, filter)
 
-    err = db.Find(&flights).Error
+    err = db.Order("departure_time ASC").Find(&flights).Error
     return 
 }
 
