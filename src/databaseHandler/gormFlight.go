@@ -36,6 +36,10 @@ func (dh *DatabaseHandler) CreateFlight(flight model.Flight, passengers []model.
     } 
 
     dh.rt.AddEvent(realtime.FlightStream, realtime.CREATED, flight)
+    plane := model.Plane{}
+    dh.Db.First(&plane, flight.PlaneId)
+    stream := realtime.GetFlightStreamForDivisionId(plane.DivisionId)
+    dh.rt.AddEvent(stream, realtime.CREATED, flight)
 
     for index := range passengers {
         passengers[index].FlightID = flight.ID
@@ -52,7 +56,7 @@ func (dh *DatabaseHandler) CreateFlight(flight model.Flight, passengers []model.
 
 // partialUpdateFlight updates the newFlight with all set data from newFlight. 0 or "" values means that the field should be set to nil
 func (dh *DatabaseHandler) PartialUpdateFlight(id uint, newFlightData model.Flight) (flight model.Flight, err error) {
-    err = dh.Db.First(&flight, id).Error
+    err = dh.Db.Preload("Plane").First(&flight, id).Error
     if err != nil {
         dh.Db.AddError(err)
         return
@@ -81,6 +85,10 @@ func (dh *DatabaseHandler) PartialUpdateFlight(id uint, newFlightData model.Flig
     err = dh.Db.Updates(&flight).Error
     if err == nil {
         dh.rt.AddEvent(realtime.FlightStream, realtime.UPDATED, flight)
+        if flight.Plane != nil{
+            stream := realtime.GetFlightStreamForDivisionId(flight.Plane.DivisionId)
+            dh.rt.AddEvent(stream, realtime.UPDATED, flight)
+        }
     }
 
     return
@@ -88,7 +96,7 @@ func (dh *DatabaseHandler) PartialUpdateFlight(id uint, newFlightData model.Flig
 
 // DeleteFlight deletes the flight with the given id and all its passengers. It returns the deleted flight and all its passengers.
 func (dh *DatabaseHandler) DeleteFlight(id uint) (flight model.Flight, passengers []model.Passenger, err error) {
-    err = dh.Db.Preload("Passengers").First(&flight, id).Error
+    err = dh.Db.Preload("Plane").Preload("Passengers").First(&flight, id).Error
     if err != nil {
         return
     }
@@ -99,6 +107,10 @@ func (dh *DatabaseHandler) DeleteFlight(id uint) (flight model.Flight, passenger
         return
     } 
     dh.rt.AddEvent(realtime.FlightStream, realtime.DELETED, flight)
+    if flight.Plane != nil{
+        stream := realtime.GetFlightStreamForDivisionId(flight.Plane.DivisionId)
+        dh.rt.AddEvent(stream, realtime.DELETED, flight)
+    }
 
     for _, p := range passengers{
         dh.DeletePassenger(p.ID)

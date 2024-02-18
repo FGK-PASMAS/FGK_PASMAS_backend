@@ -13,4 +13,6 @@ var (
     ErrNoRealtimeHandlerFound = errors.New("No realtime handler found")
     ErrIncludeNotSupported = errors.New("Include not supported")
     ErrFilterNotSupported = errors.New("Filter not supported")
+
+    ErrRealtimeEventCouldNotBeCreated = errors.New("Realtime event could not be created")
 )

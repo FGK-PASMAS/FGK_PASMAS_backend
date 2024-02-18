@@ -6,14 +6,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-
 var FlightStream = newStream()
 var PassengerStream = newStream()
 var pingStream = newStream()
 
 func SetupRealtimeRoutes(r *gin.RouterGroup) {
     subscribeToStream(r, "/passengers", PassengerStream)
-    subscribeToStream(r, "/flights", FlightStream)
     subscribeToStream(r, "/pings", pingStream)
 
     go sendPings()

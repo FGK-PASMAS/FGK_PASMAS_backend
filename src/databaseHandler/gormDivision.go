@@ -1,6 +1,9 @@
 package databasehandler
 
-import "github.com/MetaEMK/FGK_PASMAS_backend/model"
+import (
+	"github.com/MetaEMK/FGK_PASMAS_backend/model"
+	"github.com/MetaEMK/FGK_PASMAS_backend/router/realtime"
+)
 
 func initDivision() {
     Db.AutoMigrate(&model.Division{})
@@ -25,6 +28,14 @@ func SeedDivision() error {
             Db.Model(&d).Updates(div)
         }
     }
+
+    divisions := []model.Division{}
+    err := Db.Find(&divisions).Error
+    if err != nil {
+        return err
+    }
+
+    realtime.InitAllFlightByDivisionEndpoints(divisions)
 
     return nil
 }
