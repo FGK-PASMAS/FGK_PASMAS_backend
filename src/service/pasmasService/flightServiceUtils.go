@@ -4,9 +4,9 @@ import (
 	"errors"
 	"time"
 
-	dh "github.com/MetaEMK/FGK_PASMAS_backend/databaseHandler"
+	cerror "github.com/MetaEMK/FGK_PASMAS_backend/cError"
+	databasehandler "github.com/MetaEMK/FGK_PASMAS_backend/databaseHandler"
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
-	"github.com/MetaEMK/FGK_PASMAS_backend/router/realtime"
 	"github.com/MetaEMK/FGK_PASMAS_backend/validator"
 	"gorm.io/gorm"
 )
@@ -25,7 +25,7 @@ var (
 // returns true if the slot is free, false if not
 func checkIfSlotIsFree(planeId uint, departureTime time.Time, arrivalTime time.Time) bool {
     var count int64
-    result := dh.Db.Model(&model.Flight{}).Where("plane_id = ?", planeId).Where("departure_time < ? AND arrival_time > ?", arrivalTime, departureTime).Count(&count)
+    result := databasehandler.Db.Model(&model.Flight{}).Where("plane_id = ?", planeId).Where("departure_time < ? AND arrival_time > ?", arrivalTime, departureTime).Count(&count)
 
     if result.Error != nil {
         return false
@@ -38,7 +38,8 @@ func calculatePilot(passWeight uint, fuelAmount float32, plane model.Plane) (mod
     var baseETOW uint = 0
     pilot := model.Pilot{}
 
-    err := dh.Db.Preload("AllowedPilots").Preload("PrefPilot").First(&plane).Error
+    //err := dh.Db.Preload("AllowedPilots").Preload("PrefPilot").First(&plane).Error
+    plane, err := databasehandler.GetPlaneById(plane.ID, &databasehandler.PlaneInclude{IncludeAllowedPilots: true, IncludePrefPilot: true})
     if err != nil {
         return model.Pilot{}, err
     }
@@ -88,8 +89,9 @@ func checkFlightValidation(flight model.Flight) error {
     plane := model.Plane{}
     pilot := model.Pilot{}
     
-    planeErr := dh.Db.Preload("Division").First(&plane, flight.PlaneId).Error
-    pilotErr := dh.Db.First(&pilot, flight.PilotId).Error
+    //planeErr := dh.Db.Preload("Division").First(&plane, flight.PlaneId).Error
+    plane, planeErr := databasehandler.GetPlaneById(flight.PlaneId, &databasehandler.PlaneInclude{IncludeDivision: true})
+    pilotErr := databasehandler.Db.First(&pilot, flight.PilotId).Error
 
     err = errors.Join(err, planeErr, pilotErr)
     if err != nil {
@@ -162,7 +164,7 @@ func calculateFuelAtDeparture(flight *model.Flight, plane model.Plane) (float32,
 
     // Get one flight before this
     beforeFlight := model.Flight{}
-    err := dh.Db.Not("status = ?", model.FsBlocked) .Where("plane_id = ?", flight.PlaneId) .Where("departure_time < ?", flight.DepartureTime) .Order("departure_time DESC").First(&beforeFlight).Error
+    err := databasehandler.Db.Not("status = ?", model.FsBlocked) .Where("plane_id = ?", flight.PlaneId) .Where("departure_time < ?", flight.DepartureTime) .Order("departure_time DESC").First(&beforeFlight).Error
 
     if err == gorm.ErrRecordNotFound {
         fuel := float32(plane.FuelStartAmount)
@@ -180,89 +182,45 @@ func calculateFuelAtDeparture(flight *model.Flight, plane model.Plane) (float32,
     return value, nil
 }
 
-func partialUpdatePassengers(db *gorm.DB, oldPass *[]model.Passenger, newPass *[]model.Passenger) {
+func partialUpdatePassengers(dh *databasehandler.DatabaseHandler, oldPass *[]model.Passenger, newPass *[]model.Passenger) {
     if oldPass == nil || newPass == nil {
         return
     }
 
-    if db == nil {
-        db = dh.Db.Begin()
+    if dh == nil {
+        dh = databasehandler.NewDatabaseHandler()
+        defer dh.CommitOrRollback(nil)
     }
 
     for i := range *newPass {
         println((*newPass)[i].Action)
         switch (*newPass)[i].Action {
         case model.ActionCreate:
-            passengerCreate(db, &(*newPass)[i])
-            tmp := append(*oldPass, (*newPass)[i])
-            *oldPass = tmp
+            pass, err := dh.CreatePassenger((*newPass)[i])
+            if err == nil {
+                tmp := append(*oldPass, pass)
+                *oldPass = tmp
+            } else {
+                dh.Db.AddError(err)
+            }
         case model.ActionUpdate:
             status := false
             for j := range *oldPass {
                 if (*newPass)[i].ID == (*oldPass)[j].ID {
-                    partialUpdatePassenger(db, (*oldPass)[j].ID, &(*newPass)[i])
+                    dh.PartialUpdatePassenger((*oldPass)[j].ID, &(*newPass)[i])
                     (*oldPass)[j] = (*newPass)[i]
                     status = true
                 }
             }
 
             if !status {
-                db.AddError(ErrObjectNotFound)
+                dh.Db.AddError(ErrObjectDependencyMissing)
             }
         case model.ActionDelete:
-            passengerDelete(db, (*newPass)[i].ID)
-        }
-    }
-}
-
-// partialUpdateFlight updates the newFlight with all set data from newFlight. 0 or "" values means that the field should be set to nil
-func partialUpdateFlight(db *gorm.DB, id uint, newFlight *model.Flight) {
-    if db == nil {
-        db = dh.Db
-    }
-    
-    oldFlight := model.Flight{}
-    err := dh.Db.First(&oldFlight, id).Error
-    if err != nil {
-        db.AddError(err)
-        return
-    }
-
-    if newFlight.Status == model.FsBooked && oldFlight.Status == model.FsReserved {
-        oldFlight.Status = newFlight.Status
-    }
-
-    if newFlight.Description != nil {
-        if *newFlight.Description == "" {
-            oldFlight.Description = nil
-        } else {
-            oldFlight.Description = newFlight.Description
-        }
-    } 
-
-    if newFlight.FuelAtDeparture != nil {
-        if *newFlight.FuelAtDeparture == 0 {
-            oldFlight.FuelAtDeparture = nil
-        } else {
-            oldFlight.FuelAtDeparture = newFlight.FuelAtDeparture
-        }
-    }
-
-    db.Updates(oldFlight)
-    newFlight = &oldFlight
-}
-
-func sendRealtimeEventsForPassengers(passengers []model.Passenger, defaultActionType realtime.ActionType) {
-    for _, p := range passengers {
-        switch p.Action {
-        case model.ActionCreate:
-            realtime.PassengerStream.PublishEvent(realtime.CREATED, p)
-        case model.ActionUpdate:
-            realtime.PassengerStream.PublishEvent(realtime.UPDATED, p)
-        case model.ActionDelete:
-            realtime.PassengerStream.PublishEvent(realtime.DELETED, p)
+            dh.DeletePassenger((*newPass)[i].ID)
+        
         default:
-            realtime.PassengerStream.PublishEvent(defaultActionType, p)
+            dh.Db.AddError(cerror.ErrPassengerActionNotValid)
         }
     }
 }

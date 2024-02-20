@@ -1,15 +1,28 @@
 package databasehandler
 
 import (
-	//"github.com/MetaEMK/FGK_PASMAS_backend/model"
+	"github.com/MetaEMK/FGK_PASMAS_backend/router/realtime"
 	"gorm.io/gorm"
 )
 
 var Db *gorm.DB
 
+type DatabaseHandler struct {
+    Db *gorm.DB
+    rt *realtime.RealtimeHandler
+}
+
+func NewDatabaseHandler() (dh *DatabaseHandler) {
+    dh = &DatabaseHandler{
+        Db: Db.Begin(),
+        rt: realtime.NewRealtimeHandler(),
+    }
+
+    return
+}
+
 func InitGorm(dbConn *gorm.DB) *gorm.DB {
     Db = dbConn
-
 
     initDivision()
 
@@ -33,9 +46,25 @@ func ResetDatabase() error {
 
     seed := Db.Begin()
     SeedDivision()
-    SeedPlane(seed)
-    SeedPilot(seed)
+    SeedPlane(nil)
+    SeedPilot(nil)
     seed.Commit()
 
     return transaction.Error
 }
+
+func (dh *DatabaseHandler) CommitOrRollback(err error) error {
+    if dh.Db.Error == nil && err == nil {
+        err := dh.Db.Commit().Error
+        if err != nil {
+            dh.Db.AddError(err)
+            dh.Db.Rollback()
+        } else {
+            dh.rt.PublishEvents()
+        }
+    } else {
+        dh.Db.Rollback()
+    }
+
+    return dh.Db.Error
+} 

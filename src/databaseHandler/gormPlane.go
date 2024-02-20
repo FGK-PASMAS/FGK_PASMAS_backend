@@ -13,6 +13,26 @@ func initPlane(db *gorm.DB) {
     SeedPlane(db)
 }
 
+func GetPlanes(planeInclude *PlaneInclude, planeFilter *PlaneFilter) ([]model.Plane, error) {
+    db := Db
+    planes := []model.Plane{}
+
+    db =interpretPlaneConfig(db, planeInclude, planeFilter)
+
+    db = db.Find(&planes)
+    return planes, db.Error
+}
+
+func GetPlaneById(id uint, planeInclude *PlaneInclude) (plane model.Plane, err error) {
+    db := Db
+
+    db = interpretPlaneConfig(db, planeInclude, nil)
+
+    err = db.First(&plane, id).Error
+    return
+}
+
+
 func SeedPlane(db *gorm.DB) {
     if db == nil {
         db = Db

@@ -9,33 +9,33 @@ import (
 
 type Stream struct {
 	// Events are pushed to this channel by the main events-gathering routine
-	Message chan string
+	message chan string
 
 	// New client connections
-	NewClients chan chan string
+	newClients chan chan string
 
 	// Closed client connections
-	ClosedClients chan chan string
+	closedClients chan chan string
 
 	// Total client connections
-	TotalClients map[chan string]bool
+	totalClients map[chan string]bool
 
 }
 
 
-type ClientChan chan string
+type clientChan chan string
 
 // addClient adds a new client to the clients map.
 func (stream *Stream) serveStream() gin.HandlerFunc {
     return func(c *gin.Context) {
         // Init client channel
-        clientChan := make(ClientChan)
+        clientChan := make(clientChan)
 
         //Send new client to event server
-        stream.NewClients <- clientChan
+        stream.newClients <- clientChan
 
         defer func() {
-            stream.ClosedClients <- clientChan
+            stream.closedClients <- clientChan
         }()
 
         c.Set("clientChan", clientChan)
@@ -46,16 +46,16 @@ func (stream *Stream) serveStream() gin.HandlerFunc {
 
 // SendEvent sends an event to all clients in this stream.
 func (stream *Stream) sendEvent(eventMessage string) {
-    stream.Message <- eventMessage
+    stream.message <- eventMessage
 }
 
 // newStream creates a new event server and returns it.
 func newStream() (event *Stream){
     event = &Stream{
-        Message:       make(chan string),
-        NewClients:    make(chan chan string),
-        ClosedClients: make(chan chan string),
-        TotalClients:  make(map[chan string]bool),
+        message:       make(chan string),
+        newClients:    make(chan chan string),
+        closedClients: make(chan chan string),
+        totalClients:  make(map[chan string]bool),
     }
 
     go event.listen()
@@ -66,10 +66,11 @@ func streamToClient(c *gin.Context) {
         v, err := c.Get("clientChan")
         if !err {
             fmt.Println("Error getting clientChan")
+            fmt.Printf("%v \n", err)
             return
         }
 
-        clientChan, err := v.(ClientChan)
+        clientChan, err := v.(clientChan)
         if !err {
             fmt.Println("Error asserting clientChan")
             return
@@ -89,16 +90,16 @@ func streamToClient(c *gin.Context) {
 func (stream *Stream) listen() {
     for {
         select {
-        case client := <-stream.NewClients:
+        case client := <-stream.newClients:
             fmt.Println("New client", client)
-            stream.TotalClients[client] = true
+            stream.totalClients[client] = true
 
-        case client := <-stream.ClosedClients:
-            delete(stream.TotalClients, client)
+        case client := <-stream.closedClients:
+            delete(stream.totalClients, client)
             close(client)
 
-        case eventMessage := <-stream.Message:
-            for clientMessageChan := range stream.TotalClients {
+        case eventMessage := <-stream.message:
+            for clientMessageChan := range stream.totalClients {
                 clientMessageChan <- eventMessage
             }
         }
@@ -116,14 +117,7 @@ func headersMiddleware() gin.HandlerFunc {
 	}
 }
 
-func (s *Stream) PublishEvent(actionType ActionType, data ...interface{}) {
-    for _, obj := range data {
-        body := RealtimeBodyModel {
-            Action: actionType,
-            Data: obj,
-        }
-
-        bodyString := body.ToJson()
-        s.sendEvent(bodyString)
-    }
+func (s *Stream) publishEvent(event realtimeEvent) {
+    bodyString := event.toJson()
+    s.sendEvent(bodyString)
 }

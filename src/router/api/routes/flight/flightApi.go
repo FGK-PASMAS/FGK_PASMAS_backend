@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"strconv"
 
+	databasehandler "github.com/MetaEMK/FGK_PASMAS_backend/databaseHandler"
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
 	"github.com/MetaEMK/FGK_PASMAS_backend/router/api"
 	pasmasservice "github.com/MetaEMK/FGK_PASMAS_backend/service/pasmasService"
@@ -14,10 +15,10 @@ func getFlights(c *gin.Context) {
     var response interface{}
     var httpCode int = 500
     var err error
-    var flights *[]model.Flight
+    var flights []model.Flight
 
-    includes, incErr := pasmasservice.ParseFlightInclude(c)
-    filters, filtErr := pasmasservice.ParseFlightFilter(c)
+    includes, incErr := databasehandler.ParseFlightInclude(c)
+    filters, filtErr := databasehandler.ParseFlightFilter(c)
 
     if incErr == nil && filtErr == nil {
         flights, err = pasmasservice.GetFlights(includes, filters)
@@ -54,16 +55,17 @@ func flightCreation(c *gin.Context) {
     passengers:= flight.Passengers
     flight.Passengers = nil
 
-    err = pasmasservice.FlightCreation(&flight, passengers)
+    newFlight, newPassengers, err := pasmasservice.FlightCreation(&flight, passengers)
 
     if err != nil {
         res := api.GetErrorResponse(err)
         httpCode = res.HttpCode
         response = res.ErrorResponse
     } else {
+        newFlight.Passengers = &newPassengers
         response = api.SuccessResponse {
             Success: true,
-            Response: flight,
+            Response: newFlight,
         }
         httpCode = http.StatusCreated
     }
@@ -75,6 +77,7 @@ func flightUpdate(c *gin.Context) {
     var response interface{}
     var httpCode int
     var err error
+    var newFlight model.Flight
 
     var flight model.Flight
     err = c.ShouldBind(&flight)
@@ -82,7 +85,7 @@ func flightUpdate(c *gin.Context) {
     idStr := c.Param("id")
     id, err := strconv.ParseUint(idStr, 10, 64)
     if err == nil {
-        err = pasmasservice.FlightUpdate(uint(id), &flight)
+        newFlight, err = pasmasservice.FlightUpdate(uint(id), flight)
     }
 
     if err != nil {
@@ -92,7 +95,7 @@ func flightUpdate(c *gin.Context) {
     } else {
         response = api.SuccessResponse {
             Success: true,
-            Response: flight,
+            Response: newFlight,
         }
         httpCode = http.StatusOK
     }
