@@ -3,6 +3,7 @@ package cerror
 import (
 	"errors"
 
+	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
 )
 
@@ -16,4 +17,15 @@ var (
 
     ErrRealtimeEventCouldNotBeCreated = errors.New("Realtime event could not be created")
     ErrPassengerActionNotValid = errors.New("Passenger action not valid")
+)
+
+// Internal Errors only - this should never occur
+var (
+    ErrDatabaseHandlerDestroy = errors.New("Struct DatabaseHandler was never closed correctly")
+)
+
+// Authentication and Authorisation
+var (
+    ErrPasswordTooLong = bcrypt.ErrPasswordTooLong
+    ErrMismatchedHashAndPassword = bcrypt.ErrMismatchedHashAndPassword
 )
