@@ -17,7 +17,11 @@ func GetPassengers() ([]model.Passenger, error) {
     return passengers, err
 }
 
-func DeletePassenger(id uint) (passenger model.Passenger, err error){
+func DeletePassenger(user model.UserJwtBody, id uint) (passenger model.Passenger, err error){
+    if err = user.ValidateRole(model.Vendor); err != nil {
+        return
+    }
+
     dh := databasehandler.NewDatabaseHandler()
     passenger, err = dh.DeletePassenger(id)
 

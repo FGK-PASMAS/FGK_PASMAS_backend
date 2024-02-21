@@ -23,7 +23,12 @@ func GetFlights(include *databasehandler.FlightInclude, filter *databasehandler.
 }
 
 
-func FlightCreation(flight *model.Flight, passengers *[]model.Passenger) (newFlight model.Flight, newPassengers []model.Passenger, err error) {
+func FlightCreation(user model.UserJwtBody, flight *model.Flight, passengers *[]model.Passenger) (newFlight model.Flight, newPassengers []model.Passenger, err error) {
+
+    if err = user.ValidateRole(model.Vendor); err != nil {
+        return
+    }
+
     var plane model.Plane
     flight.Status = model.FsReserved
 
@@ -88,7 +93,11 @@ func FlightCreation(flight *model.Flight, passengers *[]model.Passenger) (newFli
     return
 }
 
-func FlightUpdate(flightId uint, newFlightData model.Flight) (flight model.Flight, err error) {
+func FlightUpdate(user model.UserJwtBody, flightId uint, newFlightData model.Flight) (flight model.Flight, err error) {
+    if err = user.ValidateRole(model.Vendor); err != nil {
+        return
+    }
+
     var passengers []model.Passenger
     var plane model.Plane
     dh := databasehandler.NewDatabaseHandler()
@@ -166,7 +175,11 @@ func FlightUpdate(flightId uint, newFlightData model.Flight) (flight model.Fligh
     return 
 }
 
-func DeleteFlights(id uint) (err error){
+func DeleteFlights(user model.UserJwtBody, id uint) (err error){
+    if err = user.ValidateRole(model.Vendor); err != nil {
+        return
+    }
+
     dh := databasehandler.NewDatabaseHandler()
     _, _, err = dh.DeleteFlight(id)
 

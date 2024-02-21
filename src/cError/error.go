@@ -30,4 +30,6 @@ var (
     ErrMismatchedHashAndPassword = bcrypt.ErrMismatchedHashAndPassword
     ErrInvalidCredentials = errors.New("Invalid credentials")
     ErrEmptyCredentials = errors.New("Empty token, password or username")
+    ErrForbidden = errors.New("You are not allowed to access this resource")
+    ErrInvalidRole = errors.New("Invalid role")
 )

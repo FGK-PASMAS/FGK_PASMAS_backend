@@ -1,6 +1,8 @@
 package flight
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+)
 
 func SetupFlightRoutes(gr gin.RouterGroup) {
     gr.GET("", getFlights)

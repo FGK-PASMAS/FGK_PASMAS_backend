@@ -4,6 +4,7 @@ import (
 	"errors"
 	"net/http"
 
+	cerror "github.com/MetaEMK/FGK_PASMAS_backend/cError"
 	pasmasservice "github.com/MetaEMK/FGK_PASMAS_backend/service/pasmasService"
 	"github.com/MetaEMK/FGK_PASMAS_backend/validator"
 )
@@ -21,6 +22,8 @@ var (
     dependencyNotFound = ApiError { HttpCode: http.StatusBadRequest, ErrorResponse: ErrorResponse { Success: false, Type: "DEPENDENCY_NOT_FOUND"} }
     notImplemented = ApiError { HttpCode: http.StatusNotImplemented, ErrorResponse: ErrorResponse { Success: false, Type: "NOT_IMPLEMENTED"} }
     notValidParameters = ApiError { HttpCode: http.StatusBadRequest, ErrorResponse: ErrorResponse { Success: false, Type: "NOT_VALID_PARAMETERS"} }
+    unauthorized = ApiError { HttpCode: http.StatusUnauthorized, ErrorResponse: ErrorResponse { Success: false, Type: "UNAUTHORIZED"} }
+    forbidden = ApiError { HttpCode: http.StatusForbidden, ErrorResponse: ErrorResponse { Success: false, Type: "FORBIDDEN"} }
 )
 
 var (
@@ -67,6 +70,12 @@ func GetErrorResponse(err error) ApiError {
 
         case pasmasservice.ErrIncludeNotSupported:
             obj = notValidParameters
+
+        case cerror.ErrForbidden:
+            obj = forbidden
+
+        case cerror.ErrInvalidCredentials:
+            obj = unauthorized
 
         default:
             obj = unknownError
