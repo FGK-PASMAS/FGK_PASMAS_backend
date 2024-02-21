@@ -22,6 +22,8 @@ type DatabaseHandler struct {
 func InitGorm(dbConn *gorm.DB) *gorm.DB {
     Db = dbConn
 
+    initUser()
+
     initDivision()
 
     initPlane(nil)
@@ -82,7 +84,7 @@ func (dh *DatabaseHandler) CommitOrRollback(err error) error {
     return dh.Db.Error
 } 
 
-func finalize(dh DatabaseHandler) {
+func finalize(dh *DatabaseHandler) {
     if dh.isClosed == false {
         log.Error(cerror.ErrDatabaseHandlerDestroy.Error())
         dh.CommitOrRollback(cerror.ErrDatabaseHandlerDestroy)

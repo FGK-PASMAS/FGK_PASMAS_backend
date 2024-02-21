@@ -16,6 +16,11 @@ type User struct {
     Role            UserRole           `gorm:"not null"`
 }
 
+type UserJwtBody struct {
+    Username        string
+    Role            UserRole
+}
+
 type UserRole string
 
 const (

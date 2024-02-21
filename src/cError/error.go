@@ -28,4 +28,6 @@ var (
 var (
     ErrPasswordTooLong = bcrypt.ErrPasswordTooLong
     ErrMismatchedHashAndPassword = bcrypt.ErrMismatchedHashAndPassword
+    ErrInvalidCredentials = errors.New("Invalid credentials")
+    ErrEmptyCredentials = errors.New("Empty token, password or username")
 )
