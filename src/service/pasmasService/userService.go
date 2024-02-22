@@ -37,7 +37,7 @@ func GenerateJwtForUser(username string, password string) (token string, err err
         }
     }
 
-    waitTime := startTime.Add(2000* time.Millisecond).Sub(time.Now().UTC())
+    waitTime := startTime.Add(2000* time.Millisecond).Sub(time.Now().UTC()).Abs()
     println("Waiting for: ", waitTime)
     time.Sleep(waitTime)
 
