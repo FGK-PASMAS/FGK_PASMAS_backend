@@ -23,7 +23,7 @@ func GetFlights(include *databasehandler.FlightInclude, filter *databasehandler.
 }
 
 
-func FlightCreation(user model.UserJwtBody, flight *model.Flight, passengers *[]model.Passenger) (newFlight model.Flight, newPassengers []model.Passenger, err error) {
+func FlightCreation(user model.UserJwtBody, flight model.Flight, passengers *[]model.Passenger) (newFlight model.Flight, newPassengers []model.Passenger, err error) {
 
     if err = user.ValidateRole(model.Vendor); err != nil {
         return
@@ -54,17 +54,22 @@ func FlightCreation(user model.UserJwtBody, flight *model.Flight, passengers *[]
         }
     }
 
-    fuelAmount, err := calculateFuelAtDeparture(flight, plane)
-    if err != nil {
-        return 
+    var fuelAmount float32
+    if plane.FuelburnPerFlight > 0 {
+        fuelAmount, err = calculateFuelAtDeparture(flight, plane)
+        defer func() {
+            newFlight.FuelAtDeparture = &fuelAmount
+        }()
+
+        if err != nil {
+            return 
+        }
     }
 
     var paxs []model.Passenger
     if passengers != nil {
         paxs = *passengers
     }
-
-    println(plane.Division.ID)
 
     passWeight, err := checkPassengerAndCalcWeight(paxs, plane.MaxSeatPayload, 0, plane.Division.PassengerCapacity, false)
     if err != nil {
@@ -86,7 +91,7 @@ func FlightCreation(user model.UserJwtBody, flight *model.Flight, passengers *[]
 
     if err == nil {
         dh := databasehandler.NewDatabaseHandler()
-        newFlight, newPassengers, err = dh.CreateFlight(*flight, paxs)
+        newFlight, newPassengers, err = dh.CreateFlight(flight, paxs)
         err = dh.CommitOrRollback(err)
     }
 
@@ -155,9 +160,16 @@ func FlightUpdate(user model.UserJwtBody, flightId uint, newFlightData model.Fli
         return 
     }
 
-    fuelAmount, err := calculateFuelAtDeparture(&flight, plane)
-    if err != nil {
-        return
+    var fuelAmount float32
+    if plane.FuelburnPerFlight > 0 {
+        fuelAmount, err = calculateFuelAtDeparture(flight, plane)
+        defer func() {
+            flight.FuelAtDeparture = &fuelAmount
+        }()
+
+        if err != nil {
+            return
+        }
     }
 
     pilot, err := calculatePilot(passWeight, fuelAmount, plane)

@@ -154,7 +154,7 @@ func checkPassengerAndCalcWeight(passengers []model.Passenger, maxSeatPayload in
     return weight, nil
 }
 
-func calculateFuelAtDeparture(flight *model.Flight, plane model.Plane) (float32, error) {
+func calculateFuelAtDeparture(flight model.Flight, plane model.Plane) (float32, error) {
     if flight.FuelAtDeparture != nil && *flight.FuelAtDeparture != 0 {
         if *flight.FuelAtDeparture > float32(plane.FuelMaxCapacity) {
             return 0, ErrTooMuchFuel
@@ -172,7 +172,7 @@ func calculateFuelAtDeparture(flight *model.Flight, plane model.Plane) (float32,
         return float32(plane.FuelStartAmount), nil
     }
 
-    value, err := calculateFuelAtDeparture(&beforeFlight, plane)
+    value, err := calculateFuelAtDeparture(beforeFlight, plane)
     value -= plane.FuelburnPerFlight
 
     if value <= 0 {

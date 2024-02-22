@@ -57,7 +57,7 @@ func flightCreation(c *gin.Context) {
     passengers:= flight.Passengers
     flight.Passengers = nil
 
-    newFlight, newPassengers, err := pasmasservice.FlightCreation(user, &flight, passengers)
+    newFlight, newPassengers, err := pasmasservice.FlightCreation(user, flight, passengers)
 
     if err != nil {
         res := api.GetErrorResponse(err)
