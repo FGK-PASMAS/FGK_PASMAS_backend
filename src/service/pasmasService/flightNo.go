@@ -14,7 +14,7 @@ func generateFlightNo(plane model.Plane) (string, error) {
     var flightNo string
 
     var prevFlight model.Flight
-    err := databasehandler.Db.Model(model.Flight{}).Where("deleted_at IS NULL OR deleted_at IS NOT NULL").Where("flight_no IS NOT NULL").Order("flight_no DESC").First(&prevFlight).Error
+    err := databasehandler.Db.Unscoped().Model(model.Flight{}).Where("plane_id = ?", plane.ID).Where("flight_no IS NOT NULL").Order("flight_no DESC").First(&prevFlight).Error
 
     if err != nil {
         if err == cerror.ErrObjectNotFound {

@@ -10,7 +10,7 @@ type Flight struct {
     gorm.Model
 
     Status               FlightType
-    FlightNo            *string     `gorm:unique`
+    FlightNo            *string     `gorm:"uniqueIndex"`
 
     Description         *string
     FuelAtDeparture     *float32

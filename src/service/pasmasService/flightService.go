@@ -45,7 +45,8 @@ func FlightCreation(user model.UserJwtBody, flight model.Flight, passengers *[]m
         paxs = *passengers
     }
 
-    flightLogicData, err := flightlogic.FlightLogicProcess(flight, plane, *plane.Division, false)
+    flightLogicData, err := flightlogic.FlightLogicProcess(flight, plane, *plane.Division, true)
+    flight.ArrivalTime = flightLogicData.ArrivalTime
     flight.Pilot = flightLogicData.Pilot
     flight.PilotId = flightLogicData.ID
 
@@ -94,10 +95,7 @@ func FlightUpdate(user model.UserJwtBody, flightId uint, newFlightData model.Fli
         return 
     }
 
-    var fullValidation bool = false
     if newFlightData.Status == model.FsBooked {
-        fullValidation = true
-
         var flightNo string
         flightNo, err = generateFlightNo(plane)
         if err != nil {
@@ -122,7 +120,7 @@ func FlightUpdate(user model.UserJwtBody, flightId uint, newFlightData model.Fli
         flight.Description = newFlightData.Description
     }
 
-    newFlightData, err = flightlogic.FlightLogicProcess(flight, plane, *plane.Division, fullValidation)
+    newFlightData, err = flightlogic.FlightLogicProcess(flight, plane, *plane.Division, false)
     if err != nil {
         return
     }
