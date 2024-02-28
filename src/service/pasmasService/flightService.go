@@ -1,18 +1,15 @@
 package pasmasservice
 
 import (
-	"errors"
 	"sync"
 
+	cerror "github.com/MetaEMK/FGK_PASMAS_backend/cError"
 	databasehandler "github.com/MetaEMK/FGK_PASMAS_backend/databaseHandler"
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
+	flightlogic "github.com/MetaEMK/FGK_PASMAS_backend/service/pasmasService/flightLogic"
 )
 
 var (
-    ErrSlotIsNotFree = errors.New("Slot is not free")
-    ErrFlightStatusDoesNotFitProcess = errors.New("Flight status does not fit process")
-    ErrDepartureTimeIsZero = errors.New("Departure time is zero")
-    ErrInvalidArrivalTime = errors.New("Invalid arrival time")
 )
 
 var flightCreation sync.Mutex
@@ -40,58 +37,20 @@ func FlightCreation(user model.UserJwtBody, flight model.Flight, passengers *[]m
         return 
     }
 
-    if flight.DepartureTime.IsZero() {
-        err = ErrDepartureTimeIsZero
-        return 
-    }
-
-    if flight.ArrivalTime.IsZero() {
-        flight.ArrivalTime = flight.DepartureTime.Add(plane.FlightDuration)
-    } else {
-        if flight.ArrivalTime.Before(flight.DepartureTime) {
-            err = ErrInvalidArrivalTime
-            return 
-        }
-    }
-
-    var fuelAmount float32
-    if plane.FuelburnPerFlight > 0 {
-        fuelAmount, err = calculateFuelAtDeparture(flight, plane)
-        defer func() {
-            newFlight.FuelAtDeparture = &fuelAmount
-        }()
-
-        if err != nil {
-            return 
-        }
-    }
+    flightCreation.Lock()
+    defer flightCreation.Unlock()
 
     var paxs []model.Passenger
     if passengers != nil {
         paxs = *passengers
     }
 
-    passWeight, err := checkPassengerAndCalcWeight(paxs, plane.MaxSeatPayload, 0, plane.Division.PassengerCapacity, false)
-    if err != nil {
-        return 
-    }
-
-    pilot, err := calculatePilot(passWeight, fuelAmount, plane)
-    if err != nil {
-        return 
-    }
-    flight.Pilot = &pilot
-
-    flightCreation.Lock()
-    defer flightCreation.Unlock()
-    if(!checkIfSlotIsFree(flight.PlaneId, flight.DepartureTime, flight.ArrivalTime)) {
-        err = ErrSlotIsNotFree
-        return
-    }
+    flightLogicData, err := flightlogic.FlightLogicProcess(flight, plane, *plane.Division, false)
 
     if err == nil {
         dh := databasehandler.NewDatabaseHandler()
         newFlight, newPassengers, err = dh.CreateFlight(flight, paxs)
+        newFlight.FuelAtDeparture = flightLogicData.FuelAtDeparture
         err = dh.CommitOrRollback(err)
     }
 
@@ -110,6 +69,7 @@ func FlightUpdate(user model.UserJwtBody, flightId uint, newFlightData model.Fli
         err = dh.CommitOrRollback(err)
         if err == nil {
             flight, err = databasehandler.GetFlightById(flightId, &databasehandler.FlightInclude{IncludePassengers: true, IncludePlane: true})
+            flight.FuelAtDeparture = newFlightData.FuelAtDeparture
         }
     }()
 
@@ -123,7 +83,7 @@ func FlightUpdate(user model.UserJwtBody, flightId uint, newFlightData model.Fli
     }
 
     if flight.Status != model.FsReserved {
-        err = ErrFlightStatusDoesNotFitProcess
+        err = cerror.ErrFlightStatusDoesNotFitProcess
         return
     }
 
@@ -142,47 +102,22 @@ func FlightUpdate(user model.UserJwtBody, flightId uint, newFlightData model.Fli
     }
     partialUpdatePassengers(dh, flight.Passengers, &passengers)
 
-    var minPass uint
-    var fullPassCheck bool = false
+    var fullValidation bool = false
     if newFlightData.Status == model.FsBooked {
-        minPass = 1
-        fullPassCheck = true
+        fullValidation = true
     }
-
-    passWeight, err := checkPassengerAndCalcWeight(
-        *flight.Passengers,
-        plane.MaxSeatPayload,
-        minPass,
-        plane.Division.PassengerCapacity,
-        fullPassCheck,
-    )
-    if err != nil {
-        return 
-    }
-
-    var fuelAmount float32
-    if plane.FuelburnPerFlight > 0 {
-        fuelAmount, err = calculateFuelAtDeparture(flight, plane)
-        defer func() {
-            flight.FuelAtDeparture = &fuelAmount
-        }()
-
-        if err != nil {
-            return
-        }
-    }
-
-    pilot, err := calculatePilot(passWeight, fuelAmount, plane)
-    if err != nil {
-        return
-    }
-    flight.PilotId = &pilot.ID
 
     if newFlightData.Description != nil {
         flight.Description = newFlightData.Description
     }
 
-    err = checkFlightValidation(flight)
+    newFlightData, err = flightlogic.FlightLogicProcess(flight, plane, *plane.Division, fullValidation)
+    if err != nil {
+        return
+    }
+
+    flight.PilotId = newFlightData.PilotId
+    flight.Pilot = newFlightData.Pilot
 
     return 
 }
@@ -199,3 +134,45 @@ func DeleteFlights(user model.UserJwtBody, id uint) (err error){
     return
 }
 
+func partialUpdatePassengers(dh *databasehandler.DatabaseHandler, oldPass *[]model.Passenger, newPass *[]model.Passenger) {
+    if oldPass == nil || newPass == nil {
+        return
+    }
+
+    if dh == nil {
+        dh = databasehandler.NewDatabaseHandler()
+        defer dh.CommitOrRollback(nil)
+    }
+
+    for i := range *newPass {
+        println((*newPass)[i].Action)
+        switch (*newPass)[i].Action {
+        case model.ActionCreate:
+            pass, err := dh.CreatePassenger((*newPass)[i])
+            if err == nil {
+                tmp := append(*oldPass, pass)
+                *oldPass = tmp
+            } else {
+                dh.Db.AddError(err)
+            }
+        case model.ActionUpdate:
+            status := false
+            for j := range *oldPass {
+                if (*newPass)[i].ID == (*oldPass)[j].ID {
+                    dh.PartialUpdatePassenger((*oldPass)[j].ID, &(*newPass)[i])
+                    (*oldPass)[j] = (*newPass)[i]
+                    status = true
+                }
+            }
+
+            if !status {
+                dh.Db.AddError(cerror.ErrObjectDependencyMissing)
+            }
+        case model.ActionDelete:
+            dh.DeletePassenger((*newPass)[i].ID)
+        
+        default:
+            dh.Db.AddError(cerror.ErrPassengerActionNotValid)
+        }
+    }
+}

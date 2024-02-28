@@ -5,7 +5,6 @@ import (
 	"net/http"
 
 	cerror "github.com/MetaEMK/FGK_PASMAS_backend/cError"
-	pasmasservice "github.com/MetaEMK/FGK_PASMAS_backend/service/pasmasService"
 	"github.com/MetaEMK/FGK_PASMAS_backend/validator"
 )
 
@@ -36,7 +35,7 @@ func GetErrorResponse(err error) ApiError {
     var obj ApiError
 
     switch err {
-        case pasmasservice.ErrObjectNotFound:
+        case cerror.ErrObjectNotFound:
             obj = objectNotFound
 
         case // InvalidRequestBody
@@ -47,7 +46,7 @@ func GetErrorResponse(err error) ApiError {
         case 
             validator.ErrInvalidPilot,
             validator.ErrInvalidPlane,
-            pasmasservice.ErrObjectDependencyMissing:
+            cerror.ErrObjectDependencyMissing:
                 obj = dependencyNotFound
 
         // invalidFlightLogic
@@ -55,20 +54,20 @@ func GetErrorResponse(err error) ApiError {
             validator.ErrPassengerWeight,
             validator.ErrPassengerLastName,
             validator.ErrInvalidDepartureTime,
-            pasmasservice.ErrFlightStatusDoesNotFitProcess,
-            pasmasservice.ErrNoPilotAvailable,
-            pasmasservice.ErrNoStartFuelFound,
-            pasmasservice.ErrMaxSeatPayload,
-            pasmasservice.ErrTooManyPassenger,
-            pasmasservice.ErrTooLessPassenger,
-            pasmasservice.ErrTooMuchFuel,
-            pasmasservice.ErrTooLessFuel,
-            pasmasservice.ErrOverloaded,
-            pasmasservice.ErrSlotIsNotFree,
-            pasmasservice.ErrDepartureTimeIsZero:
+            cerror.ErrFlightStatusDoesNotFitProcess,
+            cerror.ErrNoPilotAvailable,
+            cerror.ErrNoStartFuelFound,
+            cerror.ErrMaxSeatPayload,
+            cerror.ErrTooManyPassenger,
+            cerror.ErrTooLessPassenger,
+            cerror.ErrTooMuchFuel,
+            cerror.ErrTooLessFuel,
+            cerror.ErrOverloaded,
+            cerror.ErrSlotIsNotFree,
+            cerror.ErrDepartureTimeIsZero:
                 obj = invalidFlightLogic
 
-        case pasmasservice.ErrIncludeNotSupported:
+        case cerror.ErrIncludeNotSupported:
             obj = notValidParameters
 
         case cerror.ErrForbidden:
