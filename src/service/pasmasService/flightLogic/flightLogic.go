@@ -10,10 +10,6 @@ import (
 	"gorm.io/gorm"
 )
 
-var (
-)
-
-
 func FlightLogicProcess(flight model.Flight, plane model.Plane, division model.Division, checkSlot bool) (newFlight model.Flight, err error) {
     var passengers []model.Passenger
     var fullValidation bool = false
@@ -33,7 +29,7 @@ func FlightLogicProcess(flight model.Flight, plane model.Plane, division model.D
         return
     }
 
-    if flight.Passengers == nil {
+    if flight.Passengers != nil {
         passengers = *flight.Passengers
     } else {
         passengers = make([]model.Passenger, 0)
@@ -71,6 +67,8 @@ func FlightLogicProcess(flight model.Flight, plane model.Plane, division model.D
             return
         }
     }
+
+    newFlight = flight
 
     return
 }

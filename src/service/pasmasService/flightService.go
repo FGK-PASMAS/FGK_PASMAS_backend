@@ -46,6 +46,8 @@ func FlightCreation(user model.UserJwtBody, flight model.Flight, passengers *[]m
     }
 
     flightLogicData, err := flightlogic.FlightLogicProcess(flight, plane, *plane.Division, false)
+    flight.Pilot = flightLogicData.Pilot
+    flight.PilotId = flightLogicData.ID
 
     if err == nil {
         dh := databasehandler.NewDatabaseHandler()
@@ -92,6 +94,18 @@ func FlightUpdate(user model.UserJwtBody, flightId uint, newFlightData model.Fli
         return 
     }
 
+    var fullValidation bool = false
+    if newFlightData.Status == model.FsBooked {
+        fullValidation = true
+
+        var flightNo string
+        flightNo, err = generateFlightNo(plane)
+        if err != nil {
+            return
+        }
+
+        newFlightData.FlightNo = &flightNo
+    }
 
     passTMP := flight.Passengers
     flight, err = dh.PartialUpdateFlight(flightId, newFlightData)
@@ -100,12 +114,9 @@ func FlightUpdate(user model.UserJwtBody, flightId uint, newFlightData model.Fli
     for index := range passengers {
         passengers[index].FlightID = flight.ID
     }
+    //updates flight.Passengers
     partialUpdatePassengers(dh, flight.Passengers, &passengers)
 
-    var fullValidation bool = false
-    if newFlightData.Status == model.FsBooked {
-        fullValidation = true
-    }
 
     if newFlightData.Description != nil {
         flight.Description = newFlightData.Description
@@ -134,6 +145,7 @@ func DeleteFlights(user model.UserJwtBody, id uint) (err error){
     return
 }
 
+// partialUpdatePassengers updates oldPass with data from newPass
 func partialUpdatePassengers(dh *databasehandler.DatabaseHandler, oldPass *[]model.Passenger, newPass *[]model.Passenger) {
     if oldPass == nil || newPass == nil {
         return
@@ -145,7 +157,6 @@ func partialUpdatePassengers(dh *databasehandler.DatabaseHandler, oldPass *[]mod
     }
 
     for i := range *newPass {
-        println((*newPass)[i].Action)
         switch (*newPass)[i].Action {
         case model.ActionCreate:
             pass, err := dh.CreatePassenger((*newPass)[i])
@@ -176,3 +187,4 @@ func partialUpdatePassengers(dh *databasehandler.DatabaseHandler, oldPass *[]mod
         }
     }
 }
+

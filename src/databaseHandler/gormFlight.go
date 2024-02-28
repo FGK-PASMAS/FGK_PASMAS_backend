@@ -66,6 +66,10 @@ func (dh *DatabaseHandler) PartialUpdateFlight(id uint, newFlightData model.Flig
         flight.Status = newFlightData.Status
     }
 
+    if newFlightData.FlightNo != nil {
+        flight.FlightNo = newFlightData.FlightNo
+    }
+
     if newFlightData.Description != nil {
         if *newFlightData.Description == "" {
             flight.Description = nil

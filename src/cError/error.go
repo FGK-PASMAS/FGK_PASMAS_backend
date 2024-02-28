@@ -47,4 +47,5 @@ var (
     ErrTooManyPassenger = errors.New("too many passengers for this plane")
     ErrTooLessPassenger = errors.New("A flight needs to have at least one passenger")
     ErrOverloaded = errors.New("MTOW is exceeded")
+    ErrFlightNoCouldNotBeGenerated = errors.New("Could not generate flightNo")
 )

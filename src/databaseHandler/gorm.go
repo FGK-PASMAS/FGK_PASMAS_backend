@@ -65,6 +65,7 @@ func NewDatabaseHandler() (dh *DatabaseHandler) {
 
 func (dh *DatabaseHandler) CommitOrRollback(err error) error {
     if dh.isClosed {
+        println("bereits geschlossen")
         return nil
     }
 
@@ -80,7 +81,9 @@ func (dh *DatabaseHandler) CommitOrRollback(err error) error {
         }
     } else {
         dh.Db.Rollback()
+        dh.Db.AddError(err)
     }
+
     return dh.Db.Error
 } 
 
