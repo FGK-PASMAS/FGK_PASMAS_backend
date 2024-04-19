@@ -53,4 +53,10 @@ type Plane struct {
 
     // Contains all flights flown by this aircraft
     Flights *[]Flight `gorm:"foreignKey:PlaneId"`
+
+    // Start time slot?
+    SlotStartTime time.Time `gorm:"not null"`
+
+    // End time slot?
+    SlotEndTime time.Time `gorm:"not null"`
 }
