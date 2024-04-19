@@ -50,6 +50,9 @@ func SeedPlane(db *gorm.DB) {
         return
     }
 
+    startTime := time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day(), 9, 0, 0, 0, time.UTC)
+    endTime := time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day(), 17, 0, 0, 0, time.UTC)
+
     db.FirstOrCreate(&model.Plane{}, model.Plane{
         Registration: "D-ELXX",
         AircraftType: "C172",
@@ -62,6 +65,8 @@ func SeedPlane(db *gorm.DB) {
         MTOW: 1050,
         EmptyWeight: 650,
         DivisionId: motorflug.ID,
+        SlotStartTime: startTime,
+        SlotEndTime: endTime,
     })
 
     db.FirstOrCreate(&model.Plane{}, model.Plane{
@@ -76,6 +81,8 @@ func SeedPlane(db *gorm.DB) {
         MTOW: 1083,
         EmptyWeight: 756,
         DivisionId: motorflug.ID,
+        SlotStartTime: startTime,
+        SlotEndTime: endTime,
     })
 
     db.FirstOrCreate(&model.Plane{}, model.Plane{
@@ -90,6 +97,8 @@ func SeedPlane(db *gorm.DB) {
         MTOW: 1100,
         EmptyWeight: 734,
         DivisionId: motorflug.ID,
+        SlotStartTime: startTime,
+        SlotEndTime: endTime,
     })
 
     db.FirstOrCreate(&model.Plane{}, model.Plane{
@@ -104,6 +113,8 @@ func SeedPlane(db *gorm.DB) {
         MTOW: 1050,
         EmptyWeight: 663,
         DivisionId: motorflug.ID,
+        SlotStartTime: startTime,
+        SlotEndTime: endTime,
     })
 
     db.FirstOrCreate(&model.Plane{}, model.Plane{
@@ -118,6 +129,8 @@ func SeedPlane(db *gorm.DB) {
         MTOW: 800,
         EmptyWeight: 600,
         DivisionId: motorsegler.ID,
+        SlotStartTime: startTime,
+        SlotEndTime: endTime,
     })
 
     db.FirstOrCreate(&model.Plane{}, model.Plane{
@@ -132,6 +145,8 @@ func SeedPlane(db *gorm.DB) {
         MTOW: 450,
         EmptyWeight: 300,
         DivisionId: motorsegler.ID,
+        SlotStartTime: startTime,
+        SlotEndTime: endTime,
     })
 
     db.FirstOrCreate(&model.Plane{}, model.Plane{
@@ -146,6 +161,8 @@ func SeedPlane(db *gorm.DB) {
         MTOW: 500,
         EmptyWeight: 300,
         DivisionId: segelflug.ID,
+        SlotStartTime: startTime,
+        SlotEndTime: endTime.Add(2 * time.Hour),
     })
 
     db.FirstOrCreate(&model.Plane{}, model.Plane{
@@ -160,5 +177,7 @@ func SeedPlane(db *gorm.DB) {
         MTOW: 520,
         EmptyWeight: 300,
         DivisionId: segelflug.ID,
+        SlotStartTime: startTime,
+        SlotEndTime: endTime.Add(2 * time.Hour),
     })
 }
