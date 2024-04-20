@@ -19,6 +19,7 @@ func ValidateUser(c *gin.Context) {
 
     if ok {
         token, err = pasmasservice.GenerateJwtForUser(username, password)
+        println("Token: ", token)
     }
 
     if err != nil {
@@ -30,7 +31,7 @@ func ValidateUser(c *gin.Context) {
             Success: true,
             Response: token,
         }
-        httpCode = http.StatusCreated
+        httpCode = http.StatusOK
     }
     c.JSON(httpCode, response)
 }

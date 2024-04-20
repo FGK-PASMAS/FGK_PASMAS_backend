@@ -11,8 +11,6 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-// This is vor debug only
-
 func GenerateJwtForUser(username string, password string) (token string, err error) {
     startTime := time.Now().UTC()
     var user model.User
@@ -36,6 +34,8 @@ func GenerateJwtForUser(username string, password string) (token string, err err
             return token, nil
         }
     }
+    
+    err = cerror.ErrInvalidCredentials
 
     waitTime := startTime.Add(2000* time.Millisecond).Sub(time.Now().UTC()).Abs()
     println("Waiting for: ", waitTime)
