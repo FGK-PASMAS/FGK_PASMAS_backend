@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/MetaEMK/FGK_PASMAS_backend/router/api"
-	pasmasservice "github.com/MetaEMK/FGK_PASMAS_backend/service/pasmasService"
+	userservice "github.com/MetaEMK/FGK_PASMAS_backend/service/userService"
 	"github.com/gin-gonic/gin"
 )
 
@@ -18,7 +18,7 @@ func ValidateUser(c *gin.Context) {
     username, password, ok := c.Request.BasicAuth()
 
     if ok {
-        token, err = pasmasservice.GenerateJwtForUser(username, password)
+        token, err = userservice.GenerateJwtForUser(username, password)
         println("Token: ", token)
     }
 
