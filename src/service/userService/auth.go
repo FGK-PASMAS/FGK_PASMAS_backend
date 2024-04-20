@@ -1,4 +1,4 @@
-package pasmasservice
+package userservice
 
 import (
 	"time"

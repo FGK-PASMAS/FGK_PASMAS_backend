@@ -15,6 +15,7 @@ type ApiError struct {
 
 var (
     unknownError = ApiError { HttpCode: http.StatusInternalServerError, ErrorResponse: ErrorResponse { Success: false, Type: "UNKNOWN_ERROR"} }
+    ObjectAlreadyExists = ApiError { HttpCode: http.StatusConflict, ErrorResponse: ErrorResponse { Success: false, Type: "OBJECT_ALREADY_EXISTS"} }
     InvalidRequestBody = ApiError { HttpCode: http.StatusBadRequest, ErrorResponse: ErrorResponse { Success: false, Type: "INVALID_REQUEST_BODY"} }
     invalidFlightLogic = ApiError { HttpCode: http.StatusBadRequest, ErrorResponse: ErrorResponse { Success: false, Type: "INVALID_FLIGHT_LOGIC"} }
     objectNotFound = ApiError { HttpCode: http.StatusNotFound, ErrorResponse: ErrorResponse { Success: false, Type: "OBJECT_NOT_FOUND"} }
@@ -75,6 +76,9 @@ func GetErrorResponse(err error) ApiError {
 
         case cerror.ErrInvalidCredentials:
             obj = unauthorized
+
+        case cerror.ErrUserAlreadyExists:
+            obj = ObjectAlreadyExists
 
         default:
             obj = unknownError
