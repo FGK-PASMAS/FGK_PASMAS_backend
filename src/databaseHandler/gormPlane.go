@@ -67,6 +67,7 @@ func SeedPlane(db *gorm.DB) {
         DivisionId: motorflug.ID,
         SlotStartTime: startTime,
         SlotEndTime: endTime,
+        PassNoBase: 500,
     })
 
     db.FirstOrCreate(&model.Plane{}, model.Plane{
@@ -83,6 +84,7 @@ func SeedPlane(db *gorm.DB) {
         DivisionId: motorflug.ID,
         SlotStartTime: startTime,
         SlotEndTime: endTime,
+        PassNoBase: 600,
     })
 
     db.FirstOrCreate(&model.Plane{}, model.Plane{
@@ -115,6 +117,7 @@ func SeedPlane(db *gorm.DB) {
         DivisionId: motorflug.ID,
         SlotStartTime: startTime,
         SlotEndTime: endTime,
+        PassNoBase: 700,
     })
 
     db.FirstOrCreate(&model.Plane{}, model.Plane{
@@ -147,6 +150,7 @@ func SeedPlane(db *gorm.DB) {
         DivisionId: motorsegler.ID,
         SlotStartTime: startTime,
         SlotEndTime: endTime,
+        PassNoBase: 400,
     })
 
     db.FirstOrCreate(&model.Plane{}, model.Plane{
@@ -163,6 +167,7 @@ func SeedPlane(db *gorm.DB) {
         DivisionId: segelflug.ID,
         SlotStartTime: startTime,
         SlotEndTime: endTime.Add(2 * time.Hour),
+        PassNoBase: 100,
     })
 
     db.FirstOrCreate(&model.Plane{}, model.Plane{
@@ -179,5 +184,6 @@ func SeedPlane(db *gorm.DB) {
         DivisionId: segelflug.ID,
         SlotStartTime: startTime,
         SlotEndTime: endTime.Add(2 * time.Hour),
+        PassNoBase: 100,
     })
 }

@@ -1,4 +1,4 @@
-package pasmasservice
+package noGen
 
 import (
 	"fmt"
@@ -10,7 +10,7 @@ import (
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
 )
 
-func generateFlightNo(plane model.Plane) (string, error) {
+func GenerateFlightNo(plane model.Plane) (string, error) {
     var flightNo string
 
     var prevFlight model.Flight
@@ -31,9 +31,6 @@ func generateFlightNo(plane model.Plane) (string, error) {
     n++
 
     flightNo = generateFlightNumberPattern(plane, n)
-
-
-    println(flightNo)
 
     return flightNo, err
 }

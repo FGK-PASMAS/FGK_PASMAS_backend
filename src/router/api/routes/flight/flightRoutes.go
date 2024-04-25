@@ -7,6 +7,6 @@ import (
 func SetupFlightRoutes(gr gin.RouterGroup) {
     gr.GET("", getFlights)
     gr.POST("", flightCreation)
-    gr.PATCH("/:id", flightUpdate)
+    gr.POST("/:id", flightUpdate)
     gr.DELETE("/:id", deleteFlight)
 }

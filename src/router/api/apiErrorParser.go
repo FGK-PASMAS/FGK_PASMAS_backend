@@ -65,6 +65,7 @@ func GetErrorResponse(err error) ApiError {
             cerror.ErrTooLessFuel,
             cerror.ErrOverloaded,
             cerror.ErrSlotIsNotFree,
+            cerror.ErrTimeSlotForPlaneNotValid,
             cerror.ErrDepartureTimeIsZero:
                 obj = invalidFlightLogic
 

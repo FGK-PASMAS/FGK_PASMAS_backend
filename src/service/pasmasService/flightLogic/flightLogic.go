@@ -87,6 +87,16 @@ func CheckIfSlotIsFree(planeId uint, departureTime time.Time, arrivalTime time.T
     return count == 0
 }
 
+func checkIfTimeSlotIsValid(plane model.Plane,departureTime time.Time) error {
+    if departureTime.After(plane.SlotStartTime) {
+        if departureTime.Before(plane.SlotEndTime) {
+            return nil
+        }
+    }
+
+    return cerror.ErrTimeSlotForPlaneNotValid
+}
+
 func calculatePilot(passWeight uint, fuelAmount float32, plane model.Plane) (model.Pilot, error) {
     var baseETOW uint = 0
     pilot := model.Pilot{}

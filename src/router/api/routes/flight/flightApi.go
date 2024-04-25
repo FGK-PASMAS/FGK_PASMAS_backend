@@ -89,7 +89,7 @@ func flightUpdate(c *gin.Context) {
     idStr := c.Param("id")
     id, err := strconv.ParseUint(idStr, 10, 64)
     if err == nil {
-        newFlight, err = pasmasservice.FlightUpdate(user, uint(id), flight)
+        newFlight, err = pasmasservice.FlightBooking(user, uint(id), flight)
     }
 
     if err != nil {

@@ -25,7 +25,7 @@ func GetFlightById(id uint, include *FlightInclude) (flight model.Flight, err er
     return flight, db.Error
 }
 
-func (dh *DatabaseHandler) CreateFlight(flight model.Flight, passengers []model.Passenger) (newFlight model.Flight, newPassengers []model.Passenger, err error) {
+func (dh *DatabaseHandler) CreateFlight(flight model.Flight, ) (newFlight model.Flight, err error) {
     flight.ID = 0
     flight.Passengers = nil
     err = dh.Db.Create(&flight).Error
@@ -40,14 +40,6 @@ func (dh *DatabaseHandler) CreateFlight(flight model.Flight, passengers []model.
     dh.Db.First(&plane, flight.PlaneId)
     stream := realtime.GetFlightStreamForDivisionId(plane.DivisionId)
     dh.rt.AddEvent(stream, realtime.CREATED, flight)
-
-    for index := range passengers {
-        passengers[index].FlightID = flight.ID
-        pass, err := dh.CreatePassenger(passengers[index])
-
-        dh.Db.AddError(err)
-        newPassengers = append(newPassengers, pass)
-    }
 
     newFlight = flight
 

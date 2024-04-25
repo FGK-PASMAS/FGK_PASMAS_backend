@@ -83,6 +83,10 @@ func (dh DatabaseHandler) PartialUpdatePassenger(id uint, newPass *model.Passeng
         oldPass.FirstName = newPass.FirstName
     }
 
+    if newPass.PassNo != 0 {
+        oldPass.PassNo = newPass.PassNo
+    }
+
     err = dh.Db.Updates(&oldPass).Error
 
     if err != nil {

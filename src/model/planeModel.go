@@ -59,4 +59,7 @@ type Plane struct {
 
     // End time slot?
     SlotEndTime time.Time `gorm:"not null"`
+
+    // Base value for passNo
+    PassNoBase uint `gorm:"not null" json:"-"`
 }

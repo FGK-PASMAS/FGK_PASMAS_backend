@@ -39,6 +39,7 @@ var (
     ErrTooMuchFuel = errors.New("Too much fuel")
     ErrTooLessFuel = errors.New("Too less fuel")
     ErrSlotIsNotFree = errors.New("Slot is not free")
+    ErrTimeSlotForPlaneNotValid = errors.New("Time slot for plane not valid")
     ErrFlightStatusDoesNotFitProcess = errors.New("Flight status does not fit process")
     ErrDepartureTimeIsZero = errors.New("Departure time is zero")
     ErrInvalidArrivalTime = errors.New("Invalid arrival time")
@@ -49,4 +50,5 @@ var (
     ErrTooLessPassenger = errors.New("A flight needs to have at least one passenger")
     ErrOverloaded = errors.New("MTOW is exceeded")
     ErrFlightNoCouldNotBeGenerated = errors.New("Could not generate flightNo")
+    ErrPassNoExceeded = errors.New("Passenger number pool exceeded")
 )
