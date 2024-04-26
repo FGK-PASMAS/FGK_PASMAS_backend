@@ -21,7 +21,7 @@ func FlightLogicProcess(flight model.Flight, plane model.Plane, division model.D
     }
 
     if flight.ArrivalTime.IsZero() {
-        flight.ArrivalTime = flight.DepartureTime.Add(plane.FlightDuration)
+        flight.ArrivalTime = flight.DepartureTime.Add(plane.FlightDuration).UTC()
     }
 
     if flight.ArrivalTime.Before(flight.DepartureTime) {

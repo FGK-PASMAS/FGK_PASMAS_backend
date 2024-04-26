@@ -28,6 +28,9 @@ func FlightCreation(user model.UserJwtBody, flight model.Flight, passengers *[]m
         return
     }
 
+    flight.DepartureTime = flight.DepartureTime.UTC()
+    flight.ArrivalTime = flight.ArrivalTime.UTC()
+
     var plane model.Plane
     flight.Status = model.FsReserved
 
@@ -44,7 +47,7 @@ func FlightCreation(user model.UserJwtBody, flight model.Flight, passengers *[]m
 
     flight.Passengers = passengers
     flightLogicData, err := flightlogic.FlightLogicProcess(flight, plane, *plane.Division, true)
-    flight.ArrivalTime = flightLogicData.ArrivalTime
+    flight.ArrivalTime = flightLogicData.ArrivalTime.UTC()
     flight.Pilot = flightLogicData.Pilot
     flight.PilotId = flightLogicData.ID
 
