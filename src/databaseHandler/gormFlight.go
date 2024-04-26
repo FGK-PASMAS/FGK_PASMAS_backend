@@ -14,6 +14,11 @@ func GetFlights(include *FlightInclude, filter *FlightFilter) (flights []model.F
     db = interpretFlightConfig(db, include, filter)
 
     err = db.Order("departure_time ASC").Find(&flights).Error
+
+    for i := range flights {
+        flights[i].SetTimesToUTC()
+    }
+
     return 
 }
 
@@ -22,6 +27,8 @@ func GetFlightById(id uint, include *FlightInclude) (flight model.Flight, err er
     db = interpretFlightConfig(db, include, nil)
 
     db.First(&flight, id)
+    flight.SetTimesToUTC()
+
     return flight, db.Error
 }
 
@@ -39,6 +46,8 @@ func (dh *DatabaseHandler) CreateFlight(flight model.Flight, ) (newFlight model.
     if err != nil {
         return
     }
+
+    flight.SetTimesToUTC()
 
     dh.rt.AddEvent(realtime.FlightStream, realtime.CREATED, flight)
     plane := model.Plane{}
@@ -84,6 +93,7 @@ func (dh *DatabaseHandler) PartialUpdateFlight(id uint, newFlightData model.Flig
     err = dh.Db.Updates(&flight).Error
     dh.Db.Preload("Plane").Preload("Passengers").Preload("Pilot").First(&flight, id)
     if err == nil {
+        flight.SetTimesToUTC()
         dh.rt.AddEvent(realtime.FlightStream, realtime.UPDATED, flight)
         if flight.Plane != nil{
             stream := realtime.GetFlightStreamForDivisionId(flight.Plane.DivisionId)

@@ -25,3 +25,12 @@ const (
     ActionUpdate Action = "UPDATE"
     ActionDelete Action = "DELETE"
 )
+
+func (p * Passenger) SetTimesToUTC() {
+    p.CreatedAt = p.CreatedAt.UTC()
+    p.UpdatedAt = p.UpdatedAt.UTC()
+
+    if p.Flight != nil {
+        p.Flight.SetTimesToUTC()
+    }
+}

@@ -20,6 +20,11 @@ func GetPlanes(planeInclude *PlaneInclude, planeFilter *PlaneFilter) ([]model.Pl
     db =interpretPlaneConfig(db, planeInclude, planeFilter)
 
     db = db.Find(&planes)
+
+    for i := range planes {
+        planes[i].SetTimesToUTC()
+    }
+
     return planes, db.Error
 }
 
@@ -29,6 +34,7 @@ func GetPlaneById(id uint, planeInclude *PlaneInclude) (plane model.Plane, err e
     db = interpretPlaneConfig(db, planeInclude, nil)
 
     err = db.First(&plane, id).Error
+    plane.SetTimesToUTC()
     return
 }
 

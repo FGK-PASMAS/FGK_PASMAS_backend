@@ -10,3 +10,12 @@ type Division struct {
     PassengerCapacity   uint
     Planes              []Plane         `gorm:"foreignKey:DivisionId"`
 }
+
+func (d * Division) SetTimesToUTC() {
+    d.CreatedAt = d.CreatedAt.UTC()
+    d.UpdatedAt = d.UpdatedAt.UTC()
+
+    for _, p := range d.Planes {
+        p.SetTimesToUTC()
+    }
+}

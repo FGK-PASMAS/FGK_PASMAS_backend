@@ -10,3 +10,13 @@ type Pilot struct {
     AllowedPilots *[]Plane `gorm:"many2many:AllowedPilots" json:"AllowedPlanes"`
 }
 
+func (p * Pilot) SetTimesToUTC() {
+    p.CreatedAt = p.CreatedAt.UTC()
+    p.UpdatedAt = p.UpdatedAt.UTC()
+
+    if p.AllowedPilots != nil {
+        for _, a := range *p.AllowedPilots {
+            a.SetTimesToUTC()
+        }
+    }
+}

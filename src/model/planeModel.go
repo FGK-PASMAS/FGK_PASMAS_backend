@@ -63,3 +63,30 @@ type Plane struct {
     // Base value for passNo
     PassNoBase uint `gorm:"not null" json:"-"`
 }
+
+func (p * Plane) SetTimesToUTC() {
+    p.CreatedAt = p.CreatedAt.UTC()
+    p.UpdatedAt = p.UpdatedAt.UTC()
+    p.SlotStartTime = p.SlotStartTime.UTC()
+    p.SlotEndTime = p.SlotEndTime.UTC()
+
+    if p.Division != nil {
+        p.Division.SetTimesToUTC()
+    }
+
+    if p.PrefPilot != nil {
+        p.PrefPilot.SetTimesToUTC()
+    }
+
+    if p.AllowedPilots != nil {
+        for _, a := range *p.AllowedPilots {
+            a.SetTimesToUTC()
+        }
+    }
+
+    if p.Flights != nil {
+        for _, f := range *p.Flights {
+            f.SetTimesToUTC()
+        }
+    }
+}

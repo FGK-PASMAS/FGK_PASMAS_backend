@@ -38,6 +38,7 @@ func SeedPilot(db *gorm.DB) {
 }
 
 func createOrUpdatePilot(db *gorm.DB, pilot *model.Pilot) error {
+    pilot.SetTimesToUTC()
     if db == nil {
         db = Db
     }

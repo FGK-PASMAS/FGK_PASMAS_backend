@@ -55,6 +55,11 @@ func (user *User) ToJwtClaims() jwt.MapClaims {
     }
 }
 
+func (u *User) SetTimesToUTC() {
+    u.CreatedAt = u.CreatedAt.UTC()
+    u.UpdatedAt = u.UpdatedAt.UTC()
+}
+
 func ClaimsToUserJwtBody(claims jwt.MapClaims) (UserJwtBody, error) {
     var body UserJwtBody
     roleClaim, ok := claims["role"].(string)

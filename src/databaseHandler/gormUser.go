@@ -37,6 +37,7 @@ func initUser() {
 }
 
 func (dh * DatabaseHandler) createUserIfNotExists(user model.User) {
+    user.SetTimesToUTC()
     var userCount int64 = -1
     dh.Db.Model(&model.User{}).Where("name = ?", user.Name).Count(&userCount)
 
@@ -46,6 +47,7 @@ func (dh * DatabaseHandler) createUserIfNotExists(user model.User) {
 }
 
 func (dh *DatabaseHandler) CreateUser(user model.User) (newUser model.User, err error) {
+    user.SetTimesToUTC()
     passwordHash, err := hashPassword(user.Password)
     if err != nil {
         return
@@ -58,6 +60,7 @@ func (dh *DatabaseHandler) CreateUser(user model.User) (newUser model.User, err 
 
 func GetUserByName(name string) (user model.User, err error) {
     err = Db.Model(&model.User{}).Where("name = ?", name).First(&user).Error
+    user.SetTimesToUTC()
 
     return 
 }

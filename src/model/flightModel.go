@@ -33,3 +33,24 @@ const (
     FsBooked = "BOOKED"
     FsBlocked = "BLOCKED"
 )
+
+func (f * Flight) SetTimesToUTC() {
+    f.CreatedAt = f.CreatedAt.UTC()
+    f.UpdatedAt = f.UpdatedAt.UTC()
+    f.DepartureTime = f.DepartureTime.UTC()
+    f.ArrivalTime = f.ArrivalTime.UTC()
+
+    if f.Plane != nil {
+        f.Plane.SetTimesToUTC()
+    }
+
+    if f.Pilot != nil {
+        f.Pilot.SetTimesToUTC()
+    }
+
+    if f.Passengers != nil {
+        for _, p := range *f.Passengers {
+            p.SetTimesToUTC()
+        }
+    }
+}
