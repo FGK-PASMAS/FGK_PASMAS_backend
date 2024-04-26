@@ -2,6 +2,7 @@ package databasehandler
 
 import (
 	"strconv"
+	"time"
 
 	cerror "github.com/MetaEMK/FGK_PASMAS_backend/cError"
 	"github.com/gin-gonic/gin"
@@ -18,6 +19,7 @@ type FlightInclude struct {
 type FlightFilter struct {
     ByDivisionId uint
     ByPlaneId uint
+    ByDepartureTime time.Time
 }
 
 func ParseFlightInclude(c *gin.Context) (*FlightInclude, error) {
@@ -60,6 +62,7 @@ func ParseFlightInclude(c *gin.Context) (*FlightInclude, error) {
 func ParseFlightFilter(c *gin.Context) (*FlightFilter, error) {
     divIdStr := c.Query("byDivisionId")
     planeIdStr := c.Query("byPlaneId")
+    departTimeStr := c.Query("byDepartureTime")
 
     filter := FlightFilter{}
 
@@ -77,6 +80,16 @@ func ParseFlightFilter(c *gin.Context) (*FlightFilter, error) {
         var err error
         d, err := strconv.ParseUint(planeIdStr, 10, 64)
         filter.ByPlaneId = uint(d)
+
+        if err != nil {
+            return nil, cerror.ErrFilterNotSupported
+        }
+    }
+
+    if departTimeStr != "" {
+        var err error
+        filter.ByDepartureTime, err = time.Parse(time.RFC3339, departTimeStr)
+        filter.ByDepartureTime = filter.ByDepartureTime.UTC()
 
         if err != nil {
             return nil, cerror.ErrFilterNotSupported
@@ -108,6 +121,10 @@ func interpretFlightConfig(db *gorm.DB, flightInclude *FlightInclude, flightFilt
 
         if flightFilter.ByPlaneId != 0 {
             db = db.Where("plane_id = ?", flightFilter.ByPlaneId)
+        }
+        
+        if !flightFilter.ByDepartureTime.IsZero() {
+            db = db.Where("departure_time >= ?", flightFilter.ByDepartureTime)
         }
     }
 

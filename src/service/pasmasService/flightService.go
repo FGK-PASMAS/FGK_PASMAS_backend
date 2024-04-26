@@ -51,12 +51,14 @@ func FlightCreation(user model.UserJwtBody, flight model.Flight, passengers *[]m
     if err == nil {
         dh := databasehandler.NewDatabaseHandler()
         newFlight, err = dh.CreateFlight(flight)
-        if err != nil {
-            newFlight, err = databasehandler.GetFlightById(newFlight.ID, &databasehandler.FlightInclude{IncludePassengers: true, IncludePlane: true, IncludePilot: true})
-            newFlight.FuelAtDeparture = flightLogicData.FuelAtDeparture
-            newFlight.Passengers = passengers
+        defer func() {
             err = dh.CommitOrRollback(err)
-        }
+            if err == nil {
+                newFlight, err = databasehandler.GetFlightById(newFlight.ID, &databasehandler.FlightInclude{IncludePassengers: true, IncludePlane: true, IncludePilot: true})
+                newFlight.FuelAtDeparture = flightLogicData.FuelAtDeparture
+                newFlight.Passengers = passengers
+            }
+        }()
     }
 
     return

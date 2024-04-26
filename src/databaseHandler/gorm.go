@@ -65,7 +65,7 @@ func NewDatabaseHandler() (dh *DatabaseHandler) {
 
 func (dh *DatabaseHandler) CommitOrRollback(err error) error {
     if dh.isClosed {
-        println("bereits geschlossen")
+        log.Error("DatabaseHandler already closed")
         return nil
     }
 
@@ -75,11 +75,13 @@ func (dh *DatabaseHandler) CommitOrRollback(err error) error {
         if err != nil {
             dh.Db.AddError(err)
             dh.Db.Rollback()
-
+            log.Warn("Commit failed, rolling back")
         } else {
+            log.Debug("Commit successful")
             dh.rt.PublishEvents()
         }
     } else {
+        log.Warn("Rolling back")
         dh.Db.Rollback()
         dh.Db.AddError(err)
     }
