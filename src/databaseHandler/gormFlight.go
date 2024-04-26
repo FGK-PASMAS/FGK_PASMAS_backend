@@ -35,13 +35,16 @@ func (dh *DatabaseHandler) CreateFlight(flight model.Flight, ) (newFlight model.
         return
     } 
 
+    err = dh.Db.Preload("Plane").Preload("Passengers").Preload("Pilot").First(&newFlight, flight.ID).Error
+    if err != nil {
+        return
+    }
+
     dh.rt.AddEvent(realtime.FlightStream, realtime.CREATED, flight)
     plane := model.Plane{}
     dh.Db.First(&plane, flight.PlaneId)
     stream := realtime.GetFlightStreamForDivisionId(plane.DivisionId)
     dh.rt.AddEvent(stream, realtime.CREATED, flight)
-
-    newFlight = flight
 
     return
 }
@@ -79,6 +82,7 @@ func (dh *DatabaseHandler) PartialUpdateFlight(id uint, newFlightData model.Flig
     }
 
     err = dh.Db.Updates(&flight).Error
+    dh.Db.Preload("Plane").Preload("Passengers").Preload("Pilot").First(&flight, id)
     if err == nil {
         dh.rt.AddEvent(realtime.FlightStream, realtime.UPDATED, flight)
         if flight.Plane != nil{

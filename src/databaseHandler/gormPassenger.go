@@ -39,7 +39,8 @@ func (dh *DatabaseHandler) CreatePassenger(pass model.Passenger) (newPassenger m
     dh.Db.AddError(err)
 
     if err == nil {
-        newPassenger = pass
+        newPassenger := model.Passenger{}
+        err = dh.Db.Preload("Flight").First(&newPassenger, pass.ID).Error
         dh.rt.AddEvent(realtime.PassengerStream, realtime.CREATED, newPassenger)
     }
     return
@@ -93,7 +94,10 @@ func (dh DatabaseHandler) PartialUpdatePassenger(id uint, newPass *model.Passeng
         dh.Db.AddError(err)
     } else {
         *newPass = oldPass
-        dh.rt.AddEvent(realtime.PassengerStream, realtime.UPDATED, oldPass)
+
+        tmpPass := model.Passenger{}
+        err = dh.Db.Preload("Flight").First(&tmpPass, oldPass.ID).Error
+        dh.rt.AddEvent(realtime.PassengerStream, realtime.UPDATED, tmpPass)
     }
 }
 
