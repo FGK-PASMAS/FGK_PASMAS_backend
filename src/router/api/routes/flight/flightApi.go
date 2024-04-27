@@ -57,14 +57,19 @@ func flightCreation(c *gin.Context) {
     passengers:= flight.Passengers
     flight.Passengers = nil
 
-    newFlight, newPassengers, err := pasmasservice.FlightCreation(user, flight, passengers)
+    var newFlight model.Flight
+
+    if flight.Status == model.FsBlocked {
+        newFlight, err = pasmasservice.CreateBlocker(user, flight)
+    } else {
+        newFlight, _, err = pasmasservice.FlightCreation(user, flight, passengers)
+    }
 
     if err != nil {
         res := api.GetErrorResponse(err)
         httpCode = res.HttpCode
         response = res.ErrorResponse
     } else {
-        newFlight.Passengers = &newPassengers
         response = api.SuccessResponse {
             Success: true,
             Response: newFlight,

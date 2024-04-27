@@ -10,9 +10,6 @@ import (
 	"github.com/MetaEMK/FGK_PASMAS_backend/service/pasmasService/noGen"
 )
 
-var (
-)
-
 var flightCreation sync.Mutex
 var flightUpdate sync.Mutex
 
@@ -23,7 +20,6 @@ func GetFlights(include *databasehandler.FlightInclude, filter *databasehandler.
 
 
 func FlightCreation(user model.UserJwtBody, flight model.Flight, passengers *[]model.Passenger) (newFlight model.Flight, newPassengers []model.Passenger, err error) {
-
     if err = user.ValidateRole(model.Vendor); err != nil {
         return
     }
@@ -148,15 +144,32 @@ func FlightBooking(user model.UserJwtBody, flightId uint, newFlightData model.Fl
     return 
 }
 
+// deletes a flight or blocker
+//
+// if the flight is a blocker, the user must be an admin
+//
+// if the flight is a normal flight, the user must be a vendor
 func DeleteFlights(user model.UserJwtBody, id uint) (err error){
-    if err = user.ValidateRole(model.Vendor); err != nil {
-        return
+    flight, err := databasehandler.GetFlightById(id, nil)
+
+    // if the flight is a blocker, the user must be an admin
+    // if the flight is a normal flight, the user must be a vendor
+    if flight.Status == model.FsBlocked {
+        if err = user.ValidateRole(model.Admin); err != nil {
+            return
+        } else {
+            if err = user.ValidateRole(model.Vendor); err != nil {
+                return
+            }
+        }
     }
 
     dh := databasehandler.NewDatabaseHandler()
-    _, _, err = dh.DeleteFlight(id)
+    defer func() {
+        err = dh.CommitOrRollback(err)
+    }()
 
-    err = dh.CommitOrRollback(err)
+    _, _, err = dh.DeleteFlight(id)
     return
 }
 
