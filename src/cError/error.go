@@ -53,3 +53,7 @@ var (
     ErrFlightNoCouldNotBeGenerated = errors.New("Could not generate flightNo")
     ErrPassNoExceeded = errors.New("Passenger number pool exceeded")
 )
+
+var (
+    ErrPilotNotInAllowedPilots = errors.New("Pilot is not allowed to fly this plane")
+)

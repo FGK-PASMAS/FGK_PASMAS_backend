@@ -3,6 +3,7 @@ package databasehandler
 import (
 	"time"
 
+	cerror "github.com/MetaEMK/FGK_PASMAS_backend/cError"
 	"github.com/MetaEMK/FGK_PASMAS_backend/logging"
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
 	"github.com/MetaEMK/FGK_PASMAS_backend/router/realtime"
@@ -40,9 +41,13 @@ func GetPlaneById(id uint, planeInclude *PlaneInclude) (plane model.Plane, err e
 }
 
 type PartialUpdatePlaneStruct struct {
-    PrefPilotId *uint       `json:"PrefPilotId"`
+    PrefPilotId         *uint       `json:"PrefPilotId"`
+    FuelburnPerFlight   *float32    `json:"FuelburnPerFlight"`
+    SlotEndTime         *time.Time  `json:"SlotEndTime"`
+    SlotStartTime       *time.Time  `json:"SlotStartTime"`
 }
 
+var test model.Plane
 func (dh *DatabaseHandler) PartialUpdatePlane(id uint, updateData PartialUpdatePlaneStruct) (plane model.Plane, err error) {
     plane, err = GetPlaneById(id, &PlaneInclude{IncludeAllowedPilots: true, IncludePrefPilot: true, IncludeDivision: true})
     if err != nil {
@@ -52,12 +57,25 @@ func (dh *DatabaseHandler) PartialUpdatePlane(id uint, updateData PartialUpdateP
     if updateData.PrefPilotId != nil {
         if updateData.PrefPilotId != plane.PrefPilotId {
             for _, pilot := range *plane.AllowedPilots {
+                status := false
                 if *updateData.PrefPilotId == pilot.ID {
                     plane.PrefPilotId = updateData.PrefPilotId
                     plane.PrefPilot = &pilot
+                    status = true
                     break
                 }
+
+                if !status {
+                    err = cerror.ErrPilotNotInAllowedPilots
+                    return
+                }
             }
+        }
+    }
+
+    if updateData.FuelburnPerFlight != nil {
+        if updateData.FuelburnPerFlight != &plane.FuelburnPerFlight {
+            plane.FuelburnPerFlight = *updateData.FuelburnPerFlight
         }
     }
 
