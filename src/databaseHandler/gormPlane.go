@@ -5,6 +5,7 @@ import (
 
 	"github.com/MetaEMK/FGK_PASMAS_backend/logging"
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
+	"github.com/MetaEMK/FGK_PASMAS_backend/router/realtime"
 	"gorm.io/gorm"
 )
 
@@ -38,6 +39,34 @@ func GetPlaneById(id uint, planeInclude *PlaneInclude) (plane model.Plane, err e
     return
 }
 
+type PartialUpdatePlaneStruct struct {
+    PrefPilotId *uint       `json:"PrefPilotId"`
+}
+
+func (dh *DatabaseHandler) PartialUpdatePlane(id uint, updateData PartialUpdatePlaneStruct) (plane model.Plane, err error) {
+    plane, err = GetPlaneById(id, &PlaneInclude{IncludeAllowedPilots: true, IncludePrefPilot: true, IncludeDivision: true})
+    if err != nil {
+        return
+    }
+
+    if updateData.PrefPilotId != nil {
+        if updateData.PrefPilotId != plane.PrefPilotId {
+            for _, pilot := range *plane.AllowedPilots {
+                if *updateData.PrefPilotId == pilot.ID {
+                    plane.PrefPilotId = updateData.PrefPilotId
+                    plane.PrefPilot = &pilot
+                    break
+                }
+            }
+        }
+    }
+
+
+    dh.Db.Updates(&plane)
+    dh.rt.AddEvent(realtime.PlaneStream, realtime.UPDATED, &plane)
+
+    return
+}
 
 func SeedPlane(db *gorm.DB) {
     if db == nil {
