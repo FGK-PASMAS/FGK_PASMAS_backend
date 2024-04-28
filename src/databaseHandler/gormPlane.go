@@ -85,6 +85,26 @@ func (dh *DatabaseHandler) PartialUpdatePlane(id uint, updateData PartialUpdateP
         }
     }
 
+    if updateData.SlotStartTime != nil {
+        if updateData.SlotStartTime != &plane.SlotStartTime {
+            plane.SlotStartTime = *updateData.SlotStartTime
+        }
+    }
+
+    if updateData.SlotEndTime != nil {
+        if updateData.SlotEndTime != &plane.SlotEndTime {
+            plane.SlotEndTime = *updateData.SlotEndTime
+        }
+    }
+
+    if updateData.SlotStartTime != nil || updateData.SlotEndTime != nil {
+        if plane.SlotStartTime.After(plane.SlotEndTime) || plane.SlotStartTime.Equal(plane.SlotEndTime) {
+            err = cerror.ErrSlotTimeInvalid
+            return
+        }
+    }
+
+
 	dh.Db.Updates(&plane)
 	dh.rt.AddEvent(realtime.PlaneStream, realtime.UPDATED, &plane)
 

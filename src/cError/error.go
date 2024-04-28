@@ -56,4 +56,5 @@ var (
 
 var (
     ErrPilotNotInAllowedPilots = errors.New("Pilot is not allowed to fly this plane")
+    ErrSlotTimeInvalid = errors.New("Slot time invalid")
 )
