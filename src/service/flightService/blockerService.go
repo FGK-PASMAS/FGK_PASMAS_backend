@@ -1,10 +1,10 @@
-package pasmasservice
+package flightService
 
 import (
 	cerror "github.com/MetaEMK/FGK_PASMAS_backend/cError"
 	databasehandler "github.com/MetaEMK/FGK_PASMAS_backend/databaseHandler"
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
-	flightlogic "github.com/MetaEMK/FGK_PASMAS_backend/service/pasmasService/flightLogic"
+	flightlogic "github.com/MetaEMK/FGK_PASMAS_backend/service/flightService/flightLogic"
 )
 
 // CreateBlocker creates a new blocker for a plane

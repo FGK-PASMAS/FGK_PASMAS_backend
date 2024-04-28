@@ -1,4 +1,4 @@
-package pasmasservice
+package passengerService
 
 import (
 	"errors"

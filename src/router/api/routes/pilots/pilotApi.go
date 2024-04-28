@@ -5,7 +5,7 @@ import (
 
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
 	"github.com/MetaEMK/FGK_PASMAS_backend/router/api"
-	pasmasservice "github.com/MetaEMK/FGK_PASMAS_backend/service/pasmasService"
+	"github.com/MetaEMK/FGK_PASMAS_backend/service/pilotService"
 	"github.com/gin-gonic/gin"
 )
 
@@ -16,11 +16,11 @@ func getPilots(c *gin.Context) {
     var pilots *[]model.Pilot
     var err error
 
-    include, err := pasmasservice.ParsePilotInclude(c)
+    include, err := pilotService.ParsePilotInclude(c)
     if err == nil {
-        filter, err := pasmasservice.ParsePilotFilter(c)
+        filter, err := pilotService.ParsePilotFilter(c)
         if err == nil {
-            pilots, err = pasmasservice.GetPilots(include, filter)
+            pilots, err = pilotService.GetPilots(include, filter)
         }
     }
 

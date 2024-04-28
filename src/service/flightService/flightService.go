@@ -1,17 +1,12 @@
-package pasmasservice
+package flightService
 
 import (
-	"sync"
-
 	cerror "github.com/MetaEMK/FGK_PASMAS_backend/cError"
 	databasehandler "github.com/MetaEMK/FGK_PASMAS_backend/databaseHandler"
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
-	flightlogic "github.com/MetaEMK/FGK_PASMAS_backend/service/pasmasService/flightLogic"
-	"github.com/MetaEMK/FGK_PASMAS_backend/service/pasmasService/noGen"
+	flightlogic "github.com/MetaEMK/FGK_PASMAS_backend/service/flightService/flightLogic"
+	"github.com/MetaEMK/FGK_PASMAS_backend/service/flightService/noGen"
 )
-
-var flightCreation sync.Mutex
-var flightUpdate sync.Mutex
 
 func GetFlights(include *databasehandler.FlightInclude, filter *databasehandler.FlightFilter) (flights []model.Flight, err error) {
     flights, err = databasehandler.GetFlights(include, filter)

@@ -1,7 +1,7 @@
-package pasmasservice
+package planeService
 
 import (
-
+	cerror "github.com/MetaEMK/FGK_PASMAS_backend/cError"
 	dh "github.com/MetaEMK/FGK_PASMAS_backend/databaseHandler"
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
 )
@@ -18,12 +18,12 @@ func UpdatePrefPilot(planeId uint, pilotId uint) (*model.Plane, error) {
 
     err := dh.Db.First(plane, planeId).Error
     if err != nil {
-        return &model.Plane{}, ErrObjectNotFound
+        return &model.Plane{}, cerror.ErrObjectNotFound
     }
 
     err = dh.Db.First(pilot, pilotId).Error
     if err != nil {
-        return &model.Plane{}, ErrObjectDependencyMissing
+        return &model.Plane{}, cerror.ErrObjectDependencyMissing
     }
 
     //plane.PrefPilotId = pilotId

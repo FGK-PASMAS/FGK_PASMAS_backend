@@ -1,8 +1,9 @@
-package pasmasservice
+package pilotService
 
 import (
 	"strconv"
 
+	cerror "github.com/MetaEMK/FGK_PASMAS_backend/cError"
 	dh "github.com/MetaEMK/FGK_PASMAS_backend/databaseHandler"
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
 	"github.com/gin-gonic/gin"
@@ -26,7 +27,7 @@ func ParsePilotInclude(c *gin.Context) (*PilotInclude, error) {
         var err error
         pilotInclude.Plane, err = strconv.ParseBool(planeStr)
         if err != nil {
-            return &PilotInclude{}, ErrIncludeNotSupported
+            return &PilotInclude{}, cerror.ErrIncludeNotSupported
         }
     }
 
@@ -42,7 +43,7 @@ func ParsePilotFilter(c *gin.Context) (*PilotFilter, error) {
     if planeIdStr != "" {
         value, err := strconv.ParseUint(planeIdStr, 10, 64)
         if err != nil {
-            return &PilotFilter{}, ErrIncludeNotSupported
+            return &PilotFilter{}, cerror.ErrIncludeNotSupported
         } else {
             pilotfilter.PlaneId = uint(value)
         }

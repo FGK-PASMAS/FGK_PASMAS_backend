@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/MetaEMK/FGK_PASMAS_backend/router/api"
-	pasmasservice "github.com/MetaEMK/FGK_PASMAS_backend/service/pasmasService"
+	"github.com/MetaEMK/FGK_PASMAS_backend/service/debugService"
 	"github.com/gin-gonic/gin"
 )
 
@@ -23,7 +23,7 @@ func healthCheck(c *gin.Context) {
 }
 
 func resetDatabase(c *gin.Context) {
-    err := pasmasservice.TruncateData()
+    err := debugService.TruncateData()
 
     if err != nil {
         res := api.GetErrorResponse(err)

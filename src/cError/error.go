@@ -22,6 +22,7 @@ var (
 // Internal Errors only - this should never occur
 var (
     ErrDatabaseHandlerDestroy = errors.New("Struct DatabaseHandler was never closed correctly")
+    ErrDatabaseConnection = errors.New("Database connection error")
 )
 
 // Authentication and Authorisation

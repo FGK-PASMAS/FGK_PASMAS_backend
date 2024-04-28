@@ -4,12 +4,12 @@ import (
 	"net/http"
 
 	"github.com/MetaEMK/FGK_PASMAS_backend/router/api"
-	pasmasservice "github.com/MetaEMK/FGK_PASMAS_backend/service/pasmasService"
+	"github.com/MetaEMK/FGK_PASMAS_backend/service/divisionService"
 	"github.com/gin-gonic/gin"
 )
 
 func getDivisions(c *gin.Context) {
-    divisions, err := pasmasservice.GetDivisions()
+    divisions, err := divisionService.GetDivisions()
 
     if err != nil {
         apiErr := api.GetErrorResponse(err)

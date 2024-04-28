@@ -5,14 +5,14 @@ import (
 
 	"github.com/MetaEMK/FGK_PASMAS_backend/logging"
 	"github.com/MetaEMK/FGK_PASMAS_backend/router/api"
-	pasmasservice "github.com/MetaEMK/FGK_PASMAS_backend/service/pasmasService"
+	"github.com/MetaEMK/FGK_PASMAS_backend/service/passengerService"
 	"github.com/gin-gonic/gin"
 )
 
 var log = logging.ApiLogger
 
 func getPassengers(c *gin.Context) {
-    passengers, err := pasmasservice.GetPassengers()
+    passengers, err := passengerService.GetPassengers()
 
     if err != nil {
         apiErr := api.GetErrorResponse(err)
