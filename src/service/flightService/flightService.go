@@ -36,7 +36,6 @@ func FlightCreation(user model.UserJwtBody, flight model.Flight, passengers *[]m
     flightCreation.Lock()
     defer flightCreation.Unlock()
 
-    flight.Passengers = passengers
     flightLogicData, err := flightlogic.FlightLogicProcess(flight, plane, *plane.Division, true)
     flight.ArrivalTime = flightLogicData.ArrivalTime.UTC()
     flight.Pilot = flightLogicData.Pilot
@@ -50,7 +49,6 @@ func FlightCreation(user model.UserJwtBody, flight model.Flight, passengers *[]m
             if err == nil {
                 newFlight, err = databasehandler.GetFlightById(newFlight.ID, &databasehandler.FlightInclude{IncludePassengers: true, IncludePlane: true, IncludePilot: true})
                 newFlight.FuelAtDeparture = flightLogicData.FuelAtDeparture
-                newFlight.Passengers = passengers
             }
         }()
     }
