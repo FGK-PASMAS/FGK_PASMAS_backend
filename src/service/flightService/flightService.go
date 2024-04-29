@@ -40,7 +40,7 @@ func FlightCreation(user model.UserJwtBody, flight model.Flight, passengers *[]m
     flightLogicData, err := flightlogic.FlightLogicProcess(flight, plane, *plane.Division, true)
     flight.ArrivalTime = flightLogicData.ArrivalTime.UTC()
     flight.Pilot = flightLogicData.Pilot
-    flight.PilotId = flightLogicData.ID
+    flight.PilotId = flightLogicData.PilotId
 
     if err == nil {
         dh := databasehandler.NewDatabaseHandler()

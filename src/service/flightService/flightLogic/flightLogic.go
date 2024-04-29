@@ -58,7 +58,7 @@ func FlightLogicProcess(flight model.Flight, plane model.Plane, division model.D
     if err != nil {
         return
     }
-    flight.PilotId = pilot.ID
+    flight.PilotId = &pilot.ID
     flight.Pilot = &pilot
 
     if checkSlot {
