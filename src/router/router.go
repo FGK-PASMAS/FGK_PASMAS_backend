@@ -12,7 +12,12 @@ func InitRouter() *gin.Engine {
     r := gin.New()
     r.Use(gin.Logger())
     r.Use(gin.Recovery())
-    r.Use(cors.Default())
+
+    corsConfig := cors.DefaultConfig()
+    corsConfig.AllowAllOrigins = true
+    corsConfig.AllowMethods = append(corsConfig.AllowMethods, "OPTIONS")
+    corsConfig.AllowHeaders = append(corsConfig.AllowHeaders, "Authorization")
+    r.Use(cors.New(corsConfig))
 
     apiRouter := r.Group("/api")
     realtimeRouter := r.Group("/realtime")

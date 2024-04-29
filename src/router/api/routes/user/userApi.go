@@ -20,7 +20,6 @@ func validateUser(c *gin.Context) {
 
     if ok {
         token, err = userservice.GenerateJwtForUser(username, password)
-        println("Token: ", token)
     }
 
     if err != nil {
