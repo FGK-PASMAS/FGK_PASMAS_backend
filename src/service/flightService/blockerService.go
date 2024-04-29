@@ -21,6 +21,11 @@ func CreateBlocker(user model.UserJwtBody, blocker model.Flight) (newBlocker mod
         err = cerror.ErrFlightStatusDoesNotFitProcess
     }
 
+    if blocker.ArrivalTime.IsZero() {
+        err = cerror.ErrInvalidArrivalTime
+        return
+    }
+
     flightCreation.Lock()
     defer flightCreation.Unlock()
 
