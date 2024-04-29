@@ -40,6 +40,7 @@ func FlightLogicProcess(flight model.Flight, plane model.Plane, division model.D
         minPass = 1
     }
 
+
     passWeight := CalcPassWeight(passengers)
     err = CheckPassenger(passengers, plane.MaxSeatPayload, uint(minPass), division.PassengerCapacity, fullValidation)
     if err != nil {

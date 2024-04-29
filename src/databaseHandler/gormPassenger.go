@@ -46,7 +46,7 @@ func (dh *DatabaseHandler) CreatePassenger(pass model.Passenger) (newPassenger m
     dh.Db.AddError(err)
 
     if err == nil {
-        newPassenger := model.Passenger{}
+        newPassenger = model.Passenger{}
         err = dh.Db.Preload("Flight").First(&newPassenger, pass.ID).Error
         newPassenger.SetTimesToUTC()
 
