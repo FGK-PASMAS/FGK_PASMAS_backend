@@ -6,6 +6,6 @@ import (
 
 func InitUserRoutes(r *gin.RouterGroup) {
     r.GET("", getAllUsers)
-    r.POST("/createUser", createNewUser)
+    r.POST("", createNewUser)
     r.DELETE("/:id", deleteUser)
 }
