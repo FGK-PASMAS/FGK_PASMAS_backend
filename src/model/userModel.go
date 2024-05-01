@@ -50,8 +50,8 @@ func (user *UserJwtBody) ValidateRole(neededRole UserRole) error {
 
 func (user *User) ToJwtClaims() jwt.MapClaims {
     return jwt.MapClaims{
-        "role": user.Role,
-        "username": user.Name,
+        "Role": user.Role,
+        "Username": user.Name,
     }
 }
 
@@ -62,12 +62,12 @@ func (u *User) SetTimesToUTC() {
 
 func ClaimsToUserJwtBody(claims jwt.MapClaims) (UserJwtBody, error) {
     var body UserJwtBody
-    roleClaim, ok := claims["role"].(string)
+    roleClaim, ok := claims["Role"].(string)
     if !ok {
         return body, cerror.ErrInvalidRole
     }
     role, err := convertStringToRole(roleClaim)
-    username, ok := claims["username"].(string)
+    username, ok := claims["Username"].(string)
 
     if ok && err == nil && len(username) > 0{
         body = UserJwtBody{
