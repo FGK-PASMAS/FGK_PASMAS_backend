@@ -28,3 +28,26 @@ func CreateNewUser(user model.UserJwtBody, newUser model.User) (err error) {
 
     return
 }
+
+func GetAllUsers(user model.UserJwtBody) (users []model.User, err error) {
+    if err = user.ValidateRole(model.Admin); err != nil {
+        return
+    }
+
+    users, err = databasehandler.GetAllUsers()
+    return
+}
+
+func DeleteUser(user model.UserJwtBody, userId uint) (err error) {
+    if err = user.ValidateRole(model.Admin); err != nil {
+        return
+    }
+
+    dh := databasehandler.NewDatabaseHandler()
+    defer func ()  {
+        err = dh.CommitOrRollback(err)
+    }()
+
+    err = dh.DeleteUser(userId)
+    return
+}

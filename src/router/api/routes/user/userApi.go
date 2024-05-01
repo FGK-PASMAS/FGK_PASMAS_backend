@@ -2,6 +2,7 @@ package user
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
 	"github.com/MetaEMK/FGK_PASMAS_backend/router/api"
@@ -9,18 +10,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func validateUser(c *gin.Context) {
+func getAllUsers(c *gin.Context) {
     var httpCode int
     var response interface{}
     var err error
 
-    var token string
+    user := c.Keys["user"].(model.UserJwtBody)
 
-    username, password, ok := c.Request.BasicAuth()
-
-    if ok {
-        token, err = userservice.GenerateJwtForUser(username, password)
-    }
+    users, err := userservice.GetAllUsers(user)
 
     if err != nil {
         res := api.GetErrorResponse(err)
@@ -29,10 +26,11 @@ func validateUser(c *gin.Context) {
     } else {
         response = api.SuccessResponse {
             Success: true,
-            Response: token,
+            Response: users,
         }
         httpCode = http.StatusOK
     }
+
     c.JSON(httpCode, response)
 }
 
@@ -47,6 +45,31 @@ func createNewUser(c *gin.Context) {
     err = c.ShouldBind(&newUser)
 
     err = userservice.CreateNewUser(user, newUser)
+
+    if err != nil {
+        res := api.GetErrorResponse(err)
+        httpCode = res.HttpCode
+        response = res.ErrorResponse
+    } else {
+        response = api.SuccessResponse {
+            Success: true,
+        }
+    }
+
+    c.JSON(httpCode, response)
+}
+
+func deleteUser(c *gin.Context) {
+    var httpCode int
+    var response interface{}
+    var err error
+
+    user := c.Keys["user"].(model.UserJwtBody)
+
+    userIdStr := c.Param("id")
+    userId, err := strconv.ParseUint(userIdStr, 10, 64)
+
+    err = userservice.DeleteUser(user, uint(userId))
 
     if err != nil {
         res := api.GetErrorResponse(err)

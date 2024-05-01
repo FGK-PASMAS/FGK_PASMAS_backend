@@ -36,6 +36,17 @@ func initUser() {
     dh.createUserIfNotExists(readOnly)
 }
 
+func GetAllUsers() (users []model.User, err error) {
+    err = Db.Find(&users).Error
+
+    for i := range users {
+        users[i].SetTimesToUTC()
+        users[i].Password = "" 
+    }
+
+    return
+}
+
 func (dh * DatabaseHandler) createUserIfNotExists(user model.User) {
     user.SetTimesToUTC()
     var userCount int64 = -1
@@ -72,3 +83,16 @@ func hashPassword(password string) (hash string, err error) {
     return
 }
 
+func (dh *DatabaseHandler) DeleteUser(userId uint) (err error) {
+
+    var user model.User
+    err = dh.Db.First(&user, userId).Error
+
+    if err != nil {
+        return
+    }
+
+    err = dh.Db.Delete(&model.User{}, userId).Error
+
+    return
+}
