@@ -340,33 +340,33 @@
 								{
 									"key": "includePassengers",
 									"value": "true",
-									"type": "text",
 									"disabled": true
 								},
 								{
 									"key": "includePlane",
 									"value": "true",
-									"type": "text",
 									"disabled": true
 								},
 								{
 									"key": "includePilot",
 									"value": "true",
-									"type": "text",
 									"disabled": true
 								},
 								{
 									"key": "divisionId",
 									"value": "1",
 									"description": "It will automatically set includeDivision to true.",
-									"type": "text",
 									"disabled": true
 								},
 								{
 									"key": "planeId",
 									"value": "1",
 									"description": "It will automatically set includePlane to true.",
-									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "byDepartureTime",
+									"value": "2024-01-24T17:30:00Z",
 									"disabled": true
 								}
 							]
@@ -1230,44 +1230,13 @@
 			"name": "user",
 			"item": [
 				{
-					"name": "Login",
-					"event": [
-						{
-							"listen": "test",
-							"script": {
-								"id": "8c570500-592a-40a7-8a50-1c52e5a05306",
-								"exec": [
-									"var responseJson = pm.response.json();",
-									"var token = responseJson.Response;",
-									"",
-									"pm.environment.set(\"token\", token);",
-									""
-								],
-								"type": "text/javascript"
-							}
-						}
-					],
-					"id": "7ee2147a-99fc-49d7-8a1d-d915c12cf39b",
+					"name": "Get Users",
+					"id": "74fd105b-0b1f-4a4f-a14b-f8338a980536",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
 					"request": {
-						"auth": {
-							"type": "basic",
-							"basic": [
-								{
-									"key": "password",
-									"value": "{{password}}",
-									"type": "string"
-								},
-								{
-									"key": "username",
-									"value": "{{username}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
+						"method": "GET",
 						"header": [],
 						"url": {
 							"raw": "{{url}}/api/user",
@@ -1280,7 +1249,45 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"id": "5cc01588-745f-4896-af68-268296c0eae5",
+							"name": "200",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/user",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"user"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 01 May 2024 21:47:15 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "656"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"Success\": true,\n    \"Response\": [\n        {\n            \"ID\": 1,\n            \"CreatedAt\": \"2024-04-25T11:35:04.613108Z\",\n            \"UpdatedAt\": \"2024-04-25T11:35:04.613108Z\",\n            \"DeletedAt\": null,\n            \"Name\": \"admin\",\n            \"Password\": \"\",\n            \"Role\": \"admin\"\n        },\n        {\n            \"ID\": 2,\n            \"CreatedAt\": \"2024-04-25T11:35:05.316895Z\",\n            \"UpdatedAt\": \"2024-04-25T11:35:05.316895Z\",\n            \"DeletedAt\": null,\n            \"Name\": \"vendor\",\n            \"Password\": \"\",\n            \"Role\": \"vendor\"\n        },\n        {\n            \"ID\": 3,\n            \"CreatedAt\": \"2024-04-25T11:35:06.039099Z\",\n            \"UpdatedAt\": \"2024-04-25T11:35:06.039099Z\",\n            \"DeletedAt\": null,\n            \"Name\": \"readOnly\",\n            \"Password\": \"\",\n            \"Role\": \"read-only\"\n        },\n        {\n            \"ID\": 4,\n            \"CreatedAt\": \"2024-05-01T21:44:12.957804Z\",\n            \"UpdatedAt\": \"2024-05-01T21:44:12.957804Z\",\n            \"DeletedAt\": null,\n            \"Name\": \"Testing\",\n            \"Password\": \"\",\n            \"Role\": \"admin\"\n        }\n    ]\n}"
+						}
+					]
 				},
 				{
 					"name": "CreateUser",
@@ -1313,9 +1320,98 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Delete User",
+					"id": "d3c13c8c-3159-4763-ad19-b08345c14ee0",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/user/:id",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"id": "f2fc761a-3634-4e61-9cbd-9c70f69b4619"
+		},
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "8c570500-592a-40a7-8a50-1c52e5a05306",
+								"exec": [
+									"var responseJson = pm.response.json();",
+									"var token = responseJson.Response;",
+									"",
+									"pm.environment.set(\"token\", token);",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"id": "7ee2147a-99fc-49d7-8a1d-d915c12cf39b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "{{password}}",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "{{username}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/api/auth",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"api",
+								"auth"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "e33b0cfc-fb7e-4ce7-b3e9-5b0cca880ca3"
 		}
 	],
 	"auth": {
