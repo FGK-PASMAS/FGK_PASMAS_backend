@@ -29,8 +29,9 @@ func CreateBlocker(user model.UserJwtBody, blocker model.Flight) (newBlocker mod
     flightCreation.Lock()
     defer flightCreation.Unlock()
 
-    if !flightlogic.CheckIfSlotIsFree(blocker.PlaneId, blocker.DepartureTime, blocker.ArrivalTime) {
+    if flightlogic.CheckIfSlotIsFree(blocker.PlaneId, blocker.DepartureTime, blocker.ArrivalTime) == false {
         err = cerror.ErrSlotIsNotFree
+        return
     }
 
     dh := databasehandler.NewDatabaseHandler()

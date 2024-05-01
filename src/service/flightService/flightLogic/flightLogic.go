@@ -82,6 +82,7 @@ func CheckIfSlotIsFree(planeId uint, departureTime time.Time, arrivalTime time.T
     result := databasehandler.Db.Model(&model.Flight{}).Where("plane_id = ?", planeId).Where("departure_time < ? AND arrival_time > ?", arrivalTime, departureTime).Count(&count)
 
     if result.Error != nil {
+        println(result.Error.Error())
         return false
     }
 
