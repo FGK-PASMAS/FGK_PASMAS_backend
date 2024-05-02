@@ -44,7 +44,7 @@ func createNewUser(c *gin.Context) {
     newUser := model.User{}
     err = c.ShouldBind(&newUser)
 
-    err = userservice.CreateNewUser(user, newUser)
+    newUser, err = userservice.CreateNewUser(user, newUser)
 
     if err != nil {
         res := api.GetErrorResponse(err)
@@ -53,6 +53,7 @@ func createNewUser(c *gin.Context) {
     } else {
         response = api.SuccessResponse {
             Success: true,
+            Response: newUser,
         }
     }
 

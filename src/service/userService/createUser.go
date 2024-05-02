@@ -1,30 +1,41 @@
 package userservice
 
 import (
+	"strings"
+
 	cerror "github.com/MetaEMK/FGK_PASMAS_backend/cError"
 	databasehandler "github.com/MetaEMK/FGK_PASMAS_backend/databaseHandler"
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
+	"github.com/MetaEMK/FGK_PASMAS_backend/validator"
 )
 
-func CreateNewUser(user model.UserJwtBody, newUser model.User) (err error) {
+func CreateNewUser(user model.UserJwtBody, newUser model.User) (u model.User, err error) {
     if err = user.ValidateRole(model.Admin); err != nil {
         return
     }
 
-    _, err = databasehandler.GetUserByName(newUser.Name)
+    newUser.Role = model.UserRole(strings.ToLower(string(newUser.Role)))
+    println(newUser.Role)
+
+    if err = validator.ValidateUser(&newUser); err != nil {
+        return
+    }
+
+    _, err = databasehandler.GetUserByName(newUser.Username)
     if err != cerror.ErrObjectNotFound {
         err = cerror.ErrUserAlreadyExists
         return
     }
-
-    println("Lets Go")
 
     dh := databasehandler.NewDatabaseHandler()
     defer func ()  {
         err = dh.CommitOrRollback(err)
     }()
 
-    _, err = dh.CreateUser(newUser)
+    u, err = dh.CreateUser(newUser)
+    u.Password = ""
+
+    println(u.ID)
 
     return
 }

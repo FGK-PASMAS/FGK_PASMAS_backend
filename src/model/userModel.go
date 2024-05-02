@@ -11,8 +11,8 @@ import (
 type User struct {
     gorm.Model
 
-    // Name of the user. This includes first name and last name or a username.
-    Name            string             `gorm:"not null"`
+    // Username of the user. This includes first name and last name or a username.
+    Username            string        `gorm:"not null"`
 
     // Password of the user. This is a hashed password.
     Password        string             `gorm:"not null"`
@@ -51,7 +51,7 @@ func (user *UserJwtBody) ValidateRole(neededRole UserRole) error {
 func (user *User) ToJwtClaims() jwt.MapClaims {
     return jwt.MapClaims{
         "Role": user.Role,
-        "Username": user.Name,
+        "Username": user.Username,
     }
 }
 

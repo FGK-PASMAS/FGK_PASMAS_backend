@@ -32,8 +32,11 @@ var (
     ErrInvalidCredentials = errors.New("Invalid credentials")
     ErrEmptyCredentials = errors.New("Empty token, password or username")
     ErrForbidden = errors.New("You are not allowed to access this resource")
-    ErrInvalidRole = errors.New("Invalid role")
     ErrUserAlreadyExists = errors.New("User already exists")
+
+    ErrInvalidPassword = errors.New("Password is invalid")
+    ErrInvalidUsername = errors.New("Username is invalid")
+    ErrInvalidRole = errors.New("Invalid role")
 )
 
 var (

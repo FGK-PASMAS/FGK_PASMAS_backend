@@ -17,7 +17,7 @@ func InitApiRoutes(r *gin.RouterGroup) {
     authRoutes := r.Group("auth")
     auth.InitAuthRoutes(authRoutes)
 
-    userRoutes := r.Group("user")
+    userRoutes := r.Group("users")
     userRoutes.Use(middleware.ValidateJwt)
     user.InitUserRoutes(userRoutes)
 
