@@ -1239,13 +1239,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/api/user",
+							"raw": "{{url}}/api/users",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"api",
-								"user"
+								"users"
 							]
 						}
 					},
@@ -1300,7 +1300,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"Name\": \"Max Mustermann\",\n    \"Role\": \"Admin\",\n    \"Password\": \"aödjkf9812köjsd&(!\"\n}",
+							"raw": "{\n    \"Username\": \"Max Mustermann\",\n    \"Role\": \"Admin\",\n    \"Password\": \"Password!\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1308,18 +1308,64 @@
 							}
 						},
 						"url": {
-							"raw": "{{url}}/api/user/createUser",
+							"raw": "{{url}}/api/users",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"api",
-								"user",
-								"createUser"
+								"users"
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"id": "f8e35134-7fe0-4f48-99e9-7d670e0348c8",
+							"name": "201",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Username\": \"Max Mustermann\",\n    \"Role\": \"Admin\",\n    \"Password\": \"Password!\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/users",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"users"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 02 May 2024 00:04:48 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "209"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"Success\": true,\n    \"Response\": {\n        \"ID\": 10,\n        \"CreatedAt\": \"2024-05-02T02:04:48.52159714+02:00\",\n        \"UpdatedAt\": \"2024-05-02T02:04:48.52159714+02:00\",\n        \"DeletedAt\": null,\n        \"Username\": \"Max Mustermann\",\n        \"Password\": \"\",\n        \"Role\": \"admin\"\n    }\n}"
+						}
+					]
 				},
 				{
 					"name": "Delete User",
@@ -1331,13 +1377,13 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/api/user/:id",
+							"raw": "{{url}}/api/users/:id",
 							"host": [
 								"{{url}}"
 							],
 							"path": [
 								"api",
-								"user",
+								"users",
 								":id"
 							],
 							"variable": [
