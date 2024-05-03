@@ -56,8 +56,11 @@ func (dh *DatabaseHandler) PartialUpdatePlane(id uint, updateData PartialUpdateP
 
 	if updateData.PrefPilotId != nil {
 		if *updateData.PrefPilotId != *plane.PrefPilotId {
+			status := false
+
 			for _, pilot := range *plane.AllowedPilots {
-				status := false
+				println("UpdateData.PrefPilotId: ", *updateData.PrefPilotId)
+				println("Piolt.ID: ", pilot.ID)
 				if *updateData.PrefPilotId == pilot.ID {
 					plane.PrefPilotId = updateData.PrefPilotId
 					plane.PrefPilot = &pilot
@@ -65,13 +68,11 @@ func (dh *DatabaseHandler) PartialUpdatePlane(id uint, updateData PartialUpdateP
 					status = true
 					break
 				}
+			}
 
-				if !status {
-                    println("PrefPilotId: ", *plane.PrefPilotId)
-                    println("UpdateData.PrefPilotId: ", *updateData.PrefPilotId)
-					err = cerror.ErrPilotNotInAllowedPilots
-					return
-				}
+			if !status {
+				err = cerror.ErrPilotNotInAllowedPilots
+                return
 			}
 		}
 	}
@@ -107,9 +108,12 @@ func (dh *DatabaseHandler) PartialUpdatePlane(id uint, updateData PartialUpdateP
 		}
 	}
 
-	dh.Db.Updates(&plane)
-	dh.rt.AddEvent(realtime.PlaneStream, realtime.UPDATED, &plane)
+    err = dh.Db.Updates(&plane).Error
+    if err != nil {
+        return
+    }
 
+	dh.rt.AddEvent(realtime.PlaneStream, realtime.UPDATED, &plane)
 	return
 }
 
