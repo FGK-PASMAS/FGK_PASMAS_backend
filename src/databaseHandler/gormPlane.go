@@ -55,17 +55,20 @@ func (dh *DatabaseHandler) PartialUpdatePlane(id uint, updateData PartialUpdateP
 	}
 
 	if updateData.PrefPilotId != nil {
-		if updateData.PrefPilotId != plane.PrefPilotId {
+		if *updateData.PrefPilotId != *plane.PrefPilotId {
 			for _, pilot := range *plane.AllowedPilots {
 				status := false
 				if *updateData.PrefPilotId == pilot.ID {
 					plane.PrefPilotId = updateData.PrefPilotId
 					plane.PrefPilot = &pilot
+					println("set: ", *plane.PrefPilotId)
 					status = true
 					break
 				}
 
 				if !status {
+                    println("PrefPilotId: ", *plane.PrefPilotId)
+                    println("UpdateData.PrefPilotId: ", *updateData.PrefPilotId)
 					err = cerror.ErrPilotNotInAllowedPilots
 					return
 				}
@@ -79,31 +82,30 @@ func (dh *DatabaseHandler) PartialUpdatePlane(id uint, updateData PartialUpdateP
 		}
 	}
 
-    if updateData.FlightDuration != nil {
-        if updateData.FlightDuration != &plane.FlightDuration {
-            plane.FlightDuration = *updateData.FlightDuration
-        }
-    }
+	if updateData.FlightDuration != nil {
+		if updateData.FlightDuration != &plane.FlightDuration {
+			plane.FlightDuration = *updateData.FlightDuration
+		}
+	}
 
-    if updateData.SlotStartTime != nil {
-        if updateData.SlotStartTime != &plane.SlotStartTime {
-            plane.SlotStartTime = *updateData.SlotStartTime
-        }
-    }
+	if updateData.SlotStartTime != nil {
+		if updateData.SlotStartTime != &plane.SlotStartTime {
+			plane.SlotStartTime = *updateData.SlotStartTime
+		}
+	}
 
-    if updateData.SlotEndTime != nil {
-        if updateData.SlotEndTime != &plane.SlotEndTime {
-            plane.SlotEndTime = *updateData.SlotEndTime
-        }
-    }
+	if updateData.SlotEndTime != nil {
+		if updateData.SlotEndTime != &plane.SlotEndTime {
+			plane.SlotEndTime = *updateData.SlotEndTime
+		}
+	}
 
-    if updateData.SlotStartTime != nil || updateData.SlotEndTime != nil {
-        if plane.SlotStartTime.After(plane.SlotEndTime) || plane.SlotStartTime.Equal(plane.SlotEndTime) {
-            err = cerror.ErrSlotTimeInvalid
-            return
-        }
-    }
-
+	if updateData.SlotStartTime != nil || updateData.SlotEndTime != nil {
+		if plane.SlotStartTime.After(plane.SlotEndTime) || plane.SlotStartTime.Equal(plane.SlotEndTime) {
+			err = cerror.ErrSlotTimeInvalid
+			return
+		}
+	}
 
 	dh.Db.Updates(&plane)
 	dh.rt.AddEvent(realtime.PlaneStream, realtime.UPDATED, &plane)
