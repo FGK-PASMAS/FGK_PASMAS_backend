@@ -4,7 +4,7 @@ import (
 	"errors"
 	"net/http"
 
-	pasmasservice "github.com/MetaEMK/FGK_PASMAS_backend/service/pasmasService"
+	cerror "github.com/MetaEMK/FGK_PASMAS_backend/cError"
 	"github.com/MetaEMK/FGK_PASMAS_backend/validator"
 )
 
@@ -15,12 +15,15 @@ type ApiError struct {
 
 var (
     unknownError = ApiError { HttpCode: http.StatusInternalServerError, ErrorResponse: ErrorResponse { Success: false, Type: "UNKNOWN_ERROR"} }
+    ObjectAlreadyExists = ApiError { HttpCode: http.StatusConflict, ErrorResponse: ErrorResponse { Success: false, Type: "OBJECT_ALREADY_EXISTS"} }
     InvalidRequestBody = ApiError { HttpCode: http.StatusBadRequest, ErrorResponse: ErrorResponse { Success: false, Type: "INVALID_REQUEST_BODY"} }
     invalidFlightLogic = ApiError { HttpCode: http.StatusBadRequest, ErrorResponse: ErrorResponse { Success: false, Type: "INVALID_FLIGHT_LOGIC"} }
     objectNotFound = ApiError { HttpCode: http.StatusNotFound, ErrorResponse: ErrorResponse { Success: false, Type: "OBJECT_NOT_FOUND"} }
     dependencyNotFound = ApiError { HttpCode: http.StatusBadRequest, ErrorResponse: ErrorResponse { Success: false, Type: "DEPENDENCY_NOT_FOUND"} }
     notImplemented = ApiError { HttpCode: http.StatusNotImplemented, ErrorResponse: ErrorResponse { Success: false, Type: "NOT_IMPLEMENTED"} }
     notValidParameters = ApiError { HttpCode: http.StatusBadRequest, ErrorResponse: ErrorResponse { Success: false, Type: "NOT_VALID_PARAMETERS"} }
+    unauthorized = ApiError { HttpCode: http.StatusUnauthorized, ErrorResponse: ErrorResponse { Success: false, Type: "UNAUTHORIZED"} }
+    forbidden = ApiError { HttpCode: http.StatusForbidden, ErrorResponse: ErrorResponse { Success: false, Type: "FORBIDDEN"} }
 )
 
 var (
@@ -33,7 +36,7 @@ func GetErrorResponse(err error) ApiError {
     var obj ApiError
 
     switch err {
-        case pasmasservice.ErrObjectNotFound:
+        case cerror.ErrObjectNotFound:
             obj = objectNotFound
 
         case // InvalidRequestBody
@@ -44,7 +47,7 @@ func GetErrorResponse(err error) ApiError {
         case 
             validator.ErrInvalidPilot,
             validator.ErrInvalidPlane,
-            pasmasservice.ErrObjectDependencyMissing:
+            cerror.ErrObjectDependencyMissing:
                 obj = dependencyNotFound
 
         // invalidFlightLogic
@@ -52,21 +55,31 @@ func GetErrorResponse(err error) ApiError {
             validator.ErrPassengerWeight,
             validator.ErrPassengerLastName,
             validator.ErrInvalidDepartureTime,
-            pasmasservice.ErrFlightStatusDoesNotFitProcess,
-            pasmasservice.ErrNoPilotAvailable,
-            pasmasservice.ErrNoStartFuelFound,
-            pasmasservice.ErrMaxSeatPayload,
-            pasmasservice.ErrTooManyPassenger,
-            pasmasservice.ErrTooLessPassenger,
-            pasmasservice.ErrTooMuchFuel,
-            pasmasservice.ErrTooLessFuel,
-            pasmasservice.ErrOverloaded,
-            pasmasservice.ErrSlotIsNotFree,
-            pasmasservice.ErrDepartureTimeIsZero:
+            cerror.ErrFlightStatusDoesNotFitProcess,
+            cerror.ErrNoPilotAvailable,
+            cerror.ErrNoStartFuelFound,
+            cerror.ErrMaxSeatPayload,
+            cerror.ErrTooManyPassenger,
+            cerror.ErrTooLessPassenger,
+            cerror.ErrTooMuchFuel,
+            cerror.ErrTooLessFuel,
+            cerror.ErrOverloaded,
+            cerror.ErrSlotIsNotFree,
+            cerror.ErrTimeSlotForPlaneNotValid,
+            cerror.ErrDepartureTimeIsZero:
                 obj = invalidFlightLogic
 
-        case pasmasservice.ErrIncludeNotSupported:
+        case cerror.ErrIncludeNotSupported:
             obj = notValidParameters
+
+        case cerror.ErrForbidden:
+            obj = forbidden
+
+        case cerror.ErrInvalidCredentials:
+            obj = unauthorized
+
+        case cerror.ErrUserAlreadyExists:
+            obj = ObjectAlreadyExists
 
         default:
             obj = unknownError

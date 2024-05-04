@@ -9,6 +9,7 @@ type Passenger struct {
     LastName            string
     FirstName           string
     Weight              uint            `gorm:"not null"`
+    PassNo              uint            `gorm:"uniqueIndex"`
 
     FlightID            uint            `gorm:"index"`
     Flight              *Flight         `gorm:"foreignKey:FlightID"`
@@ -24,3 +25,12 @@ const (
     ActionUpdate Action = "UPDATE"
     ActionDelete Action = "DELETE"
 )
+
+func (p * Passenger) SetTimesToUTC() {
+    p.CreatedAt = p.CreatedAt.UTC()
+    p.UpdatedAt = p.UpdatedAt.UTC()
+
+    if p.Flight != nil {
+        p.Flight.SetTimesToUTC()
+    }
+}

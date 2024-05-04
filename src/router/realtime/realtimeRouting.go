@@ -3,6 +3,7 @@ package realtime
 import (
 	"time"
 
+	"github.com/MetaEMK/FGK_PASMAS_backend/router/middleware"
 	"github.com/gin-gonic/gin"
 )
 
@@ -11,8 +12,10 @@ var PassengerStream = newStream()
 var pingStream = newStream()
 
 func SetupRealtimeRoutes(r *gin.RouterGroup) {
+    r.Use(middleware.ValidateJwt)
     subscribeToStream(r, "/passengers", PassengerStream)
     subscribeToStream(r, "/pings", pingStream)
+    subscribeToStream(r, "/flights", FlightStream)
     subscribeToFlightByDivisionEndpoint(r)
 
     go sendPings()

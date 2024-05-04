@@ -14,11 +14,18 @@ func initPassenger() {
 // GetPassengers returns all passengers from the database
 func GetPassengers() (passengers []model.Passenger, err error) {
     err = Db.Preload("Flight").Find(&passengers).Error
+
+    for i := range passengers {
+        passengers[i].SetTimesToUTC()
+    }
+
     return
 }
 
 func (dh *DatabaseHandler) CreatePassenger(pass model.Passenger) (newPassenger model.Passenger, err error) {
     pass.ID = 0
+
+    pass.SetTimesToUTC()
 
     if pass.Weight <= 0 {
         err = cerror.ErrPassengerWeightIsZero
@@ -39,7 +46,10 @@ func (dh *DatabaseHandler) CreatePassenger(pass model.Passenger) (newPassenger m
     dh.Db.AddError(err)
 
     if err == nil {
-        newPassenger = pass
+        newPassenger := model.Passenger{}
+        err = dh.Db.Preload("Flight").First(&newPassenger, pass.ID).Error
+        newPassenger.SetTimesToUTC()
+
         dh.rt.AddEvent(realtime.PassengerStream, realtime.CREATED, newPassenger)
     }
     return
@@ -83,13 +93,22 @@ func (dh DatabaseHandler) PartialUpdatePassenger(id uint, newPass *model.Passeng
         oldPass.FirstName = newPass.FirstName
     }
 
+    if newPass.PassNo != 0 {
+        oldPass.PassNo = newPass.PassNo
+    }
+
     err = dh.Db.Updates(&oldPass).Error
 
     if err != nil {
         dh.Db.AddError(err)
     } else {
         *newPass = oldPass
-        dh.rt.AddEvent(realtime.PassengerStream, realtime.UPDATED, oldPass)
+        newPass.SetTimesToUTC()
+
+        tmpPass := model.Passenger{}
+        err = dh.Db.Preload("Flight").First(&tmpPass, oldPass.ID).Error
+        tmpPass.SetTimesToUTC()
+        dh.rt.AddEvent(realtime.PassengerStream, realtime.UPDATED, tmpPass)
     }
 }
 

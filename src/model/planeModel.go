@@ -53,4 +53,40 @@ type Plane struct {
 
     // Contains all flights flown by this aircraft
     Flights *[]Flight `gorm:"foreignKey:PlaneId"`
+
+    // Start time slot?
+    SlotStartTime time.Time `gorm:"not null"`
+
+    // End time slot?
+    SlotEndTime time.Time `gorm:"not null"`
+
+    // Base value for passNo
+    PassNoBase uint `gorm:"not null" json:"-"`
+}
+
+func (p * Plane) SetTimesToUTC() {
+    p.CreatedAt = p.CreatedAt.UTC()
+    p.UpdatedAt = p.UpdatedAt.UTC()
+    p.SlotStartTime = p.SlotStartTime.UTC()
+    p.SlotEndTime = p.SlotEndTime.UTC()
+
+    if p.Division != nil {
+        p.Division.SetTimesToUTC()
+    }
+
+    if p.PrefPilot != nil {
+        p.PrefPilot.SetTimesToUTC()
+    }
+
+    if p.AllowedPilots != nil {
+        for _, a := range *p.AllowedPilots {
+            a.SetTimesToUTC()
+        }
+    }
+
+    if p.Flights != nil {
+        for _, f := range *p.Flights {
+            f.SetTimesToUTC()
+        }
+    }
 }

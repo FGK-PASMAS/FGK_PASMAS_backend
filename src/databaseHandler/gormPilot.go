@@ -3,12 +3,10 @@ package databasehandler
 import (
 	"fmt"
 
-	"github.com/MetaEMK/FGK_PASMAS_backend/logging"
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
 	"gorm.io/gorm"
 )
 
-var log = logging.DbLogger
 
 func initPilot(db *gorm.DB) {
     Db.AutoMigrate(&model.Pilot{})
@@ -40,6 +38,7 @@ func SeedPilot(db *gorm.DB) {
 }
 
 func createOrUpdatePilot(db *gorm.DB, pilot *model.Pilot) error {
+    pilot.SetTimesToUTC()
     if db == nil {
         db = Db
     }

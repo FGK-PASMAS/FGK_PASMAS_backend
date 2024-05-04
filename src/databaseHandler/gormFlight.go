@@ -14,6 +14,11 @@ func GetFlights(include *FlightInclude, filter *FlightFilter) (flights []model.F
     db = interpretFlightConfig(db, include, filter)
 
     err = db.Order("departure_time ASC").Find(&flights).Error
+
+    for i := range flights {
+        flights[i].SetTimesToUTC()
+    }
+
     return 
 }
 
@@ -22,10 +27,12 @@ func GetFlightById(id uint, include *FlightInclude) (flight model.Flight, err er
     db = interpretFlightConfig(db, include, nil)
 
     db.First(&flight, id)
+    flight.SetTimesToUTC()
+
     return flight, db.Error
 }
 
-func (dh *DatabaseHandler) CreateFlight(flight model.Flight, passengers []model.Passenger) (newFlight model.Flight, newPassengers []model.Passenger, err error) {
+func (dh *DatabaseHandler) CreateFlight(flight model.Flight, ) (newFlight model.Flight, err error) {
     flight.ID = 0
     flight.Passengers = nil
     err = dh.Db.Create(&flight).Error
@@ -35,21 +42,18 @@ func (dh *DatabaseHandler) CreateFlight(flight model.Flight, passengers []model.
         return
     } 
 
+    err = dh.Db.Preload("Plane").Preload("Passengers").Preload("Pilot").First(&newFlight, flight.ID).Error
+    if err != nil {
+        return
+    }
+
+    flight.SetTimesToUTC()
+
     dh.rt.AddEvent(realtime.FlightStream, realtime.CREATED, flight)
     plane := model.Plane{}
     dh.Db.First(&plane, flight.PlaneId)
     stream := realtime.GetFlightStreamForDivisionId(plane.DivisionId)
     dh.rt.AddEvent(stream, realtime.CREATED, flight)
-
-    for index := range passengers {
-        passengers[index].FlightID = flight.ID
-        pass, err := dh.CreatePassenger(passengers[index])
-
-        dh.Db.AddError(err)
-        newPassengers = append(newPassengers, pass)
-    }
-
-    newFlight = flight
 
     return
 }
@@ -64,6 +68,10 @@ func (dh *DatabaseHandler) PartialUpdateFlight(id uint, newFlightData model.Flig
 
     if newFlightData.Status == model.FsBooked && flight.Status == model.FsReserved {
         flight.Status = newFlightData.Status
+    }
+
+    if newFlightData.FlightNo != nil {
+        flight.FlightNo = newFlightData.FlightNo
     }
 
     if newFlightData.Description != nil {
@@ -83,7 +91,9 @@ func (dh *DatabaseHandler) PartialUpdateFlight(id uint, newFlightData model.Flig
     }
 
     err = dh.Db.Updates(&flight).Error
+    dh.Db.Preload("Plane").Preload("Passengers").Preload("Pilot").First(&flight, id)
     if err == nil {
+        flight.SetTimesToUTC()
         dh.rt.AddEvent(realtime.FlightStream, realtime.UPDATED, flight)
         if flight.Plane != nil{
             stream := realtime.GetFlightStreamForDivisionId(flight.Plane.DivisionId)
