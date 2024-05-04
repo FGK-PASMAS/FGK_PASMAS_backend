@@ -53,7 +53,7 @@ func ParsePilotFilter(c *gin.Context) (*PilotFilter, error) {
 } 
 
 func GetPilots(include *PilotInclude, filter *PilotFilter) (*[]model.Pilot, error) {
-    db := dh.Db
+    db := dh.Db.Order("id ASC")
     var pilots *[]model.Pilot
 
     if include != nil {

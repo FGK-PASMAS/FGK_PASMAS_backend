@@ -11,7 +11,7 @@ func GetDivisions() ([]model.Division, error) {
         return []model.Division{}, cerror.ErrDatabaseConnection
     }
     divisions := []model.Division{}
-    result := databasehandler.Db.Find(&divisions)
+    result := databasehandler.Db.Order("id ASC").Find(&divisions)
 
     if result.Error != nil {
         return []model.Division{}, result.Error

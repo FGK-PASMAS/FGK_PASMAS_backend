@@ -37,7 +37,7 @@ func initUser() {
 }
 
 func GetAllUsers() (users []model.User, err error) {
-    err = Db.Find(&users).Error
+    err = Db.Order("id ASC").Find(&users).Error
 
     for i := range users {
         users[i].SetTimesToUTC()

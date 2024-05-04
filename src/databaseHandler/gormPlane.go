@@ -21,7 +21,7 @@ func GetPlanes(planeInclude *PlaneInclude, planeFilter *PlaneFilter) ([]model.Pl
 
 	db = interpretPlaneConfig(db, planeInclude, planeFilter)
 
-	db = db.Find(&planes)
+	db = db.Order("id ASC").Find(&planes)
 
 	for i := range planes {
 		planes[i].SetTimesToUTC()
