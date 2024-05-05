@@ -104,7 +104,6 @@ func FlightBooking(user model.UserJwtBody, flightId uint, newFlightData model.Fl
         flight.Description = newFlightData.Description
     }
 
-    flight, err = dh.PartialUpdateFlight(flightId, newFlightData)
 
     for index := range passengers {
         passengers[index].FlightID = flight.ID
@@ -123,6 +122,11 @@ func FlightBooking(user model.UserJwtBody, flightId uint, newFlightData model.Fl
             return
         }
         *flight.Passengers = append(*flight.Passengers, newPass)
+    }
+
+    flight, err = dh.PartialUpdateFlight(flightId, newFlightData)
+    if err != nil {
+        return
     }
 
     newFlightData, err = flightlogic.FlightLogicProcess(flight, plane, *plane.Division, false)
