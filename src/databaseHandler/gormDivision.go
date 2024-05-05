@@ -1,6 +1,7 @@
 package databasehandler
 
 import (
+	"github.com/MetaEMK/FGK_PASMAS_backend/config"
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
 	"github.com/MetaEMK/FGK_PASMAS_backend/router/realtime"
 )
@@ -12,6 +13,11 @@ func initDivision() {
 }
 
 func SeedDivision() error {
+    if !config.EnableSeeder {
+        return nil
+    }
+
+    log.Debug("Seeding divisions")
     divs := []model.Division{
         { Name: "Segelflug", PassengerCapacity: 1},
         { Name: "Motorsegler", PassengerCapacity: 1},

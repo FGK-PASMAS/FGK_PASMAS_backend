@@ -15,6 +15,7 @@ func main() {
     logging.DbLogger.Info("Starting PASMAS Backend")
 
     config.LoadAuthConfig()
+    config.InitDbConfig()
 
     dsn := config.GetConnectionString()
     db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{

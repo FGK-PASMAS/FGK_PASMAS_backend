@@ -3,6 +3,7 @@ package databasehandler
 import (
 	"fmt"
 
+	"github.com/MetaEMK/FGK_PASMAS_backend/config"
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
 	"gorm.io/gorm"
 )
@@ -11,7 +12,10 @@ import (
 func initPilot(db *gorm.DB) {
     Db.AutoMigrate(&model.Pilot{})
 
-    SeedPilot(db)
+    if config.EnableSeeder {
+        log.Debug("Seeding pilots")
+        SeedPilot(db)
+    }
 }
 
 func SeedPilot(db *gorm.DB) {
