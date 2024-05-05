@@ -22,6 +22,7 @@ var (
 // Internal Errors only - this should never occur
 var (
     ErrDatabaseHandlerDestroy = errors.New("Struct DatabaseHandler was never closed correctly")
+    ErrDatabaseConnection = errors.New("Database connection error")
 )
 
 // Authentication and Authorisation
@@ -31,8 +32,11 @@ var (
     ErrInvalidCredentials = errors.New("Invalid credentials")
     ErrEmptyCredentials = errors.New("Empty token, password or username")
     ErrForbidden = errors.New("You are not allowed to access this resource")
-    ErrInvalidRole = errors.New("Invalid role")
     ErrUserAlreadyExists = errors.New("User already exists")
+
+    ErrInvalidPassword = errors.New("Password is invalid")
+    ErrInvalidUsername = errors.New("Username is invalid")
+    ErrInvalidRole = errors.New("Invalid role")
 )
 
 var (
@@ -51,4 +55,9 @@ var (
     ErrOverloaded = errors.New("MTOW is exceeded")
     ErrFlightNoCouldNotBeGenerated = errors.New("Could not generate flightNo")
     ErrPassNoExceeded = errors.New("Passenger number pool exceeded")
+)
+
+var (
+    ErrPilotNotInAllowedPilots = errors.New("Pilot is not allowed to fly this plane")
+    ErrSlotTimeInvalid = errors.New("Slot time invalid")
 )

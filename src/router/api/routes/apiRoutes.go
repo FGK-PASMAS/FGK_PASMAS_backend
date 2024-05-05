@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"github.com/MetaEMK/FGK_PASMAS_backend/router/api/routes/auth"
 	"github.com/MetaEMK/FGK_PASMAS_backend/router/api/routes/debug"
 	"github.com/MetaEMK/FGK_PASMAS_backend/router/api/routes/division"
 	"github.com/MetaEMK/FGK_PASMAS_backend/router/api/routes/flight"
@@ -13,7 +14,11 @@ import (
 )
 
 func InitApiRoutes(r *gin.RouterGroup) {
-    userRoutes := r.Group("user")
+    authRoutes := r.Group("auth")
+    auth.InitAuthRoutes(authRoutes)
+
+    userRoutes := r.Group("users")
+    userRoutes.Use(middleware.ValidateJwt)
     user.InitUserRoutes(userRoutes)
 
     divisionRoutes := r.Group("divisions")

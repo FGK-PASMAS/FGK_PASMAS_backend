@@ -7,7 +7,7 @@ import (
 	databasehandler "github.com/MetaEMK/FGK_PASMAS_backend/databaseHandler"
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
 	"github.com/MetaEMK/FGK_PASMAS_backend/router/api"
-	pasmasservice "github.com/MetaEMK/FGK_PASMAS_backend/service/pasmasService"
+	"github.com/MetaEMK/FGK_PASMAS_backend/service/planeService"
 	"github.com/gin-gonic/gin"
 )
 
@@ -22,7 +22,7 @@ func getPlanes(c *gin.Context) {
     filters, filtErr := databasehandler.ParsePlaneFilter(c)
 
     if incErr == nil && filtErr == nil {
-        planes, err = pasmasservice.GetPlanes(includes, filters)
+        planes, err = planeService.GetPlanes(includes, filters)
     } else {
         if incErr != nil {
             err = incErr
@@ -47,28 +47,60 @@ func getPlanes(c *gin.Context) {
     c.JSON(httpCode, response)
 }
 
+func getPlaneById(c *gin.Context) {
+    var response interface{}
+    var httpCode int
+
+    var planes model.Plane
+    var err error
+
+    includes, err := databasehandler.ParsePlaneInclude(c)
+
+    if err == nil {
+        idStr := c.Param("id")
+        id, err := strconv.ParseUint(idStr, 10, 64)
+        if err == nil {
+            planes, err = planeService.GetPlaneById(uint(id), includes)
+        }
+    }
+
+    if err != nil {
+        res := api.GetErrorResponse(err)
+        response = res.ErrorResponse
+        httpCode = res.HttpCode
+    } else {
+        response = api.SuccessResponse{
+            Success: true,
+            Response: planes,
+        }
+
+        httpCode = http.StatusOK
+    }
+
+    c.JSON(httpCode, response)
+}
+
 func updatePlane(c *gin.Context) {
     var response interface{}
     var httpCode int
-    var plane *model.Plane
+
+    var plane model.Plane
+    var id uint64
     var err error
 
-    planeIdStr := c.Param("id")
-    planeId, err := strconv.ParseUint(planeIdStr, 10, 64)
+    user := c.Keys["user"].(model.UserJwtBody)
+
+    idStr := c.Param("id")
+    id, err = strconv.ParseUint(idStr, 10, 64)
 
     if err == nil {
-        var body struct{
-            PrefPilotId uint
-        }
-
-        err = c.ShouldBind(&body)
+        var updateData databasehandler.PartialUpdatePlaneStruct
+        err = c.ShouldBind(&updateData)
 
         if err == nil {
-            plane, err = pasmasservice.UpdatePrefPilot(uint(planeId), body.PrefPilotId)
+            plane, err = planeService.UpdatePlane(user, uint(id), updateData)
         }
-
     }
-
 
     if err != nil {
         res := api.GetErrorResponse(err)

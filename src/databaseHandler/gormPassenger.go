@@ -13,7 +13,7 @@ func initPassenger() {
 
 // GetPassengers returns all passengers from the database
 func GetPassengers() (passengers []model.Passenger, err error) {
-    err = Db.Preload("Flight").Find(&passengers).Error
+    err = Db.Preload("Flight").Order("id ASC").Find(&passengers).Error
 
     for i := range passengers {
         passengers[i].SetTimesToUTC()
@@ -46,7 +46,7 @@ func (dh *DatabaseHandler) CreatePassenger(pass model.Passenger) (newPassenger m
     dh.Db.AddError(err)
 
     if err == nil {
-        newPassenger := model.Passenger{}
+        newPassenger = model.Passenger{}
         err = dh.Db.Preload("Flight").First(&newPassenger, pass.ID).Error
         newPassenger.SetTimesToUTC()
 

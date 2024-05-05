@@ -19,7 +19,7 @@ type Flight struct {
 
     PlaneId             uint                
     Plane               *Plane                  `gorm:"foreignKey:PlaneId"`
-    PilotId             uint
+    PilotId             *uint
     Pilot               *Pilot                  `gorm:"foreignKey:PilotId"`
     Passengers          *[]Passenger            `gorm:"foreignKey:FlightID;constraint:OnUpdate:CASCADE,OnDelete:CASCADE"`
 }

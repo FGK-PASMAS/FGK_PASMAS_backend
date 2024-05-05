@@ -32,7 +32,7 @@ func GetFlightById(id uint, include *FlightInclude) (flight model.Flight, err er
     return flight, db.Error
 }
 
-func (dh *DatabaseHandler) CreateFlight(flight model.Flight, ) (newFlight model.Flight, err error) {
+func (dh *DatabaseHandler) CreateFlight(flight model.Flight) (newFlight model.Flight, err error) {
     flight.ID = 0
     flight.Passengers = nil
     err = dh.Db.Create(&flight).Error
@@ -49,11 +49,11 @@ func (dh *DatabaseHandler) CreateFlight(flight model.Flight, ) (newFlight model.
 
     flight.SetTimesToUTC()
 
-    dh.rt.AddEvent(realtime.FlightStream, realtime.CREATED, flight)
+    dh.rt.AddEvent(realtime.FlightStream, realtime.CREATED, newFlight)
     plane := model.Plane{}
     dh.Db.First(&plane, flight.PlaneId)
     stream := realtime.GetFlightStreamForDivisionId(plane.DivisionId)
-    dh.rt.AddEvent(stream, realtime.CREATED, flight)
+    dh.rt.AddEvent(stream, realtime.CREATED, newFlight)
 
     return
 }

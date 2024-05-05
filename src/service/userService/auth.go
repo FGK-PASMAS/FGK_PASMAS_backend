@@ -26,7 +26,7 @@ func GenerateJwtForUser(username string, password string) (token string, err err
 
     if err == nil && checkPasswordHash(password, user.Password) {
         claims := user.ToJwtClaims()
-        claims["iss"] = config.JwtIssuer
+        claims["Iss"] = config.JwtIssuer
         t := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
         token, signingErr := t.SignedString([]byte(config.JwtEncodingKey))

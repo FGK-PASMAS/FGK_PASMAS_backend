@@ -7,7 +7,7 @@ import (
 	databasehandler "github.com/MetaEMK/FGK_PASMAS_backend/databaseHandler"
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
 	"github.com/MetaEMK/FGK_PASMAS_backend/router/api"
-	pasmasservice "github.com/MetaEMK/FGK_PASMAS_backend/service/pasmasService"
+	"github.com/MetaEMK/FGK_PASMAS_backend/service/flightService"
 	"github.com/gin-gonic/gin"
 )
 
@@ -21,7 +21,7 @@ func getFlights(c *gin.Context) {
     filters, filtErr := databasehandler.ParseFlightFilter(c)
 
     if incErr == nil && filtErr == nil {
-        flights, err = pasmasservice.GetFlights(includes, filters)
+        flights, err = flightService.GetFlights(includes, filters)
     } else {
         if incErr != nil {
             err = incErr
@@ -57,14 +57,19 @@ func flightCreation(c *gin.Context) {
     passengers:= flight.Passengers
     flight.Passengers = nil
 
-    newFlight, newPassengers, err := pasmasservice.FlightCreation(user, flight, passengers)
+    var newFlight model.Flight
+
+    if flight.Status == model.FsBlocked {
+        newFlight, err = flightService.CreateBlocker(user, flight)
+    } else {
+        newFlight, _, err = flightService.FlightCreation(user, flight, passengers)
+    }
 
     if err != nil {
         res := api.GetErrorResponse(err)
         httpCode = res.HttpCode
         response = res.ErrorResponse
     } else {
-        newFlight.Passengers = &newPassengers
         response = api.SuccessResponse {
             Success: true,
             Response: newFlight,
@@ -89,7 +94,7 @@ func flightUpdate(c *gin.Context) {
     idStr := c.Param("id")
     id, err := strconv.ParseUint(idStr, 10, 64)
     if err == nil {
-        newFlight, err = pasmasservice.FlightBooking(user, uint(id), flight)
+        newFlight, err = flightService.FlightBooking(user, uint(id), flight)
     }
 
     if err != nil {
@@ -117,7 +122,7 @@ func deleteFlight(c *gin.Context) {
         res := api.GetErrorResponse(err)
         c.JSON(res.HttpCode, res.ErrorResponse)
     } else {
-        err := pasmasservice.DeleteFlights(user, uint(id))
+        err := flightService.DeleteFlights(user, uint(id))
         if err != nil {
             res := api.GetErrorResponse(err)
             c.JSON(res.HttpCode, res.ErrorResponse)

@@ -40,6 +40,7 @@ func FlightLogicProcess(flight model.Flight, plane model.Plane, division model.D
         minPass = 1
     }
 
+
     passWeight := CalcPassWeight(passengers)
     err = CheckPassenger(passengers, plane.MaxSeatPayload, uint(minPass), division.PassengerCapacity, fullValidation)
     if err != nil {
@@ -58,7 +59,7 @@ func FlightLogicProcess(flight model.Flight, plane model.Plane, division model.D
     if err != nil {
         return
     }
-    flight.PilotId = pilot.ID
+    flight.PilotId = &pilot.ID
     flight.Pilot = &pilot
 
     if checkSlot {
@@ -81,6 +82,7 @@ func CheckIfSlotIsFree(planeId uint, departureTime time.Time, arrivalTime time.T
     result := databasehandler.Db.Model(&model.Flight{}).Where("plane_id = ?", planeId).Where("departure_time < ? AND arrival_time > ?", arrivalTime, departureTime).Count(&count)
 
     if result.Error != nil {
+        println(result.Error.Error())
         return false
     }
 

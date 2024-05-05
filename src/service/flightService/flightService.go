@@ -1,20 +1,12 @@
-package pasmasservice
+package flightService
 
 import (
-	"sync"
-
 	cerror "github.com/MetaEMK/FGK_PASMAS_backend/cError"
 	databasehandler "github.com/MetaEMK/FGK_PASMAS_backend/databaseHandler"
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
-	flightlogic "github.com/MetaEMK/FGK_PASMAS_backend/service/pasmasService/flightLogic"
-	"github.com/MetaEMK/FGK_PASMAS_backend/service/pasmasService/noGen"
+	flightlogic "github.com/MetaEMK/FGK_PASMAS_backend/service/flightService/flightLogic"
+	"github.com/MetaEMK/FGK_PASMAS_backend/service/flightService/noGen"
 )
-
-var (
-)
-
-var flightCreation sync.Mutex
-var flightUpdate sync.Mutex
 
 func GetFlights(include *databasehandler.FlightInclude, filter *databasehandler.FlightFilter) (flights []model.Flight, err error) {
     flights, err = databasehandler.GetFlights(include, filter)
@@ -23,7 +15,6 @@ func GetFlights(include *databasehandler.FlightInclude, filter *databasehandler.
 
 
 func FlightCreation(user model.UserJwtBody, flight model.Flight, passengers *[]model.Passenger) (newFlight model.Flight, newPassengers []model.Passenger, err error) {
-
     if err = user.ValidateRole(model.Vendor); err != nil {
         return
     }
@@ -45,21 +36,19 @@ func FlightCreation(user model.UserJwtBody, flight model.Flight, passengers *[]m
     flightCreation.Lock()
     defer flightCreation.Unlock()
 
-    flight.Passengers = passengers
     flightLogicData, err := flightlogic.FlightLogicProcess(flight, plane, *plane.Division, true)
     flight.ArrivalTime = flightLogicData.ArrivalTime.UTC()
     flight.Pilot = flightLogicData.Pilot
-    flight.PilotId = flightLogicData.ID
+    flight.PilotId = flightLogicData.PilotId
 
     if err == nil {
-        dh := databasehandler.NewDatabaseHandler()
+        dh := databasehandler.NewDatabaseHandler(user)
         newFlight, err = dh.CreateFlight(flight)
         defer func() {
             err = dh.CommitOrRollback(err)
             if err == nil {
                 newFlight, err = databasehandler.GetFlightById(newFlight.ID, &databasehandler.FlightInclude{IncludePassengers: true, IncludePlane: true, IncludePilot: true})
                 newFlight.FuelAtDeparture = flightLogicData.FuelAtDeparture
-                newFlight.Passengers = passengers
             }
         }()
     }
@@ -74,7 +63,7 @@ func FlightBooking(user model.UserJwtBody, flightId uint, newFlightData model.Fl
 
     var passengers []model.Passenger
     var plane model.Plane
-    dh := databasehandler.NewDatabaseHandler()
+    dh := databasehandler.NewDatabaseHandler(user)
     flightUpdate.Lock()
     defer func() {
         err = dh.CommitOrRollback(err)
@@ -148,60 +137,32 @@ func FlightBooking(user model.UserJwtBody, flightId uint, newFlightData model.Fl
     return 
 }
 
-func DeleteFlights(user model.UserJwtBody, id uint) (err error){
-    if err = user.ValidateRole(model.Vendor); err != nil {
-        return
-    }
-
-    dh := databasehandler.NewDatabaseHandler()
-    _, _, err = dh.DeleteFlight(id)
-
-    err = dh.CommitOrRollback(err)
-    return
-}
-
-// DEPRECATED 
+// deletes a flight or blocker
 //
-// updates oldPass with data from newPass
-func partialUpdatePassengers(dh *databasehandler.DatabaseHandler, oldPass *[]model.Passenger, newPass *[]model.Passenger) {
-    if oldPass == nil || newPass == nil {
-        return
-    }
+// if the flight is a blocker, the user must be an admin
+//
+// if the flight is a normal flight, the user must be a vendor
+func DeleteFlights(user model.UserJwtBody, id uint) (err error){
+    flight, err := databasehandler.GetFlightById(id, nil)
 
-    if dh == nil {
-        dh = databasehandler.NewDatabaseHandler()
-        defer dh.CommitOrRollback(nil)
-    }
-
-    for i := range *newPass {
-        switch (*newPass)[i].Action {
-        case model.ActionCreate:
-            pass, err := dh.CreatePassenger((*newPass)[i])
-            if err == nil {
-                tmp := append(*oldPass, pass)
-                *oldPass = tmp
-            } else {
-                dh.Db.AddError(err)
+    // if the flight is a blocker, the user must be an admin
+    // if the flight is a normal flight, the user must be a vendor
+    if flight.Status == model.FsBlocked {
+        if err = user.ValidateRole(model.Admin); err != nil {
+            return
+        } else {
+            if err = user.ValidateRole(model.Vendor); err != nil {
+                return
             }
-        case model.ActionUpdate:
-            status := false
-            for j := range *oldPass {
-                if (*newPass)[i].ID == (*oldPass)[j].ID {
-                    dh.PartialUpdatePassenger((*oldPass)[j].ID, &(*newPass)[i])
-                    (*oldPass)[j] = (*newPass)[i]
-                    status = true
-                }
-            }
-
-            if !status {
-                dh.Db.AddError(cerror.ErrObjectDependencyMissing)
-            }
-        case model.ActionDelete:
-            dh.DeletePassenger((*newPass)[i].ID)
-        
-        default:
-            dh.Db.AddError(cerror.ErrPassengerActionNotValid)
         }
     }
+
+    dh := databasehandler.NewDatabaseHandler(user)
+    defer func() {
+        err = dh.CommitOrRollback(err)
+    }()
+
+    _, _, err = dh.DeleteFlight(id)
+    return
 }
 

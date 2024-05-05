@@ -10,12 +10,14 @@ import (
 var FlightStream = newStream()
 var PassengerStream = newStream()
 var pingStream = newStream()
+var PlaneStream = newStream()
 
 func SetupRealtimeRoutes(r *gin.RouterGroup) {
     r.Use(middleware.ValidateJwt)
     subscribeToStream(r, "/passengers", PassengerStream)
     subscribeToStream(r, "/pings", pingStream)
     subscribeToStream(r, "/flights", FlightStream)
+    subscribeToStream(r, "/planes", PlaneStream)
     subscribeToFlightByDivisionEndpoint(r)
 
     go sendPings()

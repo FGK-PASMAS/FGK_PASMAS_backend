@@ -1,4 +1,4 @@
-package pasmasservice
+package passengerService
 
 import (
 	"errors"
@@ -22,7 +22,7 @@ func DeletePassenger(user model.UserJwtBody, id uint) (passenger model.Passenger
         return
     }
 
-    dh := databasehandler.NewDatabaseHandler()
+    dh := databasehandler.NewDatabaseHandler(user)
     passenger, err = dh.DeletePassenger(id)
 
     dh.CommitOrRollback(err)

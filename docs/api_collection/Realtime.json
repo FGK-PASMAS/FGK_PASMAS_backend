@@ -124,6 +124,92 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Connect to FlightStreamByDivision",
+			"id": "766a3fdf-ae01-4735-b132-f3f07c4aca1a",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/realtime/divisions/:id/flights",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"realtime",
+						"divisions",
+						":id",
+						"flights"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Connect to PlaneStream",
+			"id": "a52e2468-affd-4209-9def-16a917060ebc",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/realtime/planes",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"realtime",
+						"planes"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "60edb971-100c-4e14-b759-470dc12fe225",
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "6d0e6258-294f-4b67-9577-2fedad7633f5",
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
 		}
 	]
 }
