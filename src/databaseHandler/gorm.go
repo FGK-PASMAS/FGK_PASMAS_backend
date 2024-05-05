@@ -36,23 +36,23 @@ func InitGorm(dbConn *gorm.DB) *gorm.DB {
 	return Db
 }
 
-func ResetDatabase() error {
-	transaction := Db.Begin()
-	transaction.Exec("TRUNCATE TABLE divisions RESTART IDENTITY CASCADE")
-	transaction.Exec("TRUNCATE TABLE passengers RESTART IDENTITY CASCADE")
-	transaction.Exec("TRUNCATE TABLE flights RESTART IDENTITY CASCADE")
-	transaction.Exec("TRUNCATE TABLE planes RESTART IDENTITY CASCADE")
-	transaction.Exec("TRUNCATE TABLE pilots RESTART IDENTITY CASCADE")
-	transaction.Commit()
-
-	seed := Db.Begin()
-	SeedDivision()
-	SeedPlane(nil)
-	SeedPilot(nil)
-	seed.Commit()
-
-	return transaction.Error
-}
+// func ResetDatabase() error {
+// 	transaction := Db.Begin()
+// 	transaction.Exec("TRUNCATE TABLE divisions RESTART IDENTITY CASCADE")
+// 	transaction.Exec("TRUNCATE TABLE passengers RESTART IDENTITY CASCADE")
+// 	transaction.Exec("TRUNCATE TABLE flights RESTART IDENTITY CASCADE")
+// 	transaction.Exec("TRUNCATE TABLE planes RESTART IDENTITY CASCADE")
+// 	transaction.Exec("TRUNCATE TABLE pilots RESTART IDENTITY CASCADE")
+// 	transaction.Commit()
+//
+// 	seed := Db.Begin()
+// 	SeedDivision()
+// 	SeedPlane(nil)
+// 	SeedPilot(nil)
+// 	seed.Commit()
+//
+// 	return transaction.Error
+// }
 
 func NewDatabaseHandler(user model.UserJwtBody) (dh *DatabaseHandler) {
 	dh = &DatabaseHandler{
