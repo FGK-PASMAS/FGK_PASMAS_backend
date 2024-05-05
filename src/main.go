@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/MetaEMK/FGK_PASMAS_backend/config"
 	databasehandler "github.com/MetaEMK/FGK_PASMAS_backend/databaseHandler"
 	"github.com/MetaEMK/FGK_PASMAS_backend/logging"
 	"github.com/MetaEMK/FGK_PASMAS_backend/router"
@@ -13,7 +14,9 @@ var mode = "DEBUG"
 func main() {
     logging.DbLogger.Info("Starting PASMAS Backend")
 
-    dsn := databasehandler.GetConnectionString()
+    config.LoadAuthConfig()
+
+    dsn := config.GetConnectionString()
     db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
 
     })

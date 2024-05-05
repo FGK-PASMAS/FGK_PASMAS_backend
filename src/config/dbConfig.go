@@ -1,4 +1,4 @@
-package databasehandler
+package config
 
 import (
 	"fmt"
