@@ -10,7 +10,7 @@ import (
 func initUser() {
     Db.AutoMigrate(&model.User{})
 
-    dh := NewDatabaseHandler()
+    dh := NewDatabaseHandler(model.UserJwtBody{})
     defer dh.CommitOrRollback(nil)
 
     admin := model.User{

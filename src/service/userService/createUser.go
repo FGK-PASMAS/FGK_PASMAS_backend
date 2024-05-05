@@ -27,7 +27,7 @@ func CreateNewUser(user model.UserJwtBody, newUser model.User) (u model.User, er
         return
     }
 
-    dh := databasehandler.NewDatabaseHandler()
+    dh := databasehandler.NewDatabaseHandler(user)
     defer func ()  {
         err = dh.CommitOrRollback(err)
     }()
@@ -54,7 +54,7 @@ func DeleteUser(user model.UserJwtBody, userId uint) (err error) {
         return
     }
 
-    dh := databasehandler.NewDatabaseHandler()
+    dh := databasehandler.NewDatabaseHandler(user)
     defer func ()  {
         err = dh.CommitOrRollback(err)
     }()

@@ -42,7 +42,7 @@ func FlightCreation(user model.UserJwtBody, flight model.Flight, passengers *[]m
     flight.PilotId = flightLogicData.PilotId
 
     if err == nil {
-        dh := databasehandler.NewDatabaseHandler()
+        dh := databasehandler.NewDatabaseHandler(user)
         newFlight, err = dh.CreateFlight(flight)
         defer func() {
             err = dh.CommitOrRollback(err)
@@ -63,7 +63,7 @@ func FlightBooking(user model.UserJwtBody, flightId uint, newFlightData model.Fl
 
     var passengers []model.Passenger
     var plane model.Plane
-    dh := databasehandler.NewDatabaseHandler()
+    dh := databasehandler.NewDatabaseHandler(user)
     flightUpdate.Lock()
     defer func() {
         err = dh.CommitOrRollback(err)
@@ -157,57 +157,12 @@ func DeleteFlights(user model.UserJwtBody, id uint) (err error){
         }
     }
 
-    dh := databasehandler.NewDatabaseHandler()
+    dh := databasehandler.NewDatabaseHandler(user)
     defer func() {
         err = dh.CommitOrRollback(err)
     }()
 
     _, _, err = dh.DeleteFlight(id)
     return
-}
-
-// DEPRECATED 
-//
-// updates oldPass with data from newPass
-func partialUpdatePassengers(dh *databasehandler.DatabaseHandler, oldPass *[]model.Passenger, newPass *[]model.Passenger) {
-    if oldPass == nil || newPass == nil {
-        return
-    }
-
-    if dh == nil {
-        dh = databasehandler.NewDatabaseHandler()
-        defer dh.CommitOrRollback(nil)
-    }
-
-    for i := range *newPass {
-        switch (*newPass)[i].Action {
-        case model.ActionCreate:
-            pass, err := dh.CreatePassenger((*newPass)[i])
-            if err == nil {
-                tmp := append(*oldPass, pass)
-                *oldPass = tmp
-            } else {
-                dh.Db.AddError(err)
-            }
-        case model.ActionUpdate:
-            status := false
-            for j := range *oldPass {
-                if (*newPass)[i].ID == (*oldPass)[j].ID {
-                    dh.PartialUpdatePassenger((*oldPass)[j].ID, &(*newPass)[i])
-                    (*oldPass)[j] = (*newPass)[i]
-                    status = true
-                }
-            }
-
-            if !status {
-                dh.Db.AddError(cerror.ErrObjectDependencyMissing)
-            }
-        case model.ActionDelete:
-            dh.DeletePassenger((*newPass)[i].ID)
-        
-        default:
-            dh.Db.AddError(cerror.ErrPassengerActionNotValid)
-        }
-    }
 }
 

@@ -34,7 +34,7 @@ func CreateBlocker(user model.UserJwtBody, blocker model.Flight) (newBlocker mod
         return
     }
 
-    dh := databasehandler.NewDatabaseHandler()
+    dh := databasehandler.NewDatabaseHandler(user)
     defer func() {
         err = dh.CommitOrRollback(err)
     }()

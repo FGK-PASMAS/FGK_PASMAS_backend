@@ -49,11 +49,11 @@ func (dh *DatabaseHandler) CreateFlight(flight model.Flight) (newFlight model.Fl
 
     flight.SetTimesToUTC()
 
-    dh.rt.AddEvent(realtime.FlightStream, realtime.CREATED, flight)
+    dh.rt.AddEvent(realtime.FlightStream, realtime.CREATED, newFlight)
     plane := model.Plane{}
     dh.Db.First(&plane, flight.PlaneId)
     stream := realtime.GetFlightStreamForDivisionId(plane.DivisionId)
-    dh.rt.AddEvent(stream, realtime.CREATED, flight)
+    dh.rt.AddEvent(stream, realtime.CREATED, newFlight)
 
     return
 }
