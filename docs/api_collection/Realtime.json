@@ -126,6 +126,36 @@
 			"response": []
 		},
 		{
+			"name": "Connect to FlightStreamByDivision",
+			"id": "766a3fdf-ae01-4735-b132-f3f07c4aca1a",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{url}}/realtime/divisions/:id/flights",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"realtime",
+						"divisions",
+						":id",
+						"flights"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Connect to PlaneStream",
 			"id": "a52e2468-affd-4209-9def-16a917060ebc",
 			"protocolProfileBehavior": {
