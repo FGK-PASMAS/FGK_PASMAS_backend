@@ -28,5 +28,11 @@ func main() {
     databasehandler.InitGorm(db)
 
     server := router.InitRouter() 
-    server.Run(":8080")
+
+    tlsConfig := config.LoadTlsConfig()
+    if tlsConfig != nil {
+        server.RunTLS(":8080", tlsConfig.CertPath, tlsConfig.KeyPath)
+    } else {
+        server.Run(":8080")
+    }
 }
