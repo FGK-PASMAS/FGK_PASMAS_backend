@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/MetaEMK/FGK_PASMAS_backend/config"
 	databasehandler "github.com/MetaEMK/FGK_PASMAS_backend/databaseHandler"
 	"github.com/MetaEMK/FGK_PASMAS_backend/logging"
 	"github.com/MetaEMK/FGK_PASMAS_backend/router"
@@ -13,7 +14,10 @@ var mode = "DEBUG"
 func main() {
     logging.DbLogger.Info("Starting PASMAS Backend")
 
-    dsn := databasehandler.GetConnectionString()
+    config.LoadAuthConfig()
+    config.InitDbConfig()
+
+    dsn := config.GetConnectionString()
     db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
 
     })
@@ -24,5 +28,11 @@ func main() {
     databasehandler.InitGorm(db)
 
     server := router.InitRouter() 
-    server.Run(":8080")
+
+    tlsConfig := config.LoadTlsConfig()
+    if tlsConfig != nil {
+        server.RunTLS(":8080", tlsConfig.CertPath, tlsConfig.KeyPath)
+    } else {
+        server.Run(":8080")
+    }
 }

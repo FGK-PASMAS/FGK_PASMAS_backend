@@ -4,6 +4,7 @@ import (
 	"time"
 
 	cerror "github.com/MetaEMK/FGK_PASMAS_backend/cError"
+	"github.com/MetaEMK/FGK_PASMAS_backend/config"
 	"github.com/MetaEMK/FGK_PASMAS_backend/logging"
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
 	"github.com/MetaEMK/FGK_PASMAS_backend/router/realtime"
@@ -12,7 +13,11 @@ import (
 
 func initPlane(db *gorm.DB) {
 	Db.AutoMigrate(&model.Plane{})
-	SeedPlane(db)
+
+	if config.EnableSeeder {
+        log.Debug("Seeding planes")
+		SeedPlane(db)
+	}
 }
 
 func GetPlanes(planeInclude *PlaneInclude, planeFilter *PlaneFilter) ([]model.Plane, error) {
@@ -72,7 +77,7 @@ func (dh *DatabaseHandler) PartialUpdatePlane(id uint, updateData PartialUpdateP
 
 			if !status {
 				err = cerror.ErrPilotNotInAllowedPilots
-                return
+				return
 			}
 		}
 	}
@@ -108,10 +113,10 @@ func (dh *DatabaseHandler) PartialUpdatePlane(id uint, updateData PartialUpdateP
 		}
 	}
 
-    err = dh.Db.Updates(&plane).Error
-    if err != nil {
-        return
-    }
+	err = dh.Db.Updates(&plane).Error
+	if err != nil {
+		return
+	}
 
 	dh.rt.AddEvent(realtime.PlaneStream, realtime.UPDATED, &plane)
 	return
