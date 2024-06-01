@@ -39,7 +39,7 @@ func validateToken(token string) (user model.UserJwtBody, err error){
     user, err = model.ClaimsToUserJwtBody(claims)
 
     if err != nil || tok.Valid == false {
-        err = cerror.ErrInvalidCredentials
+        err = cerror.NewAuthenticationError("Token not valid")
     }
 
     return
