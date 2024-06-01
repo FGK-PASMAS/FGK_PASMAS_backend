@@ -8,15 +8,15 @@ import (
 
 func ValidateUser(user *model.User) error {
     if user.Username == "" {
-        return cerror.ErrInvalidUsername
+        return cerror.NewInvalidRequestBodyError("Username not valid")
     }
 
     if user.Password == "" {
-        return cerror.ErrInvalidPassword
+        return cerror.NewInvalidRequestBodyError("Password not valid")
     }
 
     if user.Role != model.Admin && user.Role != model.Vendor && user.Role != model.ReadOnly {
-        return cerror.ErrInvalidRole
+        return cerror.NewInvalidRequestBodyError("Role not valid")
     }
 
     return nil
