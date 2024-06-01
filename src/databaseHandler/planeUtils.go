@@ -33,7 +33,7 @@ func ParsePlaneInclude(c *gin.Context) (*PlaneInclude, error) {
         include.IncludeDivision, err = strconv.ParseBool(incDivStr)
 
         if err != nil {
-            return nil, cerror.ErrIncludeNotSupported
+            return nil, cerror.NewNotValidParametersError("division include not valid")
         }
     }
 
@@ -42,7 +42,7 @@ func ParsePlaneInclude(c *gin.Context) (*PlaneInclude, error) {
         include.IncludeFlights, err = strconv.ParseBool(incFlightStr)
 
         if err != nil {
-            return nil, cerror.ErrIncludeNotSupported
+            return nil, cerror.NewNotValidParametersError("flight include not valid")
         }
     }
 
@@ -51,7 +51,7 @@ func ParsePlaneInclude(c *gin.Context) (*PlaneInclude, error) {
         include.IncludeAllowedPilots, err = strconv.ParseBool(incPilotStr)
 
         if err != nil {
-            return nil, cerror.ErrIncludeNotSupported
+            return nil, cerror.NewNotValidParametersError("pilot include not valid")
         }
     }
 
@@ -60,7 +60,7 @@ func ParsePlaneInclude(c *gin.Context) (*PlaneInclude, error) {
         include.IncludePrefPilot, err = strconv.ParseBool(incPrefPilotStr)
 
         if err != nil {
-            return nil, cerror.ErrIncludeNotSupported
+            return nil, cerror.NewNotValidParametersError("PrefPilot include not valid")
         }
     }
 
@@ -78,7 +78,7 @@ func ParsePlaneFilter(c *gin.Context) (*PlaneFilter, error) {
         filter.DivisionId = uint(id)
 
         if err != nil {
-            return nil, cerror.ErrFilterNotSupported
+            return nil, cerror.NewNotValidParametersError("plane filter not valid")
         }
     }
 

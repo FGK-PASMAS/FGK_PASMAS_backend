@@ -30,11 +30,11 @@ func FlightCreation(user model.UserJwtBody, flight model.Flight, passengers *[]m
         if err == ErrObjectNotFound {
             err = ErrObjectDependencyMissing
         }
-        return 
+        return
     }
 
-    flightCreation.Lock()
-    defer flightCreation.Unlock()
+    LockFlightCreation()
+    defer UnlockFlightCreation()
 
     flightLogicData, err := flightlogic.FlightLogicProcess(flight, plane, *plane.Division, true)
     flight.ArrivalTime = flightLogicData.ArrivalTime.UTC()
@@ -64,7 +64,7 @@ func FlightBooking(user model.UserJwtBody, flightId uint, newFlightData model.Fl
     var passengers []model.Passenger
     var plane model.Plane
     dh := databasehandler.NewDatabaseHandler(user)
-    flightUpdate.Lock()
+    LockFlightUpdate()
     defer func() {
         err = dh.CommitOrRollback(err)
         if err == nil {
@@ -72,11 +72,11 @@ func FlightBooking(user model.UserJwtBody, flightId uint, newFlightData model.Fl
             flight.FuelAtDeparture = newFlightData.FuelAtDeparture
         }
 
-        flightUpdate.Unlock()
+        UnlockFlightUpdate()
     }()
 
     if flight.Status != model.FsReserved && newFlightData.Status != model.FsBooked {
-        err = cerror.ErrFlightStatusDoesNotFitProcess
+        err = cerror.NewInvalidFlightLogicError("Flight status does not fit current process")
         return
     }
 
@@ -91,7 +91,7 @@ func FlightBooking(user model.UserJwtBody, flightId uint, newFlightData model.Fl
 
     plane, err = databasehandler.GetPlaneById(flight.PlaneId, &databasehandler.PlaneInclude{IncludeDivision: true})
     if err != nil {
-        return 
+        return
     }
 
     flightNo, err := noGen.GenerateFlightNo(plane)
@@ -99,7 +99,7 @@ func FlightBooking(user model.UserJwtBody, flightId uint, newFlightData model.Fl
         return
     }
     newFlightData.FlightNo = &flightNo
-    
+
     if newFlightData.Description != nil {
         flight.Description = newFlightData.Description
     }
@@ -138,7 +138,7 @@ func FlightBooking(user model.UserJwtBody, flightId uint, newFlightData model.Fl
     flight.PilotId = newFlightData.PilotId
     flight.Pilot = newFlightData.Pilot
 
-    return 
+    return
 }
 
 // deletes a flight or blocker

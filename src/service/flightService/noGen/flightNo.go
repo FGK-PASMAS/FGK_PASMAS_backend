@@ -2,6 +2,7 @@ package noGen
 
 import (
 	"fmt"
+	"net/http"
 	"strconv"
 	"strings"
 
@@ -17,13 +18,13 @@ func GenerateFlightNo(plane model.Plane) (string, error) {
     err := databasehandler.Db.Unscoped().Model(model.Flight{}).Where("plane_id = ?", plane.ID).Where("flight_no IS NOT NULL").Order("flight_no DESC").First(&prevFlight).Error
 
     if err != nil {
-        if err == cerror.ErrObjectNotFound {
+        if err == cerror.NewObjectNotFoundError("Flight not found") {
             flightNo = generateFlightNumberPattern(plane, 1)
             println(flightNo)
             return flightNo, nil
         } else {
             println(err.Error())
-            return "", cerror.ErrFlightNoCouldNotBeGenerated
+            return "", cerror.New(http.StatusInternalServerError, "FLIGHT_NO_GEN", "Could not generate FlightNo")
         }
     }
 

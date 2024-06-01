@@ -16,7 +16,7 @@ func FlightLogicProcess(flight model.Flight, plane model.Plane, division model.D
     var minPass = 0
 
     if flight.DepartureTime.IsZero() {
-        err = cerror.ErrDepartureTimeIsZero
+        err = cerror.NewInvalidRequestBodyError("DepartureTime is zero")
         return
     }
 
@@ -25,7 +25,7 @@ func FlightLogicProcess(flight model.Flight, plane model.Plane, division model.D
     }
 
     if flight.ArrivalTime.Before(flight.DepartureTime) {
-        err = cerror.ErrInvalidArrivalTime
+        err = cerror.NewInvalidRequestBodyError("ArrivalTime is zero")
         return
     }
 
@@ -64,7 +64,7 @@ func FlightLogicProcess(flight model.Flight, plane model.Plane, division model.D
 
     if checkSlot {
         if CheckIfSlotIsFree(plane.ID, flight.DepartureTime, flight.ArrivalTime) == false {
-            err = cerror.ErrSlotIsNotFree
+            err = cerror.NewInvalidFlightLogicError("Slot is not free")
             return
         }
     }
@@ -96,7 +96,7 @@ func checkIfTimeSlotIsValid(plane model.Plane,departureTime time.Time) error {
         }
     }
 
-    return cerror.ErrTimeSlotForPlaneNotValid
+    return cerror.NewInvalidFlightLogicError("Time slot for plane not valid")
 }
 
 func calculatePilot(passWeight uint, fuelAmount float32, plane model.Plane) (model.Pilot, error) {
@@ -113,7 +113,7 @@ func calculatePilot(passWeight uint, fuelAmount float32, plane model.Plane) (mod
         if len(*plane.AllowedPilots) > 0 {
             pilot = (*plane.AllowedPilots)[0]
         } else {
-            return model.Pilot{}, cerror.ErrNoPilotAvailable
+            return model.Pilot{}, cerror.NewInvalidFlightLogicError("Pilot not avaiable")
         }
 
     } else {
@@ -129,7 +129,7 @@ func calculatePilot(passWeight uint, fuelAmount float32, plane model.Plane) (mod
         newPilot := model.Pilot{}
 
         if len(*plane.AllowedPilots) == 0 {
-            return model.Pilot{}, cerror.ErrNoPilotAvailable
+            return model.Pilot{}, cerror.NewInvalidFlightLogicError("Pilot not avaiable")
         }
 
         for _, p := range *plane.AllowedPilots {
@@ -140,7 +140,7 @@ func calculatePilot(passWeight uint, fuelAmount float32, plane model.Plane) (mod
         }
 
         if newPilot.ID == 0 {
-            return model.Pilot{}, cerror.ErrOverloaded
+            return model.Pilot{}, cerror.NewInvalidFlightLogicError("mtow exceeded")
         }
 
         pilot = newPilot
@@ -161,16 +161,16 @@ func CalcPassWeight(passengers []model.Passenger) uint {
 
 func CheckPassenger(passengers []model.Passenger, maxSeatPayload int, min uint, max uint, fullPassCheck bool) error {
     if len(passengers) > int(max) {
-        return cerror.ErrTooManyPassenger
+        return cerror.NewInvalidFlightLogicError("Too many passengers")
     }
 
     if len(passengers) < int(min) {
-        return cerror.ErrTooLessPassenger
+        return cerror.NewInvalidFlightLogicError("Too less passengers")
     }
 
     for _, p := range passengers {
         if maxSeatPayload > 0 && p.Weight > uint(maxSeatPayload){
-            return cerror.ErrMaxSeatPayload
+            return cerror.NewInvalidFlightLogicError("MaxSeatPayload exceeded")
         }
 
         if fullPassCheck {
@@ -188,7 +188,7 @@ func CheckPassenger(passengers []model.Passenger, maxSeatPayload int, min uint, 
 func calculateFuelAtDeparture(flight model.Flight, plane model.Plane) (float32, error) {
     if flight.FuelAtDeparture != nil && *flight.FuelAtDeparture != 0 {
         if *flight.FuelAtDeparture > float32(plane.FuelMaxCapacity) {
-            return 0, cerror.ErrTooMuchFuel
+            return 0, cerror.NewInvalidFlightLogicError("The plane can not hold so much fuel")
         }
         return *flight.FuelAtDeparture, nil
     }
@@ -207,7 +207,7 @@ func calculateFuelAtDeparture(flight model.Flight, plane model.Plane) (float32, 
     value -= plane.FuelburnPerFlight
 
     if value <= 0 {
-        return 0, cerror.ErrTooLessFuel
+        return 0, cerror.NewInvalidFlightLogicError("too less fuel")
     }
 
     return value, nil

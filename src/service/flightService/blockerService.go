@@ -14,23 +14,23 @@ import (
 // this uses the flightCreation mutex
 func CreateBlocker(user model.UserJwtBody, blocker model.Flight) (newBlocker model.Flight, err error) {
     if err = user.ValidateRole(model.Admin); err != nil {
-        return 
-    }
-
-    if blocker.Status != model.FsBlocked {
-        err = cerror.ErrFlightStatusDoesNotFitProcess
-    }
-
-    if blocker.ArrivalTime.IsZero() {
-        err = cerror.ErrInvalidArrivalTime
         return
     }
 
-    flightCreation.Lock()
-    defer flightCreation.Unlock()
+    if blocker.Status != model.FsBlocked {
+        err = cerror.NewInvalidFlightLogicError("Flight status does not fit current process")
+    }
+
+    if blocker.ArrivalTime.IsZero() {
+        err = cerror.NewInvalidRequestBodyError("ArrivalTime is zero")
+        return
+    }
+
+    LockFlightCreation()
+    defer UnlockFlightCreation()
 
     if flightlogic.CheckIfSlotIsFree(blocker.PlaneId, blocker.DepartureTime, blocker.ArrivalTime) == false {
-        err = cerror.ErrSlotIsNotFree
+        err = cerror.NewInvalidFlightLogicError("Slot is not free")
         return
     }
 
@@ -40,8 +40,6 @@ func CreateBlocker(user model.UserJwtBody, blocker model.Flight) (newBlocker mod
     }()
 
     newBlocker, err = dh.CreateFlight(blocker)
-    
+
     return
 }
-
-// deleteBlocker is handled by the deleteFlight function in the flightService.go file

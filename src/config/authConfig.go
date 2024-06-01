@@ -8,7 +8,8 @@ var JwtIssuer = "FGK_PASMAS_backend"
 func LoadAuthConfig() {
     encKey := os.Getenv("JWT_ENCODING")
     if encKey == "" {
-        panic("JWT_ENCODING is not set")
+        log.Error("JWT_ENCODING is not set")
+        os.Exit(1)
     }
     JwtEncodingKey = encKey
 

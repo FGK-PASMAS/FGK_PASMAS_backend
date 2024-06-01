@@ -17,17 +17,5 @@ func ping(c *gin.Context) {
 }
 
 func healthCheck(c *gin.Context) {
-
     c.JSON(http.StatusOK, api.SuccessResponse{Success: true, Response: "TODO"})
 }
-
-// func resetDatabase(c *gin.Context) {
-//     err := debugService.TruncateData()
-//
-//     if err != nil {
-//         res := api.GetErrorResponse(err)
-//         c.JSON(res.HttpCode, res.ErrorResponse)
-//     } else {
-//         c.JSON(http.StatusOK, api.SuccessResponse{Success: true})
-//     }
-// }
