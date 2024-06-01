@@ -75,7 +75,6 @@ func (dh *DatabaseHandler) PartialUpdatePlane(id uint, updateData PartialUpdateP
 			}
 
 			if !status {
-				err = cerror.ErrPilotNotInAllowedPilots
                 err = cerror.NewInvalidFlightLogicError("Pilot is not allowed to fly this plane")
 				return
 			}
@@ -108,7 +107,6 @@ func (dh *DatabaseHandler) PartialUpdatePlane(id uint, updateData PartialUpdateP
 
 	if updateData.SlotStartTime != nil || updateData.SlotEndTime != nil {
 		if plane.SlotStartTime.After(plane.SlotEndTime) || plane.SlotStartTime.Equal(plane.SlotEndTime) {
-			err = cerror.ErrSlotTimeInvalid
             err = cerror.NewInvalidFlightLogicError("Slot time invalid")
 			return
 		}

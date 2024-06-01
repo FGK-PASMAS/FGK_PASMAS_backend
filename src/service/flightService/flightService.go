@@ -6,6 +6,7 @@ import (
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
 	flightlogic "github.com/MetaEMK/FGK_PASMAS_backend/service/flightService/flightLogic"
 	"github.com/MetaEMK/FGK_PASMAS_backend/service/flightService/noGen"
+	"gorm.io/gorm"
 )
 
 func GetFlights(include *databasehandler.FlightInclude, filter *databasehandler.FlightFilter) (flights []model.Flight, err error) {
@@ -27,8 +28,8 @@ func FlightCreation(user model.UserJwtBody, flight model.Flight, passengers *[]m
 
     plane, err = databasehandler.GetPlaneById(flight.PlaneId, &databasehandler.PlaneInclude{IncludeDivision: true})
     if err != nil {
-        if err == ErrObjectNotFound {
-            err = ErrObjectDependencyMissing
+        if err == gorm.ErrRecordNotFound {
+            err = cerror.NewDependencyNotFoundError("plane was not found")
         }
         return
     }

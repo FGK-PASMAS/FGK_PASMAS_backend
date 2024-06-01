@@ -40,7 +40,7 @@ func (dh *DatabaseHandler) CreatePassenger(pass model.Passenger) (newPassenger m
     }
 
     err = dh.Db.Create(&pass).Error
-    if err == cerror.ErrObjectNotFound {
+    if err == gorm.ErrRecordNotFound {
         err = cerror.NewUnknownError("CreatePassenger: Could not create passenger: " + err.Error())
     }
     dh.Db.AddError(err)

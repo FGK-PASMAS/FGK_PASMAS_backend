@@ -22,7 +22,7 @@ type DatabaseHandler struct {
 }
 
 func InitGorm(dbConn *gorm.DB) *gorm.DB {
-    log.Info("Initalizing dtabasehandler")
+	log.Info("Initalizing dtabasehandler")
 	Db = dbConn
 
 	initUser()
@@ -35,7 +35,7 @@ func InitGorm(dbConn *gorm.DB) *gorm.DB {
 	initFlight()
 	initPassenger()
 
-    log.Debug("Database init finished successfully")
+	log.Debug("Database init finished successfully")
 	return Db
 }
 
@@ -77,7 +77,8 @@ func (dh *DatabaseHandler) CommitOrRollback(err error) error {
 
 func finalize(dh *DatabaseHandler) {
 	if dh.isClosed == false {
-		log.Error(cerror.ErrDatabaseHandlerDestroy.Error())
-		dh.CommitOrRollback(cerror.ErrDatabaseHandlerDestroy)
+		errMessage := "DatabaseHandler was not closed correctly"
+		log.Error(errMessage)
+		dh.CommitOrRollback(cerror.NewUnknownError(errMessage))
 	}
 }
