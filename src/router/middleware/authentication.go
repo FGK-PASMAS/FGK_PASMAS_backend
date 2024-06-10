@@ -37,7 +37,7 @@ func validateToken(token string) (user model.UserJwtBody, err error){
     })
 
     if claims["Iss"] != config.JwtIssuer {
-        err = cerror.ErrInvalidCredentials
+        err = cerror.NewAuthenticationError("Token not valid")
         return
     }
 	

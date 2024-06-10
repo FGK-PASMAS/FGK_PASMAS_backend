@@ -33,7 +33,7 @@ func GetConnectionString() string {
 
 func InitDbConfig() {
     if os.Getenv("ENABLE_SEEDER") == "true" {
-        log.Debug("Seeder enabled")
+        log.Info("Seeder enabled")
         EnableSeeder = true
     }
 }
