@@ -36,6 +36,11 @@ func validateToken(token string) (user model.UserJwtBody, err error){
         return []byte(config.JwtEncodingKey), nil
     })
 
+    if claims["Iss"] != config.JwtIssuer {
+        err = cerror.ErrInvalidCredentials
+        return
+    }
+	
     user, err = model.ClaimsToUserJwtBody(claims)
 
     if err != nil || tok.Valid == false {
