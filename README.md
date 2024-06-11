@@ -27,18 +27,18 @@ For SSL/TLS configuration:
 - TLS_CERT_PATH: The path to the TLS certificate on the host.
 - TLS_KEY_PATH: The path to the TLS key on the host.
 
-### Deployment via Docker
-PasMAs comes with 2 included docker-compose files. One is for using the application over HTTP, and the other one for HTTPS.
+### Deployment
+PasMAs comes with 2 included docker-compose files. One is for using the application over HTTP, and the other one for HTTPS. Make sure you have an up-to-date version of [Docker](https://www.docker.com/) installed on your server.
 
 #### without TLS
-Make sure you have an up-to-date version of [Docker](https://www.docker.com/) installed on your server. Navigate to the project directory and run the following commands to run the backend application as a container:
+Navigate to the project directory and run the following commands to run the backend application as a container:
 
 ```
 docker compose up -d
 ```
 
 #### with TLS
-Make sure you have an up-to-date version of [Docker](https://www.docker.com/) installed on your server. Navigate to the project directory and run the following commands to run the backend application as a container:
+Navigate to the project directory and run the following commands to run the backend application as a container:
 Before running the following command, ensure that you have configured the TLS_CERT_PATH and TLS_KEY_PATH in your .env file and that these paths correspond to the correct locations on your host machine. Then, navigate to the project directory and run the following command:
 
 ```
