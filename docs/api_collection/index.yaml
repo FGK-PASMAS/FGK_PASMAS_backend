@@ -51,12 +51,10 @@ info:
 
     This general response structure will not be detailed further in each
     individual call description.
-  version: v0.2
+  version: v0.5
 servers:
   - url: http://localhost:8080
     description: localhost
-  - url: http://pasmas.fg-k.de:8080
-    description: Beta server
 components:
   securitySchemes:
     basicAuth:
