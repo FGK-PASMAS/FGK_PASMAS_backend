@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "02336975-210a-41de-a5d9-98bef05979c1",
+		"_postman_id": "2c8448c3-6646-4cb2-b169-00839837d099",
 		"name": "Api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_uid": "30997389-02336975-210a-41de-a5d9-98bef05979c1"
+		"_uid": "30997389-2c8448c3-6646-4cb2-b169-00839837d099"
 	},
 	"item": [
 		{
@@ -15,7 +15,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "3506ef5a-0a29-4d99-9dda-e5adea8382a9",
+								"id": "e9652829-7b05-43c7-b0d4-412a2d49c2a4",
 								"exec": [
 									"pm.test(\"status\", function() {",
 									"    pm.response.to.have.status(200)",
@@ -29,7 +29,7 @@
 							}
 						}
 					],
-					"id": "13a93bf1-5062-4c48-99b4-e55dad074b8a",
+					"id": "42fda40c-c87c-4f4c-8ee0-54e57c903533",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -51,7 +51,7 @@
 					},
 					"response": [
 						{
-							"id": "675fda14-afd3-4b1b-921b-408df5a85340",
+							"id": "e8d37fa8-30b7-4d99-9446-b57b8f0d4bc5",
 							"name": "OK",
 							"originalRequest": {
 								"method": "GET",
@@ -68,6 +68,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Content-Type",
@@ -89,7 +90,7 @@
 				},
 				{
 					"name": "Database reset",
-					"id": "13bebeec-c3ac-4815-99f0-01b8191c962e",
+					"id": "a866f8f3-2be1-4ce5-9819-353dd9465cf5",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -111,7 +112,7 @@
 					},
 					"response": [
 						{
-							"id": "9f62fb3a-5877-4ca6-a180-36256baf1f69",
+							"id": "670eacc1-6199-44e0-a207-5d580722dc4e",
 							"name": "200",
 							"originalRequest": {
 								"method": "POST",
@@ -128,6 +129,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Content-Type",
@@ -148,7 +150,7 @@
 					]
 				}
 			],
-			"id": "8000fd6c-f690-4ba6-bea9-445ce143fe01",
+			"id": "b584c1ad-b766-4091-b115-2d96910e1533",
 			"description": "The debug endpoint is primarily for debugging purposes."
 		},
 		{
@@ -160,7 +162,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "8be6a109-2f99-4871-abf9-2798b36bc02d",
+								"id": "5c4e07cd-5987-4d84-98fc-00e5ae4c2dc0",
 								"exec": [
 									"pm.test(\"status\", function() {",
 									"    pm.response.to.have.status(200)",
@@ -174,7 +176,7 @@
 							}
 						}
 					],
-					"id": "3d223665-6fbd-4acf-96a1-e6254bb6f53a",
+					"id": "b18c9ba0-001e-496c-8d8d-81ffd8b39d5d",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -195,7 +197,7 @@
 					},
 					"response": [
 						{
-							"id": "fa7e37db-3d0f-4e45-b48d-634c3bfe8fe3",
+							"id": "8181022a-d530-4226-ad78-e105142b442a",
 							"name": "200",
 							"originalRequest": {
 								"method": "GET",
@@ -211,6 +213,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Content-Type",
@@ -231,7 +234,7 @@
 					]
 				}
 			],
-			"id": "09749177-93e3-4980-b3fd-ab3d5566d506"
+			"id": "1b2d8705-047b-4930-983f-b58c72339b32"
 		},
 		{
 			"name": "division",
@@ -242,7 +245,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "a9e4e341-d570-4832-9f88-757f0f66eda7",
+								"id": "6c263fe8-bba9-4765-a7a2-2e8ed29d45f8",
 								"exec": [
 									"pm.test(\"status\", function() {",
 									"    pm.response.to.have.status(200)",
@@ -256,7 +259,7 @@
 							}
 						}
 					],
-					"id": "e10a7e88-db69-41c8-bf43-b8ad04c721d5",
+					"id": "3855bfde-2247-4a9d-b384-b7cb0f325118",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -277,7 +280,7 @@
 					},
 					"response": [
 						{
-							"id": "231c80e1-0a17-4d20-8724-5ea39ad8cafa",
+							"id": "bbac87ee-f1fd-4509-911a-77f13ab3f835",
 							"name": "200",
 							"originalRequest": {
 								"method": "GET",
@@ -293,6 +296,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Content-Type",
@@ -313,14 +317,14 @@
 					]
 				}
 			],
-			"id": "acc5f470-1ec8-4313-98a3-3f87011996a7"
+			"id": "a2e8be78-7e33-4cd7-9217-36511da881ba"
 		},
 		{
 			"name": "flight",
 			"item": [
 				{
 					"name": "get all flights",
-					"id": "8083b9ff-30d6-4538-bd1a-f9f9f9543fd0",
+					"id": "e426d633-125c-4498-aab6-9b9e0768e04a",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -374,7 +378,7 @@
 					},
 					"response": [
 						{
-							"id": "138b2fbe-90d0-4589-b304-84313de32e58",
+							"id": "05d3cf1e-363a-49de-a6d6-8e5d856e46b9",
 							"name": "201",
 							"originalRequest": {
 								"method": "GET",
@@ -424,6 +428,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Content-Type",
@@ -445,7 +450,7 @@
 				},
 				{
 					"name": "01 - flight reservation",
-					"id": "f9564607-429c-4125-8e6d-37379c5091a6",
+					"id": "b670dbd9-2bdf-45ac-bcc9-c49d248c8735",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -475,7 +480,7 @@
 					},
 					"response": [
 						{
-							"id": "c39e89db-e6d7-4dec-82c4-d8b37a5fd14d",
+							"id": "110a2219-ff26-47fa-9d91-f3b8cd7aa8a7",
 							"name": "Flight",
 							"originalRequest": {
 								"method": "POST",
@@ -503,6 +508,7 @@
 							"status": "Created",
 							"code": 201,
 							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Content-Type",
@@ -521,7 +527,7 @@
 							"body": "{\n    \"Success\": true,\n    \"Response\": {\n        \"ID\": 1,\n        \"CreatedAt\": \"2024-04-28T12:41:55.87245Z\",\n        \"UpdatedAt\": \"2024-04-28T12:41:55.87245Z\",\n        \"DeletedAt\": null,\n        \"Status\": \"RESERVED\",\n        \"FlightNo\": null,\n        \"Description\": null,\n        \"FuelAtDeparture\": null,\n        \"DepartureTime\": \"2024-01-24T16:30:00Z\",\n        \"ArrivalTime\": \"2024-01-24T16:54:00Z\",\n        \"PlaneId\": 1,\n        \"Plane\": {\n            \"ID\": 1,\n            \"CreatedAt\": \"2024-04-28T09:50:44.97975Z\",\n            \"UpdatedAt\": \"2024-04-28T12:39:32.907063Z\",\n            \"DeletedAt\": null,\n            \"Registration\": \"D-ELXX\",\n            \"AircraftType\": \"C172\",\n            \"FlightDuration\": 1440000000000,\n            \"FuelMaxCapacity\": 140,\n            \"FuelStartAmount\": 100,\n            \"FuelburnPerFlight\": 20,\n            \"FuelConversionFactor\": 0.72,\n            \"MTOW\": 1050,\n            \"EmptyWeight\": 650,\n            \"MaxSeatPayload\": -1,\n            \"DivisionId\": 3,\n            \"Division\": null,\n            \"AllowedPilots\": null,\n            \"PrefPilotId\": 2,\n            \"PrefPilot\": null,\n            \"Flights\": null,\n            \"SlotStartTime\": \"2024-04-28T09:00:00Z\",\n            \"SlotEndTime\": \"2024-04-28T17:00:00Z\"\n        },\n        \"PilotId\": 2,\n        \"Pilot\": {\n            \"ID\": 2,\n            \"CreatedAt\": \"2024-04-28T09:50:44.996663Z\",\n            \"UpdatedAt\": \"2024-04-28T09:50:44.996663Z\",\n            \"DeletedAt\": null,\n            \"FirstName\": \"Dennis\",\n            \"LastName\": \"Kornwestheim\",\n            \"Weight\": 72,\n            \"AllowedPlanes\": null\n        },\n        \"Passengers\": [\n            {\n                \"ID\": 0,\n                \"CreatedAt\": \"0001-01-01T00:00:00Z\",\n                \"UpdatedAt\": \"0001-01-01T00:00:00Z\",\n                \"DeletedAt\": null,\n                \"LastName\": \"Mustermann\",\n                \"FirstName\": \"Max\",\n                \"Weight\": 80,\n                \"PassNo\": 0,\n                \"FlightID\": 0,\n                \"Flight\": null,\n                \"Action\": \"\"\n            },\n            {\n                \"ID\": 0,\n                \"CreatedAt\": \"0001-01-01T00:00:00Z\",\n                \"UpdatedAt\": \"0001-01-01T00:00:00Z\",\n                \"DeletedAt\": null,\n                \"LastName\": \"\",\n                \"FirstName\": \"\",\n                \"Weight\": 64,\n                \"PassNo\": 0,\n                \"FlightID\": 0,\n                \"Flight\": null,\n                \"Action\": \"\"\n            }\n        ]\n    }\n}"
 						},
 						{
-							"id": "9e1cb878-d145-437f-9fcf-a190b1443234",
+							"id": "a54e55e7-bf04-419a-979d-5437155837b2",
 							"name": "Default Blocker",
 							"originalRequest": {
 								"method": "POST",
@@ -549,6 +555,7 @@
 							"status": "Created",
 							"code": 201,
 							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Content-Type",
@@ -567,7 +574,7 @@
 							"body": "{\n    \"Success\": true,\n    \"Response\": {\n        \"ID\": 5,\n        \"CreatedAt\": \"2024-04-28T14:47:19.630557+02:00\",\n        \"UpdatedAt\": \"2024-04-28T14:47:19.630557+02:00\",\n        \"DeletedAt\": null,\n        \"Status\": \"BLOCKED\",\n        \"FlightNo\": null,\n        \"Description\": null,\n        \"FuelAtDeparture\": null,\n        \"DepartureTime\": \"2024-01-24T18:30:00+01:00\",\n        \"ArrivalTime\": \"0001-01-01T00:53:28+00:53\",\n        \"PlaneId\": 1,\n        \"Plane\": {\n            \"ID\": 1,\n            \"CreatedAt\": \"2024-04-28T11:50:44.97975+02:00\",\n            \"UpdatedAt\": \"2024-04-28T14:39:32.907063+02:00\",\n            \"DeletedAt\": null,\n            \"Registration\": \"D-ELXX\",\n            \"AircraftType\": \"C172\",\n            \"FlightDuration\": 1440000000000,\n            \"FuelMaxCapacity\": 140,\n            \"FuelStartAmount\": 100,\n            \"FuelburnPerFlight\": 20,\n            \"FuelConversionFactor\": 0.72,\n            \"MTOW\": 1050,\n            \"EmptyWeight\": 650,\n            \"MaxSeatPayload\": -1,\n            \"DivisionId\": 3,\n            \"Division\": null,\n            \"AllowedPilots\": null,\n            \"PrefPilotId\": 3,\n            \"PrefPilot\": null,\n            \"Flights\": null,\n            \"SlotStartTime\": \"2024-04-28T11:00:00+02:00\",\n            \"SlotEndTime\": \"2024-04-28T19:00:00+02:00\"\n        },\n        \"PilotId\": null,\n        \"Pilot\": null,\n        \"Passengers\": []\n    }\n}"
 						},
 						{
-							"id": "50b89829-7552-474f-9aee-b8a6efd9193e",
+							"id": "c9e3264b-7936-4ad0-87c4-8897ffa7e561",
 							"name": "Blocker Customized",
 							"originalRequest": {
 								"method": "POST",
@@ -595,6 +602,7 @@
 							"status": "Created",
 							"code": 201,
 							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Content-Type",
@@ -616,7 +624,7 @@
 				},
 				{
 					"name": "02 - flight booking",
-					"id": "4db00b93-db15-4763-8ec7-37b54f5f5f42",
+					"id": "697b5860-0a81-4c76-8d3a-d6ba6b78c5ed",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -654,7 +662,7 @@
 					},
 					"response": [
 						{
-							"id": "768d6d6e-03c2-4e6a-8175-a1cd5f625132",
+							"id": "242073d1-c7c2-46f2-9041-9a4fdbc54f0a",
 							"name": "200",
 							"originalRequest": {
 								"method": "POST",
@@ -690,6 +698,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Content-Type",
@@ -711,7 +720,7 @@
 				},
 				{
 					"name": "delete Flight",
-					"id": "00663ecd-fcef-425d-8bd2-869bd3ab0020",
+					"id": "a0a67925-88a9-408a-b761-ecd14214e357",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -740,7 +749,7 @@
 					},
 					"response": [
 						{
-							"id": "4314c832-300c-460e-8929-d3d4c6a6d395",
+							"id": "c6372285-2a7c-4fe1-98d5-3a78b9bee63d",
 							"name": "204",
 							"originalRequest": {
 								"method": "DELETE",
@@ -767,6 +776,7 @@
 							"status": "No Content",
 							"code": 204,
 							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Content-Type",
@@ -780,7 +790,7 @@
 							"cookie": []
 						},
 						{
-							"id": "12e1f6d4-89c7-47bd-af9b-c54e4cc22451",
+							"id": "2288b3e8-d31e-45b0-88a4-3fe184e728ab",
 							"name": "404",
 							"originalRequest": {
 								"method": "DELETE",
@@ -807,6 +817,7 @@
 							"status": "Not Found",
 							"code": 404,
 							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Content-Type",
@@ -827,14 +838,14 @@
 					]
 				}
 			],
-			"id": "96bceff8-0f80-4faf-a4cd-d25c45cde6bb"
+			"id": "94a8963b-97cb-4e62-98dc-4a11c5ef1b93"
 		},
 		{
 			"name": "plane",
 			"item": [
 				{
 					"name": "get planes",
-					"id": "7d068bf4-bffd-4929-a200-fbab942ac128",
+					"id": "ab64e537-01cf-4309-a17a-1344c2beed2c",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -877,7 +888,7 @@
 					},
 					"response": [
 						{
-							"id": "b6aca867-22e9-4b40-80b4-ca4c24e69d0c",
+							"id": "9546b92b-7be7-4cc1-a23e-abf19f52b71e",
 							"name": "200",
 							"originalRequest": {
 								"method": "GET",
@@ -916,6 +927,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Content-Type",
@@ -937,7 +949,7 @@
 				},
 				{
 					"name": "get Plane",
-					"id": "5ee89695-9ac6-439f-87d4-371f4bfbc977",
+					"id": "78646c2a-2c90-4b6b-be4a-e82ae39955c4",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -981,7 +993,7 @@
 					},
 					"response": [
 						{
-							"id": "859f26d2-137a-4baa-8c11-affe0336f165",
+							"id": "3d127492-44f6-4a8c-8420-a238a87b3baf",
 							"name": "200",
 							"originalRequest": {
 								"method": "GET",
@@ -1020,6 +1032,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Content-Type",
@@ -1041,7 +1054,7 @@
 				},
 				{
 					"name": "Update Plane",
-					"id": "71ce899a-f626-4e70-ba7c-cbc435a9e535",
+					"id": "ac42d844-c40a-4848-8e0c-bb515fbc8fb2",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1077,7 +1090,7 @@
 					},
 					"response": [
 						{
-							"id": "6110aa8a-8849-4535-b00d-09ed26100541",
+							"id": "ccbf9059-2c2c-46ca-9975-19de131b7562",
 							"name": "200",
 							"originalRequest": {
 								"method": "PATCH",
@@ -1112,6 +1125,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Content-Type",
@@ -1132,14 +1146,14 @@
 					]
 				}
 			],
-			"id": "ae64286a-0fa8-45e3-8dd9-19dd09c934f4"
+			"id": "83de040c-aaab-4d84-b6e3-33bc91ec6ca3"
 		},
 		{
 			"name": "pilots",
 			"item": [
 				{
 					"name": "get pilots",
-					"id": "364e1577-8a42-4e4d-9191-cd85eb590136",
+					"id": "71b13b91-445a-4dcb-882c-aef32c26985b",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1172,7 +1186,7 @@
 					},
 					"response": [
 						{
-							"id": "d2dbfc0a-27a0-435c-acc5-555ee69a6fa0",
+							"id": "d098f4af-978b-4e18-b217-b2d53593ce73",
 							"name": "200",
 							"originalRequest": {
 								"method": "GET",
@@ -1204,6 +1218,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Content-Type",
@@ -1224,14 +1239,14 @@
 					]
 				}
 			],
-			"id": "034ceed8-68c5-438c-8115-7635634fd056"
+			"id": "58739e92-cd17-4386-9a83-71b0fa875cf7"
 		},
 		{
 			"name": "user",
 			"item": [
 				{
 					"name": "Get Users",
-					"id": "74fd105b-0b1f-4a4f-a14b-f8338a980536",
+					"id": "193e3395-e4bb-4194-b879-21bf84841dfe",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1251,7 +1266,7 @@
 					},
 					"response": [
 						{
-							"id": "5cc01588-745f-4896-af68-268296c0eae5",
+							"id": "ada20728-0105-4978-bb27-3717ec61919f",
 							"name": "200",
 							"originalRequest": {
 								"method": "GET",
@@ -1270,6 +1285,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Content-Type",
@@ -1291,7 +1307,7 @@
 				},
 				{
 					"name": "CreateUser",
-					"id": "55bfef38-0375-4067-b4e4-10fc37d759c0",
+					"id": "2a596c5f-7844-42ce-8ec9-30c20985c003",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1320,7 +1336,7 @@
 					},
 					"response": [
 						{
-							"id": "f8e35134-7fe0-4f48-99e9-7d670e0348c8",
+							"id": "d033ec4a-11f2-4f3f-bea7-6b4844226c83",
 							"name": "201",
 							"originalRequest": {
 								"method": "POST",
@@ -1348,6 +1364,7 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
+							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Content-Type",
@@ -1369,7 +1386,7 @@
 				},
 				{
 					"name": "Delete User",
-					"id": "d3c13c8c-3159-4763-ad19-b08345c14ee0",
+					"id": "f0f076e5-8d99-4c44-9826-c1aa3a927df4",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1397,7 +1414,7 @@
 					"response": []
 				}
 			],
-			"id": "f2fc761a-3634-4e61-9cbd-9c70f69b4619"
+			"id": "ec81604e-335a-4b5f-859f-15d933787ef8"
 		},
 		{
 			"name": "auth",
@@ -1408,7 +1425,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "8c570500-592a-40a7-8a50-1c52e5a05306",
+								"id": "0996faa5-8d21-4ba8-8ac4-6b685d9dae5b",
 								"exec": [
 									"var responseJson = pm.response.json();",
 									"var token = responseJson.Response;",
@@ -1421,7 +1438,7 @@
 							}
 						}
 					],
-					"id": "7ee2147a-99fc-49d7-8a1d-d915c12cf39b",
+					"id": "ead2e2cd-64e9-45f9-b370-666d45fb693b",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1457,7 +1474,7 @@
 					"response": []
 				}
 			],
-			"id": "e33b0cfc-fb7e-4ce7-b3e9-5b0cca880ca3"
+			"id": "3d0675d0-1ccd-4f66-b4db-d1b2c473bbf2"
 		}
 	],
 	"auth": {
@@ -1474,7 +1491,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "b8143871-1944-4532-9957-8676a378fce3",
+				"id": "28b4e0fa-4445-4541-aeca-15e319c366b7",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -1484,7 +1501,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "3f7935dd-c026-428d-8dad-580aa058299b",
+				"id": "ee6aaf87-5869-4522-aa41-1786abe8551d",
 				"type": "text/javascript",
 				"exec": [
 					""
