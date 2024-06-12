@@ -321,7 +321,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{url}}/api/flights",
+									"raw": "{{url}}/api/flights?includePassengers=true&includePlane=true&includePilot=true&divisionId=1&planeId=1&byDepartureTime=2024-01-24T17:30:00Z",
 									"host": [
 										"{{url}}"
 									],
@@ -332,35 +332,29 @@
 									"query": [
 										{
 											"key": "includePassengers",
-											"value": "true",
-											"disabled": true
+											"value": "true"
 										},
 										{
 											"key": "includePlane",
-											"value": "true",
-											"disabled": true
+											"value": "true"
 										},
 										{
 											"key": "includePilot",
-											"value": "true",
-											"disabled": true
+											"value": "true"
 										},
 										{
 											"key": "divisionId",
 											"value": "1",
-											"description": "It will automatically set includeDivision to true.",
-											"disabled": true
+											"description": "It will automatically set includeDivision to true."
 										},
 										{
 											"key": "planeId",
 											"value": "1",
-											"description": "It will automatically set includePlane to true.",
-											"disabled": true
+											"description": "It will automatically set includePlane to true."
 										},
 										{
 											"key": "byDepartureTime",
-											"value": "2024-01-24T17:30:00Z",
-											"disabled": true
+											"value": "2024-01-24T17:30:00Z"
 										}
 									]
 								}
