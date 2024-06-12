@@ -126,18 +126,20 @@
 								"api",
 								"passengers"
 							]
-						},
-						"description": "Retrieves all passengers from the database and returns them as a list."
+						}
 					},
 					"response": [
 						{
-							"id": "5c7fe4c7-0996-4c62-bb28-824d6b6399dd",
-							"name": "200",
+							"id": "ab2d6492-d295-465f-9ffc-641ffa1fa44c",
+							"name": "get all Passengers",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "/api/passengers",
+									"raw": "{{url}}/api/passengers",
+									"host": [
+										"{{url}}"
+									],
 									"path": [
 										"api",
 										"passengers"
@@ -154,15 +156,15 @@
 								},
 								{
 									"key": "Date",
-									"value": "Sat, 20 Jan 2024 23:01:16 GMT"
+									"value": "Wed, 12 Jun 2024 11:11:36 GMT"
 								},
 								{
 									"key": "Content-Length",
-									"value": "379"
+									"value": "1639"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"Success\": true,\n    \"Response\": [\n        {\n            \"ID\": 2,\n            \"CreatedAt\": \"2024-01-25T10:11:17.638258+01:00\",\n            \"UpdatedAt\": \"2024-01-25T10:11:17.638258+01:00\",\n            \"DeletedAt\": null,\n            \"LastName\": \"Mustermann\",\n            \"FirstName\": \"Max\",\n            \"Weight\": 42,\n            \"FlightID\": 5\n        },\n        {\n            \"ID\": 1,\n            \"CreatedAt\": \"2024-01-25T10:11:17.638258+01:00\",\n            \"UpdatedAt\": \"2024-01-25T10:11:17.638258+01:00\",\n            \"DeletedAt\": null,\n            \"LastName\": \"Musterfrau\",\n            \"FirstName\": \"Maria\",\n            \"Weight\": 42,\n            \"FlightID\": 5\n        }\n    ]\n}"
+							"body": "{\n    \"Success\": true,\n    \"Response\": [\n        {\n            \"ID\": 1,\n            \"CreatedAt\": \"2024-06-12T11:03:33.89466Z\",\n            \"UpdatedAt\": \"2024-06-12T11:03:33.89466Z\",\n            \"DeletedAt\": null,\n            \"LastName\": \"Mustermann\",\n            \"FirstName\": \"Max\",\n            \"Weight\": 110,\n            \"PassNo\": 501,\n            \"FlightID\": 1,\n            \"Flight\": {\n                \"ID\": 1,\n                \"CreatedAt\": \"2024-06-12T11:01:54.391691Z\",\n                \"UpdatedAt\": \"2024-06-12T11:03:33.901995Z\",\n                \"DeletedAt\": null,\n                \"Status\": \"BOOKED\",\n                \"FlightNo\": \"ELXX-001\",\n                \"Description\": null,\n                \"FuelAtDeparture\": null,\n                \"DepartureTime\": \"2024-01-24T10:30:00Z\",\n                \"ArrivalTime\": \"2024-01-24T10:54:00Z\",\n                \"PlaneId\": 1,\n                \"Plane\": null,\n                \"PilotId\": 4,\n                \"Pilot\": null,\n                \"Passengers\": null\n            }\n        },\n        {\n            \"ID\": 2,\n            \"CreatedAt\": \"2024-06-12T11:03:33.896924Z\",\n            \"UpdatedAt\": \"2024-06-12T11:03:33.896924Z\",\n            \"DeletedAt\": null,\n            \"LastName\": \"Mustermann\",\n            \"FirstName\": \"Maria\",\n            \"Weight\": 110,\n            \"PassNo\": 502,\n            \"FlightID\": 1,\n            \"Flight\": {\n                \"ID\": 1,\n                \"CreatedAt\": \"2024-06-12T11:01:54.391691Z\",\n                \"UpdatedAt\": \"2024-06-12T11:03:33.901995Z\",\n                \"DeletedAt\": null,\n                \"Status\": \"BOOKED\",\n                \"FlightNo\": \"ELXX-001\",\n                \"Description\": null,\n                \"FuelAtDeparture\": null,\n                \"DepartureTime\": \"2024-01-24T10:30:00Z\",\n                \"ArrivalTime\": \"2024-01-24T10:54:00Z\",\n                \"PlaneId\": 1,\n                \"Plane\": null,\n                \"PilotId\": 4,\n                \"Pilot\": null,\n                \"Passengers\": null\n            }\n        },\n        {\n            \"ID\": 3,\n            \"CreatedAt\": \"2024-06-12T11:03:33.899143Z\",\n            \"UpdatedAt\": \"2024-06-12T11:03:33.899143Z\",\n            \"DeletedAt\": null,\n            \"LastName\": \"Mustermann\",\n            \"FirstName\": \"Thomas\",\n            \"Weight\": 30,\n            \"PassNo\": 503,\n            \"FlightID\": 1,\n            \"Flight\": {\n                \"ID\": 1,\n                \"CreatedAt\": \"2024-06-12T11:01:54.391691Z\",\n                \"UpdatedAt\": \"2024-06-12T11:03:33.901995Z\",\n                \"DeletedAt\": null,\n                \"Status\": \"BOOKED\",\n                \"FlightNo\": \"ELXX-001\",\n                \"Description\": null,\n                \"FuelAtDeparture\": null,\n                \"DepartureTime\": \"2024-01-24T10:30:00Z\",\n                \"ArrivalTime\": \"2024-01-24T10:54:00Z\",\n                \"PlaneId\": 1,\n                \"Plane\": null,\n                \"PilotId\": 4,\n                \"Pilot\": null,\n                \"Passengers\": null\n            }\n        }\n    ]\n}"
 						}
 					]
 				}
@@ -208,18 +210,16 @@
 					},
 					"response": [
 						{
-							"id": "d9d847ab-114f-41f6-8fc4-46e68ede8840",
-							"name": "200",
+							"id": "38274a30-b07f-4606-a61d-a2d3b2d7ed9d",
+							"name": "get divisions",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/api/divisions",
-									"protocol": "http",
+									"raw": "{{url}}/api/divisions",
 									"host": [
-										"localhost"
+										"{{url}}"
 									],
-									"port": "8080",
 									"path": [
 										"api",
 										"divisions"
@@ -236,15 +236,15 @@
 								},
 								{
 									"key": "Date",
-									"value": "Wed, 12 Jun 2024 07:32:45 GMT"
+									"value": "Wed, 12 Jun 2024 11:11:26 GMT"
 								},
 								{
 									"key": "Content-Length",
-									"value": "524"
+									"value": "526"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"Success\": true,\n    \"Response\": [\n        {\n            \"ID\": 1,\n            \"CreatedAt\": \"2024-06-12T07:27:27.439484Z\",\n            \"UpdatedAt\": \"2024-06-12T07:27:27.439484Z\",\n            \"DeletedAt\": null,\n            \"Name\": \"Segelflug\",\n            \"PassengerCapacity\": 1,\n            \"Planes\": null\n        },\n        {\n            \"ID\": 2,\n            \"CreatedAt\": \"2024-06-12T07:27:27.44088Z\",\n            \"UpdatedAt\": \"2024-06-12T07:27:27.44088Z\",\n            \"DeletedAt\": null,\n            \"Name\": \"Motorsegler\",\n            \"PassengerCapacity\": 1,\n            \"Planes\": null\n        },\n        {\n            \"ID\": 3,\n            \"CreatedAt\": \"2024-06-12T07:27:27.441704Z\",\n            \"UpdatedAt\": \"2024-06-12T07:27:27.441704Z\",\n            \"DeletedAt\": null,\n            \"Name\": \"Motorflug\",\n            \"PassengerCapacity\": 3,\n            \"Planes\": null\n        }\n    ]\n}"
+							"body": "{\n    \"Success\": true,\n    \"Response\": [\n        {\n            \"ID\": 1,\n            \"CreatedAt\": \"2024-06-12T10:55:31.336592Z\",\n            \"UpdatedAt\": \"2024-06-12T10:55:31.336592Z\",\n            \"DeletedAt\": null,\n            \"Name\": \"Segelflug\",\n            \"PassengerCapacity\": 1,\n            \"Planes\": null\n        },\n        {\n            \"ID\": 2,\n            \"CreatedAt\": \"2024-06-12T10:55:31.339085Z\",\n            \"UpdatedAt\": \"2024-06-12T10:55:31.339085Z\",\n            \"DeletedAt\": null,\n            \"Name\": \"Motorsegler\",\n            \"PassengerCapacity\": 1,\n            \"Planes\": null\n        },\n        {\n            \"ID\": 3,\n            \"CreatedAt\": \"2024-06-12T10:55:31.340502Z\",\n            \"UpdatedAt\": \"2024-06-12T10:55:31.340502Z\",\n            \"DeletedAt\": null,\n            \"Name\": \"Motorflug\",\n            \"PassengerCapacity\": 3,\n            \"Planes\": null\n        }\n    ]\n}"
 						}
 					]
 				}
@@ -292,13 +292,13 @@
 									"disabled": true
 								},
 								{
-									"key": "divisionId",
+									"key": "byDivisionId",
 									"value": "1",
 									"description": "The ID of the division. If provided, it will automatically set includeDivision to true.",
 									"disabled": true
 								},
 								{
-									"key": "planeId",
+									"key": "byPlaneId",
 									"value": "1",
 									"description": "The ID of the plane. If provided, it will automatically set includePlane to true.",
 									"disabled": true
@@ -315,13 +315,13 @@
 					},
 					"response": [
 						{
-							"id": "6567c38c-7fe4-4afb-b1a0-6ed35095a726",
+							"id": "f5b8eaf4-09fb-4e37-8a23-a66faa06816f",
 							"name": "get all flights",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{url}}/api/flights?includePassengers=true&includePlane=true&includePilot=true&divisionId=1&planeId=1&byDepartureTime=2024-01-24T17:30:00Z",
+									"raw": "{{url}}/api/flights?includePassengers=true&includePlane=true&includePilot=true",
 									"host": [
 										"{{url}}"
 									],
@@ -332,29 +332,36 @@
 									"query": [
 										{
 											"key": "includePassengers",
-											"value": "true"
+											"value": "true",
+											"description": "Whether to include passenger details in the response. Set to true to include."
 										},
 										{
 											"key": "includePlane",
-											"value": "true"
+											"value": "true",
+											"description": "Whether to include plane details in the response. Set to true to include."
 										},
 										{
 											"key": "includePilot",
-											"value": "true"
+											"value": "true",
+											"description": "Whether to include pilot details in the response. Set to true to include."
 										},
 										{
-											"key": "divisionId",
+											"key": "byDivisionId",
 											"value": "1",
-											"description": "It will automatically set includeDivision to true."
+											"description": "The ID of the division. If provided, it will automatically set includeDivision to true.",
+											"disabled": true
 										},
 										{
-											"key": "planeId",
+											"key": "byPlaneId",
 											"value": "1",
-											"description": "It will automatically set includePlane to true."
+											"description": "The ID of the plane. If provided, it will automatically set includePlane to true.",
+											"disabled": true
 										},
 										{
 											"key": "byDepartureTime",
-											"value": "2024-01-24T17:30:00Z"
+											"value": "2024-01-24T17:30:00Z",
+											"description": "The departure time to filter flights. Format should be YYYY-MM-DDTHH:MM:SSZ.",
+											"disabled": true
 										}
 									]
 								}
@@ -369,20 +376,20 @@
 								},
 								{
 									"key": "Date",
-									"value": "Wed, 12 Jun 2024 08:32:42 GMT"
+									"value": "Wed, 12 Jun 2024 11:11:16 GMT"
 								},
 								{
-									"key": "Content-Length",
-									"value": "1030"
+									"key": "Transfer-Encoding",
+									"value": "chunked"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"Success\": true,\n    \"Response\": [\n        {\n            \"ID\": 1,\n            \"CreatedAt\": \"2024-06-12T08:32:02.83808Z\",\n            \"UpdatedAt\": \"2024-06-12T08:32:07.249739Z\",\n            \"DeletedAt\": null,\n            \"Status\": \"BOOKED\",\n            \"FlightNo\": \"ELXX-001\",\n            \"Description\": null,\n            \"FuelAtDeparture\": null,\n            \"DepartureTime\": \"2024-01-24T17:30:00Z\",\n            \"ArrivalTime\": \"2024-01-24T19:30:00Z\",\n            \"PlaneId\": 1,\n            \"Plane\": null,\n            \"PilotId\": 3,\n            \"Pilot\": null,\n            \"Passengers\": null\n        },\n        {\n            \"ID\": 2,\n            \"CreatedAt\": \"2024-06-12T08:32:30.324068Z\",\n            \"UpdatedAt\": \"2024-06-12T08:32:30.324068Z\",\n            \"DeletedAt\": null,\n            \"Status\": \"RESERVED\",\n            \"FlightNo\": null,\n            \"Description\": null,\n            \"FuelAtDeparture\": null,\n            \"DepartureTime\": \"2024-01-24T18:30:00Z\",\n            \"ArrivalTime\": \"2024-01-24T19:30:00Z\",\n            \"PlaneId\": 2,\n            \"Plane\": null,\n            \"PilotId\": 8,\n            \"Pilot\": null,\n            \"Passengers\": null\n        },\n        {\n            \"ID\": 3,\n            \"CreatedAt\": \"2024-06-12T08:32:36.465978Z\",\n            \"UpdatedAt\": \"2024-06-12T08:32:36.465978Z\",\n            \"DeletedAt\": null,\n            \"Status\": \"BLOCKED\",\n            \"FlightNo\": null,\n            \"Description\": null,\n            \"FuelAtDeparture\": null,\n            \"DepartureTime\": \"2024-01-24T18:30:00Z\",\n            \"ArrivalTime\": \"2024-01-24T19:30:00Z\",\n            \"PlaneId\": 3,\n            \"Plane\": null,\n            \"PilotId\": null,\n            \"Pilot\": null,\n            \"Passengers\": null\n        }\n    ]\n}"
+							"body": "{\n    \"Success\": true,\n    \"Response\": [\n        {\n            \"ID\": 1,\n            \"CreatedAt\": \"2024-06-12T11:01:54.391691Z\",\n            \"UpdatedAt\": \"2024-06-12T11:03:33.901995Z\",\n            \"DeletedAt\": null,\n            \"Status\": \"BOOKED\",\n            \"FlightNo\": \"ELXX-001\",\n            \"Description\": null,\n            \"FuelAtDeparture\": null,\n            \"DepartureTime\": \"2024-01-24T10:30:00Z\",\n            \"ArrivalTime\": \"2024-01-24T10:54:00Z\",\n            \"PlaneId\": 1,\n            \"Plane\": {\n                \"ID\": 1,\n                \"CreatedAt\": \"2024-06-12T10:55:31.450384Z\",\n                \"UpdatedAt\": \"2024-06-12T10:55:31.450384Z\",\n                \"DeletedAt\": null,\n                \"Registration\": \"D-ELXX\",\n                \"AircraftType\": \"C172\",\n                \"FlightDuration\": 1440000000000,\n                \"FuelMaxCapacity\": 140,\n                \"FuelStartAmount\": 100,\n                \"FuelburnPerFlight\": 20,\n                \"FuelConversionFactor\": 0.72,\n                \"MTOW\": 1050,\n                \"EmptyWeight\": 650,\n                \"MaxSeatPayload\": -1,\n                \"DivisionId\": 3,\n                \"Division\": null,\n                \"AllowedPilots\": null,\n                \"PrefPilotId\": 4,\n                \"PrefPilot\": null,\n                \"Flights\": null,\n                \"SlotStartTime\": \"2024-06-12T09:00:00Z\",\n                \"SlotEndTime\": \"2024-06-12T17:00:00Z\"\n            },\n            \"PilotId\": 4,\n            \"Pilot\": {\n                \"ID\": 4,\n                \"CreatedAt\": \"2024-06-12T10:55:31.727845Z\",\n                \"UpdatedAt\": \"2024-06-12T10:55:31.727845Z\",\n                \"DeletedAt\": null,\n                \"FirstName\": \"Lukas\",\n                \"LastName\": \"Beispielflug\",\n                \"Weight\": 88,\n                \"AllowedPlanes\": null\n            },\n            \"Passengers\": [\n                {\n                    \"ID\": 1,\n                    \"CreatedAt\": \"2024-06-12T11:03:33.89466Z\",\n                    \"UpdatedAt\": \"2024-06-12T11:03:33.89466Z\",\n                    \"DeletedAt\": null,\n                    \"LastName\": \"Mustermann\",\n                    \"FirstName\": \"Max\",\n                    \"Weight\": 110,\n                    \"PassNo\": 501,\n                    \"FlightID\": 1,\n                    \"Flight\": null\n                },\n                {\n                    \"ID\": 2,\n                    \"CreatedAt\": \"2024-06-12T11:03:33.896924Z\",\n                    \"UpdatedAt\": \"2024-06-12T11:03:33.896924Z\",\n                    \"DeletedAt\": null,\n                    \"LastName\": \"Mustermann\",\n                    \"FirstName\": \"Maria\",\n                    \"Weight\": 110,\n                    \"PassNo\": 502,\n                    \"FlightID\": 1,\n                    \"Flight\": null\n                },\n                {\n                    \"ID\": 3,\n                    \"CreatedAt\": \"2024-06-12T11:03:33.899143Z\",\n                    \"UpdatedAt\": \"2024-06-12T11:03:33.899143Z\",\n                    \"DeletedAt\": null,\n                    \"LastName\": \"Mustermann\",\n                    \"FirstName\": \"Thomas\",\n                    \"Weight\": 30,\n                    \"PassNo\": 503,\n                    \"FlightID\": 1,\n                    \"Flight\": null\n                }\n            ]\n        },\n        {\n            \"ID\": 3,\n            \"CreatedAt\": \"2024-06-12T11:03:21.9447Z\",\n            \"UpdatedAt\": \"2024-06-12T11:03:21.9447Z\",\n            \"DeletedAt\": null,\n            \"Status\": \"RESERVED\",\n            \"FlightNo\": null,\n            \"Description\": null,\n            \"FuelAtDeparture\": null,\n            \"DepartureTime\": \"2024-01-24T11:00:00Z\",\n            \"ArrivalTime\": \"2024-01-24T11:24:00Z\",\n            \"PlaneId\": 1,\n            \"Plane\": {\n                \"ID\": 1,\n                \"CreatedAt\": \"2024-06-12T10:55:31.450384Z\",\n                \"UpdatedAt\": \"2024-06-12T10:55:31.450384Z\",\n                \"DeletedAt\": null,\n                \"Registration\": \"D-ELXX\",\n                \"AircraftType\": \"C172\",\n                \"FlightDuration\": 1440000000000,\n                \"FuelMaxCapacity\": 140,\n                \"FuelStartAmount\": 100,\n                \"FuelburnPerFlight\": 20,\n                \"FuelConversionFactor\": 0.72,\n                \"MTOW\": 1050,\n                \"EmptyWeight\": 650,\n                \"MaxSeatPayload\": -1,\n                \"DivisionId\": 3,\n                \"Division\": null,\n                \"AllowedPilots\": null,\n                \"PrefPilotId\": 4,\n                \"PrefPilot\": null,\n                \"Flights\": null,\n                \"SlotStartTime\": \"2024-06-12T09:00:00Z\",\n                \"SlotEndTime\": \"2024-06-12T17:00:00Z\"\n            },\n            \"PilotId\": 4,\n            \"Pilot\": {\n                \"ID\": 4,\n                \"CreatedAt\": \"2024-06-12T10:55:31.727845Z\",\n                \"UpdatedAt\": \"2024-06-12T10:55:31.727845Z\",\n                \"DeletedAt\": null,\n                \"FirstName\": \"Lukas\",\n                \"LastName\": \"Beispielflug\",\n                \"Weight\": 88,\n                \"AllowedPlanes\": null\n            },\n            \"Passengers\": []\n        },\n        {\n            \"ID\": 2,\n            \"CreatedAt\": \"2024-06-12T11:02:26.158349Z\",\n            \"UpdatedAt\": \"2024-06-12T11:02:26.158349Z\",\n            \"DeletedAt\": null,\n            \"Status\": \"BLOCKED\",\n            \"FlightNo\": null,\n            \"Description\": \"refueling\",\n            \"FuelAtDeparture\": null,\n            \"DepartureTime\": \"2024-01-24T13:15:00Z\",\n            \"ArrivalTime\": \"2024-01-24T13:30:00Z\",\n            \"PlaneId\": 1,\n            \"Plane\": {\n                \"ID\": 1,\n                \"CreatedAt\": \"2024-06-12T10:55:31.450384Z\",\n                \"UpdatedAt\": \"2024-06-12T10:55:31.450384Z\",\n                \"DeletedAt\": null,\n                \"Registration\": \"D-ELXX\",\n                \"AircraftType\": \"C172\",\n                \"FlightDuration\": 1440000000000,\n                \"FuelMaxCapacity\": 140,\n                \"FuelStartAmount\": 100,\n                \"FuelburnPerFlight\": 20,\n                \"FuelConversionFactor\": 0.72,\n                \"MTOW\": 1050,\n                \"EmptyWeight\": 650,\n                \"MaxSeatPayload\": -1,\n                \"DivisionId\": 3,\n                \"Division\": null,\n                \"AllowedPilots\": null,\n                \"PrefPilotId\": 4,\n                \"PrefPilot\": null,\n                \"Flights\": null,\n                \"SlotStartTime\": \"2024-06-12T09:00:00Z\",\n                \"SlotEndTime\": \"2024-06-12T17:00:00Z\"\n            },\n            \"PilotId\": null,\n            \"Pilot\": null,\n            \"Passengers\": []\n        }\n    ]\n}"
 						}
 					]
 				},
 				{
-					"name": "01 - flight reservation",
+					"name": "flight reservation",
 					"id": "cc0cf45c-4846-4f10-b2da-696c9a104da2",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -392,7 +399,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"Status\": \"RESERVED\",                   // optional for RESERVED - required for BLOCKED\n    \"DepartureTime\": \"2024-01-24T17:30:00Z\",\n    \"PlaneId\": 1,\n    \"Description\": null,                    // optional - This is a string\n    \"ArrivalTime\": \"2024-01-24T19:30:00Z\",  // optional - \"this is a time - see departuretime for an example\"\n    \"Passengers\": [                         // optional\n        {\n            \"FirstName\": \"Max\",             // optional\n            \"LastName\": \"Mustermann\",       // optional\n            \"Weight\": 80\n        },\n        {\n            \"Weight\": 64\n        }\n    ]\n}",
+							"raw": "{\n    \"Status\": \"RESERVED\",                   // optional for RESERVED - required for BLOCKED\n    \"DepartureTime\": \"2024-01-24T10:30:00Z\",\n    \"PlaneId\": 1,\n    \"Description\": null,                    // optional - This is a string\n    \"ArrivalTime\": null,                    // optional - \"this is a time - see departuretime for an example\"\n    \"Passengers\": [                         // optional\n        {\n            \"FirstName\": \"Max\",             // optional\n            \"LastName\": \"Mustermann\",       // optional\n            \"Weight\": 80\n        },\n        {\n            \"Weight\": 64\n        }\n    ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -413,14 +420,14 @@
 					},
 					"response": [
 						{
-							"id": "079cd803-5a8d-4961-ae03-90c861cc7bf4",
+							"id": "0b998c00-c8a0-4ec0-a429-44a536c2d444",
 							"name": "flight reservation",
 							"originalRequest": {
 								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"Status\": \"RESERVED\",                   // optional for RESERVED - required for BLOCKED\n    \"DepartureTime\": \"2024-01-24T17:30:00Z\",\n    \"PlaneId\": 1,\n    \"Description\": null,                    // optional - This is a string\n    \"ArrivalTime\": \"2024-01-24T19:30:00Z\",  // optional - \"this is a time - see departuretime for an example\"\n    \"Passengers\": [                         // optional\n        {\n            \"FirstName\": \"Max\",             // optional\n            \"LastName\": \"Mustermann\",       // optional\n            \"Weight\": 80\n        },\n        {\n            \"Weight\": 64\n        }\n    ]\n}",
+									"raw": "{\n    \"Status\": \"RESERVED\",                   // optional for RESERVED - required for BLOCKED\n    \"DepartureTime\": \"2024-01-24T10:30:00Z\",\n    \"PlaneId\": 1,\n    \"Description\": null,                    // optional - This is a string\n    \"ArrivalTime\": null,                    // optional - \"this is a time - see departuretime for an example\"\n    \"Passengers\": [                         // optional\n        {\n            \"FirstName\": \"Max\",             // optional\n            \"LastName\": \"Mustermann\",       // optional\n            \"Weight\": 80\n        },\n        {\n            \"Weight\": 64\n        }\n    ]\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -450,25 +457,25 @@
 								},
 								{
 									"key": "Date",
-									"value": "Wed, 12 Jun 2024 07:46:48 GMT"
+									"value": "Wed, 12 Jun 2024 11:01:54 GMT"
 								},
 								{
 									"key": "Content-Length",
-									"value": "1043"
+									"value": "1044"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"Success\": true,\n    \"Response\": {\n        \"ID\": 1,\n        \"CreatedAt\": \"2024-06-12T07:46:48.46076Z\",\n        \"UpdatedAt\": \"2024-06-12T07:46:48.46076Z\",\n        \"DeletedAt\": null,\n        \"Status\": \"RESERVED\",\n        \"FlightNo\": null,\n        \"Description\": null,\n        \"FuelAtDeparture\": null,\n        \"DepartureTime\": \"2024-01-24T17:30:00Z\",\n        \"ArrivalTime\": \"2024-01-24T19:30:00Z\",\n        \"PlaneId\": 1,\n        \"Plane\": {\n            \"ID\": 1,\n            \"CreatedAt\": \"2024-06-12T07:27:27.524796Z\",\n            \"UpdatedAt\": \"2024-06-12T07:27:27.524796Z\",\n            \"DeletedAt\": null,\n            \"Registration\": \"D-ELXX\",\n            \"AircraftType\": \"C172\",\n            \"FlightDuration\": 1440000000000,\n            \"FuelMaxCapacity\": 140,\n            \"FuelStartAmount\": 100,\n            \"FuelburnPerFlight\": 20,\n            \"FuelConversionFactor\": 0.72,\n            \"MTOW\": 1050,\n            \"EmptyWeight\": 650,\n            \"MaxSeatPayload\": -1,\n            \"DivisionId\": 3,\n            \"Division\": null,\n            \"AllowedPilots\": null,\n            \"PrefPilotId\": 3,\n            \"PrefPilot\": null,\n            \"Flights\": null,\n            \"SlotStartTime\": \"2024-06-12T09:00:00Z\",\n            \"SlotEndTime\": \"2024-06-12T17:00:00Z\"\n        },\n        \"PilotId\": 3,\n        \"Pilot\": {\n            \"ID\": 3,\n            \"CreatedAt\": \"2024-06-12T07:27:27.678635Z\",\n            \"UpdatedAt\": \"2024-06-12T07:27:27.678635Z\",\n            \"DeletedAt\": null,\n            \"FirstName\": \"Yannic\",\n            \"LastName\": \"Kornwestheim\",\n            \"Weight\": 90,\n            \"AllowedPlanes\": null\n        },\n        \"Passengers\": []\n    }\n}"
+							"body": "{\n    \"Success\": true,\n    \"Response\": {\n        \"ID\": 1,\n        \"CreatedAt\": \"2024-06-12T11:01:54.391691Z\",\n        \"UpdatedAt\": \"2024-06-12T11:01:54.391691Z\",\n        \"DeletedAt\": null,\n        \"Status\": \"RESERVED\",\n        \"FlightNo\": null,\n        \"Description\": null,\n        \"FuelAtDeparture\": null,\n        \"DepartureTime\": \"2024-01-24T10:30:00Z\",\n        \"ArrivalTime\": \"2024-01-24T10:54:00Z\",\n        \"PlaneId\": 1,\n        \"Plane\": {\n            \"ID\": 1,\n            \"CreatedAt\": \"2024-06-12T10:55:31.450384Z\",\n            \"UpdatedAt\": \"2024-06-12T10:55:31.450384Z\",\n            \"DeletedAt\": null,\n            \"Registration\": \"D-ELXX\",\n            \"AircraftType\": \"C172\",\n            \"FlightDuration\": 1440000000000,\n            \"FuelMaxCapacity\": 140,\n            \"FuelStartAmount\": 100,\n            \"FuelburnPerFlight\": 20,\n            \"FuelConversionFactor\": 0.72,\n            \"MTOW\": 1050,\n            \"EmptyWeight\": 650,\n            \"MaxSeatPayload\": -1,\n            \"DivisionId\": 3,\n            \"Division\": null,\n            \"AllowedPilots\": null,\n            \"PrefPilotId\": 4,\n            \"PrefPilot\": null,\n            \"Flights\": null,\n            \"SlotStartTime\": \"2024-06-12T09:00:00Z\",\n            \"SlotEndTime\": \"2024-06-12T17:00:00Z\"\n        },\n        \"PilotId\": 4,\n        \"Pilot\": {\n            \"ID\": 4,\n            \"CreatedAt\": \"2024-06-12T10:55:31.727845Z\",\n            \"UpdatedAt\": \"2024-06-12T10:55:31.727845Z\",\n            \"DeletedAt\": null,\n            \"FirstName\": \"Lukas\",\n            \"LastName\": \"Beispielflug\",\n            \"Weight\": 88,\n            \"AllowedPlanes\": null\n        },\n        \"Passengers\": []\n    }\n}"
 						},
 						{
-							"id": "5d3ccb7c-52db-48e2-8610-aabcb20cc395",
-							"name": "blocker",
+							"id": "21908625-33d9-449f-abeb-5bc229fc6b43",
+							"name": "blocker creation",
 							"originalRequest": {
 								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"Status\": \"BLOCKED\",                    // optional for RESERVED - required for BLOCKED\n    \"DepartureTime\": \"2024-01-24T17:30:00Z\",\n    \"PlaneId\": 2,\n    \"Description\": \"refueling\",             // optional - This is a string\n    \"ArrivalTime\": \"2024-01-24T19:30:00Z\"   // optional - \"this is a time - see departuretime for an example\"\n}",
+									"raw": "{\n    \"Status\": \"BLOCKED\",\n    \"DepartureTime\": \"2024-01-24T13:15:00Z\",\n    \"PlaneId\": 1,\n    \"Description\": \"refueling\",             // optional - This is a string\n    \"ArrivalTime\": \"2024-01-24T13:30:00Z\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -496,20 +503,20 @@
 								},
 								{
 									"key": "Date",
-									"value": "Wed, 12 Jun 2024 07:49:55 GMT"
+									"value": "Wed, 12 Jun 2024 11:02:26 GMT"
 								},
 								{
 									"key": "Content-Length",
-									"value": "868"
+									"value": "869"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"Success\": true,\n    \"Response\": {\n        \"ID\": 2,\n        \"CreatedAt\": \"2024-06-12T07:49:55.403264Z\",\n        \"UpdatedAt\": \"2024-06-12T07:49:55.403264Z\",\n        \"DeletedAt\": null,\n        \"Status\": \"BLOCKED\",\n        \"FlightNo\": null,\n        \"Description\": \"refueling\",\n        \"FuelAtDeparture\": null,\n        \"DepartureTime\": \"2024-01-24T17:30:00Z\",\n        \"ArrivalTime\": \"2024-01-24T19:30:00Z\",\n        \"PlaneId\": 2,\n        \"Plane\": {\n            \"ID\": 2,\n            \"CreatedAt\": \"2024-06-12T07:27:27.527155Z\",\n            \"UpdatedAt\": \"2024-06-12T07:27:27.527155Z\",\n            \"DeletedAt\": null,\n            \"Registration\": \"D-ESXX\",\n            \"AircraftType\": \"C172\",\n            \"FlightDuration\": 1440000000000,\n            \"FuelMaxCapacity\": 120,\n            \"FuelStartAmount\": 80,\n            \"FuelburnPerFlight\": 15,\n            \"FuelConversionFactor\": 0.72,\n            \"MTOW\": 1083,\n            \"EmptyWeight\": 756,\n            \"MaxSeatPayload\": -1,\n            \"DivisionId\": 3,\n            \"Division\": null,\n            \"AllowedPilots\": null,\n            \"PrefPilotId\": 8,\n            \"PrefPilot\": null,\n            \"Flights\": null,\n            \"SlotStartTime\": \"2024-06-12T09:00:00Z\",\n            \"SlotEndTime\": \"2024-06-12T17:00:00Z\"\n        },\n        \"PilotId\": null,\n        \"Pilot\": null,\n        \"Passengers\": []\n    }\n}"
+							"body": "{\n    \"Success\": true,\n    \"Response\": {\n        \"ID\": 2,\n        \"CreatedAt\": \"2024-06-12T11:02:26.158349Z\",\n        \"UpdatedAt\": \"2024-06-12T11:02:26.158349Z\",\n        \"DeletedAt\": null,\n        \"Status\": \"BLOCKED\",\n        \"FlightNo\": null,\n        \"Description\": \"refueling\",\n        \"FuelAtDeparture\": null,\n        \"DepartureTime\": \"2024-01-24T13:15:00Z\",\n        \"ArrivalTime\": \"2024-01-24T13:30:00Z\",\n        \"PlaneId\": 1,\n        \"Plane\": {\n            \"ID\": 1,\n            \"CreatedAt\": \"2024-06-12T10:55:31.450384Z\",\n            \"UpdatedAt\": \"2024-06-12T10:55:31.450384Z\",\n            \"DeletedAt\": null,\n            \"Registration\": \"D-ELXX\",\n            \"AircraftType\": \"C172\",\n            \"FlightDuration\": 1440000000000,\n            \"FuelMaxCapacity\": 140,\n            \"FuelStartAmount\": 100,\n            \"FuelburnPerFlight\": 20,\n            \"FuelConversionFactor\": 0.72,\n            \"MTOW\": 1050,\n            \"EmptyWeight\": 650,\n            \"MaxSeatPayload\": -1,\n            \"DivisionId\": 3,\n            \"Division\": null,\n            \"AllowedPilots\": null,\n            \"PrefPilotId\": 4,\n            \"PrefPilot\": null,\n            \"Flights\": null,\n            \"SlotStartTime\": \"2024-06-12T09:00:00Z\",\n            \"SlotEndTime\": \"2024-06-12T17:00:00Z\"\n        },\n        \"PilotId\": null,\n        \"Pilot\": null,\n        \"Passengers\": []\n    }\n}"
 						}
 					]
 				},
 				{
-					"name": "02 - flight booking",
+					"name": "flight booking",
 					"id": "8140cadb-02cd-43f6-8b4d-7f18cced735b",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -548,7 +555,7 @@
 					},
 					"response": [
 						{
-							"id": "7777514e-c6be-4dd8-9d17-114fc13f8f87",
+							"id": "0b21ef61-d6ef-40ad-ab8e-17700bb10c6e",
 							"name": "flight booking",
 							"originalRequest": {
 								"method": "POST",
@@ -593,19 +600,19 @@
 								},
 								{
 									"key": "Date",
-									"value": "Wed, 12 Jun 2024 08:01:28 GMT"
+									"value": "Wed, 12 Jun 2024 11:03:33 GMT"
 								},
 								{
 									"key": "Content-Length",
-									"value": "1666"
+									"value": "1664"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"Success\": true,\n    \"Response\": {\n        \"ID\": 1,\n        \"CreatedAt\": \"2024-06-12T07:46:48.46076Z\",\n        \"UpdatedAt\": \"2024-06-12T08:01:28.609549Z\",\n        \"DeletedAt\": null,\n        \"Status\": \"BOOKED\",\n        \"FlightNo\": \"ELXX-001\",\n        \"Description\": null,\n        \"FuelAtDeparture\": null,\n        \"DepartureTime\": \"2024-01-24T17:30:00Z\",\n        \"ArrivalTime\": \"2024-01-24T19:30:00Z\",\n        \"PlaneId\": 1,\n        \"Plane\": {\n            \"ID\": 1,\n            \"CreatedAt\": \"2024-06-12T07:27:27.524796Z\",\n            \"UpdatedAt\": \"2024-06-12T07:27:27.524796Z\",\n            \"DeletedAt\": null,\n            \"Registration\": \"D-ELXX\",\n            \"AircraftType\": \"C172\",\n            \"FlightDuration\": 1440000000000,\n            \"FuelMaxCapacity\": 140,\n            \"FuelStartAmount\": 100,\n            \"FuelburnPerFlight\": 20,\n            \"FuelConversionFactor\": 0.72,\n            \"MTOW\": 1050,\n            \"EmptyWeight\": 650,\n            \"MaxSeatPayload\": -1,\n            \"DivisionId\": 3,\n            \"Division\": null,\n            \"AllowedPilots\": null,\n            \"PrefPilotId\": 3,\n            \"PrefPilot\": null,\n            \"Flights\": null,\n            \"SlotStartTime\": \"2024-06-12T09:00:00Z\",\n            \"SlotEndTime\": \"2024-06-12T17:00:00Z\"\n        },\n        \"PilotId\": 3,\n        \"Pilot\": {\n            \"ID\": 3,\n            \"CreatedAt\": \"2024-06-12T07:27:27.678635Z\",\n            \"UpdatedAt\": \"2024-06-12T07:27:27.678635Z\",\n            \"DeletedAt\": null,\n            \"FirstName\": \"Yannic\",\n            \"LastName\": \"Kornwestheim\",\n            \"Weight\": 90,\n            \"AllowedPlanes\": null\n        },\n        \"Passengers\": [\n            {\n                \"ID\": 1,\n                \"CreatedAt\": \"2024-06-12T08:01:28.599507Z\",\n                \"UpdatedAt\": \"2024-06-12T08:01:28.599507Z\",\n                \"DeletedAt\": null,\n                \"LastName\": \"Mustermann\",\n                \"FirstName\": \"Max\",\n                \"Weight\": 110,\n                \"PassNo\": 501,\n                \"FlightID\": 1,\n                \"Flight\": null\n            },\n            {\n                \"ID\": 2,\n                \"CreatedAt\": \"2024-06-12T08:01:28.603786Z\",\n                \"UpdatedAt\": \"2024-06-12T08:01:28.603786Z\",\n                \"DeletedAt\": null,\n                \"LastName\": \"Mustermann\",\n                \"FirstName\": \"Maria\",\n                \"Weight\": 110,\n                \"PassNo\": 502,\n                \"FlightID\": 1,\n                \"Flight\": null\n            },\n            {\n                \"ID\": 3,\n                \"CreatedAt\": \"2024-06-12T08:01:28.606323Z\",\n                \"UpdatedAt\": \"2024-06-12T08:01:28.606323Z\",\n                \"DeletedAt\": null,\n                \"LastName\": \"Mustermann\",\n                \"FirstName\": \"Thomas\",\n                \"Weight\": 30,\n                \"PassNo\": 503,\n                \"FlightID\": 1,\n                \"Flight\": null\n            }\n        ]\n    }\n}"
+							"body": "{\n    \"Success\": true,\n    \"Response\": {\n        \"ID\": 1,\n        \"CreatedAt\": \"2024-06-12T11:01:54.391691Z\",\n        \"UpdatedAt\": \"2024-06-12T11:03:33.901995Z\",\n        \"DeletedAt\": null,\n        \"Status\": \"BOOKED\",\n        \"FlightNo\": \"ELXX-001\",\n        \"Description\": null,\n        \"FuelAtDeparture\": null,\n        \"DepartureTime\": \"2024-01-24T10:30:00Z\",\n        \"ArrivalTime\": \"2024-01-24T10:54:00Z\",\n        \"PlaneId\": 1,\n        \"Plane\": {\n            \"ID\": 1,\n            \"CreatedAt\": \"2024-06-12T10:55:31.450384Z\",\n            \"UpdatedAt\": \"2024-06-12T10:55:31.450384Z\",\n            \"DeletedAt\": null,\n            \"Registration\": \"D-ELXX\",\n            \"AircraftType\": \"C172\",\n            \"FlightDuration\": 1440000000000,\n            \"FuelMaxCapacity\": 140,\n            \"FuelStartAmount\": 100,\n            \"FuelburnPerFlight\": 20,\n            \"FuelConversionFactor\": 0.72,\n            \"MTOW\": 1050,\n            \"EmptyWeight\": 650,\n            \"MaxSeatPayload\": -1,\n            \"DivisionId\": 3,\n            \"Division\": null,\n            \"AllowedPilots\": null,\n            \"PrefPilotId\": 4,\n            \"PrefPilot\": null,\n            \"Flights\": null,\n            \"SlotStartTime\": \"2024-06-12T09:00:00Z\",\n            \"SlotEndTime\": \"2024-06-12T17:00:00Z\"\n        },\n        \"PilotId\": 4,\n        \"Pilot\": {\n            \"ID\": 4,\n            \"CreatedAt\": \"2024-06-12T10:55:31.727845Z\",\n            \"UpdatedAt\": \"2024-06-12T10:55:31.727845Z\",\n            \"DeletedAt\": null,\n            \"FirstName\": \"Lukas\",\n            \"LastName\": \"Beispielflug\",\n            \"Weight\": 88,\n            \"AllowedPlanes\": null\n        },\n        \"Passengers\": [\n            {\n                \"ID\": 1,\n                \"CreatedAt\": \"2024-06-12T11:03:33.89466Z\",\n                \"UpdatedAt\": \"2024-06-12T11:03:33.89466Z\",\n                \"DeletedAt\": null,\n                \"LastName\": \"Mustermann\",\n                \"FirstName\": \"Max\",\n                \"Weight\": 110,\n                \"PassNo\": 501,\n                \"FlightID\": 1,\n                \"Flight\": null\n            },\n            {\n                \"ID\": 2,\n                \"CreatedAt\": \"2024-06-12T11:03:33.896924Z\",\n                \"UpdatedAt\": \"2024-06-12T11:03:33.896924Z\",\n                \"DeletedAt\": null,\n                \"LastName\": \"Mustermann\",\n                \"FirstName\": \"Maria\",\n                \"Weight\": 110,\n                \"PassNo\": 502,\n                \"FlightID\": 1,\n                \"Flight\": null\n            },\n            {\n                \"ID\": 3,\n                \"CreatedAt\": \"2024-06-12T11:03:33.899143Z\",\n                \"UpdatedAt\": \"2024-06-12T11:03:33.899143Z\",\n                \"DeletedAt\": null,\n                \"LastName\": \"Mustermann\",\n                \"FirstName\": \"Thomas\",\n                \"Weight\": 30,\n                \"PassNo\": 503,\n                \"FlightID\": 1,\n                \"Flight\": null\n            }\n        ]\n    }\n}"
 						},
 						{
-							"id": "60b675a8-03ae-4919-8542-6eb7cfedd651",
-							"name": "booking a blocker",
+							"id": "c0deaabb-dc8a-4c68-ae55-3a9fba307fd3",
+							"name": "booking blocker",
 							"originalRequest": {
 								"method": "POST",
 								"header": [],
@@ -631,7 +638,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "1",
+											"value": "2",
 											"description": "id of flight in \"reserved\" status"
 										}
 									]
@@ -647,7 +654,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Wed, 12 Jun 2024 08:28:13 GMT"
+									"value": "Wed, 12 Jun 2024 11:04:01 GMT"
 								},
 								{
 									"key": "Content-Length",
@@ -806,32 +813,35 @@
 								{
 									"key": "includeFlights",
 									"value": "true",
+									"description": "When set to true, the response will include flight details for each plane.",
 									"disabled": true
 								},
 								{
 									"key": "includePilots",
 									"value": "true",
+									"description": "When set to true, the response will include details about the allowed pilots for each plane.",
 									"disabled": true
 								},
 								{
 									"key": "includePrefPilot",
 									"value": "true",
+									"description": "When set to true, the response will include details about the preferred pilot for each plane.",
 									"disabled": true
 								},
 								{
 									"key": "byDivisionId",
 									"value": "1",
-									"description": "gets all planes with this division_id",
+									"description": "Filters planes by the specified division ID. The response includes all planes associated with this division.",
 									"disabled": true
 								}
 							]
 						},
-						"description": "## Required Role:\n\nany"
+						"description": "This API request retrieves plane details based on the specified query parameters. The query parameters allow the user to include or exclude additional information such as flights, pilots, and preferred pilots.\n\n## Required Role:\n\nany"
 					},
 					"response": [
 						{
-							"id": "b7f6364d-65f5-4085-ad2d-6dd1da31a81d",
-							"name": "200",
+							"id": "a1914de8-c008-4b37-8bd4-a3370c656516",
+							"name": "get planes",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
@@ -849,20 +859,23 @@
 									"query": [
 										{
 											"key": "includeFlights",
-											"value": "true"
+											"value": "true",
+											"description": "When set to true, the response will include flight details for each plane."
 										},
 										{
 											"key": "includePilots",
-											"value": "true"
+											"value": "true",
+											"description": "When set to true, the response will include details about the allowed pilots for each plane."
 										},
 										{
 											"key": "includePrefPilot",
-											"value": "true"
+											"value": "true",
+											"description": "When set to true, the response will include details about the preferred pilot for each plane."
 										},
 										{
 											"key": "byDivisionId",
 											"value": "1",
-											"description": "gets all planes with this division_id",
+											"description": "Filters planes by the specified division ID. The response includes all planes associated with this division.",
 											"disabled": true
 										}
 									]
@@ -878,7 +891,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 02 Feb 2024 13:45:37 GMT"
+									"value": "Wed, 12 Jun 2024 11:04:32 GMT"
 								},
 								{
 									"key": "Transfer-Encoding",
@@ -886,7 +899,69 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"Success\": true,\n    \"Response\": [\n        {\n            \"ID\": 1,\n            \"CreatedAt\": \"2024-02-02T13:40:53.380584+01:00\",\n            \"UpdatedAt\": \"2024-02-02T13:40:53.380584+01:00\",\n            \"DeletedAt\": null,\n            \"Registration\": \"D-ELXX\",\n            \"AircraftType\": \"C172\",\n            \"FlightDuration\": 1440000000000,\n            \"FuelMaxCapacity\": 140,\n            \"FuelburnPerFlight\": 20,\n            \"FuelConversionFactor\": 0.72,\n            \"MTOW\": 1050,\n            \"EmptyWeight\": 650,\n            \"MaxSeatPayload\": -1,\n            \"Division\": null,\n            \"AllowedPilots\": [\n                {\n                    \"ID\": 2,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.405383+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.405383+01:00\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Dennis\",\n                    \"LastName\": \"Kornwestheim\",\n                    \"Weight\": 72,\n                    \"AllowedPlanes\": null\n                },\n                {\n                    \"ID\": 3,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.409874+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.409874+01:00\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Yannic\",\n                    \"LastName\": \"Kornwestheim\",\n                    \"Weight\": 90,\n                    \"AllowedPlanes\": null\n                },\n                {\n                    \"ID\": 4,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.414008+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.414008+01:00\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Michel\",\n                    \"LastName\": \"Kornwestheim\",\n                    \"Weight\": 90,\n                    \"AllowedPlanes\": null\n                }\n            ],\n            \"PrefPilotId\": null,\n            \"PrefPilot\": null,\n            \"Flights\": [\n                {\n                    \"ID\": 1,\n                    \"CreatedAt\": \"2024-02-02T13:40:55.508527+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:49:28.519775+01:00\",\n                    \"DeletedAt\": null,\n                    \"Status\": \"BOOKED\",\n                    \"Description\": null,\n                    \"FuelAtDeparture\": 100,\n                    \"DepartureTime\": \"2024-01-24T15:30:00+01:00\",\n                    \"ArrivalTime\": \"2024-01-24T15:54:00+01:00\",\n                    \"PlaneId\": 1,\n                    \"Plane\": null,\n                    \"PilotId\": 2,\n                    \"Pilot\": null,\n                    \"Passengers\": null\n                }\n            ]\n        },\n        {\n            \"ID\": 2,\n            \"CreatedAt\": \"2024-02-02T13:40:53.382904+01:00\",\n            \"UpdatedAt\": \"2024-02-02T13:40:53.382904+01:00\",\n            \"DeletedAt\": null,\n            \"Registration\": \"D-ESXX\",\n            \"AircraftType\": \"C172\",\n            \"FlightDuration\": 1440000000000,\n            \"FuelMaxCapacity\": 120,\n            \"FuelburnPerFlight\": 15,\n            \"FuelConversionFactor\": 0.72,\n            \"MTOW\": 1083,\n            \"EmptyWeight\": 756,\n            \"MaxSeatPayload\": -1,\n            \"Division\": null,\n            \"AllowedPilots\": [\n                {\n                    \"ID\": 8,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.428633+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.428633+01:00\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Max\",\n                    \"LastName\": \"Stuttgart\",\n                    \"Weight\": 100,\n                    \"AllowedPlanes\": null\n                },\n                {\n                    \"ID\": 9,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.431802+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.431802+01:00\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Mario\",\n                    \"LastName\": \"Stuttgart\",\n                    \"Weight\": 100,\n                    \"AllowedPlanes\": null\n                },\n                {\n                    \"ID\": 10,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.43677+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.43677+01:00\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Bernd\",\n                    \"LastName\": \"Stuttgart\",\n                    \"Weight\": 100,\n                    \"AllowedPlanes\": null\n                }\n            ],\n            \"PrefPilotId\": null,\n            \"PrefPilot\": null,\n            \"Flights\": []\n        },\n        {\n            \"ID\": 3,\n            \"CreatedAt\": \"2024-02-02T13:40:53.385459+01:00\",\n            \"UpdatedAt\": \"2024-02-02T13:40:53.385459+01:00\",\n            \"DeletedAt\": null,\n            \"Registration\": \"D-ESYY\",\n            \"AircraftType\": \"C172\",\n            \"FlightDuration\": 1440000000000,\n            \"FuelMaxCapacity\": 180,\n            \"FuelburnPerFlight\": 20,\n            \"FuelConversionFactor\": 0.72,\n            \"MTOW\": 1100,\n            \"EmptyWeight\": 734,\n            \"MaxSeatPayload\": -1,\n            \"Division\": null,\n            \"AllowedPilots\": [\n                {\n                    \"ID\": 9,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.431802+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.431802+01:00\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Mario\",\n                    \"LastName\": \"Stuttgart\",\n                    \"Weight\": 100,\n                    \"AllowedPlanes\": null\n                },\n                {\n                    \"ID\": 10,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.43677+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.43677+01:00\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Bernd\",\n                    \"LastName\": \"Stuttgart\",\n                    \"Weight\": 100,\n                    \"AllowedPlanes\": null\n                }\n            ],\n            \"PrefPilotId\": null,\n            \"PrefPilot\": null,\n            \"Flights\": []\n        },\n        {\n            \"ID\": 4,\n            \"CreatedAt\": \"2024-02-02T13:40:53.388102+01:00\",\n            \"UpdatedAt\": \"2024-02-02T13:40:53.388102+01:00\",\n            \"DeletedAt\": null,\n            \"Registration\": \"D-EFXX\",\n            \"AircraftType\": \"PA28\",\n            \"FlightDuration\": 1440000000000,\n            \"FuelMaxCapacity\": 140,\n            \"FuelburnPerFlight\": 20,\n            \"FuelConversionFactor\": 0.72,\n            \"MTOW\": 1050,\n            \"EmptyWeight\": 663,\n            \"MaxSeatPayload\": -1,\n            \"Division\": null,\n            \"AllowedPilots\": [\n                {\n                    \"ID\": 6,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.422412+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.422412+01:00\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Katja\",\n                    \"LastName\": \"Motorflug\",\n                    \"Weight\": 100,\n                    \"AllowedPlanes\": null\n                },\n                {\n                    \"ID\": 7,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.425897+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.425897+01:00\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Markus\",\n                    \"LastName\": \"Motorflug\",\n                    \"Weight\": 100,\n                    \"AllowedPlanes\": null\n                }\n            ],\n            \"PrefPilotId\": null,\n            \"PrefPilot\": null,\n            \"Flights\": []\n        },\n        {\n            \"ID\": 5,\n            \"CreatedAt\": \"2024-02-02T13:40:53.390458+01:00\",\n            \"UpdatedAt\": \"2024-02-02T13:40:53.390458+01:00\",\n            \"DeletedAt\": null,\n            \"Registration\": \"D-KOXX\",\n            \"AircraftType\": \"HK36\",\n            \"FlightDuration\": 1440000000000,\n            \"FuelMaxCapacity\": 80,\n            \"FuelburnPerFlight\": 10,\n            \"FuelConversionFactor\": 0.72,\n            \"MTOW\": 800,\n            \"EmptyWeight\": 600,\n            \"MaxSeatPayload\": -1,\n            \"Division\": null,\n            \"AllowedPilots\": [\n                {\n                    \"ID\": 2,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.405383+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.405383+01:00\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Dennis\",\n                    \"LastName\": \"Kornwestheim\",\n                    \"Weight\": 72,\n                    \"AllowedPlanes\": null\n                },\n                {\n                    \"ID\": 3,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.409874+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.409874+01:00\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Yannic\",\n                    \"LastName\": \"Kornwestheim\",\n                    \"Weight\": 90,\n                    \"AllowedPlanes\": null\n                },\n                {\n                    \"ID\": 4,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.414008+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.414008+01:00\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Michel\",\n                    \"LastName\": \"Kornwestheim\",\n                    \"Weight\": 90,\n                    \"AllowedPlanes\": null\n                },\n                {\n                    \"ID\": 5,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.417857+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.417857+01:00\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Horst\",\n                    \"LastName\": \"Kornwestheim\",\n                    \"Weight\": 85,\n                    \"AllowedPlanes\": null\n                }\n            ],\n            \"PrefPilotId\": null,\n            \"PrefPilot\": null,\n            \"Flights\": []\n        },\n        {\n            \"ID\": 6,\n            \"CreatedAt\": \"2024-02-02T13:40:53.39252+01:00\",\n            \"UpdatedAt\": \"2024-02-02T13:40:53.39252+01:00\",\n            \"DeletedAt\": null,\n            \"Registration\": \"D-KIXX\",\n            \"AircraftType\": \"SF25C\",\n            \"FlightDuration\": 1440000000000,\n            \"FuelMaxCapacity\": 40,\n            \"FuelburnPerFlight\": 5,\n            \"FuelConversionFactor\": 0.72,\n            \"MTOW\": 450,\n            \"EmptyWeight\": 300,\n            \"MaxSeatPayload\": -1,\n            \"Division\": null,\n            \"AllowedPilots\": [\n                {\n                    \"ID\": 5,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.417857+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.417857+01:00\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Horst\",\n                    \"LastName\": \"Kornwestheim\",\n                    \"Weight\": 85,\n                    \"AllowedPlanes\": null\n                }\n            ],\n            \"PrefPilotId\": null,\n            \"PrefPilot\": null,\n            \"Flights\": []\n        },\n        {\n            \"ID\": 7,\n            \"CreatedAt\": \"2024-02-02T13:40:53.394361+01:00\",\n            \"UpdatedAt\": \"2024-02-02T13:40:53.394361+01:00\",\n            \"DeletedAt\": null,\n            \"Registration\": \"D-0761\",\n            \"AircraftType\": \"ASK21\",\n            \"FlightDuration\": 600000000000,\n            \"FuelMaxCapacity\": -1,\n            \"FuelburnPerFlight\": -1,\n            \"FuelConversionFactor\": -1,\n            \"MTOW\": 500,\n            \"EmptyWeight\": 300,\n            \"MaxSeatPayload\": 110,\n            \"Division\": null,\n            \"AllowedPilots\": [\n                {\n                    \"ID\": 1,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.398939+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.398939+01:00\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Tobias\",\n                    \"LastName\": \"Kornwestheim\",\n                    \"Weight\": 68,\n                    \"AllowedPlanes\": null\n                },\n                {\n                    \"ID\": 2,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.405383+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.405383+01:00\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Dennis\",\n                    \"LastName\": \"Kornwestheim\",\n                    \"Weight\": 72,\n                    \"AllowedPlanes\": null\n                },\n                {\n                    \"ID\": 3,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.409874+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.409874+01:00\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Yannic\",\n                    \"LastName\": \"Kornwestheim\",\n                    \"Weight\": 90,\n                    \"AllowedPlanes\": null\n                },\n                {\n                    \"ID\": 4,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.414008+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.414008+01:00\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Michel\",\n                    \"LastName\": \"Kornwestheim\",\n                    \"Weight\": 90,\n                    \"AllowedPlanes\": null\n                }\n            ],\n            \"PrefPilotId\": null,\n            \"PrefPilot\": null,\n            \"Flights\": []\n        },\n        {\n            \"ID\": 8,\n            \"CreatedAt\": \"2024-02-02T13:40:53.395886+01:00\",\n            \"UpdatedAt\": \"2024-02-02T13:40:53.395886+01:00\",\n            \"DeletedAt\": null,\n            \"Registration\": \"D-7208\",\n            \"AircraftType\": \"Duo Discus\",\n            \"FlightDuration\": 600000000000,\n            \"FuelMaxCapacity\": -1,\n            \"FuelburnPerFlight\": -1,\n            \"FuelConversionFactor\": -1,\n            \"MTOW\": 520,\n            \"EmptyWeight\": 300,\n            \"MaxSeatPayload\": 110,\n            \"Division\": null,\n            \"AllowedPilots\": [\n                {\n                    \"ID\": 1,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.398939+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.398939+01:00\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Tobias\",\n                    \"LastName\": \"Kornwestheim\",\n                    \"Weight\": 68,\n                    \"AllowedPlanes\": null\n                },\n                {\n                    \"ID\": 2,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.405383+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.405383+01:00\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Dennis\",\n                    \"LastName\": \"Kornwestheim\",\n                    \"Weight\": 72,\n                    \"AllowedPlanes\": null\n                },\n                {\n                    \"ID\": 3,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.409874+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.409874+01:00\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Yannic\",\n                    \"LastName\": \"Kornwestheim\",\n                    \"Weight\": 90,\n                    \"AllowedPlanes\": null\n                },\n                {\n                    \"ID\": 4,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.414008+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.414008+01:00\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Michel\",\n                    \"LastName\": \"Kornwestheim\",\n                    \"Weight\": 90,\n                    \"AllowedPlanes\": null\n                }\n            ],\n            \"PrefPilotId\": null,\n            \"PrefPilot\": null,\n            \"Flights\": []\n        }\n    ]\n}"
+							"body": "{\n    \"Success\": true,\n    \"Response\": [\n        {\n            \"ID\": 1,\n            \"CreatedAt\": \"2024-06-12T10:55:31.450384Z\",\n            \"UpdatedAt\": \"2024-06-12T10:55:31.450384Z\",\n            \"DeletedAt\": null,\n            \"Registration\": \"D-ELXX\",\n            \"AircraftType\": \"C172\",\n            \"FlightDuration\": 1440000000000,\n            \"FuelMaxCapacity\": 140,\n            \"FuelStartAmount\": 100,\n            \"FuelburnPerFlight\": 20,\n            \"FuelConversionFactor\": 0.72,\n            \"MTOW\": 1050,\n            \"EmptyWeight\": 650,\n            \"MaxSeatPayload\": -1,\n            \"DivisionId\": 3,\n            \"Division\": null,\n            \"AllowedPilots\": [\n                {\n                    \"ID\": 2,\n                    \"CreatedAt\": \"2024-06-12T10:55:31.703573Z\",\n                    \"UpdatedAt\": \"2024-06-12T10:55:31.703573Z\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Felix\",\n                    \"LastName\": \"Musterflug\",\n                    \"Weight\": 68,\n                    \"AllowedPlanes\": null\n                },\n                {\n                    \"ID\": 3,\n                    \"CreatedAt\": \"2024-06-12T10:55:31.714359Z\",\n                    \"UpdatedAt\": \"2024-06-12T10:55:31.714359Z\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Sebastian\",\n                    \"LastName\": \"Testpilot\",\n                    \"Weight\": 85,\n                    \"AllowedPlanes\": null\n                },\n                {\n                    \"ID\": 4,\n                    \"CreatedAt\": \"2024-06-12T10:55:31.727845Z\",\n                    \"UpdatedAt\": \"2024-06-12T10:55:31.727845Z\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Lukas\",\n                    \"LastName\": \"Beispielflug\",\n                    \"Weight\": 88,\n                    \"AllowedPlanes\": null\n                }\n            ],\n            \"PrefPilotId\": 4,\n            \"PrefPilot\": {\n                \"ID\": 4,\n                \"CreatedAt\": \"2024-06-12T10:55:31.727845Z\",\n                \"UpdatedAt\": \"2024-06-12T10:55:31.727845Z\",\n                \"DeletedAt\": null,\n                \"FirstName\": \"Lukas\",\n                \"LastName\": \"Beispielflug\",\n                \"Weight\": 88,\n                \"AllowedPlanes\": null\n            },\n            \"Flights\": [\n                {\n                    \"ID\": 2,\n                    \"CreatedAt\": \"2024-06-12T11:02:26.158349Z\",\n                    \"UpdatedAt\": \"2024-06-12T11:02:26.158349Z\",\n                    \"DeletedAt\": null,\n                    \"Status\": \"BLOCKED\",\n                    \"FlightNo\": null,\n                    \"Description\": \"refueling\",\n                    \"FuelAtDeparture\": null,\n                    \"DepartureTime\": \"2024-01-24T13:15:00Z\",\n                    \"ArrivalTime\": \"2024-01-24T13:30:00Z\",\n                    \"PlaneId\": 1,\n                    \"Plane\": null,\n                    \"PilotId\": null,\n                    \"Pilot\": null,\n                    \"Passengers\": null\n                },\n                {\n                    \"ID\": 3,\n                    \"CreatedAt\": \"2024-06-12T11:03:21.9447Z\",\n                    \"UpdatedAt\": \"2024-06-12T11:03:21.9447Z\",\n                    \"DeletedAt\": null,\n                    \"Status\": \"RESERVED\",\n                    \"FlightNo\": null,\n                    \"Description\": null,\n                    \"FuelAtDeparture\": null,\n                    \"DepartureTime\": \"2024-01-24T11:00:00Z\",\n                    \"ArrivalTime\": \"2024-01-24T11:24:00Z\",\n                    \"PlaneId\": 1,\n                    \"Plane\": null,\n                    \"PilotId\": 4,\n                    \"Pilot\": null,\n                    \"Passengers\": null\n                },\n                {\n                    \"ID\": 1,\n                    \"CreatedAt\": \"2024-06-12T11:01:54.391691Z\",\n                    \"UpdatedAt\": \"2024-06-12T11:03:33.901995Z\",\n                    \"DeletedAt\": null,\n                    \"Status\": \"BOOKED\",\n                    \"FlightNo\": \"ELXX-001\",\n                    \"Description\": null,\n                    \"FuelAtDeparture\": null,\n                    \"DepartureTime\": \"2024-01-24T10:30:00Z\",\n                    \"ArrivalTime\": \"2024-01-24T10:54:00Z\",\n                    \"PlaneId\": 1,\n                    \"Plane\": null,\n                    \"PilotId\": 4,\n                    \"Pilot\": null,\n                    \"Passengers\": null\n                }\n            ],\n            \"SlotStartTime\": \"2024-06-12T09:00:00Z\",\n            \"SlotEndTime\": \"2024-06-12T17:00:00Z\"\n        },\n        {\n            \"ID\": 2,\n            \"CreatedAt\": \"2024-06-12T10:55:31.483175Z\",\n            \"UpdatedAt\": \"2024-06-12T10:55:31.483175Z\",\n            \"DeletedAt\": null,\n            \"Registration\": \"D-ESXX\",\n            \"AircraftType\": \"C172\",\n            \"FlightDuration\": 1440000000000,\n            \"FuelMaxCapacity\": 120,\n            \"FuelStartAmount\": 80,\n            \"FuelburnPerFlight\": 15,\n            \"FuelConversionFactor\": 0.72,\n            \"MTOW\": 1083,\n            \"EmptyWeight\": 756,\n            \"MaxSeatPayload\": -1,\n            \"DivisionId\": 3,\n            \"Division\": null,\n            \"AllowedPilots\": [\n                {\n                    \"ID\": 8,\n                    \"CreatedAt\": \"2024-06-12T10:55:31.762508Z\",\n                    \"UpdatedAt\": \"2024-06-12T10:55:31.762508Z\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Paul\",\n                    \"LastName\": \"Testflug\",\n                    \"Weight\": 93,\n                    \"AllowedPlanes\": null\n                },\n                {\n                    \"ID\": 9,\n                    \"CreatedAt\": \"2024-06-12T10:55:31.770962Z\",\n                    \"UpdatedAt\": \"2024-06-12T10:55:31.770962Z\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Julian\",\n                    \"LastName\": \"Musterpilot\",\n                    \"Weight\": 89,\n                    \"AllowedPlanes\": null\n                },\n                {\n                    \"ID\": 10,\n                    \"CreatedAt\": \"2024-06-12T10:55:31.779477Z\",\n                    \"UpdatedAt\": \"2024-06-12T10:55:31.779477Z\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Maximilian\",\n                    \"LastName\": \"Beispielflug\",\n                    \"Weight\": 92,\n                    \"AllowedPlanes\": null\n                }\n            ],\n            \"PrefPilotId\": 8,\n            \"PrefPilot\": {\n                \"ID\": 8,\n                \"CreatedAt\": \"2024-06-12T10:55:31.762508Z\",\n                \"UpdatedAt\": \"2024-06-12T10:55:31.762508Z\",\n                \"DeletedAt\": null,\n                \"FirstName\": \"Paul\",\n                \"LastName\": \"Testflug\",\n                \"Weight\": 93,\n                \"AllowedPlanes\": null\n            },\n            \"Flights\": [],\n            \"SlotStartTime\": \"2024-06-12T09:00:00Z\",\n            \"SlotEndTime\": \"2024-06-12T17:00:00Z\"\n        },\n        {\n            \"ID\": 3,\n            \"CreatedAt\": \"2024-06-12T10:55:31.521286Z\",\n            \"UpdatedAt\": \"2024-06-12T10:55:31.521286Z\",\n            \"DeletedAt\": null,\n            \"Registration\": \"D-ESYY\",\n            \"AircraftType\": \"C172\",\n            \"FlightDuration\": 1440000000000,\n            \"FuelMaxCapacity\": 180,\n            \"FuelStartAmount\": 160,\n            \"FuelburnPerFlight\": 20,\n            \"FuelConversionFactor\": 0.72,\n            \"MTOW\": 1100,\n            \"EmptyWeight\": 734,\n            \"MaxSeatPayload\": -1,\n            \"DivisionId\": 3,\n            \"Division\": null,\n            \"AllowedPilots\": [\n                {\n                    \"ID\": 9,\n                    \"CreatedAt\": \"2024-06-12T10:55:31.770962Z\",\n                    \"UpdatedAt\": \"2024-06-12T10:55:31.770962Z\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Julian\",\n                    \"LastName\": \"Musterpilot\",\n                    \"Weight\": 89,\n                    \"AllowedPlanes\": null\n                },\n                {\n                    \"ID\": 10,\n                    \"CreatedAt\": \"2024-06-12T10:55:31.779477Z\",\n                    \"UpdatedAt\": \"2024-06-12T10:55:31.779477Z\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Maximilian\",\n                    \"LastName\": \"Beispielflug\",\n                    \"Weight\": 92,\n                    \"AllowedPlanes\": null\n                }\n            ],\n            \"PrefPilotId\": 10,\n            \"PrefPilot\": {\n                \"ID\": 10,\n                \"CreatedAt\": \"2024-06-12T10:55:31.779477Z\",\n                \"UpdatedAt\": \"2024-06-12T10:55:31.779477Z\",\n                \"DeletedAt\": null,\n                \"FirstName\": \"Maximilian\",\n                \"LastName\": \"Beispielflug\",\n                \"Weight\": 92,\n                \"AllowedPlanes\": null\n            },\n            \"Flights\": [],\n            \"SlotStartTime\": \"2024-06-12T09:00:00Z\",\n            \"SlotEndTime\": \"2024-06-12T17:00:00Z\"\n        },\n        {\n            \"ID\": 4,\n            \"CreatedAt\": \"2024-06-12T10:55:31.523282Z\",\n            \"UpdatedAt\": \"2024-06-12T10:55:31.523282Z\",\n            \"DeletedAt\": null,\n            \"Registration\": \"D-EFXX\",\n            \"AircraftType\": \"PA28\",\n            \"FlightDuration\": 1440000000000,\n            \"FuelMaxCapacity\": 140,\n            \"FuelStartAmount\": 100,\n            \"FuelburnPerFlight\": 20,\n            \"FuelConversionFactor\": 0.72,\n            \"MTOW\": 1050,\n            \"EmptyWeight\": 663,\n            \"MaxSeatPayload\": -1,\n            \"DivisionId\": 3,\n            \"Division\": null,\n            \"AllowedPilots\": [\n                {\n                    \"ID\": 6,\n                    \"CreatedAt\": \"2024-06-12T10:55:31.745377Z\",\n                    \"UpdatedAt\": \"2024-06-12T10:55:31.745377Z\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Sophia\",\n                    \"LastName\": \"Beispiel\",\n                    \"Weight\": 95,\n                    \"AllowedPlanes\": null\n                },\n                {\n                    \"ID\": 7,\n                    \"CreatedAt\": \"2024-06-12T10:55:31.754871Z\",\n                    \"UpdatedAt\": \"2024-06-12T10:55:31.754871Z\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Anna\",\n                    \"LastName\": \"Mustermann\",\n                    \"Weight\": 97,\n                    \"AllowedPlanes\": null\n                }\n            ],\n            \"PrefPilotId\": 7,\n            \"PrefPilot\": {\n                \"ID\": 7,\n                \"CreatedAt\": \"2024-06-12T10:55:31.754871Z\",\n                \"UpdatedAt\": \"2024-06-12T10:55:31.754871Z\",\n                \"DeletedAt\": null,\n                \"FirstName\": \"Anna\",\n                \"LastName\": \"Mustermann\",\n                \"Weight\": 97,\n                \"AllowedPlanes\": null\n            },\n            \"Flights\": [],\n            \"SlotStartTime\": \"2024-06-12T09:00:00Z\",\n            \"SlotEndTime\": \"2024-06-12T17:00:00Z\"\n        },\n        {\n            \"ID\": 5,\n            \"CreatedAt\": \"2024-06-12T10:55:31.524881Z\",\n            \"UpdatedAt\": \"2024-06-12T10:55:31.524881Z\",\n            \"DeletedAt\": null,\n            \"Registration\": \"D-KOXX\",\n            \"AircraftType\": \"HK36\",\n            \"FlightDuration\": 1440000000000,\n            \"FuelMaxCapacity\": 80,\n            \"FuelStartAmount\": 80,\n            \"FuelburnPerFlight\": 10,\n            \"FuelConversionFactor\": 0.72,\n            \"MTOW\": 800,\n            \"EmptyWeight\": 600,\n            \"MaxSeatPayload\": -1,\n            \"DivisionId\": 2,\n            \"Division\": null,\n            \"AllowedPilots\": [\n                {\n                    \"ID\": 2,\n                    \"CreatedAt\": \"2024-06-12T10:55:31.703573Z\",\n                    \"UpdatedAt\": \"2024-06-12T10:55:31.703573Z\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Felix\",\n                    \"LastName\": \"Musterflug\",\n                    \"Weight\": 68,\n                    \"AllowedPlanes\": null\n                },\n                {\n                    \"ID\": 3,\n                    \"CreatedAt\": \"2024-06-12T10:55:31.714359Z\",\n                    \"UpdatedAt\": \"2024-06-12T10:55:31.714359Z\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Sebastian\",\n                    \"LastName\": \"Testpilot\",\n                    \"Weight\": 85,\n                    \"AllowedPlanes\": null\n                },\n                {\n                    \"ID\": 4,\n                    \"CreatedAt\": \"2024-06-12T10:55:31.727845Z\",\n                    \"UpdatedAt\": \"2024-06-12T10:55:31.727845Z\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Lukas\",\n                    \"LastName\": \"Beispielflug\",\n                    \"Weight\": 88,\n                    \"AllowedPlanes\": null\n                },\n                {\n                    \"ID\": 5,\n                    \"CreatedAt\": \"2024-06-12T10:55:31.740101Z\",\n                    \"UpdatedAt\": \"2024-06-12T10:55:31.740101Z\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Thomas\",\n                    \"LastName\": \"Testflug\",\n                    \"Weight\": 82,\n                    \"AllowedPlanes\": null\n                }\n            ],\n            \"PrefPilotId\": 4,\n            \"PrefPilot\": {\n                \"ID\": 4,\n                \"CreatedAt\": \"2024-06-12T10:55:31.727845Z\",\n                \"UpdatedAt\": \"2024-06-12T10:55:31.727845Z\",\n                \"DeletedAt\": null,\n                \"FirstName\": \"Lukas\",\n                \"LastName\": \"Beispielflug\",\n                \"Weight\": 88,\n                \"AllowedPlanes\": null\n            },\n            \"Flights\": [],\n            \"SlotStartTime\": \"2024-06-12T09:00:00Z\",\n            \"SlotEndTime\": \"2024-06-12T17:00:00Z\"\n        },\n        {\n            \"ID\": 6,\n            \"CreatedAt\": \"2024-06-12T10:55:31.527448Z\",\n            \"UpdatedAt\": \"2024-06-12T10:55:31.527448Z\",\n            \"DeletedAt\": null,\n            \"Registration\": \"D-KIXX\",\n            \"AircraftType\": \"SF25C\",\n            \"FlightDuration\": 1440000000000,\n            \"FuelMaxCapacity\": 40,\n            \"FuelStartAmount\": 40,\n            \"FuelburnPerFlight\": 5,\n            \"FuelConversionFactor\": 0.72,\n            \"MTOW\": 450,\n            \"EmptyWeight\": 300,\n            \"MaxSeatPayload\": -1,\n            \"DivisionId\": 2,\n            \"Division\": null,\n            \"AllowedPilots\": [\n                {\n                    \"ID\": 5,\n                    \"CreatedAt\": \"2024-06-12T10:55:31.740101Z\",\n                    \"UpdatedAt\": \"2024-06-12T10:55:31.740101Z\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Thomas\",\n                    \"LastName\": \"Testflug\",\n                    \"Weight\": 82,\n                    \"AllowedPlanes\": null\n                }\n            ],\n            \"PrefPilotId\": 5,\n            \"PrefPilot\": {\n                \"ID\": 5,\n                \"CreatedAt\": \"2024-06-12T10:55:31.740101Z\",\n                \"UpdatedAt\": \"2024-06-12T10:55:31.740101Z\",\n                \"DeletedAt\": null,\n                \"FirstName\": \"Thomas\",\n                \"LastName\": \"Testflug\",\n                \"Weight\": 82,\n                \"AllowedPlanes\": null\n            },\n            \"Flights\": [],\n            \"SlotStartTime\": \"2024-06-12T09:00:00Z\",\n            \"SlotEndTime\": \"2024-06-12T17:00:00Z\"\n        },\n        {\n            \"ID\": 7,\n            \"CreatedAt\": \"2024-06-12T10:55:31.530823Z\",\n            \"UpdatedAt\": \"2024-06-12T10:55:31.530823Z\",\n            \"DeletedAt\": null,\n            \"Registration\": \"D-0761\",\n            \"AircraftType\": \"ASK21\",\n            \"FlightDuration\": 600000000000,\n            \"FuelMaxCapacity\": -1,\n            \"FuelStartAmount\": 0,\n            \"FuelburnPerFlight\": -1,\n            \"FuelConversionFactor\": -1,\n            \"MTOW\": 500,\n            \"EmptyWeight\": 300,\n            \"MaxSeatPayload\": 110,\n            \"DivisionId\": 1,\n            \"Division\": null,\n            \"AllowedPilots\": [\n                {\n                    \"ID\": 1,\n                    \"CreatedAt\": \"2024-06-12T10:55:31.690651Z\",\n                    \"UpdatedAt\": \"2024-06-12T10:55:31.690651Z\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Alex\",\n                    \"LastName\": \"Beispielpilot\",\n                    \"Weight\": 75,\n                    \"AllowedPlanes\": null\n                },\n                {\n                    \"ID\": 2,\n                    \"CreatedAt\": \"2024-06-12T10:55:31.703573Z\",\n                    \"UpdatedAt\": \"2024-06-12T10:55:31.703573Z\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Felix\",\n                    \"LastName\": \"Musterflug\",\n                    \"Weight\": 68,\n                    \"AllowedPlanes\": null\n                },\n                {\n                    \"ID\": 3,\n                    \"CreatedAt\": \"2024-06-12T10:55:31.714359Z\",\n                    \"UpdatedAt\": \"2024-06-12T10:55:31.714359Z\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Sebastian\",\n                    \"LastName\": \"Testpilot\",\n                    \"Weight\": 85,\n                    \"AllowedPlanes\": null\n                },\n                {\n                    \"ID\": 4,\n                    \"CreatedAt\": \"2024-06-12T10:55:31.727845Z\",\n                    \"UpdatedAt\": \"2024-06-12T10:55:31.727845Z\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Lukas\",\n                    \"LastName\": \"Beispielflug\",\n                    \"Weight\": 88,\n                    \"AllowedPlanes\": null\n                }\n            ],\n            \"PrefPilotId\": 4,\n            \"PrefPilot\": {\n                \"ID\": 4,\n                \"CreatedAt\": \"2024-06-12T10:55:31.727845Z\",\n                \"UpdatedAt\": \"2024-06-12T10:55:31.727845Z\",\n                \"DeletedAt\": null,\n                \"FirstName\": \"Lukas\",\n                \"LastName\": \"Beispielflug\",\n                \"Weight\": 88,\n                \"AllowedPlanes\": null\n            },\n            \"Flights\": [],\n            \"SlotStartTime\": \"2024-06-12T09:00:00Z\",\n            \"SlotEndTime\": \"2024-06-12T19:00:00Z\"\n        },\n        {\n            \"ID\": 8,\n            \"CreatedAt\": \"2024-06-12T10:55:31.53277Z\",\n            \"UpdatedAt\": \"2024-06-12T10:55:31.53277Z\",\n            \"DeletedAt\": null,\n            \"Registration\": \"D-7208\",\n            \"AircraftType\": \"Duo Discus\",\n            \"FlightDuration\": 600000000000,\n            \"FuelMaxCapacity\": -1,\n            \"FuelStartAmount\": 0,\n            \"FuelburnPerFlight\": -1,\n            \"FuelConversionFactor\": -1,\n            \"MTOW\": 520,\n            \"EmptyWeight\": 300,\n            \"MaxSeatPayload\": 110,\n            \"DivisionId\": 1,\n            \"Division\": null,\n            \"AllowedPilots\": [\n                {\n                    \"ID\": 1,\n                    \"CreatedAt\": \"2024-06-12T10:55:31.690651Z\",\n                    \"UpdatedAt\": \"2024-06-12T10:55:31.690651Z\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Alex\",\n                    \"LastName\": \"Beispielpilot\",\n                    \"Weight\": 75,\n                    \"AllowedPlanes\": null\n                },\n                {\n                    \"ID\": 2,\n                    \"CreatedAt\": \"2024-06-12T10:55:31.703573Z\",\n                    \"UpdatedAt\": \"2024-06-12T10:55:31.703573Z\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Felix\",\n                    \"LastName\": \"Musterflug\",\n                    \"Weight\": 68,\n                    \"AllowedPlanes\": null\n                },\n                {\n                    \"ID\": 3,\n                    \"CreatedAt\": \"2024-06-12T10:55:31.714359Z\",\n                    \"UpdatedAt\": \"2024-06-12T10:55:31.714359Z\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Sebastian\",\n                    \"LastName\": \"Testpilot\",\n                    \"Weight\": 85,\n                    \"AllowedPlanes\": null\n                },\n                {\n                    \"ID\": 4,\n                    \"CreatedAt\": \"2024-06-12T10:55:31.727845Z\",\n                    \"UpdatedAt\": \"2024-06-12T10:55:31.727845Z\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Lukas\",\n                    \"LastName\": \"Beispielflug\",\n                    \"Weight\": 88,\n                    \"AllowedPlanes\": null\n                }\n            ],\n            \"PrefPilotId\": 4,\n            \"PrefPilot\": {\n                \"ID\": 4,\n                \"CreatedAt\": \"2024-06-12T10:55:31.727845Z\",\n                \"UpdatedAt\": \"2024-06-12T10:55:31.727845Z\",\n                \"DeletedAt\": null,\n                \"FirstName\": \"Lukas\",\n                \"LastName\": \"Beispielflug\",\n                \"Weight\": 88,\n                \"AllowedPlanes\": null\n            },\n            \"Flights\": [],\n            \"SlotStartTime\": \"2024-06-12T09:00:00Z\",\n            \"SlotEndTime\": \"2024-06-12T19:00:00Z\"\n        }\n    ]\n}"
+						},
+						{
+							"id": "b46ebfc2-5756-41c7-a735-8e11f0fc3c41",
+							"name": "get planes by divId",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/planes?byDivisionId=1",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"planes"
+									],
+									"query": [
+										{
+											"key": "includeFlights",
+											"value": "true",
+											"description": "When set to true, the response will include flight details for each plane.",
+											"disabled": true
+										},
+										{
+											"key": "includePilots",
+											"value": "true",
+											"description": "When set to true, the response will include details about the allowed pilots for each plane.",
+											"disabled": true
+										},
+										{
+											"key": "includePrefPilot",
+											"value": "true",
+											"description": "When set to true, the response will include details about the preferred pilot for each plane.",
+											"disabled": true
+										},
+										{
+											"key": "byDivisionId",
+											"value": "1",
+											"description": "Filters planes by the specified division ID. The response includes all planes associated with this division."
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 12 Jun 2024 11:04:46 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1038"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"Success\": true,\n    \"Response\": [\n        {\n            \"ID\": 7,\n            \"CreatedAt\": \"2024-06-12T10:55:31.530823Z\",\n            \"UpdatedAt\": \"2024-06-12T10:55:31.530823Z\",\n            \"DeletedAt\": null,\n            \"Registration\": \"D-0761\",\n            \"AircraftType\": \"ASK21\",\n            \"FlightDuration\": 600000000000,\n            \"FuelMaxCapacity\": -1,\n            \"FuelStartAmount\": 0,\n            \"FuelburnPerFlight\": -1,\n            \"FuelConversionFactor\": -1,\n            \"MTOW\": 500,\n            \"EmptyWeight\": 300,\n            \"MaxSeatPayload\": 110,\n            \"DivisionId\": 1,\n            \"Division\": null,\n            \"AllowedPilots\": null,\n            \"PrefPilotId\": 4,\n            \"PrefPilot\": null,\n            \"Flights\": null,\n            \"SlotStartTime\": \"2024-06-12T09:00:00Z\",\n            \"SlotEndTime\": \"2024-06-12T19:00:00Z\"\n        },\n        {\n            \"ID\": 8,\n            \"CreatedAt\": \"2024-06-12T10:55:31.53277Z\",\n            \"UpdatedAt\": \"2024-06-12T10:55:31.53277Z\",\n            \"DeletedAt\": null,\n            \"Registration\": \"D-7208\",\n            \"AircraftType\": \"Duo Discus\",\n            \"FlightDuration\": 600000000000,\n            \"FuelMaxCapacity\": -1,\n            \"FuelStartAmount\": 0,\n            \"FuelburnPerFlight\": -1,\n            \"FuelConversionFactor\": -1,\n            \"MTOW\": 520,\n            \"EmptyWeight\": 300,\n            \"MaxSeatPayload\": 110,\n            \"DivisionId\": 1,\n            \"Division\": null,\n            \"AllowedPilots\": null,\n            \"PrefPilotId\": 4,\n            \"PrefPilot\": null,\n            \"Flights\": null,\n            \"SlotStartTime\": \"2024-06-12T09:00:00Z\",\n            \"SlotEndTime\": \"2024-06-12T19:00:00Z\"\n        }\n    ]\n}"
 						}
 					]
 				},
@@ -900,7 +975,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/api/planes/:id",
+							"raw": "{{url}}/api/planes/:id?includeFlights=true&includePilots=true&includePrefPilot=true",
 							"host": [
 								"{{url}}"
 							],
@@ -913,17 +988,17 @@
 								{
 									"key": "includeFlights",
 									"value": "true",
-									"disabled": true
+									"description": "When set to true, the response will include flight details for each plane."
 								},
 								{
 									"key": "includePilots",
 									"value": "true",
-									"disabled": true
+									"description": "When set to true, the response will include details about the allowed pilots for each plane."
 								},
 								{
 									"key": "includePrefPilot",
 									"value": "true",
-									"disabled": true
+									"description": "When set to true, the response will include details about the preferred pilot for each plane."
 								}
 							],
 							"variable": [
@@ -936,13 +1011,13 @@
 					},
 					"response": [
 						{
-							"id": "e06b0de5-0e24-4235-a711-9515dfdbf1e4",
-							"name": "200",
+							"id": "44736c72-fefc-467a-87a2-69193db6a018",
+							"name": "get Plane",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/api/planes?includeFlights=true&includePilots=true&includePrefPilot=true",
+									"raw": "http://localhost:8080/api/planes/:id?includeFlights=true&includePilots=true&includePrefPilot=true",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -950,7 +1025,8 @@
 									"port": "8080",
 									"path": [
 										"api",
-										"planes"
+										"planes",
+										":id"
 									],
 									"query": [
 										{
@@ -964,12 +1040,12 @@
 										{
 											"key": "includePrefPilot",
 											"value": "true"
-										},
+										}
+									],
+									"variable": [
 										{
-											"key": "byDivisionId",
-											"value": "1",
-											"description": "gets all planes with this division_id",
-											"disabled": true
+											"key": "id",
+											"value": "1"
 										}
 									]
 								}
@@ -984,7 +1060,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 02 Feb 2024 13:45:37 GMT"
+									"value": "Wed, 12 Jun 2024 11:05:10 GMT"
 								},
 								{
 									"key": "Transfer-Encoding",
@@ -992,7 +1068,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"Success\": true,\n    \"Response\": [\n        {\n            \"ID\": 1,\n            \"CreatedAt\": \"2024-02-02T13:40:53.380584+01:00\",\n            \"UpdatedAt\": \"2024-02-02T13:40:53.380584+01:00\",\n            \"DeletedAt\": null,\n            \"Registration\": \"D-ELXX\",\n            \"AircraftType\": \"C172\",\n            \"FlightDuration\": 1440000000000,\n            \"FuelMaxCapacity\": 140,\n            \"FuelburnPerFlight\": 20,\n            \"FuelConversionFactor\": 0.72,\n            \"MTOW\": 1050,\n            \"EmptyWeight\": 650,\n            \"MaxSeatPayload\": -1,\n            \"Division\": null,\n            \"AllowedPilots\": [\n                {\n                    \"ID\": 2,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.405383+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.405383+01:00\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Dennis\",\n                    \"LastName\": \"Kornwestheim\",\n                    \"Weight\": 72,\n                    \"AllowedPlanes\": null\n                },\n                {\n                    \"ID\": 3,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.409874+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.409874+01:00\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Yannic\",\n                    \"LastName\": \"Kornwestheim\",\n                    \"Weight\": 90,\n                    \"AllowedPlanes\": null\n                },\n                {\n                    \"ID\": 4,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.414008+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.414008+01:00\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Michel\",\n                    \"LastName\": \"Kornwestheim\",\n                    \"Weight\": 90,\n                    \"AllowedPlanes\": null\n                }\n            ],\n            \"PrefPilotId\": null,\n            \"PrefPilot\": null,\n            \"Flights\": [\n                {\n                    \"ID\": 1,\n                    \"CreatedAt\": \"2024-02-02T13:40:55.508527+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:49:28.519775+01:00\",\n                    \"DeletedAt\": null,\n                    \"Status\": \"BOOKED\",\n                    \"Description\": null,\n                    \"FuelAtDeparture\": 100,\n                    \"DepartureTime\": \"2024-01-24T15:30:00+01:00\",\n                    \"ArrivalTime\": \"2024-01-24T15:54:00+01:00\",\n                    \"PlaneId\": 1,\n                    \"Plane\": null,\n                    \"PilotId\": 2,\n                    \"Pilot\": null,\n                    \"Passengers\": null\n                }\n            ]\n        },\n        {\n            \"ID\": 2,\n            \"CreatedAt\": \"2024-02-02T13:40:53.382904+01:00\",\n            \"UpdatedAt\": \"2024-02-02T13:40:53.382904+01:00\",\n            \"DeletedAt\": null,\n            \"Registration\": \"D-ESXX\",\n            \"AircraftType\": \"C172\",\n            \"FlightDuration\": 1440000000000,\n            \"FuelMaxCapacity\": 120,\n            \"FuelburnPerFlight\": 15,\n            \"FuelConversionFactor\": 0.72,\n            \"MTOW\": 1083,\n            \"EmptyWeight\": 756,\n            \"MaxSeatPayload\": -1,\n            \"Division\": null,\n            \"AllowedPilots\": [\n                {\n                    \"ID\": 8,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.428633+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.428633+01:00\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Max\",\n                    \"LastName\": \"Stuttgart\",\n                    \"Weight\": 100,\n                    \"AllowedPlanes\": null\n                },\n                {\n                    \"ID\": 9,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.431802+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.431802+01:00\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Mario\",\n                    \"LastName\": \"Stuttgart\",\n                    \"Weight\": 100,\n                    \"AllowedPlanes\": null\n                },\n                {\n                    \"ID\": 10,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.43677+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.43677+01:00\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Bernd\",\n                    \"LastName\": \"Stuttgart\",\n                    \"Weight\": 100,\n                    \"AllowedPlanes\": null\n                }\n            ],\n            \"PrefPilotId\": null,\n            \"PrefPilot\": null,\n            \"Flights\": []\n        },\n        {\n            \"ID\": 3,\n            \"CreatedAt\": \"2024-02-02T13:40:53.385459+01:00\",\n            \"UpdatedAt\": \"2024-02-02T13:40:53.385459+01:00\",\n            \"DeletedAt\": null,\n            \"Registration\": \"D-ESYY\",\n            \"AircraftType\": \"C172\",\n            \"FlightDuration\": 1440000000000,\n            \"FuelMaxCapacity\": 180,\n            \"FuelburnPerFlight\": 20,\n            \"FuelConversionFactor\": 0.72,\n            \"MTOW\": 1100,\n            \"EmptyWeight\": 734,\n            \"MaxSeatPayload\": -1,\n            \"Division\": null,\n            \"AllowedPilots\": [\n                {\n                    \"ID\": 9,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.431802+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.431802+01:00\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Mario\",\n                    \"LastName\": \"Stuttgart\",\n                    \"Weight\": 100,\n                    \"AllowedPlanes\": null\n                },\n                {\n                    \"ID\": 10,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.43677+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.43677+01:00\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Bernd\",\n                    \"LastName\": \"Stuttgart\",\n                    \"Weight\": 100,\n                    \"AllowedPlanes\": null\n                }\n            ],\n            \"PrefPilotId\": null,\n            \"PrefPilot\": null,\n            \"Flights\": []\n        },\n        {\n            \"ID\": 4,\n            \"CreatedAt\": \"2024-02-02T13:40:53.388102+01:00\",\n            \"UpdatedAt\": \"2024-02-02T13:40:53.388102+01:00\",\n            \"DeletedAt\": null,\n            \"Registration\": \"D-EFXX\",\n            \"AircraftType\": \"PA28\",\n            \"FlightDuration\": 1440000000000,\n            \"FuelMaxCapacity\": 140,\n            \"FuelburnPerFlight\": 20,\n            \"FuelConversionFactor\": 0.72,\n            \"MTOW\": 1050,\n            \"EmptyWeight\": 663,\n            \"MaxSeatPayload\": -1,\n            \"Division\": null,\n            \"AllowedPilots\": [\n                {\n                    \"ID\": 6,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.422412+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.422412+01:00\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Katja\",\n                    \"LastName\": \"Motorflug\",\n                    \"Weight\": 100,\n                    \"AllowedPlanes\": null\n                },\n                {\n                    \"ID\": 7,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.425897+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.425897+01:00\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Markus\",\n                    \"LastName\": \"Motorflug\",\n                    \"Weight\": 100,\n                    \"AllowedPlanes\": null\n                }\n            ],\n            \"PrefPilotId\": null,\n            \"PrefPilot\": null,\n            \"Flights\": []\n        },\n        {\n            \"ID\": 5,\n            \"CreatedAt\": \"2024-02-02T13:40:53.390458+01:00\",\n            \"UpdatedAt\": \"2024-02-02T13:40:53.390458+01:00\",\n            \"DeletedAt\": null,\n            \"Registration\": \"D-KOXX\",\n            \"AircraftType\": \"HK36\",\n            \"FlightDuration\": 1440000000000,\n            \"FuelMaxCapacity\": 80,\n            \"FuelburnPerFlight\": 10,\n            \"FuelConversionFactor\": 0.72,\n            \"MTOW\": 800,\n            \"EmptyWeight\": 600,\n            \"MaxSeatPayload\": -1,\n            \"Division\": null,\n            \"AllowedPilots\": [\n                {\n                    \"ID\": 2,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.405383+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.405383+01:00\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Dennis\",\n                    \"LastName\": \"Kornwestheim\",\n                    \"Weight\": 72,\n                    \"AllowedPlanes\": null\n                },\n                {\n                    \"ID\": 3,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.409874+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.409874+01:00\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Yannic\",\n                    \"LastName\": \"Kornwestheim\",\n                    \"Weight\": 90,\n                    \"AllowedPlanes\": null\n                },\n                {\n                    \"ID\": 4,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.414008+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.414008+01:00\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Michel\",\n                    \"LastName\": \"Kornwestheim\",\n                    \"Weight\": 90,\n                    \"AllowedPlanes\": null\n                },\n                {\n                    \"ID\": 5,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.417857+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.417857+01:00\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Horst\",\n                    \"LastName\": \"Kornwestheim\",\n                    \"Weight\": 85,\n                    \"AllowedPlanes\": null\n                }\n            ],\n            \"PrefPilotId\": null,\n            \"PrefPilot\": null,\n            \"Flights\": []\n        },\n        {\n            \"ID\": 6,\n            \"CreatedAt\": \"2024-02-02T13:40:53.39252+01:00\",\n            \"UpdatedAt\": \"2024-02-02T13:40:53.39252+01:00\",\n            \"DeletedAt\": null,\n            \"Registration\": \"D-KIXX\",\n            \"AircraftType\": \"SF25C\",\n            \"FlightDuration\": 1440000000000,\n            \"FuelMaxCapacity\": 40,\n            \"FuelburnPerFlight\": 5,\n            \"FuelConversionFactor\": 0.72,\n            \"MTOW\": 450,\n            \"EmptyWeight\": 300,\n            \"MaxSeatPayload\": -1,\n            \"Division\": null,\n            \"AllowedPilots\": [\n                {\n                    \"ID\": 5,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.417857+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.417857+01:00\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Horst\",\n                    \"LastName\": \"Kornwestheim\",\n                    \"Weight\": 85,\n                    \"AllowedPlanes\": null\n                }\n            ],\n            \"PrefPilotId\": null,\n            \"PrefPilot\": null,\n            \"Flights\": []\n        },\n        {\n            \"ID\": 7,\n            \"CreatedAt\": \"2024-02-02T13:40:53.394361+01:00\",\n            \"UpdatedAt\": \"2024-02-02T13:40:53.394361+01:00\",\n            \"DeletedAt\": null,\n            \"Registration\": \"D-0761\",\n            \"AircraftType\": \"ASK21\",\n            \"FlightDuration\": 600000000000,\n            \"FuelMaxCapacity\": -1,\n            \"FuelburnPerFlight\": -1,\n            \"FuelConversionFactor\": -1,\n            \"MTOW\": 500,\n            \"EmptyWeight\": 300,\n            \"MaxSeatPayload\": 110,\n            \"Division\": null,\n            \"AllowedPilots\": [\n                {\n                    \"ID\": 1,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.398939+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.398939+01:00\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Tobias\",\n                    \"LastName\": \"Kornwestheim\",\n                    \"Weight\": 68,\n                    \"AllowedPlanes\": null\n                },\n                {\n                    \"ID\": 2,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.405383+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.405383+01:00\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Dennis\",\n                    \"LastName\": \"Kornwestheim\",\n                    \"Weight\": 72,\n                    \"AllowedPlanes\": null\n                },\n                {\n                    \"ID\": 3,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.409874+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.409874+01:00\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Yannic\",\n                    \"LastName\": \"Kornwestheim\",\n                    \"Weight\": 90,\n                    \"AllowedPlanes\": null\n                },\n                {\n                    \"ID\": 4,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.414008+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.414008+01:00\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Michel\",\n                    \"LastName\": \"Kornwestheim\",\n                    \"Weight\": 90,\n                    \"AllowedPlanes\": null\n                }\n            ],\n            \"PrefPilotId\": null,\n            \"PrefPilot\": null,\n            \"Flights\": []\n        },\n        {\n            \"ID\": 8,\n            \"CreatedAt\": \"2024-02-02T13:40:53.395886+01:00\",\n            \"UpdatedAt\": \"2024-02-02T13:40:53.395886+01:00\",\n            \"DeletedAt\": null,\n            \"Registration\": \"D-7208\",\n            \"AircraftType\": \"Duo Discus\",\n            \"FlightDuration\": 600000000000,\n            \"FuelMaxCapacity\": -1,\n            \"FuelburnPerFlight\": -1,\n            \"FuelConversionFactor\": -1,\n            \"MTOW\": 520,\n            \"EmptyWeight\": 300,\n            \"MaxSeatPayload\": 110,\n            \"Division\": null,\n            \"AllowedPilots\": [\n                {\n                    \"ID\": 1,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.398939+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.398939+01:00\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Tobias\",\n                    \"LastName\": \"Kornwestheim\",\n                    \"Weight\": 68,\n                    \"AllowedPlanes\": null\n                },\n                {\n                    \"ID\": 2,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.405383+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.405383+01:00\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Dennis\",\n                    \"LastName\": \"Kornwestheim\",\n                    \"Weight\": 72,\n                    \"AllowedPlanes\": null\n                },\n                {\n                    \"ID\": 3,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.409874+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.409874+01:00\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Yannic\",\n                    \"LastName\": \"Kornwestheim\",\n                    \"Weight\": 90,\n                    \"AllowedPlanes\": null\n                },\n                {\n                    \"ID\": 4,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.414008+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.414008+01:00\",\n                    \"DeletedAt\": null,\n                    \"FirstName\": \"Michel\",\n                    \"LastName\": \"Kornwestheim\",\n                    \"Weight\": 90,\n                    \"AllowedPlanes\": null\n                }\n            ],\n            \"PrefPilotId\": null,\n            \"PrefPilot\": null,\n            \"Flights\": []\n        }\n    ]\n}"
+							"body": "{\n    \"Success\": true,\n    \"Response\": {\n        \"ID\": 1,\n        \"CreatedAt\": \"2024-06-12T10:55:31.450384Z\",\n        \"UpdatedAt\": \"2024-06-12T10:55:31.450384Z\",\n        \"DeletedAt\": null,\n        \"Registration\": \"D-ELXX\",\n        \"AircraftType\": \"C172\",\n        \"FlightDuration\": 1440000000000,\n        \"FuelMaxCapacity\": 140,\n        \"FuelStartAmount\": 100,\n        \"FuelburnPerFlight\": 20,\n        \"FuelConversionFactor\": 0.72,\n        \"MTOW\": 1050,\n        \"EmptyWeight\": 650,\n        \"MaxSeatPayload\": -1,\n        \"DivisionId\": 3,\n        \"Division\": null,\n        \"AllowedPilots\": [\n            {\n                \"ID\": 2,\n                \"CreatedAt\": \"2024-06-12T10:55:31.703573Z\",\n                \"UpdatedAt\": \"2024-06-12T10:55:31.703573Z\",\n                \"DeletedAt\": null,\n                \"FirstName\": \"Felix\",\n                \"LastName\": \"Musterflug\",\n                \"Weight\": 68,\n                \"AllowedPlanes\": null\n            },\n            {\n                \"ID\": 3,\n                \"CreatedAt\": \"2024-06-12T10:55:31.714359Z\",\n                \"UpdatedAt\": \"2024-06-12T10:55:31.714359Z\",\n                \"DeletedAt\": null,\n                \"FirstName\": \"Sebastian\",\n                \"LastName\": \"Testpilot\",\n                \"Weight\": 85,\n                \"AllowedPlanes\": null\n            },\n            {\n                \"ID\": 4,\n                \"CreatedAt\": \"2024-06-12T10:55:31.727845Z\",\n                \"UpdatedAt\": \"2024-06-12T10:55:31.727845Z\",\n                \"DeletedAt\": null,\n                \"FirstName\": \"Lukas\",\n                \"LastName\": \"Beispielflug\",\n                \"Weight\": 88,\n                \"AllowedPlanes\": null\n            }\n        ],\n        \"PrefPilotId\": 4,\n        \"PrefPilot\": {\n            \"ID\": 4,\n            \"CreatedAt\": \"2024-06-12T10:55:31.727845Z\",\n            \"UpdatedAt\": \"2024-06-12T10:55:31.727845Z\",\n            \"DeletedAt\": null,\n            \"FirstName\": \"Lukas\",\n            \"LastName\": \"Beispielflug\",\n            \"Weight\": 88,\n            \"AllowedPlanes\": null\n        },\n        \"Flights\": [\n            {\n                \"ID\": 2,\n                \"CreatedAt\": \"2024-06-12T11:02:26.158349Z\",\n                \"UpdatedAt\": \"2024-06-12T11:02:26.158349Z\",\n                \"DeletedAt\": null,\n                \"Status\": \"BLOCKED\",\n                \"FlightNo\": null,\n                \"Description\": \"refueling\",\n                \"FuelAtDeparture\": null,\n                \"DepartureTime\": \"2024-01-24T13:15:00Z\",\n                \"ArrivalTime\": \"2024-01-24T13:30:00Z\",\n                \"PlaneId\": 1,\n                \"Plane\": null,\n                \"PilotId\": null,\n                \"Pilot\": null,\n                \"Passengers\": null\n            },\n            {\n                \"ID\": 3,\n                \"CreatedAt\": \"2024-06-12T11:03:21.9447Z\",\n                \"UpdatedAt\": \"2024-06-12T11:03:21.9447Z\",\n                \"DeletedAt\": null,\n                \"Status\": \"RESERVED\",\n                \"FlightNo\": null,\n                \"Description\": null,\n                \"FuelAtDeparture\": null,\n                \"DepartureTime\": \"2024-01-24T11:00:00Z\",\n                \"ArrivalTime\": \"2024-01-24T11:24:00Z\",\n                \"PlaneId\": 1,\n                \"Plane\": null,\n                \"PilotId\": 4,\n                \"Pilot\": null,\n                \"Passengers\": null\n            },\n            {\n                \"ID\": 1,\n                \"CreatedAt\": \"2024-06-12T11:01:54.391691Z\",\n                \"UpdatedAt\": \"2024-06-12T11:03:33.901995Z\",\n                \"DeletedAt\": null,\n                \"Status\": \"BOOKED\",\n                \"FlightNo\": \"ELXX-001\",\n                \"Description\": null,\n                \"FuelAtDeparture\": null,\n                \"DepartureTime\": \"2024-01-24T10:30:00Z\",\n                \"ArrivalTime\": \"2024-01-24T10:54:00Z\",\n                \"PlaneId\": 1,\n                \"Plane\": null,\n                \"PilotId\": 4,\n                \"Pilot\": null,\n                \"Passengers\": null\n            }\n        ],\n        \"SlotStartTime\": \"2024-06-12T09:00:00Z\",\n        \"SlotEndTime\": \"2024-06-12T17:00:00Z\"\n    }\n}"
 						}
 					]
 				},
@@ -1032,63 +1108,7 @@
 							]
 						}
 					},
-					"response": [
-						{
-							"id": "592fe1c3-7b3a-4b58-ba28-17b794ed49fc",
-							"name": "200",
-							"originalRequest": {
-								"method": "PATCH",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"PrefPilotId\": 2,\n    \"FuelburnPerFlight\": 20,\n    \"FlightDuration\": 1440000000000,\n    \"SlotStartTime\": \"2024-04-28T09:00:00Z\",\n    \"SlotEndTime\": \"2024-04-28T17:00:00Z\"\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "http://localhost:8080/api/planes/:id",
-									"protocol": "http",
-									"host": [
-										"localhost"
-									],
-									"port": "8080",
-									"path": [
-										"api",
-										"planes",
-										":id"
-									],
-									"variable": [
-										{
-											"key": "id",
-											"value": "1"
-										}
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Date",
-									"value": "Sun, 28 Apr 2024 12:39:32 GMT"
-								},
-								{
-									"key": "Content-Length",
-									"value": "1493"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"Success\": true,\n    \"Response\": {\n        \"ID\": 1,\n        \"CreatedAt\": \"2024-04-28T09:50:44.97975Z\",\n        \"UpdatedAt\": \"2024-04-28T14:39:32.907063059+02:00\",\n        \"DeletedAt\": null,\n        \"Registration\": \"D-ELXX\",\n        \"AircraftType\": \"C172\",\n        \"FlightDuration\": 1440000000000,\n        \"FuelMaxCapacity\": 140,\n        \"FuelStartAmount\": 100,\n        \"FuelburnPerFlight\": 20,\n        \"FuelConversionFactor\": 0.72,\n        \"MTOW\": 1050,\n        \"EmptyWeight\": 650,\n        \"MaxSeatPayload\": -1,\n        \"DivisionId\": 3,\n        \"Division\": {\n            \"ID\": 3,\n            \"CreatedAt\": \"2024-04-28T09:50:44.977292Z\",\n            \"UpdatedAt\": \"2024-04-28T12:38:13.68001Z\",\n            \"DeletedAt\": null,\n            \"Name\": \"Motorflug\",\n            \"PassengerCapacity\": 3,\n            \"Planes\": null\n        },\n        \"AllowedPilots\": [\n            {\n                \"ID\": 2,\n                \"CreatedAt\": \"2024-04-28T11:50:44.996663+02:00\",\n                \"UpdatedAt\": \"2024-04-28T11:50:44.996663+02:00\",\n                \"DeletedAt\": null,\n                \"FirstName\": \"Dennis\",\n                \"LastName\": \"Kornwestheim\",\n                \"Weight\": 72,\n                \"AllowedPlanes\": null\n            },\n            {\n                \"ID\": 3,\n                \"CreatedAt\": \"2024-04-28T11:50:45.003673+02:00\",\n                \"UpdatedAt\": \"2024-04-28T11:50:45.003673+02:00\",\n                \"DeletedAt\": null,\n                \"FirstName\": \"Yannic\",\n                \"LastName\": \"Kornwestheim\",\n                \"Weight\": 90,\n                \"AllowedPlanes\": null\n            },\n            {\n                \"ID\": 4,\n                \"CreatedAt\": \"2024-04-28T11:50:45.010158+02:00\",\n                \"UpdatedAt\": \"2024-04-28T11:50:45.010158+02:00\",\n                \"DeletedAt\": null,\n                \"FirstName\": \"Michel\",\n                \"LastName\": \"Kornwestheim\",\n                \"Weight\": 90,\n                \"AllowedPlanes\": null\n            }\n        ],\n        \"PrefPilotId\": 2,\n        \"PrefPilot\": {\n            \"ID\": 2,\n            \"CreatedAt\": \"2024-04-28T11:50:44.996663+02:00\",\n            \"UpdatedAt\": \"2024-04-28T11:50:44.996663+02:00\",\n            \"DeletedAt\": null,\n            \"FirstName\": \"Dennis\",\n            \"LastName\": \"Kornwestheim\",\n            \"Weight\": 72,\n            \"AllowedPlanes\": null\n        },\n        \"Flights\": null,\n        \"SlotStartTime\": \"2024-04-28T09:00:00Z\",\n        \"SlotEndTime\": \"2024-04-28T17:00:00Z\"\n    }\n}"
-						}
-					]
+					"response": []
 				}
 			],
 			"id": "1bf74c17-b256-446b-8fe2-38100766885e"
@@ -1106,7 +1126,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{url}}/api/pilots",
+							"raw": "{{url}}/api/pilots?includePlane=true",
 							"host": [
 								"{{url}}"
 							],
@@ -1117,27 +1137,21 @@
 							"query": [
 								{
 									"key": "includePlane",
-									"value": "true",
-									"disabled": true
-								},
-								{
-									"key": "planeId",
-									"value": "1",
-									"description": "WIP - and does not work correctly",
-									"disabled": true
+									"value": "true"
 								}
 							]
-						}
+						},
+						"description": "This API request retrieves pilot details based on the specified query parameters. The query parameters allow the user to include or exclude additional information such as the planes the pilots are allowed to fly."
 					},
 					"response": [
 						{
-							"id": "859e351d-fc18-44a5-aa23-14d923dbdfae",
-							"name": "200",
+							"id": "1651a1a1-40aa-420b-a0d6-40c3066013aa",
+							"name": "get pilots",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "http://localhost:8080/api/pilots",
+									"raw": "http://localhost:8080/api/pilots?includePlane=true",
 									"protocol": "http",
 									"host": [
 										"localhost"
@@ -1150,14 +1164,7 @@
 									"query": [
 										{
 											"key": "includePlane",
-											"value": "true",
-											"disabled": true
-										},
-										{
-											"key": "planeId",
-											"value": "1",
-											"description": "WIP - and does not work correctly",
-											"disabled": true
+											"value": "true"
 										}
 									]
 								}
@@ -1172,7 +1179,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 02 Feb 2024 13:45:02 GMT"
+									"value": "Wed, 12 Jun 2024 11:06:48 GMT"
 								},
 								{
 									"key": "Transfer-Encoding",
@@ -1180,7 +1187,7 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"Success\": true,\n    \"Response\": [\n        {\n            \"ID\": 1,\n            \"CreatedAt\": \"2024-02-02T13:40:53.398939+01:00\",\n            \"UpdatedAt\": \"2024-02-02T13:40:53.398939+01:00\",\n            \"DeletedAt\": null,\n            \"FirstName\": \"Tobias\",\n            \"LastName\": \"Kornwestheim\",\n            \"Weight\": 68,\n            \"AllowedPlanes\": [\n                {\n                    \"ID\": 7,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.394361+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.394361+01:00\",\n                    \"DeletedAt\": null,\n                    \"Registration\": \"D-0761\",\n                    \"AircraftType\": \"ASK21\",\n                    \"FlightDuration\": 600000000000,\n                    \"FuelMaxCapacity\": -1,\n                    \"FuelburnPerFlight\": -1,\n                    \"FuelConversionFactor\": -1,\n                    \"MTOW\": 500,\n                    \"EmptyWeight\": 300,\n                    \"MaxSeatPayload\": 110,\n                    \"Division\": null,\n                    \"AllowedPilots\": null,\n                    \"PrefPilotId\": null,\n                    \"PrefPilot\": null,\n                    \"Flights\": null\n                },\n                {\n                    \"ID\": 8,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.395886+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.395886+01:00\",\n                    \"DeletedAt\": null,\n                    \"Registration\": \"D-7208\",\n                    \"AircraftType\": \"Duo Discus\",\n                    \"FlightDuration\": 600000000000,\n                    \"FuelMaxCapacity\": -1,\n                    \"FuelburnPerFlight\": -1,\n                    \"FuelConversionFactor\": -1,\n                    \"MTOW\": 520,\n                    \"EmptyWeight\": 300,\n                    \"MaxSeatPayload\": 110,\n                    \"Division\": null,\n                    \"AllowedPilots\": null,\n                    \"PrefPilotId\": null,\n                    \"PrefPilot\": null,\n                    \"Flights\": null\n                }\n            ]\n        },\n        {\n            \"ID\": 2,\n            \"CreatedAt\": \"2024-02-02T13:40:53.405383+01:00\",\n            \"UpdatedAt\": \"2024-02-02T13:40:53.405383+01:00\",\n            \"DeletedAt\": null,\n            \"FirstName\": \"Dennis\",\n            \"LastName\": \"Kornwestheim\",\n            \"Weight\": 72,\n            \"AllowedPlanes\": [\n                {\n                    \"ID\": 1,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.380584+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.380584+01:00\",\n                    \"DeletedAt\": null,\n                    \"Registration\": \"D-ELXX\",\n                    \"AircraftType\": \"C172\",\n                    \"FlightDuration\": 1440000000000,\n                    \"FuelMaxCapacity\": 140,\n                    \"FuelburnPerFlight\": 20,\n                    \"FuelConversionFactor\": 0.72,\n                    \"MTOW\": 1050,\n                    \"EmptyWeight\": 650,\n                    \"MaxSeatPayload\": -1,\n                    \"Division\": null,\n                    \"AllowedPilots\": null,\n                    \"PrefPilotId\": null,\n                    \"PrefPilot\": null,\n                    \"Flights\": null\n                },\n                {\n                    \"ID\": 5,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.390458+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.390458+01:00\",\n                    \"DeletedAt\": null,\n                    \"Registration\": \"D-KOXX\",\n                    \"AircraftType\": \"HK36\",\n                    \"FlightDuration\": 1440000000000,\n                    \"FuelMaxCapacity\": 80,\n                    \"FuelburnPerFlight\": 10,\n                    \"FuelConversionFactor\": 0.72,\n                    \"MTOW\": 800,\n                    \"EmptyWeight\": 600,\n                    \"MaxSeatPayload\": -1,\n                    \"Division\": null,\n                    \"AllowedPilots\": null,\n                    \"PrefPilotId\": null,\n                    \"PrefPilot\": null,\n                    \"Flights\": null\n                },\n                {\n                    \"ID\": 7,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.394361+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.394361+01:00\",\n                    \"DeletedAt\": null,\n                    \"Registration\": \"D-0761\",\n                    \"AircraftType\": \"ASK21\",\n                    \"FlightDuration\": 600000000000,\n                    \"FuelMaxCapacity\": -1,\n                    \"FuelburnPerFlight\": -1,\n                    \"FuelConversionFactor\": -1,\n                    \"MTOW\": 500,\n                    \"EmptyWeight\": 300,\n                    \"MaxSeatPayload\": 110,\n                    \"Division\": null,\n                    \"AllowedPilots\": null,\n                    \"PrefPilotId\": null,\n                    \"PrefPilot\": null,\n                    \"Flights\": null\n                },\n                {\n                    \"ID\": 8,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.395886+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.395886+01:00\",\n                    \"DeletedAt\": null,\n                    \"Registration\": \"D-7208\",\n                    \"AircraftType\": \"Duo Discus\",\n                    \"FlightDuration\": 600000000000,\n                    \"FuelMaxCapacity\": -1,\n                    \"FuelburnPerFlight\": -1,\n                    \"FuelConversionFactor\": -1,\n                    \"MTOW\": 520,\n                    \"EmptyWeight\": 300,\n                    \"MaxSeatPayload\": 110,\n                    \"Division\": null,\n                    \"AllowedPilots\": null,\n                    \"PrefPilotId\": null,\n                    \"PrefPilot\": null,\n                    \"Flights\": null\n                }\n            ]\n        },\n        {\n            \"ID\": 3,\n            \"CreatedAt\": \"2024-02-02T13:40:53.409874+01:00\",\n            \"UpdatedAt\": \"2024-02-02T13:40:53.409874+01:00\",\n            \"DeletedAt\": null,\n            \"FirstName\": \"Yannic\",\n            \"LastName\": \"Kornwestheim\",\n            \"Weight\": 90,\n            \"AllowedPlanes\": [\n                {\n                    \"ID\": 1,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.380584+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.380584+01:00\",\n                    \"DeletedAt\": null,\n                    \"Registration\": \"D-ELXX\",\n                    \"AircraftType\": \"C172\",\n                    \"FlightDuration\": 1440000000000,\n                    \"FuelMaxCapacity\": 140,\n                    \"FuelburnPerFlight\": 20,\n                    \"FuelConversionFactor\": 0.72,\n                    \"MTOW\": 1050,\n                    \"EmptyWeight\": 650,\n                    \"MaxSeatPayload\": -1,\n                    \"Division\": null,\n                    \"AllowedPilots\": null,\n                    \"PrefPilotId\": null,\n                    \"PrefPilot\": null,\n                    \"Flights\": null\n                },\n                {\n                    \"ID\": 5,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.390458+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.390458+01:00\",\n                    \"DeletedAt\": null,\n                    \"Registration\": \"D-KOXX\",\n                    \"AircraftType\": \"HK36\",\n                    \"FlightDuration\": 1440000000000,\n                    \"FuelMaxCapacity\": 80,\n                    \"FuelburnPerFlight\": 10,\n                    \"FuelConversionFactor\": 0.72,\n                    \"MTOW\": 800,\n                    \"EmptyWeight\": 600,\n                    \"MaxSeatPayload\": -1,\n                    \"Division\": null,\n                    \"AllowedPilots\": null,\n                    \"PrefPilotId\": null,\n                    \"PrefPilot\": null,\n                    \"Flights\": null\n                },\n                {\n                    \"ID\": 7,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.394361+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.394361+01:00\",\n                    \"DeletedAt\": null,\n                    \"Registration\": \"D-0761\",\n                    \"AircraftType\": \"ASK21\",\n                    \"FlightDuration\": 600000000000,\n                    \"FuelMaxCapacity\": -1,\n                    \"FuelburnPerFlight\": -1,\n                    \"FuelConversionFactor\": -1,\n                    \"MTOW\": 500,\n                    \"EmptyWeight\": 300,\n                    \"MaxSeatPayload\": 110,\n                    \"Division\": null,\n                    \"AllowedPilots\": null,\n                    \"PrefPilotId\": null,\n                    \"PrefPilot\": null,\n                    \"Flights\": null\n                },\n                {\n                    \"ID\": 8,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.395886+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.395886+01:00\",\n                    \"DeletedAt\": null,\n                    \"Registration\": \"D-7208\",\n                    \"AircraftType\": \"Duo Discus\",\n                    \"FlightDuration\": 600000000000,\n                    \"FuelMaxCapacity\": -1,\n                    \"FuelburnPerFlight\": -1,\n                    \"FuelConversionFactor\": -1,\n                    \"MTOW\": 520,\n                    \"EmptyWeight\": 300,\n                    \"MaxSeatPayload\": 110,\n                    \"Division\": null,\n                    \"AllowedPilots\": null,\n                    \"PrefPilotId\": null,\n                    \"PrefPilot\": null,\n                    \"Flights\": null\n                }\n            ]\n        },\n        {\n            \"ID\": 4,\n            \"CreatedAt\": \"2024-02-02T13:40:53.414008+01:00\",\n            \"UpdatedAt\": \"2024-02-02T13:40:53.414008+01:00\",\n            \"DeletedAt\": null,\n            \"FirstName\": \"Michel\",\n            \"LastName\": \"Kornwestheim\",\n            \"Weight\": 90,\n            \"AllowedPlanes\": [\n                {\n                    \"ID\": 1,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.380584+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.380584+01:00\",\n                    \"DeletedAt\": null,\n                    \"Registration\": \"D-ELXX\",\n                    \"AircraftType\": \"C172\",\n                    \"FlightDuration\": 1440000000000,\n                    \"FuelMaxCapacity\": 140,\n                    \"FuelburnPerFlight\": 20,\n                    \"FuelConversionFactor\": 0.72,\n                    \"MTOW\": 1050,\n                    \"EmptyWeight\": 650,\n                    \"MaxSeatPayload\": -1,\n                    \"Division\": null,\n                    \"AllowedPilots\": null,\n                    \"PrefPilotId\": null,\n                    \"PrefPilot\": null,\n                    \"Flights\": null\n                },\n                {\n                    \"ID\": 5,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.390458+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.390458+01:00\",\n                    \"DeletedAt\": null,\n                    \"Registration\": \"D-KOXX\",\n                    \"AircraftType\": \"HK36\",\n                    \"FlightDuration\": 1440000000000,\n                    \"FuelMaxCapacity\": 80,\n                    \"FuelburnPerFlight\": 10,\n                    \"FuelConversionFactor\": 0.72,\n                    \"MTOW\": 800,\n                    \"EmptyWeight\": 600,\n                    \"MaxSeatPayload\": -1,\n                    \"Division\": null,\n                    \"AllowedPilots\": null,\n                    \"PrefPilotId\": null,\n                    \"PrefPilot\": null,\n                    \"Flights\": null\n                },\n                {\n                    \"ID\": 7,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.394361+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.394361+01:00\",\n                    \"DeletedAt\": null,\n                    \"Registration\": \"D-0761\",\n                    \"AircraftType\": \"ASK21\",\n                    \"FlightDuration\": 600000000000,\n                    \"FuelMaxCapacity\": -1,\n                    \"FuelburnPerFlight\": -1,\n                    \"FuelConversionFactor\": -1,\n                    \"MTOW\": 500,\n                    \"EmptyWeight\": 300,\n                    \"MaxSeatPayload\": 110,\n                    \"Division\": null,\n                    \"AllowedPilots\": null,\n                    \"PrefPilotId\": null,\n                    \"PrefPilot\": null,\n                    \"Flights\": null\n                },\n                {\n                    \"ID\": 8,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.395886+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.395886+01:00\",\n                    \"DeletedAt\": null,\n                    \"Registration\": \"D-7208\",\n                    \"AircraftType\": \"Duo Discus\",\n                    \"FlightDuration\": 600000000000,\n                    \"FuelMaxCapacity\": -1,\n                    \"FuelburnPerFlight\": -1,\n                    \"FuelConversionFactor\": -1,\n                    \"MTOW\": 520,\n                    \"EmptyWeight\": 300,\n                    \"MaxSeatPayload\": 110,\n                    \"Division\": null,\n                    \"AllowedPilots\": null,\n                    \"PrefPilotId\": null,\n                    \"PrefPilot\": null,\n                    \"Flights\": null\n                }\n            ]\n        },\n        {\n            \"ID\": 5,\n            \"CreatedAt\": \"2024-02-02T13:40:53.417857+01:00\",\n            \"UpdatedAt\": \"2024-02-02T13:40:53.417857+01:00\",\n            \"DeletedAt\": null,\n            \"FirstName\": \"Horst\",\n            \"LastName\": \"Kornwestheim\",\n            \"Weight\": 85,\n            \"AllowedPlanes\": [\n                {\n                    \"ID\": 5,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.390458+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.390458+01:00\",\n                    \"DeletedAt\": null,\n                    \"Registration\": \"D-KOXX\",\n                    \"AircraftType\": \"HK36\",\n                    \"FlightDuration\": 1440000000000,\n                    \"FuelMaxCapacity\": 80,\n                    \"FuelburnPerFlight\": 10,\n                    \"FuelConversionFactor\": 0.72,\n                    \"MTOW\": 800,\n                    \"EmptyWeight\": 600,\n                    \"MaxSeatPayload\": -1,\n                    \"Division\": null,\n                    \"AllowedPilots\": null,\n                    \"PrefPilotId\": null,\n                    \"PrefPilot\": null,\n                    \"Flights\": null\n                },\n                {\n                    \"ID\": 6,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.39252+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.39252+01:00\",\n                    \"DeletedAt\": null,\n                    \"Registration\": \"D-KIXX\",\n                    \"AircraftType\": \"SF25C\",\n                    \"FlightDuration\": 1440000000000,\n                    \"FuelMaxCapacity\": 40,\n                    \"FuelburnPerFlight\": 5,\n                    \"FuelConversionFactor\": 0.72,\n                    \"MTOW\": 450,\n                    \"EmptyWeight\": 300,\n                    \"MaxSeatPayload\": -1,\n                    \"Division\": null,\n                    \"AllowedPilots\": null,\n                    \"PrefPilotId\": null,\n                    \"PrefPilot\": null,\n                    \"Flights\": null\n                }\n            ]\n        },\n        {\n            \"ID\": 6,\n            \"CreatedAt\": \"2024-02-02T13:40:53.422412+01:00\",\n            \"UpdatedAt\": \"2024-02-02T13:40:53.422412+01:00\",\n            \"DeletedAt\": null,\n            \"FirstName\": \"Katja\",\n            \"LastName\": \"Motorflug\",\n            \"Weight\": 100,\n            \"AllowedPlanes\": [\n                {\n                    \"ID\": 4,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.388102+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.388102+01:00\",\n                    \"DeletedAt\": null,\n                    \"Registration\": \"D-EFXX\",\n                    \"AircraftType\": \"PA28\",\n                    \"FlightDuration\": 1440000000000,\n                    \"FuelMaxCapacity\": 140,\n                    \"FuelburnPerFlight\": 20,\n                    \"FuelConversionFactor\": 0.72,\n                    \"MTOW\": 1050,\n                    \"EmptyWeight\": 663,\n                    \"MaxSeatPayload\": -1,\n                    \"Division\": null,\n                    \"AllowedPilots\": null,\n                    \"PrefPilotId\": null,\n                    \"PrefPilot\": null,\n                    \"Flights\": null\n                }\n            ]\n        },\n        {\n            \"ID\": 7,\n            \"CreatedAt\": \"2024-02-02T13:40:53.425897+01:00\",\n            \"UpdatedAt\": \"2024-02-02T13:40:53.425897+01:00\",\n            \"DeletedAt\": null,\n            \"FirstName\": \"Markus\",\n            \"LastName\": \"Motorflug\",\n            \"Weight\": 100,\n            \"AllowedPlanes\": [\n                {\n                    \"ID\": 4,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.388102+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.388102+01:00\",\n                    \"DeletedAt\": null,\n                    \"Registration\": \"D-EFXX\",\n                    \"AircraftType\": \"PA28\",\n                    \"FlightDuration\": 1440000000000,\n                    \"FuelMaxCapacity\": 140,\n                    \"FuelburnPerFlight\": 20,\n                    \"FuelConversionFactor\": 0.72,\n                    \"MTOW\": 1050,\n                    \"EmptyWeight\": 663,\n                    \"MaxSeatPayload\": -1,\n                    \"Division\": null,\n                    \"AllowedPilots\": null,\n                    \"PrefPilotId\": null,\n                    \"PrefPilot\": null,\n                    \"Flights\": null\n                }\n            ]\n        },\n        {\n            \"ID\": 8,\n            \"CreatedAt\": \"2024-02-02T13:40:53.428633+01:00\",\n            \"UpdatedAt\": \"2024-02-02T13:40:53.428633+01:00\",\n            \"DeletedAt\": null,\n            \"FirstName\": \"Max\",\n            \"LastName\": \"Stuttgart\",\n            \"Weight\": 100,\n            \"AllowedPlanes\": [\n                {\n                    \"ID\": 2,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.382904+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.382904+01:00\",\n                    \"DeletedAt\": null,\n                    \"Registration\": \"D-ESXX\",\n                    \"AircraftType\": \"C172\",\n                    \"FlightDuration\": 1440000000000,\n                    \"FuelMaxCapacity\": 120,\n                    \"FuelburnPerFlight\": 15,\n                    \"FuelConversionFactor\": 0.72,\n                    \"MTOW\": 1083,\n                    \"EmptyWeight\": 756,\n                    \"MaxSeatPayload\": -1,\n                    \"Division\": null,\n                    \"AllowedPilots\": null,\n                    \"PrefPilotId\": null,\n                    \"PrefPilot\": null,\n                    \"Flights\": null\n                }\n            ]\n        },\n        {\n            \"ID\": 9,\n            \"CreatedAt\": \"2024-02-02T13:40:53.431802+01:00\",\n            \"UpdatedAt\": \"2024-02-02T13:40:53.431802+01:00\",\n            \"DeletedAt\": null,\n            \"FirstName\": \"Mario\",\n            \"LastName\": \"Stuttgart\",\n            \"Weight\": 100,\n            \"AllowedPlanes\": [\n                {\n                    \"ID\": 2,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.382904+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.382904+01:00\",\n                    \"DeletedAt\": null,\n                    \"Registration\": \"D-ESXX\",\n                    \"AircraftType\": \"C172\",\n                    \"FlightDuration\": 1440000000000,\n                    \"FuelMaxCapacity\": 120,\n                    \"FuelburnPerFlight\": 15,\n                    \"FuelConversionFactor\": 0.72,\n                    \"MTOW\": 1083,\n                    \"EmptyWeight\": 756,\n                    \"MaxSeatPayload\": -1,\n                    \"Division\": null,\n                    \"AllowedPilots\": null,\n                    \"PrefPilotId\": null,\n                    \"PrefPilot\": null,\n                    \"Flights\": null\n                },\n                {\n                    \"ID\": 3,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.385459+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.385459+01:00\",\n                    \"DeletedAt\": null,\n                    \"Registration\": \"D-ESYY\",\n                    \"AircraftType\": \"C172\",\n                    \"FlightDuration\": 1440000000000,\n                    \"FuelMaxCapacity\": 180,\n                    \"FuelburnPerFlight\": 20,\n                    \"FuelConversionFactor\": 0.72,\n                    \"MTOW\": 1100,\n                    \"EmptyWeight\": 734,\n                    \"MaxSeatPayload\": -1,\n                    \"Division\": null,\n                    \"AllowedPilots\": null,\n                    \"PrefPilotId\": null,\n                    \"PrefPilot\": null,\n                    \"Flights\": null\n                }\n            ]\n        },\n        {\n            \"ID\": 10,\n            \"CreatedAt\": \"2024-02-02T13:40:53.43677+01:00\",\n            \"UpdatedAt\": \"2024-02-02T13:40:53.43677+01:00\",\n            \"DeletedAt\": null,\n            \"FirstName\": \"Bernd\",\n            \"LastName\": \"Stuttgart\",\n            \"Weight\": 100,\n            \"AllowedPlanes\": [\n                {\n                    \"ID\": 2,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.382904+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.382904+01:00\",\n                    \"DeletedAt\": null,\n                    \"Registration\": \"D-ESXX\",\n                    \"AircraftType\": \"C172\",\n                    \"FlightDuration\": 1440000000000,\n                    \"FuelMaxCapacity\": 120,\n                    \"FuelburnPerFlight\": 15,\n                    \"FuelConversionFactor\": 0.72,\n                    \"MTOW\": 1083,\n                    \"EmptyWeight\": 756,\n                    \"MaxSeatPayload\": -1,\n                    \"Division\": null,\n                    \"AllowedPilots\": null,\n                    \"PrefPilotId\": null,\n                    \"PrefPilot\": null,\n                    \"Flights\": null\n                },\n                {\n                    \"ID\": 3,\n                    \"CreatedAt\": \"2024-02-02T13:40:53.385459+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:40:53.385459+01:00\",\n                    \"DeletedAt\": null,\n                    \"Registration\": \"D-ESYY\",\n                    \"AircraftType\": \"C172\",\n                    \"FlightDuration\": 1440000000000,\n                    \"FuelMaxCapacity\": 180,\n                    \"FuelburnPerFlight\": 20,\n                    \"FuelConversionFactor\": 0.72,\n                    \"MTOW\": 1100,\n                    \"EmptyWeight\": 734,\n                    \"MaxSeatPayload\": -1,\n                    \"Division\": null,\n                    \"AllowedPilots\": null,\n                    \"PrefPilotId\": null,\n                    \"PrefPilot\": null,\n                    \"Flights\": null\n                }\n            ]\n        }\n    ]\n}"
+							"body": "{\n    \"Success\": true,\n    \"Response\": [\n        {\n            \"ID\": 1,\n            \"CreatedAt\": \"2024-06-12T10:55:31.690651Z\",\n            \"UpdatedAt\": \"2024-06-12T10:55:31.690651Z\",\n            \"DeletedAt\": null,\n            \"FirstName\": \"Alex\",\n            \"LastName\": \"Beispielpilot\",\n            \"Weight\": 75,\n            \"AllowedPlanes\": [\n                {\n                    \"ID\": 7,\n                    \"CreatedAt\": \"2024-06-12T10:55:31.530823Z\",\n                    \"UpdatedAt\": \"2024-06-12T10:55:31.530823Z\",\n                    \"DeletedAt\": null,\n                    \"Registration\": \"D-0761\",\n                    \"AircraftType\": \"ASK21\",\n                    \"FlightDuration\": 600000000000,\n                    \"FuelMaxCapacity\": -1,\n                    \"FuelStartAmount\": 0,\n                    \"FuelburnPerFlight\": -1,\n                    \"FuelConversionFactor\": -1,\n                    \"MTOW\": 500,\n                    \"EmptyWeight\": 300,\n                    \"MaxSeatPayload\": 110,\n                    \"DivisionId\": 1,\n                    \"Division\": null,\n                    \"AllowedPilots\": null,\n                    \"PrefPilotId\": 4,\n                    \"PrefPilot\": null,\n                    \"Flights\": null,\n                    \"SlotStartTime\": \"2024-06-12T09:00:00Z\",\n                    \"SlotEndTime\": \"2024-06-12T19:00:00Z\"\n                },\n                {\n                    \"ID\": 8,\n                    \"CreatedAt\": \"2024-06-12T10:55:31.53277Z\",\n                    \"UpdatedAt\": \"2024-06-12T10:55:31.53277Z\",\n                    \"DeletedAt\": null,\n                    \"Registration\": \"D-7208\",\n                    \"AircraftType\": \"Duo Discus\",\n                    \"FlightDuration\": 600000000000,\n                    \"FuelMaxCapacity\": -1,\n                    \"FuelStartAmount\": 0,\n                    \"FuelburnPerFlight\": -1,\n                    \"FuelConversionFactor\": -1,\n                    \"MTOW\": 520,\n                    \"EmptyWeight\": 300,\n                    \"MaxSeatPayload\": 110,\n                    \"DivisionId\": 1,\n                    \"Division\": null,\n                    \"AllowedPilots\": null,\n                    \"PrefPilotId\": 4,\n                    \"PrefPilot\": null,\n                    \"Flights\": null,\n                    \"SlotStartTime\": \"2024-06-12T09:00:00Z\",\n                    \"SlotEndTime\": \"2024-06-12T19:00:00Z\"\n                }\n            ]\n        },\n        {\n            \"ID\": 2,\n            \"CreatedAt\": \"2024-06-12T10:55:31.703573Z\",\n            \"UpdatedAt\": \"2024-06-12T10:55:31.703573Z\",\n            \"DeletedAt\": null,\n            \"FirstName\": \"Felix\",\n            \"LastName\": \"Musterflug\",\n            \"Weight\": 68,\n            \"AllowedPlanes\": [\n                {\n                    \"ID\": 1,\n                    \"CreatedAt\": \"2024-06-12T10:55:31.450384Z\",\n                    \"UpdatedAt\": \"2024-06-12T10:55:31.450384Z\",\n                    \"DeletedAt\": null,\n                    \"Registration\": \"D-ELXX\",\n                    \"AircraftType\": \"C172\",\n                    \"FlightDuration\": 1440000000000,\n                    \"FuelMaxCapacity\": 140,\n                    \"FuelStartAmount\": 100,\n                    \"FuelburnPerFlight\": 20,\n                    \"FuelConversionFactor\": 0.72,\n                    \"MTOW\": 1050,\n                    \"EmptyWeight\": 650,\n                    \"MaxSeatPayload\": -1,\n                    \"DivisionId\": 3,\n                    \"Division\": null,\n                    \"AllowedPilots\": null,\n                    \"PrefPilotId\": 4,\n                    \"PrefPilot\": null,\n                    \"Flights\": null,\n                    \"SlotStartTime\": \"2024-06-12T09:00:00Z\",\n                    \"SlotEndTime\": \"2024-06-12T17:00:00Z\"\n                },\n                {\n                    \"ID\": 5,\n                    \"CreatedAt\": \"2024-06-12T10:55:31.524881Z\",\n                    \"UpdatedAt\": \"2024-06-12T10:55:31.524881Z\",\n                    \"DeletedAt\": null,\n                    \"Registration\": \"D-KOXX\",\n                    \"AircraftType\": \"HK36\",\n                    \"FlightDuration\": 1440000000000,\n                    \"FuelMaxCapacity\": 80,\n                    \"FuelStartAmount\": 80,\n                    \"FuelburnPerFlight\": 10,\n                    \"FuelConversionFactor\": 0.72,\n                    \"MTOW\": 800,\n                    \"EmptyWeight\": 600,\n                    \"MaxSeatPayload\": -1,\n                    \"DivisionId\": 2,\n                    \"Division\": null,\n                    \"AllowedPilots\": null,\n                    \"PrefPilotId\": 4,\n                    \"PrefPilot\": null,\n                    \"Flights\": null,\n                    \"SlotStartTime\": \"2024-06-12T09:00:00Z\",\n                    \"SlotEndTime\": \"2024-06-12T17:00:00Z\"\n                },\n                {\n                    \"ID\": 7,\n                    \"CreatedAt\": \"2024-06-12T10:55:31.530823Z\",\n                    \"UpdatedAt\": \"2024-06-12T10:55:31.530823Z\",\n                    \"DeletedAt\": null,\n                    \"Registration\": \"D-0761\",\n                    \"AircraftType\": \"ASK21\",\n                    \"FlightDuration\": 600000000000,\n                    \"FuelMaxCapacity\": -1,\n                    \"FuelStartAmount\": 0,\n                    \"FuelburnPerFlight\": -1,\n                    \"FuelConversionFactor\": -1,\n                    \"MTOW\": 500,\n                    \"EmptyWeight\": 300,\n                    \"MaxSeatPayload\": 110,\n                    \"DivisionId\": 1,\n                    \"Division\": null,\n                    \"AllowedPilots\": null,\n                    \"PrefPilotId\": 4,\n                    \"PrefPilot\": null,\n                    \"Flights\": null,\n                    \"SlotStartTime\": \"2024-06-12T09:00:00Z\",\n                    \"SlotEndTime\": \"2024-06-12T19:00:00Z\"\n                },\n                {\n                    \"ID\": 8,\n                    \"CreatedAt\": \"2024-06-12T10:55:31.53277Z\",\n                    \"UpdatedAt\": \"2024-06-12T10:55:31.53277Z\",\n                    \"DeletedAt\": null,\n                    \"Registration\": \"D-7208\",\n                    \"AircraftType\": \"Duo Discus\",\n                    \"FlightDuration\": 600000000000,\n                    \"FuelMaxCapacity\": -1,\n                    \"FuelStartAmount\": 0,\n                    \"FuelburnPerFlight\": -1,\n                    \"FuelConversionFactor\": -1,\n                    \"MTOW\": 520,\n                    \"EmptyWeight\": 300,\n                    \"MaxSeatPayload\": 110,\n                    \"DivisionId\": 1,\n                    \"Division\": null,\n                    \"AllowedPilots\": null,\n                    \"PrefPilotId\": 4,\n                    \"PrefPilot\": null,\n                    \"Flights\": null,\n                    \"SlotStartTime\": \"2024-06-12T09:00:00Z\",\n                    \"SlotEndTime\": \"2024-06-12T19:00:00Z\"\n                }\n            ]\n        },\n        {\n            \"ID\": 3,\n            \"CreatedAt\": \"2024-06-12T10:55:31.714359Z\",\n            \"UpdatedAt\": \"2024-06-12T10:55:31.714359Z\",\n            \"DeletedAt\": null,\n            \"FirstName\": \"Sebastian\",\n            \"LastName\": \"Testpilot\",\n            \"Weight\": 85,\n            \"AllowedPlanes\": [\n                {\n                    \"ID\": 1,\n                    \"CreatedAt\": \"2024-06-12T10:55:31.450384Z\",\n                    \"UpdatedAt\": \"2024-06-12T10:55:31.450384Z\",\n                    \"DeletedAt\": null,\n                    \"Registration\": \"D-ELXX\",\n                    \"AircraftType\": \"C172\",\n                    \"FlightDuration\": 1440000000000,\n                    \"FuelMaxCapacity\": 140,\n                    \"FuelStartAmount\": 100,\n                    \"FuelburnPerFlight\": 20,\n                    \"FuelConversionFactor\": 0.72,\n                    \"MTOW\": 1050,\n                    \"EmptyWeight\": 650,\n                    \"MaxSeatPayload\": -1,\n                    \"DivisionId\": 3,\n                    \"Division\": null,\n                    \"AllowedPilots\": null,\n                    \"PrefPilotId\": 4,\n                    \"PrefPilot\": null,\n                    \"Flights\": null,\n                    \"SlotStartTime\": \"2024-06-12T09:00:00Z\",\n                    \"SlotEndTime\": \"2024-06-12T17:00:00Z\"\n                },\n                {\n                    \"ID\": 5,\n                    \"CreatedAt\": \"2024-06-12T10:55:31.524881Z\",\n                    \"UpdatedAt\": \"2024-06-12T10:55:31.524881Z\",\n                    \"DeletedAt\": null,\n                    \"Registration\": \"D-KOXX\",\n                    \"AircraftType\": \"HK36\",\n                    \"FlightDuration\": 1440000000000,\n                    \"FuelMaxCapacity\": 80,\n                    \"FuelStartAmount\": 80,\n                    \"FuelburnPerFlight\": 10,\n                    \"FuelConversionFactor\": 0.72,\n                    \"MTOW\": 800,\n                    \"EmptyWeight\": 600,\n                    \"MaxSeatPayload\": -1,\n                    \"DivisionId\": 2,\n                    \"Division\": null,\n                    \"AllowedPilots\": null,\n                    \"PrefPilotId\": 4,\n                    \"PrefPilot\": null,\n                    \"Flights\": null,\n                    \"SlotStartTime\": \"2024-06-12T09:00:00Z\",\n                    \"SlotEndTime\": \"2024-06-12T17:00:00Z\"\n                },\n                {\n                    \"ID\": 7,\n                    \"CreatedAt\": \"2024-06-12T10:55:31.530823Z\",\n                    \"UpdatedAt\": \"2024-06-12T10:55:31.530823Z\",\n                    \"DeletedAt\": null,\n                    \"Registration\": \"D-0761\",\n                    \"AircraftType\": \"ASK21\",\n                    \"FlightDuration\": 600000000000,\n                    \"FuelMaxCapacity\": -1,\n                    \"FuelStartAmount\": 0,\n                    \"FuelburnPerFlight\": -1,\n                    \"FuelConversionFactor\": -1,\n                    \"MTOW\": 500,\n                    \"EmptyWeight\": 300,\n                    \"MaxSeatPayload\": 110,\n                    \"DivisionId\": 1,\n                    \"Division\": null,\n                    \"AllowedPilots\": null,\n                    \"PrefPilotId\": 4,\n                    \"PrefPilot\": null,\n                    \"Flights\": null,\n                    \"SlotStartTime\": \"2024-06-12T09:00:00Z\",\n                    \"SlotEndTime\": \"2024-06-12T19:00:00Z\"\n                },\n                {\n                    \"ID\": 8,\n                    \"CreatedAt\": \"2024-06-12T10:55:31.53277Z\",\n                    \"UpdatedAt\": \"2024-06-12T10:55:31.53277Z\",\n                    \"DeletedAt\": null,\n                    \"Registration\": \"D-7208\",\n                    \"AircraftType\": \"Duo Discus\",\n                    \"FlightDuration\": 600000000000,\n                    \"FuelMaxCapacity\": -1,\n                    \"FuelStartAmount\": 0,\n                    \"FuelburnPerFlight\": -1,\n                    \"FuelConversionFactor\": -1,\n                    \"MTOW\": 520,\n                    \"EmptyWeight\": 300,\n                    \"MaxSeatPayload\": 110,\n                    \"DivisionId\": 1,\n                    \"Division\": null,\n                    \"AllowedPilots\": null,\n                    \"PrefPilotId\": 4,\n                    \"PrefPilot\": null,\n                    \"Flights\": null,\n                    \"SlotStartTime\": \"2024-06-12T09:00:00Z\",\n                    \"SlotEndTime\": \"2024-06-12T19:00:00Z\"\n                }\n            ]\n        },\n        {\n            \"ID\": 4,\n            \"CreatedAt\": \"2024-06-12T10:55:31.727845Z\",\n            \"UpdatedAt\": \"2024-06-12T10:55:31.727845Z\",\n            \"DeletedAt\": null,\n            \"FirstName\": \"Lukas\",\n            \"LastName\": \"Beispielflug\",\n            \"Weight\": 88,\n            \"AllowedPlanes\": [\n                {\n                    \"ID\": 1,\n                    \"CreatedAt\": \"2024-06-12T10:55:31.450384Z\",\n                    \"UpdatedAt\": \"2024-06-12T10:55:31.450384Z\",\n                    \"DeletedAt\": null,\n                    \"Registration\": \"D-ELXX\",\n                    \"AircraftType\": \"C172\",\n                    \"FlightDuration\": 1440000000000,\n                    \"FuelMaxCapacity\": 140,\n                    \"FuelStartAmount\": 100,\n                    \"FuelburnPerFlight\": 20,\n                    \"FuelConversionFactor\": 0.72,\n                    \"MTOW\": 1050,\n                    \"EmptyWeight\": 650,\n                    \"MaxSeatPayload\": -1,\n                    \"DivisionId\": 3,\n                    \"Division\": null,\n                    \"AllowedPilots\": null,\n                    \"PrefPilotId\": 4,\n                    \"PrefPilot\": null,\n                    \"Flights\": null,\n                    \"SlotStartTime\": \"2024-06-12T09:00:00Z\",\n                    \"SlotEndTime\": \"2024-06-12T17:00:00Z\"\n                },\n                {\n                    \"ID\": 5,\n                    \"CreatedAt\": \"2024-06-12T10:55:31.524881Z\",\n                    \"UpdatedAt\": \"2024-06-12T10:55:31.524881Z\",\n                    \"DeletedAt\": null,\n                    \"Registration\": \"D-KOXX\",\n                    \"AircraftType\": \"HK36\",\n                    \"FlightDuration\": 1440000000000,\n                    \"FuelMaxCapacity\": 80,\n                    \"FuelStartAmount\": 80,\n                    \"FuelburnPerFlight\": 10,\n                    \"FuelConversionFactor\": 0.72,\n                    \"MTOW\": 800,\n                    \"EmptyWeight\": 600,\n                    \"MaxSeatPayload\": -1,\n                    \"DivisionId\": 2,\n                    \"Division\": null,\n                    \"AllowedPilots\": null,\n                    \"PrefPilotId\": 4,\n                    \"PrefPilot\": null,\n                    \"Flights\": null,\n                    \"SlotStartTime\": \"2024-06-12T09:00:00Z\",\n                    \"SlotEndTime\": \"2024-06-12T17:00:00Z\"\n                },\n                {\n                    \"ID\": 7,\n                    \"CreatedAt\": \"2024-06-12T10:55:31.530823Z\",\n                    \"UpdatedAt\": \"2024-06-12T10:55:31.530823Z\",\n                    \"DeletedAt\": null,\n                    \"Registration\": \"D-0761\",\n                    \"AircraftType\": \"ASK21\",\n                    \"FlightDuration\": 600000000000,\n                    \"FuelMaxCapacity\": -1,\n                    \"FuelStartAmount\": 0,\n                    \"FuelburnPerFlight\": -1,\n                    \"FuelConversionFactor\": -1,\n                    \"MTOW\": 500,\n                    \"EmptyWeight\": 300,\n                    \"MaxSeatPayload\": 110,\n                    \"DivisionId\": 1,\n                    \"Division\": null,\n                    \"AllowedPilots\": null,\n                    \"PrefPilotId\": 4,\n                    \"PrefPilot\": null,\n                    \"Flights\": null,\n                    \"SlotStartTime\": \"2024-06-12T09:00:00Z\",\n                    \"SlotEndTime\": \"2024-06-12T19:00:00Z\"\n                },\n                {\n                    \"ID\": 8,\n                    \"CreatedAt\": \"2024-06-12T10:55:31.53277Z\",\n                    \"UpdatedAt\": \"2024-06-12T10:55:31.53277Z\",\n                    \"DeletedAt\": null,\n                    \"Registration\": \"D-7208\",\n                    \"AircraftType\": \"Duo Discus\",\n                    \"FlightDuration\": 600000000000,\n                    \"FuelMaxCapacity\": -1,\n                    \"FuelStartAmount\": 0,\n                    \"FuelburnPerFlight\": -1,\n                    \"FuelConversionFactor\": -1,\n                    \"MTOW\": 520,\n                    \"EmptyWeight\": 300,\n                    \"MaxSeatPayload\": 110,\n                    \"DivisionId\": 1,\n                    \"Division\": null,\n                    \"AllowedPilots\": null,\n                    \"PrefPilotId\": 4,\n                    \"PrefPilot\": null,\n                    \"Flights\": null,\n                    \"SlotStartTime\": \"2024-06-12T09:00:00Z\",\n                    \"SlotEndTime\": \"2024-06-12T19:00:00Z\"\n                }\n            ]\n        },\n        {\n            \"ID\": 5,\n            \"CreatedAt\": \"2024-06-12T10:55:31.740101Z\",\n            \"UpdatedAt\": \"2024-06-12T10:55:31.740101Z\",\n            \"DeletedAt\": null,\n            \"FirstName\": \"Thomas\",\n            \"LastName\": \"Testflug\",\n            \"Weight\": 82,\n            \"AllowedPlanes\": [\n                {\n                    \"ID\": 5,\n                    \"CreatedAt\": \"2024-06-12T10:55:31.524881Z\",\n                    \"UpdatedAt\": \"2024-06-12T10:55:31.524881Z\",\n                    \"DeletedAt\": null,\n                    \"Registration\": \"D-KOXX\",\n                    \"AircraftType\": \"HK36\",\n                    \"FlightDuration\": 1440000000000,\n                    \"FuelMaxCapacity\": 80,\n                    \"FuelStartAmount\": 80,\n                    \"FuelburnPerFlight\": 10,\n                    \"FuelConversionFactor\": 0.72,\n                    \"MTOW\": 800,\n                    \"EmptyWeight\": 600,\n                    \"MaxSeatPayload\": -1,\n                    \"DivisionId\": 2,\n                    \"Division\": null,\n                    \"AllowedPilots\": null,\n                    \"PrefPilotId\": 4,\n                    \"PrefPilot\": null,\n                    \"Flights\": null,\n                    \"SlotStartTime\": \"2024-06-12T09:00:00Z\",\n                    \"SlotEndTime\": \"2024-06-12T17:00:00Z\"\n                },\n                {\n                    \"ID\": 6,\n                    \"CreatedAt\": \"2024-06-12T10:55:31.527448Z\",\n                    \"UpdatedAt\": \"2024-06-12T10:55:31.527448Z\",\n                    \"DeletedAt\": null,\n                    \"Registration\": \"D-KIXX\",\n                    \"AircraftType\": \"SF25C\",\n                    \"FlightDuration\": 1440000000000,\n                    \"FuelMaxCapacity\": 40,\n                    \"FuelStartAmount\": 40,\n                    \"FuelburnPerFlight\": 5,\n                    \"FuelConversionFactor\": 0.72,\n                    \"MTOW\": 450,\n                    \"EmptyWeight\": 300,\n                    \"MaxSeatPayload\": -1,\n                    \"DivisionId\": 2,\n                    \"Division\": null,\n                    \"AllowedPilots\": null,\n                    \"PrefPilotId\": 5,\n                    \"PrefPilot\": null,\n                    \"Flights\": null,\n                    \"SlotStartTime\": \"2024-06-12T09:00:00Z\",\n                    \"SlotEndTime\": \"2024-06-12T17:00:00Z\"\n                }\n            ]\n        },\n        {\n            \"ID\": 6,\n            \"CreatedAt\": \"2024-06-12T10:55:31.745377Z\",\n            \"UpdatedAt\": \"2024-06-12T10:55:31.745377Z\",\n            \"DeletedAt\": null,\n            \"FirstName\": \"Sophia\",\n            \"LastName\": \"Beispiel\",\n            \"Weight\": 95,\n            \"AllowedPlanes\": [\n                {\n                    \"ID\": 4,\n                    \"CreatedAt\": \"2024-06-12T10:55:31.523282Z\",\n                    \"UpdatedAt\": \"2024-06-12T10:55:31.523282Z\",\n                    \"DeletedAt\": null,\n                    \"Registration\": \"D-EFXX\",\n                    \"AircraftType\": \"PA28\",\n                    \"FlightDuration\": 1440000000000,\n                    \"FuelMaxCapacity\": 140,\n                    \"FuelStartAmount\": 100,\n                    \"FuelburnPerFlight\": 20,\n                    \"FuelConversionFactor\": 0.72,\n                    \"MTOW\": 1050,\n                    \"EmptyWeight\": 663,\n                    \"MaxSeatPayload\": -1,\n                    \"DivisionId\": 3,\n                    \"Division\": null,\n                    \"AllowedPilots\": null,\n                    \"PrefPilotId\": 7,\n                    \"PrefPilot\": null,\n                    \"Flights\": null,\n                    \"SlotStartTime\": \"2024-06-12T09:00:00Z\",\n                    \"SlotEndTime\": \"2024-06-12T17:00:00Z\"\n                }\n            ]\n        },\n        {\n            \"ID\": 7,\n            \"CreatedAt\": \"2024-06-12T10:55:31.754871Z\",\n            \"UpdatedAt\": \"2024-06-12T10:55:31.754871Z\",\n            \"DeletedAt\": null,\n            \"FirstName\": \"Anna\",\n            \"LastName\": \"Mustermann\",\n            \"Weight\": 97,\n            \"AllowedPlanes\": [\n                {\n                    \"ID\": 4,\n                    \"CreatedAt\": \"2024-06-12T10:55:31.523282Z\",\n                    \"UpdatedAt\": \"2024-06-12T10:55:31.523282Z\",\n                    \"DeletedAt\": null,\n                    \"Registration\": \"D-EFXX\",\n                    \"AircraftType\": \"PA28\",\n                    \"FlightDuration\": 1440000000000,\n                    \"FuelMaxCapacity\": 140,\n                    \"FuelStartAmount\": 100,\n                    \"FuelburnPerFlight\": 20,\n                    \"FuelConversionFactor\": 0.72,\n                    \"MTOW\": 1050,\n                    \"EmptyWeight\": 663,\n                    \"MaxSeatPayload\": -1,\n                    \"DivisionId\": 3,\n                    \"Division\": null,\n                    \"AllowedPilots\": null,\n                    \"PrefPilotId\": 7,\n                    \"PrefPilot\": null,\n                    \"Flights\": null,\n                    \"SlotStartTime\": \"2024-06-12T09:00:00Z\",\n                    \"SlotEndTime\": \"2024-06-12T17:00:00Z\"\n                }\n            ]\n        },\n        {\n            \"ID\": 8,\n            \"CreatedAt\": \"2024-06-12T10:55:31.762508Z\",\n            \"UpdatedAt\": \"2024-06-12T10:55:31.762508Z\",\n            \"DeletedAt\": null,\n            \"FirstName\": \"Paul\",\n            \"LastName\": \"Testflug\",\n            \"Weight\": 93,\n            \"AllowedPlanes\": [\n                {\n                    \"ID\": 2,\n                    \"CreatedAt\": \"2024-06-12T10:55:31.483175Z\",\n                    \"UpdatedAt\": \"2024-06-12T10:55:31.483175Z\",\n                    \"DeletedAt\": null,\n                    \"Registration\": \"D-ESXX\",\n                    \"AircraftType\": \"C172\",\n                    \"FlightDuration\": 1440000000000,\n                    \"FuelMaxCapacity\": 120,\n                    \"FuelStartAmount\": 80,\n                    \"FuelburnPerFlight\": 15,\n                    \"FuelConversionFactor\": 0.72,\n                    \"MTOW\": 1083,\n                    \"EmptyWeight\": 756,\n                    \"MaxSeatPayload\": -1,\n                    \"DivisionId\": 3,\n                    \"Division\": null,\n                    \"AllowedPilots\": null,\n                    \"PrefPilotId\": 8,\n                    \"PrefPilot\": null,\n                    \"Flights\": null,\n                    \"SlotStartTime\": \"2024-06-12T09:00:00Z\",\n                    \"SlotEndTime\": \"2024-06-12T17:00:00Z\"\n                }\n            ]\n        },\n        {\n            \"ID\": 9,\n            \"CreatedAt\": \"2024-06-12T10:55:31.770962Z\",\n            \"UpdatedAt\": \"2024-06-12T10:55:31.770962Z\",\n            \"DeletedAt\": null,\n            \"FirstName\": \"Julian\",\n            \"LastName\": \"Musterpilot\",\n            \"Weight\": 89,\n            \"AllowedPlanes\": [\n                {\n                    \"ID\": 2,\n                    \"CreatedAt\": \"2024-06-12T10:55:31.483175Z\",\n                    \"UpdatedAt\": \"2024-06-12T10:55:31.483175Z\",\n                    \"DeletedAt\": null,\n                    \"Registration\": \"D-ESXX\",\n                    \"AircraftType\": \"C172\",\n                    \"FlightDuration\": 1440000000000,\n                    \"FuelMaxCapacity\": 120,\n                    \"FuelStartAmount\": 80,\n                    \"FuelburnPerFlight\": 15,\n                    \"FuelConversionFactor\": 0.72,\n                    \"MTOW\": 1083,\n                    \"EmptyWeight\": 756,\n                    \"MaxSeatPayload\": -1,\n                    \"DivisionId\": 3,\n                    \"Division\": null,\n                    \"AllowedPilots\": null,\n                    \"PrefPilotId\": 8,\n                    \"PrefPilot\": null,\n                    \"Flights\": null,\n                    \"SlotStartTime\": \"2024-06-12T09:00:00Z\",\n                    \"SlotEndTime\": \"2024-06-12T17:00:00Z\"\n                },\n                {\n                    \"ID\": 3,\n                    \"CreatedAt\": \"2024-06-12T10:55:31.521286Z\",\n                    \"UpdatedAt\": \"2024-06-12T10:55:31.521286Z\",\n                    \"DeletedAt\": null,\n                    \"Registration\": \"D-ESYY\",\n                    \"AircraftType\": \"C172\",\n                    \"FlightDuration\": 1440000000000,\n                    \"FuelMaxCapacity\": 180,\n                    \"FuelStartAmount\": 160,\n                    \"FuelburnPerFlight\": 20,\n                    \"FuelConversionFactor\": 0.72,\n                    \"MTOW\": 1100,\n                    \"EmptyWeight\": 734,\n                    \"MaxSeatPayload\": -1,\n                    \"DivisionId\": 3,\n                    \"Division\": null,\n                    \"AllowedPilots\": null,\n                    \"PrefPilotId\": 10,\n                    \"PrefPilot\": null,\n                    \"Flights\": null,\n                    \"SlotStartTime\": \"2024-06-12T09:00:00Z\",\n                    \"SlotEndTime\": \"2024-06-12T17:00:00Z\"\n                }\n            ]\n        },\n        {\n            \"ID\": 10,\n            \"CreatedAt\": \"2024-06-12T10:55:31.779477Z\",\n            \"UpdatedAt\": \"2024-06-12T10:55:31.779477Z\",\n            \"DeletedAt\": null,\n            \"FirstName\": \"Maximilian\",\n            \"LastName\": \"Beispielflug\",\n            \"Weight\": 92,\n            \"AllowedPlanes\": [\n                {\n                    \"ID\": 2,\n                    \"CreatedAt\": \"2024-06-12T10:55:31.483175Z\",\n                    \"UpdatedAt\": \"2024-06-12T10:55:31.483175Z\",\n                    \"DeletedAt\": null,\n                    \"Registration\": \"D-ESXX\",\n                    \"AircraftType\": \"C172\",\n                    \"FlightDuration\": 1440000000000,\n                    \"FuelMaxCapacity\": 120,\n                    \"FuelStartAmount\": 80,\n                    \"FuelburnPerFlight\": 15,\n                    \"FuelConversionFactor\": 0.72,\n                    \"MTOW\": 1083,\n                    \"EmptyWeight\": 756,\n                    \"MaxSeatPayload\": -1,\n                    \"DivisionId\": 3,\n                    \"Division\": null,\n                    \"AllowedPilots\": null,\n                    \"PrefPilotId\": 8,\n                    \"PrefPilot\": null,\n                    \"Flights\": null,\n                    \"SlotStartTime\": \"2024-06-12T09:00:00Z\",\n                    \"SlotEndTime\": \"2024-06-12T17:00:00Z\"\n                },\n                {\n                    \"ID\": 3,\n                    \"CreatedAt\": \"2024-06-12T10:55:31.521286Z\",\n                    \"UpdatedAt\": \"2024-06-12T10:55:31.521286Z\",\n                    \"DeletedAt\": null,\n                    \"Registration\": \"D-ESYY\",\n                    \"AircraftType\": \"C172\",\n                    \"FlightDuration\": 1440000000000,\n                    \"FuelMaxCapacity\": 180,\n                    \"FuelStartAmount\": 160,\n                    \"FuelburnPerFlight\": 20,\n                    \"FuelConversionFactor\": 0.72,\n                    \"MTOW\": 1100,\n                    \"EmptyWeight\": 734,\n                    \"MaxSeatPayload\": -1,\n                    \"DivisionId\": 3,\n                    \"Division\": null,\n                    \"AllowedPilots\": null,\n                    \"PrefPilotId\": 10,\n                    \"PrefPilot\": null,\n                    \"Flights\": null,\n                    \"SlotStartTime\": \"2024-06-12T09:00:00Z\",\n                    \"SlotEndTime\": \"2024-06-12T17:00:00Z\"\n                }\n            ]\n        }\n    ]\n}"
 						}
 					]
 				}
@@ -1218,10 +1225,12 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{url}}/api/user",
+									"raw": "http://localhost:8080/api/user",
+									"protocol": "http",
 									"host": [
-										"{{url}}"
+										"localhost"
 									],
+									"port": "8080",
 									"path": [
 										"api",
 										"user"
@@ -1261,7 +1270,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"Username\": \"Max Mustermann\",\n    \"Role\": \"Admin\",\n    \"Password\": \"Password!\"\n}",
+							"raw": "{\n    \"Username\": \"Maria Musterfrau\",\n    \"Role\": \"read-only\",\n    \"Password\": \"Password!\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -1281,14 +1290,14 @@
 					},
 					"response": [
 						{
-							"id": "4934feca-f9a5-453d-b6e1-359222dce754",
-							"name": "201",
+							"id": "45b5fc1f-60cd-4dd3-8846-3f814c851770",
+							"name": "vendor",
 							"originalRequest": {
 								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"Username\": \"Max Mustermann\",\n    \"Role\": \"Admin\",\n    \"Password\": \"Password!\"\n}",
+									"raw": "{\n    \"Username\": \"Max Mustermann\",\n    \"Role\": \"vendor\",\n    \"Password\": \"Password!\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -1316,15 +1325,153 @@
 								},
 								{
 									"key": "Date",
-									"value": "Thu, 02 May 2024 00:04:48 GMT"
+									"value": "Wed, 12 Jun 2024 11:12:43 GMT"
 								},
 								{
 									"key": "Content-Length",
-									"value": "209"
+									"value": "199"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"Success\": true,\n    \"Response\": {\n        \"ID\": 10,\n        \"CreatedAt\": \"2024-05-02T02:04:48.52159714+02:00\",\n        \"UpdatedAt\": \"2024-05-02T02:04:48.52159714+02:00\",\n        \"DeletedAt\": null,\n        \"Username\": \"Max Mustermann\",\n        \"Password\": \"\",\n        \"Role\": \"admin\"\n    }\n}"
+							"body": "{\n    \"Success\": true,\n    \"Response\": {\n        \"ID\": 2,\n        \"CreatedAt\": \"2024-06-12T11:12:43.16678818Z\",\n        \"UpdatedAt\": \"2024-06-12T11:12:43.16678818Z\",\n        \"DeletedAt\": null,\n        \"Username\": \"Max Mustermann\",\n        \"Password\": \"\",\n        \"Role\": \"vendor\"\n    }\n}"
+						},
+						{
+							"id": "4877a827-166c-4191-8b9c-fe6c884d14fc",
+							"name": "Invalid Role",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Username\": \"Max Mustermann\",\n    \"Role\": \"testing\",\n    \"Password\": \"Password!\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/users",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"users"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 12 Jun 2024 11:12:56 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "58"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"Type\": \"INVALID_REQUEST_BODY\",\n    \"Message\": \"Role not valid\"\n}"
+						},
+						{
+							"id": "a0cc4a3d-6976-4024-9dc8-b27ccd0441b0",
+							"name": "read-only",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Username\": \"Maria Musterfrau\",\n    \"Role\": \"read-only\",\n    \"Password\": \"Password!\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/users",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"users"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 12 Jun 2024 11:14:29 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "206"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"Success\": true,\n    \"Response\": {\n        \"ID\": 3,\n        \"CreatedAt\": \"2024-06-12T11:14:29.806417745Z\",\n        \"UpdatedAt\": \"2024-06-12T11:14:29.806417745Z\",\n        \"DeletedAt\": null,\n        \"Username\": \"Maria Musterfrau\",\n        \"Password\": \"\",\n        \"Role\": \"read-only\"\n    }\n}"
+						},
+						{
+							"id": "5ec3d4d6-293e-4f03-b241-0579f640c9d2",
+							"name": "admin",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Username\": \"admin backup\",\n    \"Role\": \"admin\",\n    \"Password\": \"Password!\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/users",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"users"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 12 Jun 2024 11:15:15 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "198"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"Success\": true,\n    \"Response\": {\n        \"ID\": 4,\n        \"CreatedAt\": \"2024-06-12T11:15:15.620821432Z\",\n        \"UpdatedAt\": \"2024-06-12T11:15:15.620821432Z\",\n        \"DeletedAt\": null,\n        \"Username\": \"admin backup\",\n        \"Password\": \"\",\n        \"Role\": \"admin\"\n    }\n}"
 						}
 					]
 				},
@@ -1355,7 +1502,52 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"id": "0769ffd7-24ad-4e0b-9db1-bd1ecfd5007f",
+							"name": "Delete User",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/users/:id",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"users",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "3"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 12 Jun 2024 11:15:36 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "32"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"Success\": true,\n    \"Response\": null\n}"
+						}
+					]
 				}
 			],
 			"id": "87832095-2d09-4af0-a118-cb4fc4ab6384"
@@ -1415,7 +1607,45 @@
 							]
 						}
 					},
-					"response": []
+					"response": [
+						{
+							"id": "5008d199-cd15-4feb-99f0-1f0ed5defe56",
+							"name": "Login",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/auth",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"auth"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 12 Jun 2024 11:15:48 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "189"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"Success\": true,\n    \"Response\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJc3MiOiJQQVNNQVNfQmFja2VuZCIsIlJvbGUiOiJhZG1pbiIsIlVzZXJuYW1lIjoiYWRtaW4ifQ.-lqBQFJ1ZFa8zO2pNI-RQPoOn4XWvn8yGAVJhDsEbdQ\"\n}"
+						}
+					]
 				}
 			],
 			"id": "00d9a601-430d-426e-998f-ac1f7a28536d"
