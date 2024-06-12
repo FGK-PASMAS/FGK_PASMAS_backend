@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "08e5a01b-7832-4b5d-a0de-f7539ad8a259",
 		"name": "Api",
-		"description": "## The **Pas**senger **M**anagement **As**sistant\n\n  \n(PasMAs) is an open-source web application designed to simplify the management of sightseeing flights on open days for smaller flying clubs. This assistant enables you to organize various flight slots for each plane efficiently. It supports you by handling flight logic calculations such as determining the maximum take-off mass to prevent overloaded flights.",
+		"description": "## The **Pas**senger **M**anagement **As**sistant\n\n(PasMAs) is an open-source web application designed to simplify the management of sightseeing flights on open days for smaller flying clubs. This assistant enables you to organize various flight slots for each plane efficiently. It supports you by handling flight logic calculations such as determining the maximum take-off mass to prevent overloaded flights.\n\n#### API Authentication and Authorization\n\nAn authentication token is required for every API call. If nothing is specified in the individual call description, it means that no specific authorization is required, and any role can perform the call.\n\n#### API Response Structure\n\nEach successful API call will return a JSON object with the following structure:\n\n``` json\n{\n    \"Success\": true,\n    \"Response\": any\n}\n\n ```\n\nEach unsuccessful API call will return a JSON object with the following structure:\n\n``` json\n{\n    \"Type\": string,\n    \"Message\": string\n}\n\n ```\n\nThis general response structure will not be detailed further in each individual call description.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_uid": "30997389-08e5a01b-7832-4b5d-a0de-f7539ad8a259"
 	},
@@ -126,7 +126,8 @@
 								"api",
 								"passengers"
 							]
-						}
+						},
+						"description": "This API endpoint retrieves a list of all passengers."
 					},
 					"response": [
 						{
@@ -136,10 +137,12 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{url}}/api/passengers",
+									"raw": "http://localhost:8080/api/passengers",
+									"protocol": "http",
 									"host": [
-										"{{url}}"
+										"localhost"
 									],
+									"port": "8080",
 									"path": [
 										"api",
 										"passengers"
@@ -206,7 +209,7 @@
 								"divisions"
 							]
 						},
-						"description": "Gets all divisions"
+						"description": "This API endpoint retrieves a list of all divisions"
 					},
 					"response": [
 						{
@@ -216,10 +219,12 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{url}}/api/divisions",
+									"raw": "http://localhost:8080/api/divisions",
+									"protocol": "http",
 									"host": [
-										"{{url}}"
+										"localhost"
 									],
+									"port": "8080",
 									"path": [
 										"api",
 										"divisions"
@@ -311,7 +316,7 @@
 								}
 							]
 						},
-						"description": "This API request retrieves flight details based on the specified query parameters. The query parameters allow to include or exclude additional information such as passengers, plane details, and pilot details.\n\n## Required Role:\n\nany"
+						"description": "This API request retrieves flight details based on the specified query parameters. The query parameters allow to include or exclude additional information such as passengers, plane details, and pilot details."
 					},
 					"response": [
 						{
@@ -321,10 +326,12 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{url}}/api/flights?includePassengers=true&includePlane=true&includePilot=true",
+									"raw": "http://localhost:8080/api/flights?includePassengers=true&includePlane=true&includePilot=true",
+									"protocol": "http",
 									"host": [
-										"{{url}}"
+										"localhost"
 									],
+									"port": "8080",
 									"path": [
 										"api",
 										"flights"
@@ -416,7 +423,7 @@
 								"flights"
 							]
 						},
-						"description": "However, flightlogic does not perform any calculations except for fuel calculation. This is the first step in the 'flight creation' process. It creates a new flight in the 'RESERVED' status, blocking only the flight slot for any other flight. The arrival time will be determined by the plane's 'FlightDuration' parameter.\n\n## Body:\n\n| **Parameter** | required | Description |\n| --- | --- | --- |\n| Status | optional for RESERVED  <br>required for BLOCKED | The status of the flight, either \"RESERVED\" or \"BLOCKED\". |\n| DepartureTime | required | The departure time in the format \"YYYY-MM-DDTHH:MM  <br>\". |\n| PlaneId | required | The ID of the plane. |\n| Description | optional | A description as a string. |\n| ArrivalTime | optional for RESERVED  <br>required for BLOCKED | The arrival time in the format \"YYYY-MM-DDTHH:MM  <br>\".  <br>  <br>If not set: The arrival time will be determined by the plane's 'FlightDuration' parameter. |\n| Passengers | optional for RESERVED  <br>ignored for BLOCKED | A list of passengers. These passenger will not be saved and are only used for weight calculations. |\n| FirstName (within Passengers) | optional | The first name of the passenger. |\n| LastName (within Passengers) | optional | The last name of the passenger. |\n| Weight (within Passengers) | required | The weight of the passenger. |\n\n## Required Role:\n\nvendor"
+						"description": "However, flightlogic does not perform any calculations except for fuel calculation. This is the first step in the 'flight creation' process. It creates a new flight in the 'RESERVED' status, blocking only the flight slot for any other flight. The arrival time will be determined by the plane's 'FlightDuration' parameter.\n\n#### Body:\n\n| **Parameter** | required | Description |\n| --- | --- | --- |\n| Status | optional for RESERVED  <br>required for BLOCKED | The status of the flight, either \"RESERVED\" or \"BLOCKED\". |\n| DepartureTime | required | The departure time in the format \"YYYY-MM-DDTHH:MM  <br>\". |\n| PlaneId | required | The ID of the plane. |\n| Description | optional | A description as a string. |\n| ArrivalTime | optional for RESERVED  <br>required for BLOCKED | The arrival time in the format \"YYYY-MM-DDTHH:MM  <br>\".  <br>  <br>If not set: The arrival time will be determined by the plane's 'FlightDuration' parameter. |\n| Passengers | optional for RESERVED  <br>ignored for BLOCKED | A list of passengers. These passenger will not be saved and are only used for weight calculations. |\n| FirstName (within Passengers) | optional | The first name of the passenger. |\n| LastName (within Passengers) | optional | The last name of the passenger. |\n| Weight (within Passengers) | required | The weight of the passenger. |\n\n#### Required Role:\n\nflight reservation - vendor\n\nblocker creation - admin"
 					},
 					"response": [
 						{
@@ -551,7 +558,7 @@
 								}
 							]
 						},
-						"description": "This is the second step in the 'flight creation' process. It updates a flight from 'reserved' to 'booked' status, performing flight logic calculations such as pilot selection and weight checking. It creates passengers for this flight.\n\n## Parameters\n\n| **Parameter** | required | Description |\n| --- | --- | --- |\n| Status | required | The status of the flight, must be \"BOOKED\". |\n| Description | optional | A description as a string. An empty string means removing the description. |\n| Passengers | required | A list of passengers. These passengers will be created for this flight. |\n| FirstName (within Passengers) | required | The first name of the passenger. |\n| LastName (within Passengers) | required | The last name of the passenger. |\n| Weight (within Passengers) | required | The weight of the passenger. |\n\n## Required Role:\n\nvendor"
+						"description": "This is the second step in the 'flight creation' process. It updates a flight from 'reserved' to 'booked' status, performing flight logic calculations such as pilot selection and weight checking. It creates passengers for this flight.\n\n#### Parameters\n\n| **Parameter** | required | Description |\n| --- | --- | --- |\n| Status | required | The status of the flight, must be \"BOOKED\". |\n| Description | optional | A description as a string. An empty string means removing the description. |\n| Passengers | required | A list of passengers. These passengers will be created for this flight. |\n| FirstName (within Passengers) | required | The first name of the passenger. |\n| LastName (within Passengers) | required | The last name of the passenger. |\n| Weight (within Passengers) | required | The weight of the passenger. |\n\n#### Required Role:\n\nvendor"
 					},
 					"response": [
 						{
@@ -693,7 +700,7 @@
 								}
 							]
 						},
-						"description": "Soft delete a flight or blocker and all related passengers.\n\n## Required Role:\n\nadmin"
+						"description": "Soft delete a flight or blocker and all related passengers.\n\n#### Required Role:\n\nadmin"
 					},
 					"response": [
 						{
@@ -836,7 +843,7 @@
 								}
 							]
 						},
-						"description": "This API request retrieves plane details based on the specified query parameters. The query parameters allow the user to include or exclude additional information such as flights, pilots, and preferred pilots.\n\n## Required Role:\n\nany"
+						"description": "This API request retrieves plane details based on the specified query parameters. The query parameters allow the user to include or exclude additional information such as flights, pilots, and preferred pilots."
 					},
 					"response": [
 						{
@@ -1007,7 +1014,8 @@
 									"value": "1"
 								}
 							]
-						}
+						},
+						"description": "This API endpoint retrieves the details of a specific plane based on the provided plane ID."
 					},
 					"response": [
 						{
@@ -1106,7 +1114,8 @@
 									"value": "1"
 								}
 							]
-						}
+						},
+						"description": "This API endpoint updates the details of a specific plane based on the provided plane ID.\n\n#### Request Body Parameters\n\n| **Parameter** | **Required** | **Description** |\n| --- | --- | --- |\n| PrefPilotId | optional | The ID of the preferred pilot. |\n| FuelburnPerFlight | optional | The amount of fuel burned per flight. |\n| FlightDuration | optional | The duration of the flight in nanoseconds. |\n| SlotStartTime | optional | The start time of the slot allocated for the plane. |\n| SlotEndTime | optional | The end time of the slot allocated for the plane. |\n\n#### Required Role:\n\nadmin"
 					},
 					"response": []
 				}
@@ -1215,7 +1224,8 @@
 								"api",
 								"users"
 							]
-						}
+						},
+						"description": "This API endpoint retrieves a list of all users.\n\n#### Required Role:\n\nadmin"
 					},
 					"response": [
 						{
@@ -1286,7 +1296,8 @@
 								"api",
 								"users"
 							]
-						}
+						},
+						"description": "This API endpoint creates a new user.\n\n#### Request Body Parameters\n\n| **Parameter** | **Required** | **Description** |\n| --- | --- | --- |\n| Username | required | The username of the new user. |\n| Role | required | The role of the new user.  <br>admin, vendor, read-only |\n| Password | required | The password for the new user. |\n\n#### Required Role:\n\nadmin"
 					},
 					"response": [
 						{
@@ -1305,10 +1316,12 @@
 									}
 								},
 								"url": {
-									"raw": "{{url}}/api/users",
+									"raw": "http://localhost:8080/api/users",
+									"protocol": "http",
 									"host": [
-										"{{url}}"
+										"localhost"
 									],
+									"port": "8080",
 									"path": [
 										"api",
 										"users"
@@ -1500,7 +1513,8 @@
 									"value": "1"
 								}
 							]
-						}
+						},
+						"description": "This API endpoint deletes a specific user based on the provided user ID.\n\n#### Required Role:\n\nadmin"
 					},
 					"response": [
 						{
@@ -1510,10 +1524,12 @@
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "{{url}}/api/users/:id",
+									"raw": "http://localhost:8080/api/users/:id",
+									"protocol": "http",
 									"host": [
-										"{{url}}"
+										"localhost"
 									],
+									"port": "8080",
 									"path": [
 										"api",
 										"users",
@@ -1605,7 +1621,8 @@
 								"api",
 								"auth"
 							]
-						}
+						},
+						"description": "This API endpoint authenticates a user and returns a bearer token for subsequent API requests."
 					},
 					"response": [
 						{
@@ -1615,10 +1632,12 @@
 								"method": "POST",
 								"header": [],
 								"url": {
-									"raw": "{{url}}/api/auth",
+									"raw": "http://localhost:8080/api/auth",
+									"protocol": "http",
 									"host": [
-										"{{url}}"
+										"localhost"
 									],
+									"port": "8080",
 									"path": [
 										"api",
 										"auth"
