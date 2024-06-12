@@ -76,17 +76,20 @@ func FlightBooking(user model.UserJwtBody, flightId uint, newFlightData model.Fl
         UnlockFlightUpdate()
     }()
 
-    if flight.Status != model.FsReserved && newFlightData.Status != model.FsBooked {
-        err = cerror.NewInvalidFlightLogicError("Flight status does not fit current process")
-        return
-    }
-
     if newFlightData.Passengers != nil {
         passengers = *newFlightData.Passengers
     }
 
     flight, err = databasehandler.GetFlightById(flightId, &databasehandler.FlightInclude{IncludePlane: true})
     if err != nil {
+        return
+    }
+
+    println("Flight Status: ")
+    println(flight.Status)
+    println(newFlightData.Status)
+    if !(flight.Status == model.FsReserved && newFlightData.Status == model.FsBooked) {
+        err = cerror.NewInvalidFlightLogicError("Flight status does not fit current process")
         return
     }
 

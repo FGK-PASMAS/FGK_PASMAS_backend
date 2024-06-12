@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   database:
     image: postgres
@@ -38,5 +36,15 @@ services:
     depends_on:
       database:
         condition: service_healthy
+
+
+
+  swagger:
+    build: ./docs/api_collection
+    restart: unless-stopped
+    container_name: openapi
+    ports:
+      - 8000:80
+
 volumes:
   pasmas_backend:

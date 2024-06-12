@@ -9,6 +9,7 @@ import (
 	cerror "github.com/MetaEMK/FGK_PASMAS_backend/cError"
 	databasehandler "github.com/MetaEMK/FGK_PASMAS_backend/databaseHandler"
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
+	"gorm.io/gorm"
 )
 
 func GenerateFlightNo(plane model.Plane) (string, error) {
@@ -18,7 +19,7 @@ func GenerateFlightNo(plane model.Plane) (string, error) {
     err := databasehandler.Db.Unscoped().Model(model.Flight{}).Where("plane_id = ?", plane.ID).Where("flight_no IS NOT NULL").Order("flight_no DESC").First(&prevFlight).Error
 
     if err != nil {
-        if err == cerror.NewObjectNotFoundError("Flight not found") {
+        if err == gorm.ErrRecordNotFound {
             flightNo = generateFlightNumberPattern(plane, 1)
             println(flightNo)
             return flightNo, nil
