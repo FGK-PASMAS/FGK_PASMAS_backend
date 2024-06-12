@@ -1,12 +1,12 @@
 # PasMAs
 
-The **Pas**senger **M**anagement **As**sistant (PasMAs) is an open-source web application designed to simplify the management of sightseeing flights on open days for smaller flying clubs. This assistant enables you to organize various flight slots for each plane efficiently. It supports you by handling flight logic calculations such as determining the maximum take-off mass to prevent overloaded flights. 
+The **Pas**senger **M**anagement **As**sistant (PasMAs) is an open-source web application designed to simplify the management of sightseeing flights on open days for smaller flying clubs. This assistant enables you to organize various flight slots for each plane efficiently. It supports you by handling flight logic calculations such as determining the maximum take-off mass to prevent overloaded flights.
 
 The application consists of both a backend and a frontend. This repository contains the code for the PasMAS backend application. The code for the frontend can be found at [https://github.com/FGK-PASMAS/FGK_PASMAS_frontend](https://github.com/FGK-PASMAS/FGK_PASMAS_frontend).
 
 ## Features
 
-## Getting started 
+## Getting started
 The PasMAs backend application can be deployed via Docker.
 
 ### Configuration
@@ -45,6 +45,9 @@ Before running the following command, ensure that you have configured the TLS_CE
 docker-compose -f docker-compose-ssl.yaml up -d
 ```
 
+### OpenAPI Documentation
+
+In addition to the backend application, a Redocly (OpenAPI) server runs on port 8000, providing the API specification. This can be useful for understanding the available endpoints and their usage. If not needed, this server can be removed from the Docker Compose configuration.
 
 ## Additional Notes
 Please note that PasMAs is still under development but is currently not actively maintained by the original authors.
