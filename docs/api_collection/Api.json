@@ -1,9 +1,10 @@
 {
 	"info": {
-		"_postman_id": "2c8448c3-6646-4cb2-b169-00839837d099",
+		"_postman_id": "08e5a01b-7832-4b5d-a0de-f7539ad8a259",
 		"name": "Api",
+		"description": "## The **Pas**senger **M**anagement **As**sistant\n\n  \n(PasMAs) is an open-source web application designed to simplify the management of sightseeing flights on open days for smaller flying clubs. This assistant enables you to organize various flight slots for each plane efficiently. It supports you by handling flight logic calculations such as determining the maximum take-off mass to prevent overloaded flights.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_uid": "30997389-2c8448c3-6646-4cb2-b169-00839837d099"
+		"_uid": "30997389-08e5a01b-7832-4b5d-a0de-f7539ad8a259"
 	},
 	"item": [
 		{
@@ -15,21 +16,16 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "e9652829-7b05-43c7-b0d4-412a2d49c2a4",
+								"id": "ac2b7c31-8401-486e-840f-dd1c1984bf0f",
 								"exec": [
-									"pm.test(\"status\", function() {",
-									"    pm.response.to.have.status(200)",
-									"})",
-									"",
-									"pm.test(\"response\", function() {",
-									"    pm.response.to.have.jsonBody(\"success\", true)",
-									"})"
+									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
-					"id": "42fda40c-c87c-4f4c-8ee0-54e57c903533",
+					"id": "63ef1170-7d00-46fa-9056-d1467c6e4f87",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -51,13 +47,18 @@
 					},
 					"response": [
 						{
-							"id": "e8d37fa8-30b7-4d99-9446-b57b8f0d4bc5",
-							"name": "OK",
+							"id": "d89ac788-6643-4b66-b8f2-561992ab3741",
+							"name": "200",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "/api/debug/ping",
+									"raw": "http://localhost:8080/api/debug/ping",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
 									"path": [
 										"api",
 										"debug",
@@ -68,7 +69,6 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
-							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Content-Type",
@@ -76,7 +76,7 @@
 								},
 								{
 									"key": "Date",
-									"value": "Tue, 16 Jan 2024 10:08:20 GMT"
+									"value": "Wed, 12 Jun 2024 07:31:34 GMT"
 								},
 								{
 									"key": "Content-Length",
@@ -84,73 +84,12 @@
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"success\": true,\n    \"response\": \"pong\"\n}"
-						}
-					]
-				},
-				{
-					"name": "Database reset",
-					"id": "a866f8f3-2be1-4ce5-9819-353dd9465cf5",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
-					"request": {
-						"method": "POST",
-						"header": [],
-						"url": {
-							"raw": "{{url}}/api/debug/reset",
-							"host": [
-								"{{url}}"
-							],
-							"path": [
-								"api",
-								"debug",
-								"reset"
-							]
-						},
-						"description": "This request truncates (with restart identity) and seeds the database.\n\n> _**USE WITH CAUTION - All data is lost**_"
-					},
-					"response": [
-						{
-							"id": "670eacc1-6199-44e0-a207-5d580722dc4e",
-							"name": "200",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"url": {
-									"raw": "/api/debug/reset",
-									"path": [
-										"api",
-										"debug",
-										"reset"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"_postman_previewtype": "html",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Date",
-									"value": "Thu, 25 Jan 2024 13:09:32 GMT"
-								},
-								{
-									"key": "Content-Length",
-									"value": "32"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"Success\": true,\n    \"Response\": null\n}"
+							"body": "{\n    \"Success\": true,\n    \"Response\": \"pong\"\n}"
 						}
 					]
 				}
 			],
-			"id": "b584c1ad-b766-4091-b115-2d96910e1533",
+			"id": "105943fe-ec18-408e-a050-40c2f1682a4a",
 			"description": "The debug endpoint is primarily for debugging purposes."
 		},
 		{
@@ -162,21 +101,16 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "5c4e07cd-5987-4d84-98fc-00e5ae4c2dc0",
+								"id": "609c58dd-7be0-4e62-92eb-8faa3733df3e",
 								"exec": [
-									"pm.test(\"status\", function() {",
-									"    pm.response.to.have.status(200)",
-									"})",
-									"",
-									"pm.test(\"response\", function() {",
-									"    pm.response.to.have.jsonBody(\"success\", true)",
-									"})"
+									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
-					"id": "b18c9ba0-001e-496c-8d8d-81ffd8b39d5d",
+					"id": "4f3221e2-594c-48b9-9fe8-63580f77e01a",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -197,7 +131,7 @@
 					},
 					"response": [
 						{
-							"id": "8181022a-d530-4226-ad78-e105142b442a",
+							"id": "5c7fe4c7-0996-4c62-bb28-824d6b6399dd",
 							"name": "200",
 							"originalRequest": {
 								"method": "GET",
@@ -213,7 +147,6 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
-							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Content-Type",
@@ -234,7 +167,7 @@
 					]
 				}
 			],
-			"id": "1b2d8705-047b-4930-983f-b58c72339b32"
+			"id": "084583f2-a203-40b8-8259-71511a43cae3"
 		},
 		{
 			"name": "division",
@@ -245,21 +178,16 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6c263fe8-bba9-4765-a7a2-2e8ed29d45f8",
+								"id": "da9c7f55-71b2-4610-98e9-fc6aa09d223b",
 								"exec": [
-									"pm.test(\"status\", function() {",
-									"    pm.response.to.have.status(200)",
-									"})",
-									"",
-									"pm.test(\"response\", function() {",
-									"    pm.response.to.have.jsonBody(\"success\", true)",
-									"})"
+									""
 								],
-								"type": "text/javascript"
+								"type": "text/javascript",
+								"packages": {}
 							}
 						}
 					],
-					"id": "3855bfde-2247-4a9d-b384-b7cb0f325118",
+					"id": "b72045e4-105a-4061-90ab-35b49641fcbf",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -280,13 +208,18 @@
 					},
 					"response": [
 						{
-							"id": "bbac87ee-f1fd-4509-911a-77f13ab3f835",
+							"id": "d9d847ab-114f-41f6-8fc4-46e68ede8840",
 							"name": "200",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "/api/divisions",
+									"raw": "http://localhost:8080/api/divisions",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
 									"path": [
 										"api",
 										"divisions"
@@ -296,7 +229,6 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
-							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Content-Type",
@@ -304,27 +236,27 @@
 								},
 								{
 									"key": "Date",
-									"value": "Sat, 20 Jan 2024 23:01:30 GMT"
+									"value": "Wed, 12 Jun 2024 07:32:45 GMT"
 								},
 								{
 									"key": "Content-Length",
-									"value": "513"
+									"value": "524"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"Success\": true,\n    \"Response\": [\n        {\n            \"ID\": 1,\n            \"CreatedAt\": \"2024-02-02T12:23:41.087953+01:00\",\n            \"UpdatedAt\": \"2024-02-02T12:23:41.087953+01:00\",\n            \"DeletedAt\": null,\n            \"Name\": \"Segelflug\",\n            \"PassengerCapacity\": 1,\n            \"Planes\": null\n        },\n        {\n            \"ID\": 2,\n            \"CreatedAt\": \"2024-02-02T12:23:41.089833+01:00\",\n            \"UpdatedAt\": \"2024-02-02T12:23:41.089833+01:00\",\n            \"DeletedAt\": null,\n            \"Name\": \"Motorsegler\",\n            \"PassengerCapacity\": 1,\n            \"Planes\": null\n        },\n        {\n            \"ID\": 3,\n            \"CreatedAt\": \"2024-02-02T12:23:41.091372+01:00\",\n            \"UpdatedAt\": \"2024-02-02T12:23:41.091372+01:00\",\n            \"DeletedAt\": null,\n            \"Name\": \"Motorflug\",\n            \"PassengerCapacity\": 3,\n            \"Planes\": null\n        }\n    ]\n}"
+							"body": "{\n    \"Success\": true,\n    \"Response\": [\n        {\n            \"ID\": 1,\n            \"CreatedAt\": \"2024-06-12T07:27:27.439484Z\",\n            \"UpdatedAt\": \"2024-06-12T07:27:27.439484Z\",\n            \"DeletedAt\": null,\n            \"Name\": \"Segelflug\",\n            \"PassengerCapacity\": 1,\n            \"Planes\": null\n        },\n        {\n            \"ID\": 2,\n            \"CreatedAt\": \"2024-06-12T07:27:27.44088Z\",\n            \"UpdatedAt\": \"2024-06-12T07:27:27.44088Z\",\n            \"DeletedAt\": null,\n            \"Name\": \"Motorsegler\",\n            \"PassengerCapacity\": 1,\n            \"Planes\": null\n        },\n        {\n            \"ID\": 3,\n            \"CreatedAt\": \"2024-06-12T07:27:27.441704Z\",\n            \"UpdatedAt\": \"2024-06-12T07:27:27.441704Z\",\n            \"DeletedAt\": null,\n            \"Name\": \"Motorflug\",\n            \"PassengerCapacity\": 3,\n            \"Planes\": null\n        }\n    ]\n}"
 						}
 					]
 				}
 			],
-			"id": "a2e8be78-7e33-4cd7-9217-36511da881ba"
+			"id": "d2f129eb-a24d-4259-9879-0128c8b80fbd"
 		},
 		{
 			"name": "flight",
 			"item": [
 				{
 					"name": "get all flights",
-					"id": "e426d633-125c-4498-aab6-9b9e0768e04a",
+					"id": "51ec0339-1740-4ad1-aeb2-05e25288815b",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -344,47 +276,52 @@
 								{
 									"key": "includePassengers",
 									"value": "true",
+									"description": "Whether to include passenger details in the response. Set to true to include.",
 									"disabled": true
 								},
 								{
 									"key": "includePlane",
 									"value": "true",
+									"description": "Whether to include plane details in the response. Set to true to include.",
 									"disabled": true
 								},
 								{
 									"key": "includePilot",
 									"value": "true",
+									"description": "Whether to include pilot details in the response. Set to true to include.",
 									"disabled": true
 								},
 								{
 									"key": "divisionId",
 									"value": "1",
-									"description": "It will automatically set includeDivision to true.",
+									"description": "The ID of the division. If provided, it will automatically set includeDivision to true.",
 									"disabled": true
 								},
 								{
 									"key": "planeId",
 									"value": "1",
-									"description": "It will automatically set includePlane to true.",
+									"description": "The ID of the plane. If provided, it will automatically set includePlane to true.",
 									"disabled": true
 								},
 								{
 									"key": "byDepartureTime",
 									"value": "2024-01-24T17:30:00Z",
+									"description": "The departure time to filter flights. Format should be YYYY-MM-DDTHH:MM:SSZ.",
 									"disabled": true
 								}
 							]
-						}
+						},
+						"description": "This API request retrieves flight details based on the specified query parameters. The query parameters allow to include or exclude additional information such as passengers, plane details, and pilot details.\n\n## Required Role:\n\nany"
 					},
 					"response": [
 						{
-							"id": "05d3cf1e-363a-49de-a6d6-8e5d856e46b9",
-							"name": "201",
+							"id": "6567c38c-7fe4-4afb-b1a0-6ed35095a726",
+							"name": "get all flights",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{url}}/api/flights?includePassengers=true&includePlane=true&includePilot=true",
+									"raw": "{{url}}/api/flights",
 									"host": [
 										"{{url}}"
 									],
@@ -396,30 +333,33 @@
 										{
 											"key": "includePassengers",
 											"value": "true",
-											"type": "text"
+											"disabled": true
 										},
 										{
 											"key": "includePlane",
 											"value": "true",
-											"type": "text"
+											"disabled": true
 										},
 										{
 											"key": "includePilot",
 											"value": "true",
-											"type": "text"
+											"disabled": true
 										},
 										{
 											"key": "divisionId",
 											"value": "1",
 											"description": "It will automatically set includeDivision to true.",
-											"type": "text",
 											"disabled": true
 										},
 										{
 											"key": "planeId",
 											"value": "1",
 											"description": "It will automatically set includePlane to true.",
-											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "byDepartureTime",
+											"value": "2024-01-24T17:30:00Z",
 											"disabled": true
 										}
 									]
@@ -428,7 +368,6 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
-							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Content-Type",
@@ -436,21 +375,21 @@
 								},
 								{
 									"key": "Date",
-									"value": "Fri, 02 Feb 2024 12:53:21 GMT"
+									"value": "Wed, 12 Jun 2024 08:32:42 GMT"
 								},
 								{
 									"key": "Content-Length",
-									"value": "1564"
+									"value": "1030"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"Success\": true,\n    \"Response\": [\n        {\n            \"ID\": 1,\n            \"CreatedAt\": \"2024-02-02T13:40:55.508527+01:00\",\n            \"UpdatedAt\": \"2024-02-02T13:49:28.519775+01:00\",\n            \"DeletedAt\": null,\n            \"Status\": \"BOOKED\",\n            \"Description\": null,\n            \"FuelAtDeparture\": 100,\n            \"DepartureTime\": \"2024-01-24T15:30:00+01:00\",\n            \"ArrivalTime\": \"2024-01-24T15:54:00+01:00\",\n            \"PlaneId\": 1,\n            \"Plane\": {\n                \"ID\": 1,\n                \"CreatedAt\": \"2024-02-02T13:40:53.380584+01:00\",\n                \"UpdatedAt\": \"2024-02-02T13:40:53.380584+01:00\",\n                \"DeletedAt\": null,\n                \"Registration\": \"D-ELXX\",\n                \"AircraftType\": \"C172\",\n                \"FlightDuration\": 1440000000000,\n                \"FuelMaxCapacity\": 140,\n                \"FuelburnPerFlight\": 20,\n                \"FuelConversionFactor\": 0.72,\n                \"MTOW\": 1050,\n                \"EmptyWeight\": 650,\n                \"MaxSeatPayload\": -1,\n                \"Division\": null,\n                \"AllowedPilots\": null,\n                \"PrefPilotId\": null,\n                \"PrefPilot\": null,\n                \"Flights\": null\n            },\n            \"PilotId\": 2,\n            \"Pilot\": {\n                \"ID\": 2,\n                \"CreatedAt\": \"2024-02-02T13:40:53.405383+01:00\",\n                \"UpdatedAt\": \"2024-02-02T13:40:53.405383+01:00\",\n                \"DeletedAt\": null,\n                \"FirstName\": \"Dennis\",\n                \"LastName\": \"Kornwestheim\",\n                \"Weight\": 72,\n                \"AllowedPlanes\": null\n            },\n            \"Passengers\": [\n                {\n                    \"ID\": 1,\n                    \"CreatedAt\": \"2024-02-02T13:40:57.765638+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:49:28.509519+01:00\",\n                    \"DeletedAt\": null,\n                    \"LastName\": \"Schreiner\",\n                    \"FirstName\": \"Max\",\n                    \"Weight\": 80,\n                    \"FlightID\": 1,\n                    \"Flight\": null\n                },\n                {\n                    \"ID\": 2,\n                    \"CreatedAt\": \"2024-02-02T13:40:57.765638+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:49:28.512784+01:00\",\n                    \"DeletedAt\": null,\n                    \"LastName\": \"Mustermann\",\n                    \"FirstName\": \"Maria\",\n                    \"Weight\": 80,\n                    \"FlightID\": 1,\n                    \"Flight\": null\n                },\n                {\n                    \"ID\": 3,\n                    \"CreatedAt\": \"2024-02-02T13:40:57.765638+01:00\",\n                    \"UpdatedAt\": \"2024-02-02T13:49:28.515604+01:00\",\n                    \"DeletedAt\": null,\n                    \"LastName\": \"Musterkind\",\n                    \"FirstName\": \"Thomas\",\n                    \"Weight\": 80,\n                    \"FlightID\": 1,\n                    \"Flight\": null\n                }\n            ]\n        }\n    ]\n}"
+							"body": "{\n    \"Success\": true,\n    \"Response\": [\n        {\n            \"ID\": 1,\n            \"CreatedAt\": \"2024-06-12T08:32:02.83808Z\",\n            \"UpdatedAt\": \"2024-06-12T08:32:07.249739Z\",\n            \"DeletedAt\": null,\n            \"Status\": \"BOOKED\",\n            \"FlightNo\": \"ELXX-001\",\n            \"Description\": null,\n            \"FuelAtDeparture\": null,\n            \"DepartureTime\": \"2024-01-24T17:30:00Z\",\n            \"ArrivalTime\": \"2024-01-24T19:30:00Z\",\n            \"PlaneId\": 1,\n            \"Plane\": null,\n            \"PilotId\": 3,\n            \"Pilot\": null,\n            \"Passengers\": null\n        },\n        {\n            \"ID\": 2,\n            \"CreatedAt\": \"2024-06-12T08:32:30.324068Z\",\n            \"UpdatedAt\": \"2024-06-12T08:32:30.324068Z\",\n            \"DeletedAt\": null,\n            \"Status\": \"RESERVED\",\n            \"FlightNo\": null,\n            \"Description\": null,\n            \"FuelAtDeparture\": null,\n            \"DepartureTime\": \"2024-01-24T18:30:00Z\",\n            \"ArrivalTime\": \"2024-01-24T19:30:00Z\",\n            \"PlaneId\": 2,\n            \"Plane\": null,\n            \"PilotId\": 8,\n            \"Pilot\": null,\n            \"Passengers\": null\n        },\n        {\n            \"ID\": 3,\n            \"CreatedAt\": \"2024-06-12T08:32:36.465978Z\",\n            \"UpdatedAt\": \"2024-06-12T08:32:36.465978Z\",\n            \"DeletedAt\": null,\n            \"Status\": \"BLOCKED\",\n            \"FlightNo\": null,\n            \"Description\": null,\n            \"FuelAtDeparture\": null,\n            \"DepartureTime\": \"2024-01-24T18:30:00Z\",\n            \"ArrivalTime\": \"2024-01-24T19:30:00Z\",\n            \"PlaneId\": 3,\n            \"Plane\": null,\n            \"PilotId\": null,\n            \"Pilot\": null,\n            \"Passengers\": null\n        }\n    ]\n}"
 						}
 					]
 				},
 				{
 					"name": "01 - flight reservation",
-					"id": "b670dbd9-2bdf-45ac-bcc9-c49d248c8735",
+					"id": "cc0cf45c-4846-4f10-b2da-696c9a104da2",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -459,7 +398,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"Status\": \"RESERVED\",                   // optional for RESEVED - required for BLOCKED\n    \"DepartureTime\": \"2024-01-24T17:30:00Z\",\n    \"PlaneId\": 1,\n    \"Description\": null,                    // optional - This is a string\n    \"ArrivalTime\": \"2024-01-24T19:30:00Z\",  // optional - \"this is a time - see departuretime for an example\"\n    \"Passengers\": [                         // optional\n        {\n            \"FirstName\": \"Max\",             // optional\n            \"LastName\": \"Mustermann\",       // optional\n            \"Weight\": 80\n        },\n        {\n            \"Weight\": 64\n        }\n    ]\n}",
+							"raw": "{\n    \"Status\": \"RESERVED\",                   // optional for RESERVED - required for BLOCKED\n    \"DepartureTime\": \"2024-01-24T17:30:00Z\",\n    \"PlaneId\": 1,\n    \"Description\": null,                    // optional - This is a string\n    \"ArrivalTime\": \"2024-01-24T19:30:00Z\",  // optional - \"this is a time - see departuretime for an example\"\n    \"Passengers\": [                         // optional\n        {\n            \"FirstName\": \"Max\",             // optional\n            \"LastName\": \"Mustermann\",       // optional\n            \"Weight\": 80\n        },\n        {\n            \"Weight\": 64\n        }\n    ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -476,18 +415,18 @@
 								"flights"
 							]
 						},
-						"description": "However, flightlogic does not perform any calculations except for fuel calculation. This is the first step in the 'flight creation' process. It creates a new flight in the 'planned' status, blocking only the flight slot for any other flight. The arrival time will be determined by the plane's 'FlightDuration' parameter."
+						"description": "However, flightlogic does not perform any calculations except for fuel calculation. This is the first step in the 'flight creation' process. It creates a new flight in the 'RESERVED' status, blocking only the flight slot for any other flight. The arrival time will be determined by the plane's 'FlightDuration' parameter.\n\n## Body:\n\n| **Parameter** | required | Description |\n| --- | --- | --- |\n| Status | optional for RESERVED  <br>required for BLOCKED | The status of the flight, either \"RESERVED\" or \"BLOCKED\". |\n| DepartureTime | required | The departure time in the format \"YYYY-MM-DDTHH:MM  <br>\". |\n| PlaneId | required | The ID of the plane. |\n| Description | optional | A description as a string. |\n| ArrivalTime | optional for RESERVED  <br>required for BLOCKED | The arrival time in the format \"YYYY-MM-DDTHH:MM  <br>\".  <br>  <br>If not set: The arrival time will be determined by the plane's 'FlightDuration' parameter. |\n| Passengers | optional for RESERVED  <br>ignored for BLOCKED | A list of passengers. These passenger will not be saved and are only used for weight calculations. |\n| FirstName (within Passengers) | optional | The first name of the passenger. |\n| LastName (within Passengers) | optional | The last name of the passenger. |\n| Weight (within Passengers) | required | The weight of the passenger. |\n\n## Required Role:\n\nvendor"
 					},
 					"response": [
 						{
-							"id": "110a2219-ff26-47fa-9d91-f3b8cd7aa8a7",
-							"name": "Flight",
+							"id": "079cd803-5a8d-4961-ae03-90c861cc7bf4",
+							"name": "flight reservation",
 							"originalRequest": {
 								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"DepartureTime\": \"2024-01-24T16:30:00Z\",\n    \"PlaneId\": 1,\n    \"Description\": null,                // optional - This is a string\n    \"ArrivalTime\": null,                // optional - \"this is a time - see departuretime for an example\"\n    \"Passengers\": [                     // optional\n        {\n            \"FirstName\": \"Max\",         // optional\n            \"LastName\": \"Mustermann\",   // optional\n            \"Weight\": 80\n        },\n        {\n            \"Weight\": 64\n        }\n    ]\n}",
+									"raw": "{\n    \"Status\": \"RESERVED\",                   // optional for RESERVED - required for BLOCKED\n    \"DepartureTime\": \"2024-01-24T17:30:00Z\",\n    \"PlaneId\": 1,\n    \"Description\": null,                    // optional - This is a string\n    \"ArrivalTime\": \"2024-01-24T19:30:00Z\",  // optional - \"this is a time - see departuretime for an example\"\n    \"Passengers\": [                         // optional\n        {\n            \"FirstName\": \"Max\",             // optional\n            \"LastName\": \"Mustermann\",       // optional\n            \"Weight\": 80\n        },\n        {\n            \"Weight\": 64\n        }\n    ]\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -495,10 +434,12 @@
 									}
 								},
 								"url": {
-									"raw": "{{url}}/api/flights",
+									"raw": "http://localhost:8080/api/flights",
+									"protocol": "http",
 									"host": [
-										"{{url}}"
+										"localhost"
 									],
+									"port": "8080",
 									"path": [
 										"api",
 										"flights"
@@ -508,7 +449,6 @@
 							"status": "Created",
 							"code": 201,
 							"_postman_previewlanguage": "json",
-							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Content-Type",
@@ -516,25 +456,25 @@
 								},
 								{
 									"key": "Date",
-									"value": "Sun, 28 Apr 2024 12:41:55 GMT"
+									"value": "Wed, 12 Jun 2024 07:46:48 GMT"
 								},
 								{
 									"key": "Content-Length",
-									"value": "1428"
+									"value": "1043"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"Success\": true,\n    \"Response\": {\n        \"ID\": 1,\n        \"CreatedAt\": \"2024-04-28T12:41:55.87245Z\",\n        \"UpdatedAt\": \"2024-04-28T12:41:55.87245Z\",\n        \"DeletedAt\": null,\n        \"Status\": \"RESERVED\",\n        \"FlightNo\": null,\n        \"Description\": null,\n        \"FuelAtDeparture\": null,\n        \"DepartureTime\": \"2024-01-24T16:30:00Z\",\n        \"ArrivalTime\": \"2024-01-24T16:54:00Z\",\n        \"PlaneId\": 1,\n        \"Plane\": {\n            \"ID\": 1,\n            \"CreatedAt\": \"2024-04-28T09:50:44.97975Z\",\n            \"UpdatedAt\": \"2024-04-28T12:39:32.907063Z\",\n            \"DeletedAt\": null,\n            \"Registration\": \"D-ELXX\",\n            \"AircraftType\": \"C172\",\n            \"FlightDuration\": 1440000000000,\n            \"FuelMaxCapacity\": 140,\n            \"FuelStartAmount\": 100,\n            \"FuelburnPerFlight\": 20,\n            \"FuelConversionFactor\": 0.72,\n            \"MTOW\": 1050,\n            \"EmptyWeight\": 650,\n            \"MaxSeatPayload\": -1,\n            \"DivisionId\": 3,\n            \"Division\": null,\n            \"AllowedPilots\": null,\n            \"PrefPilotId\": 2,\n            \"PrefPilot\": null,\n            \"Flights\": null,\n            \"SlotStartTime\": \"2024-04-28T09:00:00Z\",\n            \"SlotEndTime\": \"2024-04-28T17:00:00Z\"\n        },\n        \"PilotId\": 2,\n        \"Pilot\": {\n            \"ID\": 2,\n            \"CreatedAt\": \"2024-04-28T09:50:44.996663Z\",\n            \"UpdatedAt\": \"2024-04-28T09:50:44.996663Z\",\n            \"DeletedAt\": null,\n            \"FirstName\": \"Dennis\",\n            \"LastName\": \"Kornwestheim\",\n            \"Weight\": 72,\n            \"AllowedPlanes\": null\n        },\n        \"Passengers\": [\n            {\n                \"ID\": 0,\n                \"CreatedAt\": \"0001-01-01T00:00:00Z\",\n                \"UpdatedAt\": \"0001-01-01T00:00:00Z\",\n                \"DeletedAt\": null,\n                \"LastName\": \"Mustermann\",\n                \"FirstName\": \"Max\",\n                \"Weight\": 80,\n                \"PassNo\": 0,\n                \"FlightID\": 0,\n                \"Flight\": null,\n                \"Action\": \"\"\n            },\n            {\n                \"ID\": 0,\n                \"CreatedAt\": \"0001-01-01T00:00:00Z\",\n                \"UpdatedAt\": \"0001-01-01T00:00:00Z\",\n                \"DeletedAt\": null,\n                \"LastName\": \"\",\n                \"FirstName\": \"\",\n                \"Weight\": 64,\n                \"PassNo\": 0,\n                \"FlightID\": 0,\n                \"Flight\": null,\n                \"Action\": \"\"\n            }\n        ]\n    }\n}"
+							"body": "{\n    \"Success\": true,\n    \"Response\": {\n        \"ID\": 1,\n        \"CreatedAt\": \"2024-06-12T07:46:48.46076Z\",\n        \"UpdatedAt\": \"2024-06-12T07:46:48.46076Z\",\n        \"DeletedAt\": null,\n        \"Status\": \"RESERVED\",\n        \"FlightNo\": null,\n        \"Description\": null,\n        \"FuelAtDeparture\": null,\n        \"DepartureTime\": \"2024-01-24T17:30:00Z\",\n        \"ArrivalTime\": \"2024-01-24T19:30:00Z\",\n        \"PlaneId\": 1,\n        \"Plane\": {\n            \"ID\": 1,\n            \"CreatedAt\": \"2024-06-12T07:27:27.524796Z\",\n            \"UpdatedAt\": \"2024-06-12T07:27:27.524796Z\",\n            \"DeletedAt\": null,\n            \"Registration\": \"D-ELXX\",\n            \"AircraftType\": \"C172\",\n            \"FlightDuration\": 1440000000000,\n            \"FuelMaxCapacity\": 140,\n            \"FuelStartAmount\": 100,\n            \"FuelburnPerFlight\": 20,\n            \"FuelConversionFactor\": 0.72,\n            \"MTOW\": 1050,\n            \"EmptyWeight\": 650,\n            \"MaxSeatPayload\": -1,\n            \"DivisionId\": 3,\n            \"Division\": null,\n            \"AllowedPilots\": null,\n            \"PrefPilotId\": 3,\n            \"PrefPilot\": null,\n            \"Flights\": null,\n            \"SlotStartTime\": \"2024-06-12T09:00:00Z\",\n            \"SlotEndTime\": \"2024-06-12T17:00:00Z\"\n        },\n        \"PilotId\": 3,\n        \"Pilot\": {\n            \"ID\": 3,\n            \"CreatedAt\": \"2024-06-12T07:27:27.678635Z\",\n            \"UpdatedAt\": \"2024-06-12T07:27:27.678635Z\",\n            \"DeletedAt\": null,\n            \"FirstName\": \"Yannic\",\n            \"LastName\": \"Kornwestheim\",\n            \"Weight\": 90,\n            \"AllowedPlanes\": null\n        },\n        \"Passengers\": []\n    }\n}"
 						},
 						{
-							"id": "a54e55e7-bf04-419a-979d-5437155837b2",
-							"name": "Default Blocker",
+							"id": "5d3ccb7c-52db-48e2-8610-aabcb20cc395",
+							"name": "blocker",
 							"originalRequest": {
 								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"Status\": \"BLOCKED\",\n    \"DepartureTime\": \"2024-01-24T17:30:00Z\",\n    \"PlaneId\": 1,\n    \"Description\": null,                // optional - This is a string\n    \"ArrivalTime\": null,                // optional - \"this is a time - see departuretime for an example\"\n    \"Passengers\": [                     // optional\n        {\n            \"FirstName\": \"Max\",         // optional\n            \"LastName\": \"Mustermann\",   // optional\n            \"Weight\": 80\n        },\n        {\n            \"Weight\": 64\n        }\n    ]\n}",
+									"raw": "{\n    \"Status\": \"BLOCKED\",                    // optional for RESERVED - required for BLOCKED\n    \"DepartureTime\": \"2024-01-24T17:30:00Z\",\n    \"PlaneId\": 2,\n    \"Description\": \"refueling\",             // optional - This is a string\n    \"ArrivalTime\": \"2024-01-24T19:30:00Z\"   // optional - \"this is a time - see departuretime for an example\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -555,7 +495,6 @@
 							"status": "Created",
 							"code": 201,
 							"_postman_previewlanguage": "json",
-							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Content-Type",
@@ -563,68 +502,21 @@
 								},
 								{
 									"key": "Date",
-									"value": "Sun, 28 Apr 2024 12:47:19 GMT"
+									"value": "Wed, 12 Jun 2024 07:49:55 GMT"
 								},
 								{
 									"key": "Content-Length",
-									"value": "901"
+									"value": "868"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"Success\": true,\n    \"Response\": {\n        \"ID\": 5,\n        \"CreatedAt\": \"2024-04-28T14:47:19.630557+02:00\",\n        \"UpdatedAt\": \"2024-04-28T14:47:19.630557+02:00\",\n        \"DeletedAt\": null,\n        \"Status\": \"BLOCKED\",\n        \"FlightNo\": null,\n        \"Description\": null,\n        \"FuelAtDeparture\": null,\n        \"DepartureTime\": \"2024-01-24T18:30:00+01:00\",\n        \"ArrivalTime\": \"0001-01-01T00:53:28+00:53\",\n        \"PlaneId\": 1,\n        \"Plane\": {\n            \"ID\": 1,\n            \"CreatedAt\": \"2024-04-28T11:50:44.97975+02:00\",\n            \"UpdatedAt\": \"2024-04-28T14:39:32.907063+02:00\",\n            \"DeletedAt\": null,\n            \"Registration\": \"D-ELXX\",\n            \"AircraftType\": \"C172\",\n            \"FlightDuration\": 1440000000000,\n            \"FuelMaxCapacity\": 140,\n            \"FuelStartAmount\": 100,\n            \"FuelburnPerFlight\": 20,\n            \"FuelConversionFactor\": 0.72,\n            \"MTOW\": 1050,\n            \"EmptyWeight\": 650,\n            \"MaxSeatPayload\": -1,\n            \"DivisionId\": 3,\n            \"Division\": null,\n            \"AllowedPilots\": null,\n            \"PrefPilotId\": 3,\n            \"PrefPilot\": null,\n            \"Flights\": null,\n            \"SlotStartTime\": \"2024-04-28T11:00:00+02:00\",\n            \"SlotEndTime\": \"2024-04-28T19:00:00+02:00\"\n        },\n        \"PilotId\": null,\n        \"Pilot\": null,\n        \"Passengers\": []\n    }\n}"
-						},
-						{
-							"id": "c9e3264b-7936-4ad0-87c4-8897ffa7e561",
-							"name": "Blocker Customized",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"body": {
-									"mode": "raw",
-									"raw": "{\n    \"Status\": \"BLOCKED\",\n    \"DepartureTime\": \"2024-01-24T17:30:00Z\",\n    \"PlaneId\": 1,\n    \"Description\": null,                    // optional - This is a string\n    \"ArrivalTime\": \"2024-01-24T19:30:00Z\",  // optional - \"this is a time - see departuretime for an example\"\n    \"Passengers\": [                         // optional\n        {\n            \"FirstName\": \"Max\",             // optional\n            \"LastName\": \"Mustermann\",       // optional\n            \"Weight\": 80\n        },\n        {\n            \"Weight\": 64\n        }\n    ]\n}",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{url}}/api/flights",
-									"host": [
-										"{{url}}"
-									],
-									"path": [
-										"api",
-										"flights"
-									]
-								}
-							},
-							"status": "Created",
-							"code": 201,
-							"_postman_previewlanguage": "json",
-							"_postman_previewtype": "html",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json; charset=utf-8"
-								},
-								{
-									"key": "Date",
-									"value": "Sun, 28 Apr 2024 12:48:48 GMT"
-								},
-								{
-									"key": "Content-Length",
-									"value": "901"
-								}
-							],
-							"cookie": [],
-							"body": "{\n    \"Success\": true,\n    \"Response\": {\n        \"ID\": 6,\n        \"CreatedAt\": \"2024-04-28T14:48:48.790149+02:00\",\n        \"UpdatedAt\": \"2024-04-28T14:48:48.790149+02:00\",\n        \"DeletedAt\": null,\n        \"Status\": \"BLOCKED\",\n        \"FlightNo\": null,\n        \"Description\": null,\n        \"FuelAtDeparture\": null,\n        \"DepartureTime\": \"2024-01-24T18:30:00+01:00\",\n        \"ArrivalTime\": \"2024-01-24T20:30:00+01:00\",\n        \"PlaneId\": 1,\n        \"Plane\": {\n            \"ID\": 1,\n            \"CreatedAt\": \"2024-04-28T11:50:44.97975+02:00\",\n            \"UpdatedAt\": \"2024-04-28T14:39:32.907063+02:00\",\n            \"DeletedAt\": null,\n            \"Registration\": \"D-ELXX\",\n            \"AircraftType\": \"C172\",\n            \"FlightDuration\": 1440000000000,\n            \"FuelMaxCapacity\": 140,\n            \"FuelStartAmount\": 100,\n            \"FuelburnPerFlight\": 20,\n            \"FuelConversionFactor\": 0.72,\n            \"MTOW\": 1050,\n            \"EmptyWeight\": 650,\n            \"MaxSeatPayload\": -1,\n            \"DivisionId\": 3,\n            \"Division\": null,\n            \"AllowedPilots\": null,\n            \"PrefPilotId\": 3,\n            \"PrefPilot\": null,\n            \"Flights\": null,\n            \"SlotStartTime\": \"2024-04-28T11:00:00+02:00\",\n            \"SlotEndTime\": \"2024-04-28T19:00:00+02:00\"\n        },\n        \"PilotId\": null,\n        \"Pilot\": null,\n        \"Passengers\": []\n    }\n}"
+							"body": "{\n    \"Success\": true,\n    \"Response\": {\n        \"ID\": 2,\n        \"CreatedAt\": \"2024-06-12T07:49:55.403264Z\",\n        \"UpdatedAt\": \"2024-06-12T07:49:55.403264Z\",\n        \"DeletedAt\": null,\n        \"Status\": \"BLOCKED\",\n        \"FlightNo\": null,\n        \"Description\": \"refueling\",\n        \"FuelAtDeparture\": null,\n        \"DepartureTime\": \"2024-01-24T17:30:00Z\",\n        \"ArrivalTime\": \"2024-01-24T19:30:00Z\",\n        \"PlaneId\": 2,\n        \"Plane\": {\n            \"ID\": 2,\n            \"CreatedAt\": \"2024-06-12T07:27:27.527155Z\",\n            \"UpdatedAt\": \"2024-06-12T07:27:27.527155Z\",\n            \"DeletedAt\": null,\n            \"Registration\": \"D-ESXX\",\n            \"AircraftType\": \"C172\",\n            \"FlightDuration\": 1440000000000,\n            \"FuelMaxCapacity\": 120,\n            \"FuelStartAmount\": 80,\n            \"FuelburnPerFlight\": 15,\n            \"FuelConversionFactor\": 0.72,\n            \"MTOW\": 1083,\n            \"EmptyWeight\": 756,\n            \"MaxSeatPayload\": -1,\n            \"DivisionId\": 3,\n            \"Division\": null,\n            \"AllowedPilots\": null,\n            \"PrefPilotId\": 8,\n            \"PrefPilot\": null,\n            \"Flights\": null,\n            \"SlotStartTime\": \"2024-06-12T09:00:00Z\",\n            \"SlotEndTime\": \"2024-06-12T17:00:00Z\"\n        },\n        \"PilotId\": null,\n        \"Pilot\": null,\n        \"Passengers\": []\n    }\n}"
 						}
 					]
 				},
 				{
 					"name": "02 - flight booking",
-					"id": "697b5860-0a81-4c76-8d3a-d6ba6b78c5ed",
+					"id": "8140cadb-02cd-43f6-8b4d-7f18cced735b",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -658,12 +550,68 @@
 								}
 							]
 						},
-						"description": "This is the second step in the 'flight creation' process.  \nIt updates a flight from 'planned' to 'reserved' status, performing flight logic calculations such as pilot selection and weight checking.\n\nIt creates passengers for this flight with at least the weight attribute. Other attributes are optional and can be set later"
+						"description": "This is the second step in the 'flight creation' process. It updates a flight from 'reserved' to 'booked' status, performing flight logic calculations such as pilot selection and weight checking. It creates passengers for this flight.\n\n## Parameters\n\n| **Parameter** | required | Description |\n| --- | --- | --- |\n| Status | required | The status of the flight, must be \"BOOKED\". |\n| Description | optional | A description as a string. An empty string means removing the description. |\n| Passengers | required | A list of passengers. These passengers will be created for this flight. |\n| FirstName (within Passengers) | required | The first name of the passenger. |\n| LastName (within Passengers) | required | The last name of the passenger. |\n| Weight (within Passengers) | required | The weight of the passenger. |\n\n## Required Role:\n\nvendor"
 					},
 					"response": [
 						{
-							"id": "242073d1-c7c2-46f2-9041-9a4fdbc54f0a",
-							"name": "200",
+							"id": "7777514e-c6be-4dd8-9d17-114fc13f8f87",
+							"name": "flight booking",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"Status\": \"BOOKED\",\n    \"Description\": null,                // \"This is a string - empty string means -> removing description \"\n    \"Passengers\": [\n        {\n            \"LastName\": \"Mustermann\",\n            \"FirstName\": \"Max\",\n            \"Weight\": 110\n        },        \n        {\n            \"LastName\": \"Mustermann\",\n            \"FirstName\": \"Maria\",\n            \"Weight\": 110\n        },\n        {\n            \"FirstName\": \"Thomas\",\n            \"LastName\": \"Mustermann\",\n            \"Weight\": 30\n        }\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:8080/api/flights/:id",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "8080",
+									"path": [
+										"api",
+										"flights",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "1",
+											"description": "id of flight in \"reserved\" status"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 12 Jun 2024 08:01:28 GMT"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1666"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"Success\": true,\n    \"Response\": {\n        \"ID\": 1,\n        \"CreatedAt\": \"2024-06-12T07:46:48.46076Z\",\n        \"UpdatedAt\": \"2024-06-12T08:01:28.609549Z\",\n        \"DeletedAt\": null,\n        \"Status\": \"BOOKED\",\n        \"FlightNo\": \"ELXX-001\",\n        \"Description\": null,\n        \"FuelAtDeparture\": null,\n        \"DepartureTime\": \"2024-01-24T17:30:00Z\",\n        \"ArrivalTime\": \"2024-01-24T19:30:00Z\",\n        \"PlaneId\": 1,\n        \"Plane\": {\n            \"ID\": 1,\n            \"CreatedAt\": \"2024-06-12T07:27:27.524796Z\",\n            \"UpdatedAt\": \"2024-06-12T07:27:27.524796Z\",\n            \"DeletedAt\": null,\n            \"Registration\": \"D-ELXX\",\n            \"AircraftType\": \"C172\",\n            \"FlightDuration\": 1440000000000,\n            \"FuelMaxCapacity\": 140,\n            \"FuelStartAmount\": 100,\n            \"FuelburnPerFlight\": 20,\n            \"FuelConversionFactor\": 0.72,\n            \"MTOW\": 1050,\n            \"EmptyWeight\": 650,\n            \"MaxSeatPayload\": -1,\n            \"DivisionId\": 3,\n            \"Division\": null,\n            \"AllowedPilots\": null,\n            \"PrefPilotId\": 3,\n            \"PrefPilot\": null,\n            \"Flights\": null,\n            \"SlotStartTime\": \"2024-06-12T09:00:00Z\",\n            \"SlotEndTime\": \"2024-06-12T17:00:00Z\"\n        },\n        \"PilotId\": 3,\n        \"Pilot\": {\n            \"ID\": 3,\n            \"CreatedAt\": \"2024-06-12T07:27:27.678635Z\",\n            \"UpdatedAt\": \"2024-06-12T07:27:27.678635Z\",\n            \"DeletedAt\": null,\n            \"FirstName\": \"Yannic\",\n            \"LastName\": \"Kornwestheim\",\n            \"Weight\": 90,\n            \"AllowedPlanes\": null\n        },\n        \"Passengers\": [\n            {\n                \"ID\": 1,\n                \"CreatedAt\": \"2024-06-12T08:01:28.599507Z\",\n                \"UpdatedAt\": \"2024-06-12T08:01:28.599507Z\",\n                \"DeletedAt\": null,\n                \"LastName\": \"Mustermann\",\n                \"FirstName\": \"Max\",\n                \"Weight\": 110,\n                \"PassNo\": 501,\n                \"FlightID\": 1,\n                \"Flight\": null\n            },\n            {\n                \"ID\": 2,\n                \"CreatedAt\": \"2024-06-12T08:01:28.603786Z\",\n                \"UpdatedAt\": \"2024-06-12T08:01:28.603786Z\",\n                \"DeletedAt\": null,\n                \"LastName\": \"Mustermann\",\n                \"FirstName\": \"Maria\",\n                \"Weight\": 110,\n                \"PassNo\": 502,\n                \"FlightID\": 1,\n                \"Flight\": null\n            },\n            {\n                \"ID\": 3,\n                \"CreatedAt\": \"2024-06-12T08:01:28.606323Z\",\n                \"UpdatedAt\": \"2024-06-12T08:01:28.606323Z\",\n                \"DeletedAt\": null,\n                \"LastName\": \"Mustermann\",\n                \"FirstName\": \"Thomas\",\n                \"Weight\": 30,\n                \"PassNo\": 503,\n                \"FlightID\": 1,\n                \"Flight\": null\n            }\n        ]\n    }\n}"
+						},
+						{
+							"id": "60b675a8-03ae-4919-8542-6eb7cfedd651",
+							"name": "booking a blocker",
 							"originalRequest": {
 								"method": "POST",
 								"header": [],
@@ -695,10 +643,9 @@
 									]
 								}
 							},
-							"status": "OK",
-							"code": 200,
+							"status": "Bad Request",
+							"code": 400,
 							"_postman_previewlanguage": "json",
-							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Content-Type",
@@ -706,21 +653,21 @@
 								},
 								{
 									"key": "Date",
-									"value": "Thu, 25 Apr 2024 12:20:42 GMT"
+									"value": "Wed, 12 Jun 2024 08:28:13 GMT"
 								},
 								{
 									"key": "Content-Length",
-									"value": "1583"
+									"value": "86"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"Success\": true,\n    \"Response\": {\n        \"ID\": 1,\n        \"CreatedAt\": \"2024-04-25T14:19:55.23285+02:00\",\n        \"UpdatedAt\": \"2024-04-25T14:20:42.7831+02:00\",\n        \"DeletedAt\": null,\n        \"Status\": \"BOOKED\",\n        \"FlightNo\": \"ELXX-001\",\n        \"Description\": null,\n        \"FuelAtDeparture\": null,\n        \"DepartureTime\": \"2024-01-24T17:30:00+01:00\",\n        \"ArrivalTime\": \"2024-01-24T17:54:00+01:00\",\n        \"PlaneId\": 1,\n        \"Plane\": {\n            \"ID\": 1,\n            \"CreatedAt\": \"2024-04-25T14:19:46.268778+02:00\",\n            \"UpdatedAt\": \"2024-04-25T14:19:46.268778+02:00\",\n            \"DeletedAt\": null,\n            \"Registration\": \"D-ELXX\",\n            \"AircraftType\": \"C172\",\n            \"FlightDuration\": 1440000000000,\n            \"FuelMaxCapacity\": 140,\n            \"FuelStartAmount\": 100,\n            \"FuelburnPerFlight\": 20,\n            \"FuelConversionFactor\": 0.72,\n            \"MTOW\": 1050,\n            \"EmptyWeight\": 650,\n            \"MaxSeatPayload\": -1,\n            \"DivisionId\": 3,\n            \"Division\": null,\n            \"AllowedPilots\": null,\n            \"PrefPilotId\": 3,\n            \"PrefPilot\": null,\n            \"Flights\": null,\n            \"SlotStartTime\": \"2024-04-25T11:00:00+02:00\",\n            \"SlotEndTime\": \"2024-04-25T19:00:00+02:00\"\n        },\n        \"PilotId\": 2,\n        \"Pilot\": null,\n        \"Passengers\": [\n            {\n                \"ID\": 1,\n                \"CreatedAt\": \"2024-04-25T14:20:42.783927+02:00\",\n                \"UpdatedAt\": \"2024-04-25T14:20:42.783927+02:00\",\n                \"DeletedAt\": null,\n                \"LastName\": \"Mustermann\",\n                \"FirstName\": \"Max\",\n                \"Weight\": 110,\n                \"PassNo\": 501,\n                \"FlightID\": 1,\n                \"Flight\": null,\n                \"Action\": \"\"\n            },\n            {\n                \"ID\": 2,\n                \"CreatedAt\": \"2024-04-25T14:20:42.78446+02:00\",\n                \"UpdatedAt\": \"2024-04-25T14:20:42.78446+02:00\",\n                \"DeletedAt\": null,\n                \"LastName\": \"Mustermann\",\n                \"FirstName\": \"Maria\",\n                \"Weight\": 110,\n                \"PassNo\": 502,\n                \"FlightID\": 1,\n                \"Flight\": null,\n                \"Action\": \"\"\n            },\n            {\n                \"ID\": 3,\n                \"CreatedAt\": \"2024-04-25T14:20:42.784631+02:00\",\n                \"UpdatedAt\": \"2024-04-25T14:20:42.784631+02:00\",\n                \"DeletedAt\": null,\n                \"LastName\": \"Mustermann\",\n                \"FirstName\": \"Thomas\",\n                \"Weight\": 30,\n                \"PassNo\": 503,\n                \"FlightID\": 1,\n                \"Flight\": null,\n                \"Action\": \"\"\n            }\n        ]\n    }\n}"
+							"body": "{\n    \"Type\": \"INVALID_FLIGHT_LOGIC\",\n    \"Message\": \"Flight status does not fit current process\"\n}"
 						}
 					]
 				},
 				{
 					"name": "delete Flight",
-					"id": "a0a67925-88a9-408a-b761-ecd14214e357",
+					"id": "9780adc7-54e8-4c05-bd55-48f34e00a779",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -745,20 +692,22 @@
 								}
 							]
 						},
-						"description": "Soft delete a flight and all related passengers."
+						"description": "Soft delete a flight or blocker and all related passengers.\n\n## Required Role:\n\nadmin"
 					},
 					"response": [
 						{
-							"id": "c6372285-2a7c-4fe1-98d5-3a78b9bee63d",
-							"name": "204",
+							"id": "b0aba34e-9286-4af0-938f-a1f0c02cb06b",
+							"name": "flight/blocker deleted",
 							"originalRequest": {
 								"method": "DELETE",
 								"header": [],
 								"url": {
-									"raw": "{{url}}/api/flights/:id",
+									"raw": "http://localhost:8080/api/flights/:id",
+									"protocol": "http",
 									"host": [
-										"{{url}}"
+										"localhost"
 									],
+									"port": "8080",
 									"path": [
 										"api",
 										"flights",
@@ -776,7 +725,6 @@
 							"status": "No Content",
 							"code": 204,
 							"_postman_previewlanguage": "json",
-							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Content-Type",
@@ -784,14 +732,14 @@
 								},
 								{
 									"key": "Date",
-									"value": "Thu, 25 Jan 2024 09:45:26 GMT"
+									"value": "Wed, 12 Jun 2024 08:28:51 GMT"
 								}
 							],
 							"cookie": []
 						},
 						{
-							"id": "2288b3e8-d31e-45b0-88a4-3fe184e728ab",
-							"name": "404",
+							"id": "11e1ef63-8ea6-4e15-a352-dc486964d0ab",
+							"name": "not found",
 							"originalRequest": {
 								"method": "DELETE",
 								"header": [],
@@ -808,7 +756,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "1",
+											"value": "2",
 											"description": "id of flight"
 										}
 									]
@@ -817,7 +765,6 @@
 							"status": "Not Found",
 							"code": 404,
 							"_postman_previewlanguage": "json",
-							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Content-Type",
@@ -825,27 +772,27 @@
 								},
 								{
 									"key": "Date",
-									"value": "Thu, 25 Jan 2024 09:45:34 GMT"
+									"value": "Wed, 12 Jun 2024 08:29:11 GMT"
 								},
 								{
 									"key": "Content-Length",
-									"value": "72"
+									"value": "56"
 								}
 							],
 							"cookie": [],
-							"body": "{\n    \"Success\": false,\n    \"Type\": \"OBJECT_NOT_FOUND\",\n    \"Message\": \"record not found\"\n}"
+							"body": "{\n    \"Type\": \"OBJECT_NOT_FOUND\",\n    \"Message\": \"record not found\"\n}"
 						}
 					]
 				}
 			],
-			"id": "94a8963b-97cb-4e62-98dc-4a11c5ef1b93"
+			"id": "717dc6ec-62e8-437e-bbf2-518793e593f3"
 		},
 		{
 			"name": "plane",
 			"item": [
 				{
 					"name": "get planes",
-					"id": "ab64e537-01cf-4309-a17a-1344c2beed2c",
+					"id": "e021fe95-8908-4042-b30d-4f43f6f79158",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -884,20 +831,23 @@
 									"disabled": true
 								}
 							]
-						}
+						},
+						"description": "## Required Role:\n\nany"
 					},
 					"response": [
 						{
-							"id": "9546b92b-7be7-4cc1-a23e-abf19f52b71e",
+							"id": "b7f6364d-65f5-4085-ad2d-6dd1da31a81d",
 							"name": "200",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{url}}/api/planes?includeFlights=true&includePilots=true&includePrefPilot=true",
+									"raw": "http://localhost:8080/api/planes?includeFlights=true&includePilots=true&includePrefPilot=true",
+									"protocol": "http",
 									"host": [
-										"{{url}}"
+										"localhost"
 									],
+									"port": "8080",
 									"path": [
 										"api",
 										"planes"
@@ -927,7 +877,6 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
-							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Content-Type",
@@ -949,7 +898,7 @@
 				},
 				{
 					"name": "get Plane",
-					"id": "78646c2a-2c90-4b6b-be4a-e82ae39955c4",
+					"id": "f89d3057-5d37-48b7-bad7-c10116379a19",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -993,16 +942,18 @@
 					},
 					"response": [
 						{
-							"id": "3d127492-44f6-4a8c-8420-a238a87b3baf",
+							"id": "e06b0de5-0e24-4235-a711-9515dfdbf1e4",
 							"name": "200",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{url}}/api/planes?includeFlights=true&includePilots=true&includePrefPilot=true",
+									"raw": "http://localhost:8080/api/planes?includeFlights=true&includePilots=true&includePrefPilot=true",
+									"protocol": "http",
 									"host": [
-										"{{url}}"
+										"localhost"
 									],
+									"port": "8080",
 									"path": [
 										"api",
 										"planes"
@@ -1032,7 +983,6 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
-							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Content-Type",
@@ -1054,7 +1004,7 @@
 				},
 				{
 					"name": "Update Plane",
-					"id": "ac42d844-c40a-4848-8e0c-bb515fbc8fb2",
+					"id": "6bceb642-7193-4e2e-9d7e-fb464bd78a41",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1090,7 +1040,7 @@
 					},
 					"response": [
 						{
-							"id": "ccbf9059-2c2c-46ca-9975-19de131b7562",
+							"id": "592fe1c3-7b3a-4b58-ba28-17b794ed49fc",
 							"name": "200",
 							"originalRequest": {
 								"method": "PATCH",
@@ -1105,10 +1055,12 @@
 									}
 								},
 								"url": {
-									"raw": "{{url}}/api/planes/:id",
+									"raw": "http://localhost:8080/api/planes/:id",
+									"protocol": "http",
 									"host": [
-										"{{url}}"
+										"localhost"
 									],
+									"port": "8080",
 									"path": [
 										"api",
 										"planes",
@@ -1125,7 +1077,6 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
-							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Content-Type",
@@ -1146,14 +1097,14 @@
 					]
 				}
 			],
-			"id": "83de040c-aaab-4d84-b6e3-33bc91ec6ca3"
+			"id": "1bf74c17-b256-446b-8fe2-38100766885e"
 		},
 		{
 			"name": "pilots",
 			"item": [
 				{
 					"name": "get pilots",
-					"id": "71b13b91-445a-4dcb-882c-aef32c26985b",
+					"id": "9db2d739-7a70-448c-ae95-be6d7ad7ba0d",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1186,16 +1137,18 @@
 					},
 					"response": [
 						{
-							"id": "d098f4af-978b-4e18-b217-b2d53593ce73",
+							"id": "859e351d-fc18-44a5-aa23-14d923dbdfae",
 							"name": "200",
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{url}}/api/pilots",
+									"raw": "http://localhost:8080/api/pilots",
+									"protocol": "http",
 									"host": [
-										"{{url}}"
+										"localhost"
 									],
+									"port": "8080",
 									"path": [
 										"api",
 										"pilots"
@@ -1218,7 +1171,6 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
-							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Content-Type",
@@ -1239,14 +1191,14 @@
 					]
 				}
 			],
-			"id": "58739e92-cd17-4386-9a83-71b0fa875cf7"
+			"id": "54a155ae-a610-46b4-8b04-7660f178608b"
 		},
 		{
 			"name": "user",
 			"item": [
 				{
 					"name": "Get Users",
-					"id": "193e3395-e4bb-4194-b879-21bf84841dfe",
+					"id": "c4fd577d-9ec3-41cd-b121-6fb5d34484c6",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1266,7 +1218,7 @@
 					},
 					"response": [
 						{
-							"id": "ada20728-0105-4978-bb27-3717ec61919f",
+							"id": "6dce3124-f81e-4b70-ad30-1039aa6ac1b0",
 							"name": "200",
 							"originalRequest": {
 								"method": "GET",
@@ -1285,7 +1237,6 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
-							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Content-Type",
@@ -1307,7 +1258,7 @@
 				},
 				{
 					"name": "CreateUser",
-					"id": "2a596c5f-7844-42ce-8ec9-30c20985c003",
+					"id": "480cce59-b561-4879-ab1e-8abc38ef8e10",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1336,7 +1287,7 @@
 					},
 					"response": [
 						{
-							"id": "d033ec4a-11f2-4f3f-bea7-6b4844226c83",
+							"id": "4934feca-f9a5-453d-b6e1-359222dce754",
 							"name": "201",
 							"originalRequest": {
 								"method": "POST",
@@ -1364,7 +1315,6 @@
 							"status": "OK",
 							"code": 200,
 							"_postman_previewlanguage": "json",
-							"_postman_previewtype": "html",
 							"header": [
 								{
 									"key": "Content-Type",
@@ -1386,7 +1336,7 @@
 				},
 				{
 					"name": "Delete User",
-					"id": "f0f076e5-8d99-4c44-9826-c1aa3a927df4",
+					"id": "088e7958-a870-4f1e-9a0f-ee703f7548cd",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1414,7 +1364,7 @@
 					"response": []
 				}
 			],
-			"id": "ec81604e-335a-4b5f-859f-15d933787ef8"
+			"id": "87832095-2d09-4af0-a118-cb4fc4ab6384"
 		},
 		{
 			"name": "auth",
@@ -1425,7 +1375,7 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "0996faa5-8d21-4ba8-8ac4-6b685d9dae5b",
+								"id": "11f7a456-f8e2-474b-b5bb-e96149676eb6",
 								"exec": [
 									"var responseJson = pm.response.json();",
 									"var token = responseJson.Response;",
@@ -1438,7 +1388,7 @@
 							}
 						}
 					],
-					"id": "ead2e2cd-64e9-45f9-b370-666d45fb693b",
+					"id": "c27dfaf2-9a32-46c4-9a53-fd46e6fd9813",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1474,7 +1424,7 @@
 					"response": []
 				}
 			],
-			"id": "3d0675d0-1ccd-4f66-b4db-d1b2c473bbf2"
+			"id": "00d9a601-430d-426e-998f-ac1f7a28536d"
 		}
 	],
 	"auth": {
@@ -1491,7 +1441,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "28b4e0fa-4445-4541-aeca-15e319c366b7",
+				"id": "cc24765a-9ad3-4a2d-b887-0dc379875575",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -1501,7 +1451,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "ee6aaf87-5869-4522-aa41-1786abe8551d",
+				"id": "73247548-37c9-457f-ad61-f0b6e557927a",
 				"type": "text/javascript",
 				"exec": [
 					""
