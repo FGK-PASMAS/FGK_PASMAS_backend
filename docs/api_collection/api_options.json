@@ -12,5 +12,9 @@
             "url": "http://pasmas.fg-k.de:8080",
             "description": "Beta server"
         }
-    ]
+    ],
+    "disabledParams": {
+        "includeQuery": true,
+        "includeHeader": true
+    }
 }
