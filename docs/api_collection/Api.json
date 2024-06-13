@@ -96,7 +96,7 @@
 			"name": "passenger",
 			"item": [
 				{
-					"name": "get all Passengers",
+					"name": "get all passengers",
 					"event": [
 						{
 							"listen": "test",
@@ -973,7 +973,7 @@
 					]
 				},
 				{
-					"name": "get Plane",
+					"name": "get plane",
 					"id": "f89d3057-5d37-48b7-bad7-c10116379a19",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
