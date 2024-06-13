@@ -15,7 +15,7 @@ type Passenger struct {
     Flight              *Flight         `gorm:"foreignKey:FlightID"`
 
     // This virtual field is used in the api to determine what action to take on this passenger
-    Action              Action          `gorm:"-"`
+    //Action              Action          `gorm:"-"`
 }
 
 type Action string

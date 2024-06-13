@@ -1,0 +1,2606 @@
+openapi: 3.0.0
+info:
+  title: PASMAS API
+  description: >-
+    ## The Passenger Management Assistant
+
+
+    (PasMAs) is an open-source web application designed to simplify the
+    management of sightseeing flights on open days for smaller flying clubs.
+    This assistant enables you to organize various flight slots for each plane
+    efficiently. It supports you by handling flight logic calculations such as
+    determining the maximum take-off mass to prevent overloaded flights.
+
+
+    #### API Authentication and Authorization
+
+
+    An authentication token is required for every API call. If nothing is
+    specified in the individual call description, it means that no specific
+    authorization is required, and any role can perform the call.
+
+
+    #### API Response Structure
+
+
+    Each successful API call will return a JSON object with the following
+    structure:
+
+
+    ``` json
+
+    {
+        "Success": true,
+        "Response": any
+    }
+
+     ```
+
+    Each unsuccessful API call will return a JSON object with the following
+    structure:
+
+
+    ``` json
+
+    {
+        "Type": string,
+        "Message": string
+    }
+
+     ```
+
+    This general response structure will not be detailed further in each
+    individual call description.
+  version: v0.5
+servers:
+  - url: http://localhost:8080
+    description: localhost
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    bearerAuth:
+      type: http
+      scheme: bearer
+security:
+  - bearerAuth: []
+tags:
+  - name: debug
+    description: The debug endpoint is primarily for debugging purposes.
+  - name: passenger
+  - name: division
+  - name: flight
+  - name: plane
+  - name: pilots
+  - name: user
+  - name: auth
+paths:
+  /api/debug/ping:
+    get:
+      tags:
+        - debug
+      summary: ping
+      description: Pings the backend
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Date:
+              schema:
+                type: string
+                example: Wed, 12 Jun 2024 07:31:34 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '34'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                Success: true
+                Response: pong
+  /api/passengers:
+    get:
+      tags:
+        - passenger
+      summary: get all passengers
+      description: This API endpoint retrieves a list of all passengers.
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Date:
+              schema:
+                type: string
+                example: Wed, 12 Jun 2024 11:11:36 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '1639'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                Success: true
+                Response:
+                  - ID: 1
+                    CreatedAt: '2024-06-12T11:03:33.89466Z'
+                    UpdatedAt: '2024-06-12T11:03:33.89466Z'
+                    DeletedAt: null
+                    LastName: Mustermann
+                    FirstName: Max
+                    Weight: 110
+                    PassNo: 501
+                    FlightID: 1
+                    Flight:
+                      ID: 1
+                      CreatedAt: '2024-06-12T11:01:54.391691Z'
+                      UpdatedAt: '2024-06-12T11:03:33.901995Z'
+                      DeletedAt: null
+                      Status: BOOKED
+                      FlightNo: ELXX-001
+                      Description: null
+                      FuelAtDeparture: null
+                      DepartureTime: '2024-01-24T10:30:00Z'
+                      ArrivalTime: '2024-01-24T10:54:00Z'
+                      PlaneId: 1
+                      Plane: null
+                      PilotId: 4
+                      Pilot: null
+                      Passengers: null
+                  - ID: 2
+                    CreatedAt: '2024-06-12T11:03:33.896924Z'
+                    UpdatedAt: '2024-06-12T11:03:33.896924Z'
+                    DeletedAt: null
+                    LastName: Mustermann
+                    FirstName: Maria
+                    Weight: 110
+                    PassNo: 502
+                    FlightID: 1
+                    Flight:
+                      ID: 1
+                      CreatedAt: '2024-06-12T11:01:54.391691Z'
+                      UpdatedAt: '2024-06-12T11:03:33.901995Z'
+                      DeletedAt: null
+                      Status: BOOKED
+                      FlightNo: ELXX-001
+                      Description: null
+                      FuelAtDeparture: null
+                      DepartureTime: '2024-01-24T10:30:00Z'
+                      ArrivalTime: '2024-01-24T10:54:00Z'
+                      PlaneId: 1
+                      Plane: null
+                      PilotId: 4
+                      Pilot: null
+                      Passengers: null
+                  - ID: 3
+                    CreatedAt: '2024-06-12T11:03:33.899143Z'
+                    UpdatedAt: '2024-06-12T11:03:33.899143Z'
+                    DeletedAt: null
+                    LastName: Mustermann
+                    FirstName: Thomas
+                    Weight: 30
+                    PassNo: 503
+                    FlightID: 1
+                    Flight:
+                      ID: 1
+                      CreatedAt: '2024-06-12T11:01:54.391691Z'
+                      UpdatedAt: '2024-06-12T11:03:33.901995Z'
+                      DeletedAt: null
+                      Status: BOOKED
+                      FlightNo: ELXX-001
+                      Description: null
+                      FuelAtDeparture: null
+                      DepartureTime: '2024-01-24T10:30:00Z'
+                      ArrivalTime: '2024-01-24T10:54:00Z'
+                      PlaneId: 1
+                      Plane: null
+                      PilotId: 4
+                      Pilot: null
+                      Passengers: null
+  /api/divisions:
+    get:
+      tags:
+        - division
+      summary: get divisions
+      description: This API endpoint retrieves a list of all divisions
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Date:
+              schema:
+                type: string
+                example: Wed, 12 Jun 2024 11:11:26 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '526'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                Success: true
+                Response:
+                  - ID: 1
+                    CreatedAt: '2024-06-12T10:55:31.336592Z'
+                    UpdatedAt: '2024-06-12T10:55:31.336592Z'
+                    DeletedAt: null
+                    Name: Segelflug
+                    PassengerCapacity: 1
+                    Planes: null
+                  - ID: 2
+                    CreatedAt: '2024-06-12T10:55:31.339085Z'
+                    UpdatedAt: '2024-06-12T10:55:31.339085Z'
+                    DeletedAt: null
+                    Name: Motorsegler
+                    PassengerCapacity: 1
+                    Planes: null
+                  - ID: 3
+                    CreatedAt: '2024-06-12T10:55:31.340502Z'
+                    UpdatedAt: '2024-06-12T10:55:31.340502Z'
+                    DeletedAt: null
+                    Name: Motorflug
+                    PassengerCapacity: 3
+                    Planes: null
+  /api/flights:
+    get:
+      tags:
+        - flight
+      summary: get all flights
+      description: >-
+        This API endpoint retrieves flight details based on the specified query
+        parameters. The query parameters allow to include or exclude additional
+        information such as passengers, plane details, and pilot details.
+      parameters:
+        - name: includePassengers
+          in: query
+          schema:
+            type: boolean
+          description: >-
+            Whether to include passenger details in the response. Set to true to
+            include.
+          example: 'true'
+        - name: includePlane
+          in: query
+          schema:
+            type: boolean
+          description: >-
+            Whether to include plane details in the response. Set to true to
+            include.
+          example: 'true'
+        - name: includePilot
+          in: query
+          schema:
+            type: boolean
+          description: >-
+            Whether to include pilot details in the response. Set to true to
+            include.
+          example: 'true'
+        - name: byDivisionId
+          in: query
+          schema:
+            type: integer
+          description: >-
+            The ID of the division. If provided, it will automatically set
+            includeDivision to true.
+          example: '1'
+        - name: byPlaneId
+          in: query
+          schema:
+            type: integer
+          description: >-
+            The ID of the plane. If provided, it will automatically set
+            includePlane to true.
+          example: '1'
+        - name: byDepartureTime
+          in: query
+          schema:
+            type: string
+          description: >-
+            The departure time to filter flights. Format should be
+            YYYY-MM-DDTHH:MM:SSZ.
+          example: '2024-01-24T17:30:00Z'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Date:
+              schema:
+                type: string
+                example: Wed, 12 Jun 2024 11:11:16 GMT
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                Success: true
+                Response:
+                  - ID: 1
+                    CreatedAt: '2024-06-12T11:01:54.391691Z'
+                    UpdatedAt: '2024-06-12T11:03:33.901995Z'
+                    DeletedAt: null
+                    Status: BOOKED
+                    FlightNo: ELXX-001
+                    Description: null
+                    FuelAtDeparture: null
+                    DepartureTime: '2024-01-24T10:30:00Z'
+                    ArrivalTime: '2024-01-24T10:54:00Z'
+                    PlaneId: 1
+                    Plane:
+                      ID: 1
+                      CreatedAt: '2024-06-12T10:55:31.450384Z'
+                      UpdatedAt: '2024-06-12T10:55:31.450384Z'
+                      DeletedAt: null
+                      Registration: D-ELXX
+                      AircraftType: C172
+                      FlightDuration: 1440000000000
+                      FuelMaxCapacity: 140
+                      FuelStartAmount: 100
+                      FuelburnPerFlight: 20
+                      FuelConversionFactor: 0.72
+                      MTOW: 1050
+                      EmptyWeight: 650
+                      MaxSeatPayload: -1
+                      DivisionId: 3
+                      Division: null
+                      AllowedPilots: null
+                      PrefPilotId: 4
+                      PrefPilot: null
+                      Flights: null
+                      SlotStartTime: '2024-06-12T09:00:00Z'
+                      SlotEndTime: '2024-06-12T17:00:00Z'
+                    PilotId: 4
+                    Pilot:
+                      ID: 4
+                      CreatedAt: '2024-06-12T10:55:31.727845Z'
+                      UpdatedAt: '2024-06-12T10:55:31.727845Z'
+                      DeletedAt: null
+                      FirstName: Lukas
+                      LastName: Beispielflug
+                      Weight: 88
+                      AllowedPlanes: null
+                    Passengers:
+                      - ID: 1
+                        CreatedAt: '2024-06-12T11:03:33.89466Z'
+                        UpdatedAt: '2024-06-12T11:03:33.89466Z'
+                        DeletedAt: null
+                        LastName: Mustermann
+                        FirstName: Max
+                        Weight: 110
+                        PassNo: 501
+                        FlightID: 1
+                        Flight: null
+                      - ID: 2
+                        CreatedAt: '2024-06-12T11:03:33.896924Z'
+                        UpdatedAt: '2024-06-12T11:03:33.896924Z'
+                        DeletedAt: null
+                        LastName: Mustermann
+                        FirstName: Maria
+                        Weight: 110
+                        PassNo: 502
+                        FlightID: 1
+                        Flight: null
+                      - ID: 3
+                        CreatedAt: '2024-06-12T11:03:33.899143Z'
+                        UpdatedAt: '2024-06-12T11:03:33.899143Z'
+                        DeletedAt: null
+                        LastName: Mustermann
+                        FirstName: Thomas
+                        Weight: 30
+                        PassNo: 503
+                        FlightID: 1
+                        Flight: null
+                  - ID: 3
+                    CreatedAt: '2024-06-12T11:03:21.9447Z'
+                    UpdatedAt: '2024-06-12T11:03:21.9447Z'
+                    DeletedAt: null
+                    Status: RESERVED
+                    FlightNo: null
+                    Description: null
+                    FuelAtDeparture: null
+                    DepartureTime: '2024-01-24T11:00:00Z'
+                    ArrivalTime: '2024-01-24T11:24:00Z'
+                    PlaneId: 1
+                    Plane:
+                      ID: 1
+                      CreatedAt: '2024-06-12T10:55:31.450384Z'
+                      UpdatedAt: '2024-06-12T10:55:31.450384Z'
+                      DeletedAt: null
+                      Registration: D-ELXX
+                      AircraftType: C172
+                      FlightDuration: 1440000000000
+                      FuelMaxCapacity: 140
+                      FuelStartAmount: 100
+                      FuelburnPerFlight: 20
+                      FuelConversionFactor: 0.72
+                      MTOW: 1050
+                      EmptyWeight: 650
+                      MaxSeatPayload: -1
+                      DivisionId: 3
+                      Division: null
+                      AllowedPilots: null
+                      PrefPilotId: 4
+                      PrefPilot: null
+                      Flights: null
+                      SlotStartTime: '2024-06-12T09:00:00Z'
+                      SlotEndTime: '2024-06-12T17:00:00Z'
+                    PilotId: 4
+                    Pilot:
+                      ID: 4
+                      CreatedAt: '2024-06-12T10:55:31.727845Z'
+                      UpdatedAt: '2024-06-12T10:55:31.727845Z'
+                      DeletedAt: null
+                      FirstName: Lukas
+                      LastName: Beispielflug
+                      Weight: 88
+                      AllowedPlanes: null
+                    Passengers: []
+                  - ID: 2
+                    CreatedAt: '2024-06-12T11:02:26.158349Z'
+                    UpdatedAt: '2024-06-12T11:02:26.158349Z'
+                    DeletedAt: null
+                    Status: BLOCKED
+                    FlightNo: null
+                    Description: refueling
+                    FuelAtDeparture: null
+                    DepartureTime: '2024-01-24T13:15:00Z'
+                    ArrivalTime: '2024-01-24T13:30:00Z'
+                    PlaneId: 1
+                    Plane:
+                      ID: 1
+                      CreatedAt: '2024-06-12T10:55:31.450384Z'
+                      UpdatedAt: '2024-06-12T10:55:31.450384Z'
+                      DeletedAt: null
+                      Registration: D-ELXX
+                      AircraftType: C172
+                      FlightDuration: 1440000000000
+                      FuelMaxCapacity: 140
+                      FuelStartAmount: 100
+                      FuelburnPerFlight: 20
+                      FuelConversionFactor: 0.72
+                      MTOW: 1050
+                      EmptyWeight: 650
+                      MaxSeatPayload: -1
+                      DivisionId: 3
+                      Division: null
+                      AllowedPilots: null
+                      PrefPilotId: 4
+                      PrefPilot: null
+                      Flights: null
+                      SlotStartTime: '2024-06-12T09:00:00Z'
+                      SlotEndTime: '2024-06-12T17:00:00Z'
+                    PilotId: null
+                    Pilot: null
+                    Passengers: []
+    post:
+      tags:
+        - flight
+      summary: flight reservation
+      description: >-
+        This API endpoint creates a new flight reservation. It does not create
+        any passengers for this flight. The request requires an authentication
+        token, and the required role depends on the status being set: `vendor`
+        for flight reservation and `admin` for blocker creation.
+
+
+        #### Body:
+
+
+        | **Parameter** | required | Description |
+
+        | --- | --- | --- |
+
+        | Status | optional for RESERVED  <br>required for BLOCKED | The status
+        of the flight, either "RESERVED" or "BLOCKED". |
+
+        | DepartureTime | required | The departure time in the format
+        "YYYY-MM-DDTHH:MM  <br>". |
+
+        | PlaneId | required | The ID of the plane. |
+
+        | Description | optional | A description as a string. |
+
+        | ArrivalTime | optional for RESERVED  <br>required for BLOCKED | The
+        arrival time in the format "YYYY-MM-DDTHH:MM  <br>".  <br>  <br>If not
+        set: The arrival time will be determined by the plane's 'FlightDuration'
+        parameter. |
+
+        | Passengers | optional for RESERVED  <br>ignored for BLOCKED | A list
+        of passengers. These passenger will not be saved and are only used for
+        weight calculations. |
+
+        | FirstName (within Passengers) | optional | The first name of the
+        passenger. |
+
+        | LastName (within Passengers) | optional | The last name of the
+        passenger. |
+
+        | Weight (within Passengers) | required | The weight of the passenger. |
+
+
+        #### Required Role:
+
+
+        flight reservation - vendor
+
+
+        blocker creation - admin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                Status: RESERVED
+                DepartureTime: '2024-01-24T10:30:00Z'
+                PlaneId: 1
+                Description: null
+                ArrivalTime: null
+                Passengers:
+                  - FirstName: Max
+                    LastName: Mustermann
+                    Weight: 80
+                  - Weight: 64
+      responses:
+        '201':
+          description: Created
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Date:
+              schema:
+                type: string
+                example: Wed, 12 Jun 2024 11:01:54 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '1044'
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: flight reservation
+                  value:
+                    Success: true
+                    Response:
+                      ID: 1
+                      CreatedAt: '2024-06-12T11:01:54.391691Z'
+                      UpdatedAt: '2024-06-12T11:01:54.391691Z'
+                      DeletedAt: null
+                      Status: RESERVED
+                      FlightNo: null
+                      Description: null
+                      FuelAtDeparture: null
+                      DepartureTime: '2024-01-24T10:30:00Z'
+                      ArrivalTime: '2024-01-24T10:54:00Z'
+                      PlaneId: 1
+                      Plane:
+                        ID: 1
+                        CreatedAt: '2024-06-12T10:55:31.450384Z'
+                        UpdatedAt: '2024-06-12T10:55:31.450384Z'
+                        DeletedAt: null
+                        Registration: D-ELXX
+                        AircraftType: C172
+                        FlightDuration: 1440000000000
+                        FuelMaxCapacity: 140
+                        FuelStartAmount: 100
+                        FuelburnPerFlight: 20
+                        FuelConversionFactor: 0.72
+                        MTOW: 1050
+                        EmptyWeight: 650
+                        MaxSeatPayload: -1
+                        DivisionId: 3
+                        Division: null
+                        AllowedPilots: null
+                        PrefPilotId: 4
+                        PrefPilot: null
+                        Flights: null
+                        SlotStartTime: '2024-06-12T09:00:00Z'
+                        SlotEndTime: '2024-06-12T17:00:00Z'
+                      PilotId: 4
+                      Pilot:
+                        ID: 4
+                        CreatedAt: '2024-06-12T10:55:31.727845Z'
+                        UpdatedAt: '2024-06-12T10:55:31.727845Z'
+                        DeletedAt: null
+                        FirstName: Lukas
+                        LastName: Beispielflug
+                        Weight: 88
+                        AllowedPlanes: null
+                      Passengers: []
+                example-1:
+                  summary: blocker creation
+                  value:
+                    Success: true
+                    Response:
+                      ID: 2
+                      CreatedAt: '2024-06-12T11:02:26.158349Z'
+                      UpdatedAt: '2024-06-12T11:02:26.158349Z'
+                      DeletedAt: null
+                      Status: BLOCKED
+                      FlightNo: null
+                      Description: refueling
+                      FuelAtDeparture: null
+                      DepartureTime: '2024-01-24T13:15:00Z'
+                      ArrivalTime: '2024-01-24T13:30:00Z'
+                      PlaneId: 1
+                      Plane:
+                        ID: 1
+                        CreatedAt: '2024-06-12T10:55:31.450384Z'
+                        UpdatedAt: '2024-06-12T10:55:31.450384Z'
+                        DeletedAt: null
+                        Registration: D-ELXX
+                        AircraftType: C172
+                        FlightDuration: 1440000000000
+                        FuelMaxCapacity: 140
+                        FuelStartAmount: 100
+                        FuelburnPerFlight: 20
+                        FuelConversionFactor: 0.72
+                        MTOW: 1050
+                        EmptyWeight: 650
+                        MaxSeatPayload: -1
+                        DivisionId: 3
+                        Division: null
+                        AllowedPilots: null
+                        PrefPilotId: 4
+                        PrefPilot: null
+                        Flights: null
+                        SlotStartTime: '2024-06-12T09:00:00Z'
+                        SlotEndTime: '2024-06-12T17:00:00Z'
+                      PilotId: null
+                      Pilot: null
+                      Passengers: []
+  /api/flights/{id}:
+    post:
+      tags:
+        - flight
+      summary: flight booking
+      description: >-
+        This is the second step in the 'flight creation' process. It updates a
+        flight from 'reserved' to 'booked' status, performing flight logic
+        calculations such as pilot selection and weight checking. It creates
+        passengers for this flight.
+
+
+        #### Parameters
+
+
+        | **Parameter** | required | Description |
+
+        | --- | --- | --- |
+
+        | Status | required | The status of the flight, must be "BOOKED". |
+
+        | Description | optional | A description as a string. An empty string
+        means removing the description. |
+
+        | Passengers | required | A list of passengers. These passengers will be
+        created for this flight. |
+
+        | FirstName (within Passengers) | required | The first name of the
+        passenger. |
+
+        | LastName (within Passengers) | required | The last name of the
+        passenger. |
+
+        | Weight (within Passengers) | required | The weight of the passenger. |
+
+
+        #### Required Role:
+
+
+        vendor
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                Status: BOOKED
+                Description: null
+                Passengers:
+                  - LastName: Mustermann
+                    FirstName: Max
+                    Weight: 110
+                  - LastName: Mustermann
+                    FirstName: Maria
+                    Weight: 110
+                  - FirstName: Thomas
+                    LastName: Mustermann
+                    Weight: 30
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: id of flight in "reserved" status
+          example: '1'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Date:
+              schema:
+                type: string
+                example: Wed, 12 Jun 2024 11:03:33 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '1664'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                Success: true
+                Response:
+                  ID: 1
+                  CreatedAt: '2024-06-12T11:01:54.391691Z'
+                  UpdatedAt: '2024-06-12T11:03:33.901995Z'
+                  DeletedAt: null
+                  Status: BOOKED
+                  FlightNo: ELXX-001
+                  Description: null
+                  FuelAtDeparture: null
+                  DepartureTime: '2024-01-24T10:30:00Z'
+                  ArrivalTime: '2024-01-24T10:54:00Z'
+                  PlaneId: 1
+                  Plane:
+                    ID: 1
+                    CreatedAt: '2024-06-12T10:55:31.450384Z'
+                    UpdatedAt: '2024-06-12T10:55:31.450384Z'
+                    DeletedAt: null
+                    Registration: D-ELXX
+                    AircraftType: C172
+                    FlightDuration: 1440000000000
+                    FuelMaxCapacity: 140
+                    FuelStartAmount: 100
+                    FuelburnPerFlight: 20
+                    FuelConversionFactor: 0.72
+                    MTOW: 1050
+                    EmptyWeight: 650
+                    MaxSeatPayload: -1
+                    DivisionId: 3
+                    Division: null
+                    AllowedPilots: null
+                    PrefPilotId: 4
+                    PrefPilot: null
+                    Flights: null
+                    SlotStartTime: '2024-06-12T09:00:00Z'
+                    SlotEndTime: '2024-06-12T17:00:00Z'
+                  PilotId: 4
+                  Pilot:
+                    ID: 4
+                    CreatedAt: '2024-06-12T10:55:31.727845Z'
+                    UpdatedAt: '2024-06-12T10:55:31.727845Z'
+                    DeletedAt: null
+                    FirstName: Lukas
+                    LastName: Beispielflug
+                    Weight: 88
+                    AllowedPlanes: null
+                  Passengers:
+                    - ID: 1
+                      CreatedAt: '2024-06-12T11:03:33.89466Z'
+                      UpdatedAt: '2024-06-12T11:03:33.89466Z'
+                      DeletedAt: null
+                      LastName: Mustermann
+                      FirstName: Max
+                      Weight: 110
+                      PassNo: 501
+                      FlightID: 1
+                      Flight: null
+                    - ID: 2
+                      CreatedAt: '2024-06-12T11:03:33.896924Z'
+                      UpdatedAt: '2024-06-12T11:03:33.896924Z'
+                      DeletedAt: null
+                      LastName: Mustermann
+                      FirstName: Maria
+                      Weight: 110
+                      PassNo: 502
+                      FlightID: 1
+                      Flight: null
+                    - ID: 3
+                      CreatedAt: '2024-06-12T11:03:33.899143Z'
+                      UpdatedAt: '2024-06-12T11:03:33.899143Z'
+                      DeletedAt: null
+                      LastName: Mustermann
+                      FirstName: Thomas
+                      Weight: 30
+                      PassNo: 503
+                      FlightID: 1
+                      Flight: null
+        '400':
+          description: Bad Request
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Date:
+              schema:
+                type: string
+                example: Wed, 12 Jun 2024 11:04:01 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '86'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                Type: INVALID_FLIGHT_LOGIC
+                Message: Flight status does not fit current process
+    delete:
+      tags:
+        - flight
+      summary: delete Flight
+      description: |-
+        Soft delete a flight or blocker and all related passengers.
+
+        #### Required Role:
+
+        admin
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+          description: id of flight
+          example: '1'
+      responses:
+        '204':
+          description: No Content
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Date:
+              schema:
+                type: string
+                example: Wed, 12 Jun 2024 08:28:51 GMT
+          content:
+            application/json:
+              schema:
+                type: object
+              example: {}
+        '404':
+          description: Not Found
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Date:
+              schema:
+                type: string
+                example: Wed, 12 Jun 2024 08:29:11 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '56'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                Type: OBJECT_NOT_FOUND
+                Message: record not found
+  /api/planes:
+    get:
+      tags:
+        - plane
+      summary: get planes
+      description: >-
+        This API endpoint retrieves plane details based on the specified query
+        parameters. The query parameters allow the user to include or exclude
+        additional information such as flights, pilots, and preferred pilots.
+      parameters:
+        - name: includeFlights
+          in: query
+          schema:
+            type: boolean
+          description: >-
+            When set to true, the response will include flight details for each
+            plane.
+          example: 'true'
+        - name: includePilots
+          in: query
+          schema:
+            type: boolean
+          description: >-
+            When set to true, the response will include details about the
+            allowed pilots for each plane.
+          example: 'true'
+        - name: includePrefPilot
+          in: query
+          schema:
+            type: boolean
+          description: >-
+            When set to true, the response will include details about the
+            preferred pilot for each plane.
+          example: 'true'
+        - name: byDivisionId
+          in: query
+          schema:
+            type: integer
+          description: >-
+            Filters planes by the specified division ID. The response includes
+            all planes associated with this division.
+          example: '1'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Date:
+              schema:
+                type: string
+                example: Wed, 12 Jun 2024 11:04:32 GMT
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: get planes
+                  value:
+                    Success: true
+                    Response:
+                      - ID: 1
+                        CreatedAt: '2024-06-12T10:55:31.450384Z'
+                        UpdatedAt: '2024-06-12T10:55:31.450384Z'
+                        DeletedAt: null
+                        Registration: D-ELXX
+                        AircraftType: C172
+                        FlightDuration: 1440000000000
+                        FuelMaxCapacity: 140
+                        FuelStartAmount: 100
+                        FuelburnPerFlight: 20
+                        FuelConversionFactor: 0.72
+                        MTOW: 1050
+                        EmptyWeight: 650
+                        MaxSeatPayload: -1
+                        DivisionId: 3
+                        Division: null
+                        AllowedPilots:
+                          - ID: 2
+                            CreatedAt: '2024-06-12T10:55:31.703573Z'
+                            UpdatedAt: '2024-06-12T10:55:31.703573Z'
+                            DeletedAt: null
+                            FirstName: Felix
+                            LastName: Musterflug
+                            Weight: 68
+                            AllowedPlanes: null
+                          - ID: 3
+                            CreatedAt: '2024-06-12T10:55:31.714359Z'
+                            UpdatedAt: '2024-06-12T10:55:31.714359Z'
+                            DeletedAt: null
+                            FirstName: Sebastian
+                            LastName: Testpilot
+                            Weight: 85
+                            AllowedPlanes: null
+                          - ID: 4
+                            CreatedAt: '2024-06-12T10:55:31.727845Z'
+                            UpdatedAt: '2024-06-12T10:55:31.727845Z'
+                            DeletedAt: null
+                            FirstName: Lukas
+                            LastName: Beispielflug
+                            Weight: 88
+                            AllowedPlanes: null
+                        PrefPilotId: 4
+                        PrefPilot:
+                          ID: 4
+                          CreatedAt: '2024-06-12T10:55:31.727845Z'
+                          UpdatedAt: '2024-06-12T10:55:31.727845Z'
+                          DeletedAt: null
+                          FirstName: Lukas
+                          LastName: Beispielflug
+                          Weight: 88
+                          AllowedPlanes: null
+                        Flights:
+                          - ID: 2
+                            CreatedAt: '2024-06-12T11:02:26.158349Z'
+                            UpdatedAt: '2024-06-12T11:02:26.158349Z'
+                            DeletedAt: null
+                            Status: BLOCKED
+                            FlightNo: null
+                            Description: refueling
+                            FuelAtDeparture: null
+                            DepartureTime: '2024-01-24T13:15:00Z'
+                            ArrivalTime: '2024-01-24T13:30:00Z'
+                            PlaneId: 1
+                            Plane: null
+                            PilotId: null
+                            Pilot: null
+                            Passengers: null
+                          - ID: 3
+                            CreatedAt: '2024-06-12T11:03:21.9447Z'
+                            UpdatedAt: '2024-06-12T11:03:21.9447Z'
+                            DeletedAt: null
+                            Status: RESERVED
+                            FlightNo: null
+                            Description: null
+                            FuelAtDeparture: null
+                            DepartureTime: '2024-01-24T11:00:00Z'
+                            ArrivalTime: '2024-01-24T11:24:00Z'
+                            PlaneId: 1
+                            Plane: null
+                            PilotId: 4
+                            Pilot: null
+                            Passengers: null
+                          - ID: 1
+                            CreatedAt: '2024-06-12T11:01:54.391691Z'
+                            UpdatedAt: '2024-06-12T11:03:33.901995Z'
+                            DeletedAt: null
+                            Status: BOOKED
+                            FlightNo: ELXX-001
+                            Description: null
+                            FuelAtDeparture: null
+                            DepartureTime: '2024-01-24T10:30:00Z'
+                            ArrivalTime: '2024-01-24T10:54:00Z'
+                            PlaneId: 1
+                            Plane: null
+                            PilotId: 4
+                            Pilot: null
+                            Passengers: null
+                        SlotStartTime: '2024-06-12T09:00:00Z'
+                        SlotEndTime: '2024-06-12T17:00:00Z'
+                      - ID: 2
+                        CreatedAt: '2024-06-12T10:55:31.483175Z'
+                        UpdatedAt: '2024-06-12T10:55:31.483175Z'
+                        DeletedAt: null
+                        Registration: D-ESXX
+                        AircraftType: C172
+                        FlightDuration: 1440000000000
+                        FuelMaxCapacity: 120
+                        FuelStartAmount: 80
+                        FuelburnPerFlight: 15
+                        FuelConversionFactor: 0.72
+                        MTOW: 1083
+                        EmptyWeight: 756
+                        MaxSeatPayload: -1
+                        DivisionId: 3
+                        Division: null
+                        AllowedPilots:
+                          - ID: 8
+                            CreatedAt: '2024-06-12T10:55:31.762508Z'
+                            UpdatedAt: '2024-06-12T10:55:31.762508Z'
+                            DeletedAt: null
+                            FirstName: Paul
+                            LastName: Testflug
+                            Weight: 93
+                            AllowedPlanes: null
+                          - ID: 9
+                            CreatedAt: '2024-06-12T10:55:31.770962Z'
+                            UpdatedAt: '2024-06-12T10:55:31.770962Z'
+                            DeletedAt: null
+                            FirstName: Julian
+                            LastName: Musterpilot
+                            Weight: 89
+                            AllowedPlanes: null
+                          - ID: 10
+                            CreatedAt: '2024-06-12T10:55:31.779477Z'
+                            UpdatedAt: '2024-06-12T10:55:31.779477Z'
+                            DeletedAt: null
+                            FirstName: Maximilian
+                            LastName: Beispielflug
+                            Weight: 92
+                            AllowedPlanes: null
+                        PrefPilotId: 8
+                        PrefPilot:
+                          ID: 8
+                          CreatedAt: '2024-06-12T10:55:31.762508Z'
+                          UpdatedAt: '2024-06-12T10:55:31.762508Z'
+                          DeletedAt: null
+                          FirstName: Paul
+                          LastName: Testflug
+                          Weight: 93
+                          AllowedPlanes: null
+                        Flights: []
+                        SlotStartTime: '2024-06-12T09:00:00Z'
+                        SlotEndTime: '2024-06-12T17:00:00Z'
+                      - ID: 3
+                        CreatedAt: '2024-06-12T10:55:31.521286Z'
+                        UpdatedAt: '2024-06-12T10:55:31.521286Z'
+                        DeletedAt: null
+                        Registration: D-ESYY
+                        AircraftType: C172
+                        FlightDuration: 1440000000000
+                        FuelMaxCapacity: 180
+                        FuelStartAmount: 160
+                        FuelburnPerFlight: 20
+                        FuelConversionFactor: 0.72
+                        MTOW: 1100
+                        EmptyWeight: 734
+                        MaxSeatPayload: -1
+                        DivisionId: 3
+                        Division: null
+                        AllowedPilots:
+                          - ID: 9
+                            CreatedAt: '2024-06-12T10:55:31.770962Z'
+                            UpdatedAt: '2024-06-12T10:55:31.770962Z'
+                            DeletedAt: null
+                            FirstName: Julian
+                            LastName: Musterpilot
+                            Weight: 89
+                            AllowedPlanes: null
+                          - ID: 10
+                            CreatedAt: '2024-06-12T10:55:31.779477Z'
+                            UpdatedAt: '2024-06-12T10:55:31.779477Z'
+                            DeletedAt: null
+                            FirstName: Maximilian
+                            LastName: Beispielflug
+                            Weight: 92
+                            AllowedPlanes: null
+                        PrefPilotId: 10
+                        PrefPilot:
+                          ID: 10
+                          CreatedAt: '2024-06-12T10:55:31.779477Z'
+                          UpdatedAt: '2024-06-12T10:55:31.779477Z'
+                          DeletedAt: null
+                          FirstName: Maximilian
+                          LastName: Beispielflug
+                          Weight: 92
+                          AllowedPlanes: null
+                        Flights: []
+                        SlotStartTime: '2024-06-12T09:00:00Z'
+                        SlotEndTime: '2024-06-12T17:00:00Z'
+                      - ID: 4
+                        CreatedAt: '2024-06-12T10:55:31.523282Z'
+                        UpdatedAt: '2024-06-12T10:55:31.523282Z'
+                        DeletedAt: null
+                        Registration: D-EFXX
+                        AircraftType: PA28
+                        FlightDuration: 1440000000000
+                        FuelMaxCapacity: 140
+                        FuelStartAmount: 100
+                        FuelburnPerFlight: 20
+                        FuelConversionFactor: 0.72
+                        MTOW: 1050
+                        EmptyWeight: 663
+                        MaxSeatPayload: -1
+                        DivisionId: 3
+                        Division: null
+                        AllowedPilots:
+                          - ID: 6
+                            CreatedAt: '2024-06-12T10:55:31.745377Z'
+                            UpdatedAt: '2024-06-12T10:55:31.745377Z'
+                            DeletedAt: null
+                            FirstName: Sophia
+                            LastName: Beispiel
+                            Weight: 95
+                            AllowedPlanes: null
+                          - ID: 7
+                            CreatedAt: '2024-06-12T10:55:31.754871Z'
+                            UpdatedAt: '2024-06-12T10:55:31.754871Z'
+                            DeletedAt: null
+                            FirstName: Anna
+                            LastName: Mustermann
+                            Weight: 97
+                            AllowedPlanes: null
+                        PrefPilotId: 7
+                        PrefPilot:
+                          ID: 7
+                          CreatedAt: '2024-06-12T10:55:31.754871Z'
+                          UpdatedAt: '2024-06-12T10:55:31.754871Z'
+                          DeletedAt: null
+                          FirstName: Anna
+                          LastName: Mustermann
+                          Weight: 97
+                          AllowedPlanes: null
+                        Flights: []
+                        SlotStartTime: '2024-06-12T09:00:00Z'
+                        SlotEndTime: '2024-06-12T17:00:00Z'
+                      - ID: 5
+                        CreatedAt: '2024-06-12T10:55:31.524881Z'
+                        UpdatedAt: '2024-06-12T10:55:31.524881Z'
+                        DeletedAt: null
+                        Registration: D-KOXX
+                        AircraftType: HK36
+                        FlightDuration: 1440000000000
+                        FuelMaxCapacity: 80
+                        FuelStartAmount: 80
+                        FuelburnPerFlight: 10
+                        FuelConversionFactor: 0.72
+                        MTOW: 800
+                        EmptyWeight: 600
+                        MaxSeatPayload: -1
+                        DivisionId: 2
+                        Division: null
+                        AllowedPilots:
+                          - ID: 2
+                            CreatedAt: '2024-06-12T10:55:31.703573Z'
+                            UpdatedAt: '2024-06-12T10:55:31.703573Z'
+                            DeletedAt: null
+                            FirstName: Felix
+                            LastName: Musterflug
+                            Weight: 68
+                            AllowedPlanes: null
+                          - ID: 3
+                            CreatedAt: '2024-06-12T10:55:31.714359Z'
+                            UpdatedAt: '2024-06-12T10:55:31.714359Z'
+                            DeletedAt: null
+                            FirstName: Sebastian
+                            LastName: Testpilot
+                            Weight: 85
+                            AllowedPlanes: null
+                          - ID: 4
+                            CreatedAt: '2024-06-12T10:55:31.727845Z'
+                            UpdatedAt: '2024-06-12T10:55:31.727845Z'
+                            DeletedAt: null
+                            FirstName: Lukas
+                            LastName: Beispielflug
+                            Weight: 88
+                            AllowedPlanes: null
+                          - ID: 5
+                            CreatedAt: '2024-06-12T10:55:31.740101Z'
+                            UpdatedAt: '2024-06-12T10:55:31.740101Z'
+                            DeletedAt: null
+                            FirstName: Thomas
+                            LastName: Testflug
+                            Weight: 82
+                            AllowedPlanes: null
+                        PrefPilotId: 4
+                        PrefPilot:
+                          ID: 4
+                          CreatedAt: '2024-06-12T10:55:31.727845Z'
+                          UpdatedAt: '2024-06-12T10:55:31.727845Z'
+                          DeletedAt: null
+                          FirstName: Lukas
+                          LastName: Beispielflug
+                          Weight: 88
+                          AllowedPlanes: null
+                        Flights: []
+                        SlotStartTime: '2024-06-12T09:00:00Z'
+                        SlotEndTime: '2024-06-12T17:00:00Z'
+                      - ID: 6
+                        CreatedAt: '2024-06-12T10:55:31.527448Z'
+                        UpdatedAt: '2024-06-12T10:55:31.527448Z'
+                        DeletedAt: null
+                        Registration: D-KIXX
+                        AircraftType: SF25C
+                        FlightDuration: 1440000000000
+                        FuelMaxCapacity: 40
+                        FuelStartAmount: 40
+                        FuelburnPerFlight: 5
+                        FuelConversionFactor: 0.72
+                        MTOW: 450
+                        EmptyWeight: 300
+                        MaxSeatPayload: -1
+                        DivisionId: 2
+                        Division: null
+                        AllowedPilots:
+                          - ID: 5
+                            CreatedAt: '2024-06-12T10:55:31.740101Z'
+                            UpdatedAt: '2024-06-12T10:55:31.740101Z'
+                            DeletedAt: null
+                            FirstName: Thomas
+                            LastName: Testflug
+                            Weight: 82
+                            AllowedPlanes: null
+                        PrefPilotId: 5
+                        PrefPilot:
+                          ID: 5
+                          CreatedAt: '2024-06-12T10:55:31.740101Z'
+                          UpdatedAt: '2024-06-12T10:55:31.740101Z'
+                          DeletedAt: null
+                          FirstName: Thomas
+                          LastName: Testflug
+                          Weight: 82
+                          AllowedPlanes: null
+                        Flights: []
+                        SlotStartTime: '2024-06-12T09:00:00Z'
+                        SlotEndTime: '2024-06-12T17:00:00Z'
+                      - ID: 7
+                        CreatedAt: '2024-06-12T10:55:31.530823Z'
+                        UpdatedAt: '2024-06-12T10:55:31.530823Z'
+                        DeletedAt: null
+                        Registration: D-0761
+                        AircraftType: ASK21
+                        FlightDuration: 600000000000
+                        FuelMaxCapacity: -1
+                        FuelStartAmount: 0
+                        FuelburnPerFlight: -1
+                        FuelConversionFactor: -1
+                        MTOW: 500
+                        EmptyWeight: 300
+                        MaxSeatPayload: 110
+                        DivisionId: 1
+                        Division: null
+                        AllowedPilots:
+                          - ID: 1
+                            CreatedAt: '2024-06-12T10:55:31.690651Z'
+                            UpdatedAt: '2024-06-12T10:55:31.690651Z'
+                            DeletedAt: null
+                            FirstName: Alex
+                            LastName: Beispielpilot
+                            Weight: 75
+                            AllowedPlanes: null
+                          - ID: 2
+                            CreatedAt: '2024-06-12T10:55:31.703573Z'
+                            UpdatedAt: '2024-06-12T10:55:31.703573Z'
+                            DeletedAt: null
+                            FirstName: Felix
+                            LastName: Musterflug
+                            Weight: 68
+                            AllowedPlanes: null
+                          - ID: 3
+                            CreatedAt: '2024-06-12T10:55:31.714359Z'
+                            UpdatedAt: '2024-06-12T10:55:31.714359Z'
+                            DeletedAt: null
+                            FirstName: Sebastian
+                            LastName: Testpilot
+                            Weight: 85
+                            AllowedPlanes: null
+                          - ID: 4
+                            CreatedAt: '2024-06-12T10:55:31.727845Z'
+                            UpdatedAt: '2024-06-12T10:55:31.727845Z'
+                            DeletedAt: null
+                            FirstName: Lukas
+                            LastName: Beispielflug
+                            Weight: 88
+                            AllowedPlanes: null
+                        PrefPilotId: 4
+                        PrefPilot:
+                          ID: 4
+                          CreatedAt: '2024-06-12T10:55:31.727845Z'
+                          UpdatedAt: '2024-06-12T10:55:31.727845Z'
+                          DeletedAt: null
+                          FirstName: Lukas
+                          LastName: Beispielflug
+                          Weight: 88
+                          AllowedPlanes: null
+                        Flights: []
+                        SlotStartTime: '2024-06-12T09:00:00Z'
+                        SlotEndTime: '2024-06-12T19:00:00Z'
+                      - ID: 8
+                        CreatedAt: '2024-06-12T10:55:31.53277Z'
+                        UpdatedAt: '2024-06-12T10:55:31.53277Z'
+                        DeletedAt: null
+                        Registration: D-7208
+                        AircraftType: Duo Discus
+                        FlightDuration: 600000000000
+                        FuelMaxCapacity: -1
+                        FuelStartAmount: 0
+                        FuelburnPerFlight: -1
+                        FuelConversionFactor: -1
+                        MTOW: 520
+                        EmptyWeight: 300
+                        MaxSeatPayload: 110
+                        DivisionId: 1
+                        Division: null
+                        AllowedPilots:
+                          - ID: 1
+                            CreatedAt: '2024-06-12T10:55:31.690651Z'
+                            UpdatedAt: '2024-06-12T10:55:31.690651Z'
+                            DeletedAt: null
+                            FirstName: Alex
+                            LastName: Beispielpilot
+                            Weight: 75
+                            AllowedPlanes: null
+                          - ID: 2
+                            CreatedAt: '2024-06-12T10:55:31.703573Z'
+                            UpdatedAt: '2024-06-12T10:55:31.703573Z'
+                            DeletedAt: null
+                            FirstName: Felix
+                            LastName: Musterflug
+                            Weight: 68
+                            AllowedPlanes: null
+                          - ID: 3
+                            CreatedAt: '2024-06-12T10:55:31.714359Z'
+                            UpdatedAt: '2024-06-12T10:55:31.714359Z'
+                            DeletedAt: null
+                            FirstName: Sebastian
+                            LastName: Testpilot
+                            Weight: 85
+                            AllowedPlanes: null
+                          - ID: 4
+                            CreatedAt: '2024-06-12T10:55:31.727845Z'
+                            UpdatedAt: '2024-06-12T10:55:31.727845Z'
+                            DeletedAt: null
+                            FirstName: Lukas
+                            LastName: Beispielflug
+                            Weight: 88
+                            AllowedPlanes: null
+                        PrefPilotId: 4
+                        PrefPilot:
+                          ID: 4
+                          CreatedAt: '2024-06-12T10:55:31.727845Z'
+                          UpdatedAt: '2024-06-12T10:55:31.727845Z'
+                          DeletedAt: null
+                          FirstName: Lukas
+                          LastName: Beispielflug
+                          Weight: 88
+                          AllowedPlanes: null
+                        Flights: []
+                        SlotStartTime: '2024-06-12T09:00:00Z'
+                        SlotEndTime: '2024-06-12T19:00:00Z'
+                example-1:
+                  summary: get planes by divId
+                  value:
+                    Success: true
+                    Response:
+                      - ID: 7
+                        CreatedAt: '2024-06-12T10:55:31.530823Z'
+                        UpdatedAt: '2024-06-12T10:55:31.530823Z'
+                        DeletedAt: null
+                        Registration: D-0761
+                        AircraftType: ASK21
+                        FlightDuration: 600000000000
+                        FuelMaxCapacity: -1
+                        FuelStartAmount: 0
+                        FuelburnPerFlight: -1
+                        FuelConversionFactor: -1
+                        MTOW: 500
+                        EmptyWeight: 300
+                        MaxSeatPayload: 110
+                        DivisionId: 1
+                        Division: null
+                        AllowedPilots: null
+                        PrefPilotId: 4
+                        PrefPilot: null
+                        Flights: null
+                        SlotStartTime: '2024-06-12T09:00:00Z'
+                        SlotEndTime: '2024-06-12T19:00:00Z'
+                      - ID: 8
+                        CreatedAt: '2024-06-12T10:55:31.53277Z'
+                        UpdatedAt: '2024-06-12T10:55:31.53277Z'
+                        DeletedAt: null
+                        Registration: D-7208
+                        AircraftType: Duo Discus
+                        FlightDuration: 600000000000
+                        FuelMaxCapacity: -1
+                        FuelStartAmount: 0
+                        FuelburnPerFlight: -1
+                        FuelConversionFactor: -1
+                        MTOW: 520
+                        EmptyWeight: 300
+                        MaxSeatPayload: 110
+                        DivisionId: 1
+                        Division: null
+                        AllowedPilots: null
+                        PrefPilotId: 4
+                        PrefPilot: null
+                        Flights: null
+                        SlotStartTime: '2024-06-12T09:00:00Z'
+                        SlotEndTime: '2024-06-12T19:00:00Z'
+  /api/planes/{id}:
+    get:
+      tags:
+        - plane
+      summary: get plane
+      description: >-
+        This API endpoint retrieves the details of a specific plane based on the
+        provided plane ID.
+      parameters:
+        - name: includeFlights
+          in: query
+          schema:
+            type: boolean
+          description: >-
+            When set to true, the response will include flight details for each
+            plane.
+          example: 'true'
+        - name: includePilots
+          in: query
+          schema:
+            type: boolean
+          description: >-
+            When set to true, the response will include details about the
+            allowed pilots for each plane.
+          example: 'true'
+        - name: includePrefPilot
+          in: query
+          schema:
+            type: boolean
+          description: >-
+            When set to true, the response will include details about the
+            preferred pilot for each plane.
+          example: 'true'
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+          example: '1'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Date:
+              schema:
+                type: string
+                example: Wed, 12 Jun 2024 11:05:10 GMT
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                Success: true
+                Response:
+                  ID: 1
+                  CreatedAt: '2024-06-12T10:55:31.450384Z'
+                  UpdatedAt: '2024-06-12T10:55:31.450384Z'
+                  DeletedAt: null
+                  Registration: D-ELXX
+                  AircraftType: C172
+                  FlightDuration: 1440000000000
+                  FuelMaxCapacity: 140
+                  FuelStartAmount: 100
+                  FuelburnPerFlight: 20
+                  FuelConversionFactor: 0.72
+                  MTOW: 1050
+                  EmptyWeight: 650
+                  MaxSeatPayload: -1
+                  DivisionId: 3
+                  Division: null
+                  AllowedPilots:
+                    - ID: 2
+                      CreatedAt: '2024-06-12T10:55:31.703573Z'
+                      UpdatedAt: '2024-06-12T10:55:31.703573Z'
+                      DeletedAt: null
+                      FirstName: Felix
+                      LastName: Musterflug
+                      Weight: 68
+                      AllowedPlanes: null
+                    - ID: 3
+                      CreatedAt: '2024-06-12T10:55:31.714359Z'
+                      UpdatedAt: '2024-06-12T10:55:31.714359Z'
+                      DeletedAt: null
+                      FirstName: Sebastian
+                      LastName: Testpilot
+                      Weight: 85
+                      AllowedPlanes: null
+                    - ID: 4
+                      CreatedAt: '2024-06-12T10:55:31.727845Z'
+                      UpdatedAt: '2024-06-12T10:55:31.727845Z'
+                      DeletedAt: null
+                      FirstName: Lukas
+                      LastName: Beispielflug
+                      Weight: 88
+                      AllowedPlanes: null
+                  PrefPilotId: 4
+                  PrefPilot:
+                    ID: 4
+                    CreatedAt: '2024-06-12T10:55:31.727845Z'
+                    UpdatedAt: '2024-06-12T10:55:31.727845Z'
+                    DeletedAt: null
+                    FirstName: Lukas
+                    LastName: Beispielflug
+                    Weight: 88
+                    AllowedPlanes: null
+                  Flights:
+                    - ID: 2
+                      CreatedAt: '2024-06-12T11:02:26.158349Z'
+                      UpdatedAt: '2024-06-12T11:02:26.158349Z'
+                      DeletedAt: null
+                      Status: BLOCKED
+                      FlightNo: null
+                      Description: refueling
+                      FuelAtDeparture: null
+                      DepartureTime: '2024-01-24T13:15:00Z'
+                      ArrivalTime: '2024-01-24T13:30:00Z'
+                      PlaneId: 1
+                      Plane: null
+                      PilotId: null
+                      Pilot: null
+                      Passengers: null
+                    - ID: 3
+                      CreatedAt: '2024-06-12T11:03:21.9447Z'
+                      UpdatedAt: '2024-06-12T11:03:21.9447Z'
+                      DeletedAt: null
+                      Status: RESERVED
+                      FlightNo: null
+                      Description: null
+                      FuelAtDeparture: null
+                      DepartureTime: '2024-01-24T11:00:00Z'
+                      ArrivalTime: '2024-01-24T11:24:00Z'
+                      PlaneId: 1
+                      Plane: null
+                      PilotId: 4
+                      Pilot: null
+                      Passengers: null
+                    - ID: 1
+                      CreatedAt: '2024-06-12T11:01:54.391691Z'
+                      UpdatedAt: '2024-06-12T11:03:33.901995Z'
+                      DeletedAt: null
+                      Status: BOOKED
+                      FlightNo: ELXX-001
+                      Description: null
+                      FuelAtDeparture: null
+                      DepartureTime: '2024-01-24T10:30:00Z'
+                      ArrivalTime: '2024-01-24T10:54:00Z'
+                      PlaneId: 1
+                      Plane: null
+                      PilotId: 4
+                      Pilot: null
+                      Passengers: null
+                  SlotStartTime: '2024-06-12T09:00:00Z'
+                  SlotEndTime: '2024-06-12T17:00:00Z'
+    patch:
+      tags:
+        - plane
+      summary: update plane
+      description: >-
+        This API endpoint updates the details of a specific plane based on the
+        provided plane ID.
+
+
+        #### Request Body Parameters
+
+
+        | **Parameter** | **Required** | **Description** |
+
+        | --- | --- | --- |
+
+        | PrefPilotId | optional | The ID of the preferred pilot. |
+
+        | FuelburnPerFlight | optional | The amount of fuel burned per flight. |
+
+        | FlightDuration | optional | The duration of the flight in nanoseconds.
+        |
+
+        | SlotStartTime | optional | The start time of the slot allocated for
+        the plane. |
+
+        | SlotEndTime | optional | The end time of the slot allocated for the
+        plane. |
+
+
+        #### Required Role:
+
+
+        admin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                PrefPilotId: 2
+                FuelburnPerFlight: 20
+                FlightDuration: 1440000000000
+                SlotStartTime: '2024-04-28T09:00:00Z'
+                SlotEndTime: '2024-04-28T17:00:00Z'
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+          example: '1'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /api/pilots:
+    get:
+      tags:
+        - pilots
+      summary: get pilots
+      description: >-
+        This API request retrieves pilot details based on the specified query
+        parameters. The query parameters allow the user to include or exclude
+        additional information such as the planes the pilots are allowed to fly.
+      parameters:
+        - name: includePlane
+          in: query
+          schema:
+            type: boolean
+          example: 'true'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Date:
+              schema:
+                type: string
+                example: Wed, 12 Jun 2024 11:06:48 GMT
+            Transfer-Encoding:
+              schema:
+                type: string
+                example: chunked
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                Success: true
+                Response:
+                  - ID: 1
+                    CreatedAt: '2024-06-12T10:55:31.690651Z'
+                    UpdatedAt: '2024-06-12T10:55:31.690651Z'
+                    DeletedAt: null
+                    FirstName: Alex
+                    LastName: Beispielpilot
+                    Weight: 75
+                    AllowedPlanes:
+                      - ID: 7
+                        CreatedAt: '2024-06-12T10:55:31.530823Z'
+                        UpdatedAt: '2024-06-12T10:55:31.530823Z'
+                        DeletedAt: null
+                        Registration: D-0761
+                        AircraftType: ASK21
+                        FlightDuration: 600000000000
+                        FuelMaxCapacity: -1
+                        FuelStartAmount: 0
+                        FuelburnPerFlight: -1
+                        FuelConversionFactor: -1
+                        MTOW: 500
+                        EmptyWeight: 300
+                        MaxSeatPayload: 110
+                        DivisionId: 1
+                        Division: null
+                        AllowedPilots: null
+                        PrefPilotId: 4
+                        PrefPilot: null
+                        Flights: null
+                        SlotStartTime: '2024-06-12T09:00:00Z'
+                        SlotEndTime: '2024-06-12T19:00:00Z'
+                      - ID: 8
+                        CreatedAt: '2024-06-12T10:55:31.53277Z'
+                        UpdatedAt: '2024-06-12T10:55:31.53277Z'
+                        DeletedAt: null
+                        Registration: D-7208
+                        AircraftType: Duo Discus
+                        FlightDuration: 600000000000
+                        FuelMaxCapacity: -1
+                        FuelStartAmount: 0
+                        FuelburnPerFlight: -1
+                        FuelConversionFactor: -1
+                        MTOW: 520
+                        EmptyWeight: 300
+                        MaxSeatPayload: 110
+                        DivisionId: 1
+                        Division: null
+                        AllowedPilots: null
+                        PrefPilotId: 4
+                        PrefPilot: null
+                        Flights: null
+                        SlotStartTime: '2024-06-12T09:00:00Z'
+                        SlotEndTime: '2024-06-12T19:00:00Z'
+                  - ID: 2
+                    CreatedAt: '2024-06-12T10:55:31.703573Z'
+                    UpdatedAt: '2024-06-12T10:55:31.703573Z'
+                    DeletedAt: null
+                    FirstName: Felix
+                    LastName: Musterflug
+                    Weight: 68
+                    AllowedPlanes:
+                      - ID: 1
+                        CreatedAt: '2024-06-12T10:55:31.450384Z'
+                        UpdatedAt: '2024-06-12T10:55:31.450384Z'
+                        DeletedAt: null
+                        Registration: D-ELXX
+                        AircraftType: C172
+                        FlightDuration: 1440000000000
+                        FuelMaxCapacity: 140
+                        FuelStartAmount: 100
+                        FuelburnPerFlight: 20
+                        FuelConversionFactor: 0.72
+                        MTOW: 1050
+                        EmptyWeight: 650
+                        MaxSeatPayload: -1
+                        DivisionId: 3
+                        Division: null
+                        AllowedPilots: null
+                        PrefPilotId: 4
+                        PrefPilot: null
+                        Flights: null
+                        SlotStartTime: '2024-06-12T09:00:00Z'
+                        SlotEndTime: '2024-06-12T17:00:00Z'
+                      - ID: 5
+                        CreatedAt: '2024-06-12T10:55:31.524881Z'
+                        UpdatedAt: '2024-06-12T10:55:31.524881Z'
+                        DeletedAt: null
+                        Registration: D-KOXX
+                        AircraftType: HK36
+                        FlightDuration: 1440000000000
+                        FuelMaxCapacity: 80
+                        FuelStartAmount: 80
+                        FuelburnPerFlight: 10
+                        FuelConversionFactor: 0.72
+                        MTOW: 800
+                        EmptyWeight: 600
+                        MaxSeatPayload: -1
+                        DivisionId: 2
+                        Division: null
+                        AllowedPilots: null
+                        PrefPilotId: 4
+                        PrefPilot: null
+                        Flights: null
+                        SlotStartTime: '2024-06-12T09:00:00Z'
+                        SlotEndTime: '2024-06-12T17:00:00Z'
+                      - ID: 7
+                        CreatedAt: '2024-06-12T10:55:31.530823Z'
+                        UpdatedAt: '2024-06-12T10:55:31.530823Z'
+                        DeletedAt: null
+                        Registration: D-0761
+                        AircraftType: ASK21
+                        FlightDuration: 600000000000
+                        FuelMaxCapacity: -1
+                        FuelStartAmount: 0
+                        FuelburnPerFlight: -1
+                        FuelConversionFactor: -1
+                        MTOW: 500
+                        EmptyWeight: 300
+                        MaxSeatPayload: 110
+                        DivisionId: 1
+                        Division: null
+                        AllowedPilots: null
+                        PrefPilotId: 4
+                        PrefPilot: null
+                        Flights: null
+                        SlotStartTime: '2024-06-12T09:00:00Z'
+                        SlotEndTime: '2024-06-12T19:00:00Z'
+                      - ID: 8
+                        CreatedAt: '2024-06-12T10:55:31.53277Z'
+                        UpdatedAt: '2024-06-12T10:55:31.53277Z'
+                        DeletedAt: null
+                        Registration: D-7208
+                        AircraftType: Duo Discus
+                        FlightDuration: 600000000000
+                        FuelMaxCapacity: -1
+                        FuelStartAmount: 0
+                        FuelburnPerFlight: -1
+                        FuelConversionFactor: -1
+                        MTOW: 520
+                        EmptyWeight: 300
+                        MaxSeatPayload: 110
+                        DivisionId: 1
+                        Division: null
+                        AllowedPilots: null
+                        PrefPilotId: 4
+                        PrefPilot: null
+                        Flights: null
+                        SlotStartTime: '2024-06-12T09:00:00Z'
+                        SlotEndTime: '2024-06-12T19:00:00Z'
+                  - ID: 3
+                    CreatedAt: '2024-06-12T10:55:31.714359Z'
+                    UpdatedAt: '2024-06-12T10:55:31.714359Z'
+                    DeletedAt: null
+                    FirstName: Sebastian
+                    LastName: Testpilot
+                    Weight: 85
+                    AllowedPlanes:
+                      - ID: 1
+                        CreatedAt: '2024-06-12T10:55:31.450384Z'
+                        UpdatedAt: '2024-06-12T10:55:31.450384Z'
+                        DeletedAt: null
+                        Registration: D-ELXX
+                        AircraftType: C172
+                        FlightDuration: 1440000000000
+                        FuelMaxCapacity: 140
+                        FuelStartAmount: 100
+                        FuelburnPerFlight: 20
+                        FuelConversionFactor: 0.72
+                        MTOW: 1050
+                        EmptyWeight: 650
+                        MaxSeatPayload: -1
+                        DivisionId: 3
+                        Division: null
+                        AllowedPilots: null
+                        PrefPilotId: 4
+                        PrefPilot: null
+                        Flights: null
+                        SlotStartTime: '2024-06-12T09:00:00Z'
+                        SlotEndTime: '2024-06-12T17:00:00Z'
+                      - ID: 5
+                        CreatedAt: '2024-06-12T10:55:31.524881Z'
+                        UpdatedAt: '2024-06-12T10:55:31.524881Z'
+                        DeletedAt: null
+                        Registration: D-KOXX
+                        AircraftType: HK36
+                        FlightDuration: 1440000000000
+                        FuelMaxCapacity: 80
+                        FuelStartAmount: 80
+                        FuelburnPerFlight: 10
+                        FuelConversionFactor: 0.72
+                        MTOW: 800
+                        EmptyWeight: 600
+                        MaxSeatPayload: -1
+                        DivisionId: 2
+                        Division: null
+                        AllowedPilots: null
+                        PrefPilotId: 4
+                        PrefPilot: null
+                        Flights: null
+                        SlotStartTime: '2024-06-12T09:00:00Z'
+                        SlotEndTime: '2024-06-12T17:00:00Z'
+                      - ID: 7
+                        CreatedAt: '2024-06-12T10:55:31.530823Z'
+                        UpdatedAt: '2024-06-12T10:55:31.530823Z'
+                        DeletedAt: null
+                        Registration: D-0761
+                        AircraftType: ASK21
+                        FlightDuration: 600000000000
+                        FuelMaxCapacity: -1
+                        FuelStartAmount: 0
+                        FuelburnPerFlight: -1
+                        FuelConversionFactor: -1
+                        MTOW: 500
+                        EmptyWeight: 300
+                        MaxSeatPayload: 110
+                        DivisionId: 1
+                        Division: null
+                        AllowedPilots: null
+                        PrefPilotId: 4
+                        PrefPilot: null
+                        Flights: null
+                        SlotStartTime: '2024-06-12T09:00:00Z'
+                        SlotEndTime: '2024-06-12T19:00:00Z'
+                      - ID: 8
+                        CreatedAt: '2024-06-12T10:55:31.53277Z'
+                        UpdatedAt: '2024-06-12T10:55:31.53277Z'
+                        DeletedAt: null
+                        Registration: D-7208
+                        AircraftType: Duo Discus
+                        FlightDuration: 600000000000
+                        FuelMaxCapacity: -1
+                        FuelStartAmount: 0
+                        FuelburnPerFlight: -1
+                        FuelConversionFactor: -1
+                        MTOW: 520
+                        EmptyWeight: 300
+                        MaxSeatPayload: 110
+                        DivisionId: 1
+                        Division: null
+                        AllowedPilots: null
+                        PrefPilotId: 4
+                        PrefPilot: null
+                        Flights: null
+                        SlotStartTime: '2024-06-12T09:00:00Z'
+                        SlotEndTime: '2024-06-12T19:00:00Z'
+                  - ID: 4
+                    CreatedAt: '2024-06-12T10:55:31.727845Z'
+                    UpdatedAt: '2024-06-12T10:55:31.727845Z'
+                    DeletedAt: null
+                    FirstName: Lukas
+                    LastName: Beispielflug
+                    Weight: 88
+                    AllowedPlanes:
+                      - ID: 1
+                        CreatedAt: '2024-06-12T10:55:31.450384Z'
+                        UpdatedAt: '2024-06-12T10:55:31.450384Z'
+                        DeletedAt: null
+                        Registration: D-ELXX
+                        AircraftType: C172
+                        FlightDuration: 1440000000000
+                        FuelMaxCapacity: 140
+                        FuelStartAmount: 100
+                        FuelburnPerFlight: 20
+                        FuelConversionFactor: 0.72
+                        MTOW: 1050
+                        EmptyWeight: 650
+                        MaxSeatPayload: -1
+                        DivisionId: 3
+                        Division: null
+                        AllowedPilots: null
+                        PrefPilotId: 4
+                        PrefPilot: null
+                        Flights: null
+                        SlotStartTime: '2024-06-12T09:00:00Z'
+                        SlotEndTime: '2024-06-12T17:00:00Z'
+                      - ID: 5
+                        CreatedAt: '2024-06-12T10:55:31.524881Z'
+                        UpdatedAt: '2024-06-12T10:55:31.524881Z'
+                        DeletedAt: null
+                        Registration: D-KOXX
+                        AircraftType: HK36
+                        FlightDuration: 1440000000000
+                        FuelMaxCapacity: 80
+                        FuelStartAmount: 80
+                        FuelburnPerFlight: 10
+                        FuelConversionFactor: 0.72
+                        MTOW: 800
+                        EmptyWeight: 600
+                        MaxSeatPayload: -1
+                        DivisionId: 2
+                        Division: null
+                        AllowedPilots: null
+                        PrefPilotId: 4
+                        PrefPilot: null
+                        Flights: null
+                        SlotStartTime: '2024-06-12T09:00:00Z'
+                        SlotEndTime: '2024-06-12T17:00:00Z'
+                      - ID: 7
+                        CreatedAt: '2024-06-12T10:55:31.530823Z'
+                        UpdatedAt: '2024-06-12T10:55:31.530823Z'
+                        DeletedAt: null
+                        Registration: D-0761
+                        AircraftType: ASK21
+                        FlightDuration: 600000000000
+                        FuelMaxCapacity: -1
+                        FuelStartAmount: 0
+                        FuelburnPerFlight: -1
+                        FuelConversionFactor: -1
+                        MTOW: 500
+                        EmptyWeight: 300
+                        MaxSeatPayload: 110
+                        DivisionId: 1
+                        Division: null
+                        AllowedPilots: null
+                        PrefPilotId: 4
+                        PrefPilot: null
+                        Flights: null
+                        SlotStartTime: '2024-06-12T09:00:00Z'
+                        SlotEndTime: '2024-06-12T19:00:00Z'
+                      - ID: 8
+                        CreatedAt: '2024-06-12T10:55:31.53277Z'
+                        UpdatedAt: '2024-06-12T10:55:31.53277Z'
+                        DeletedAt: null
+                        Registration: D-7208
+                        AircraftType: Duo Discus
+                        FlightDuration: 600000000000
+                        FuelMaxCapacity: -1
+                        FuelStartAmount: 0
+                        FuelburnPerFlight: -1
+                        FuelConversionFactor: -1
+                        MTOW: 520
+                        EmptyWeight: 300
+                        MaxSeatPayload: 110
+                        DivisionId: 1
+                        Division: null
+                        AllowedPilots: null
+                        PrefPilotId: 4
+                        PrefPilot: null
+                        Flights: null
+                        SlotStartTime: '2024-06-12T09:00:00Z'
+                        SlotEndTime: '2024-06-12T19:00:00Z'
+                  - ID: 5
+                    CreatedAt: '2024-06-12T10:55:31.740101Z'
+                    UpdatedAt: '2024-06-12T10:55:31.740101Z'
+                    DeletedAt: null
+                    FirstName: Thomas
+                    LastName: Testflug
+                    Weight: 82
+                    AllowedPlanes:
+                      - ID: 5
+                        CreatedAt: '2024-06-12T10:55:31.524881Z'
+                        UpdatedAt: '2024-06-12T10:55:31.524881Z'
+                        DeletedAt: null
+                        Registration: D-KOXX
+                        AircraftType: HK36
+                        FlightDuration: 1440000000000
+                        FuelMaxCapacity: 80
+                        FuelStartAmount: 80
+                        FuelburnPerFlight: 10
+                        FuelConversionFactor: 0.72
+                        MTOW: 800
+                        EmptyWeight: 600
+                        MaxSeatPayload: -1
+                        DivisionId: 2
+                        Division: null
+                        AllowedPilots: null
+                        PrefPilotId: 4
+                        PrefPilot: null
+                        Flights: null
+                        SlotStartTime: '2024-06-12T09:00:00Z'
+                        SlotEndTime: '2024-06-12T17:00:00Z'
+                      - ID: 6
+                        CreatedAt: '2024-06-12T10:55:31.527448Z'
+                        UpdatedAt: '2024-06-12T10:55:31.527448Z'
+                        DeletedAt: null
+                        Registration: D-KIXX
+                        AircraftType: SF25C
+                        FlightDuration: 1440000000000
+                        FuelMaxCapacity: 40
+                        FuelStartAmount: 40
+                        FuelburnPerFlight: 5
+                        FuelConversionFactor: 0.72
+                        MTOW: 450
+                        EmptyWeight: 300
+                        MaxSeatPayload: -1
+                        DivisionId: 2
+                        Division: null
+                        AllowedPilots: null
+                        PrefPilotId: 5
+                        PrefPilot: null
+                        Flights: null
+                        SlotStartTime: '2024-06-12T09:00:00Z'
+                        SlotEndTime: '2024-06-12T17:00:00Z'
+                  - ID: 6
+                    CreatedAt: '2024-06-12T10:55:31.745377Z'
+                    UpdatedAt: '2024-06-12T10:55:31.745377Z'
+                    DeletedAt: null
+                    FirstName: Sophia
+                    LastName: Beispiel
+                    Weight: 95
+                    AllowedPlanes:
+                      - ID: 4
+                        CreatedAt: '2024-06-12T10:55:31.523282Z'
+                        UpdatedAt: '2024-06-12T10:55:31.523282Z'
+                        DeletedAt: null
+                        Registration: D-EFXX
+                        AircraftType: PA28
+                        FlightDuration: 1440000000000
+                        FuelMaxCapacity: 140
+                        FuelStartAmount: 100
+                        FuelburnPerFlight: 20
+                        FuelConversionFactor: 0.72
+                        MTOW: 1050
+                        EmptyWeight: 663
+                        MaxSeatPayload: -1
+                        DivisionId: 3
+                        Division: null
+                        AllowedPilots: null
+                        PrefPilotId: 7
+                        PrefPilot: null
+                        Flights: null
+                        SlotStartTime: '2024-06-12T09:00:00Z'
+                        SlotEndTime: '2024-06-12T17:00:00Z'
+                  - ID: 7
+                    CreatedAt: '2024-06-12T10:55:31.754871Z'
+                    UpdatedAt: '2024-06-12T10:55:31.754871Z'
+                    DeletedAt: null
+                    FirstName: Anna
+                    LastName: Mustermann
+                    Weight: 97
+                    AllowedPlanes:
+                      - ID: 4
+                        CreatedAt: '2024-06-12T10:55:31.523282Z'
+                        UpdatedAt: '2024-06-12T10:55:31.523282Z'
+                        DeletedAt: null
+                        Registration: D-EFXX
+                        AircraftType: PA28
+                        FlightDuration: 1440000000000
+                        FuelMaxCapacity: 140
+                        FuelStartAmount: 100
+                        FuelburnPerFlight: 20
+                        FuelConversionFactor: 0.72
+                        MTOW: 1050
+                        EmptyWeight: 663
+                        MaxSeatPayload: -1
+                        DivisionId: 3
+                        Division: null
+                        AllowedPilots: null
+                        PrefPilotId: 7
+                        PrefPilot: null
+                        Flights: null
+                        SlotStartTime: '2024-06-12T09:00:00Z'
+                        SlotEndTime: '2024-06-12T17:00:00Z'
+                  - ID: 8
+                    CreatedAt: '2024-06-12T10:55:31.762508Z'
+                    UpdatedAt: '2024-06-12T10:55:31.762508Z'
+                    DeletedAt: null
+                    FirstName: Paul
+                    LastName: Testflug
+                    Weight: 93
+                    AllowedPlanes:
+                      - ID: 2
+                        CreatedAt: '2024-06-12T10:55:31.483175Z'
+                        UpdatedAt: '2024-06-12T10:55:31.483175Z'
+                        DeletedAt: null
+                        Registration: D-ESXX
+                        AircraftType: C172
+                        FlightDuration: 1440000000000
+                        FuelMaxCapacity: 120
+                        FuelStartAmount: 80
+                        FuelburnPerFlight: 15
+                        FuelConversionFactor: 0.72
+                        MTOW: 1083
+                        EmptyWeight: 756
+                        MaxSeatPayload: -1
+                        DivisionId: 3
+                        Division: null
+                        AllowedPilots: null
+                        PrefPilotId: 8
+                        PrefPilot: null
+                        Flights: null
+                        SlotStartTime: '2024-06-12T09:00:00Z'
+                        SlotEndTime: '2024-06-12T17:00:00Z'
+                  - ID: 9
+                    CreatedAt: '2024-06-12T10:55:31.770962Z'
+                    UpdatedAt: '2024-06-12T10:55:31.770962Z'
+                    DeletedAt: null
+                    FirstName: Julian
+                    LastName: Musterpilot
+                    Weight: 89
+                    AllowedPlanes:
+                      - ID: 2
+                        CreatedAt: '2024-06-12T10:55:31.483175Z'
+                        UpdatedAt: '2024-06-12T10:55:31.483175Z'
+                        DeletedAt: null
+                        Registration: D-ESXX
+                        AircraftType: C172
+                        FlightDuration: 1440000000000
+                        FuelMaxCapacity: 120
+                        FuelStartAmount: 80
+                        FuelburnPerFlight: 15
+                        FuelConversionFactor: 0.72
+                        MTOW: 1083
+                        EmptyWeight: 756
+                        MaxSeatPayload: -1
+                        DivisionId: 3
+                        Division: null
+                        AllowedPilots: null
+                        PrefPilotId: 8
+                        PrefPilot: null
+                        Flights: null
+                        SlotStartTime: '2024-06-12T09:00:00Z'
+                        SlotEndTime: '2024-06-12T17:00:00Z'
+                      - ID: 3
+                        CreatedAt: '2024-06-12T10:55:31.521286Z'
+                        UpdatedAt: '2024-06-12T10:55:31.521286Z'
+                        DeletedAt: null
+                        Registration: D-ESYY
+                        AircraftType: C172
+                        FlightDuration: 1440000000000
+                        FuelMaxCapacity: 180
+                        FuelStartAmount: 160
+                        FuelburnPerFlight: 20
+                        FuelConversionFactor: 0.72
+                        MTOW: 1100
+                        EmptyWeight: 734
+                        MaxSeatPayload: -1
+                        DivisionId: 3
+                        Division: null
+                        AllowedPilots: null
+                        PrefPilotId: 10
+                        PrefPilot: null
+                        Flights: null
+                        SlotStartTime: '2024-06-12T09:00:00Z'
+                        SlotEndTime: '2024-06-12T17:00:00Z'
+                  - ID: 10
+                    CreatedAt: '2024-06-12T10:55:31.779477Z'
+                    UpdatedAt: '2024-06-12T10:55:31.779477Z'
+                    DeletedAt: null
+                    FirstName: Maximilian
+                    LastName: Beispielflug
+                    Weight: 92
+                    AllowedPlanes:
+                      - ID: 2
+                        CreatedAt: '2024-06-12T10:55:31.483175Z'
+                        UpdatedAt: '2024-06-12T10:55:31.483175Z'
+                        DeletedAt: null
+                        Registration: D-ESXX
+                        AircraftType: C172
+                        FlightDuration: 1440000000000
+                        FuelMaxCapacity: 120
+                        FuelStartAmount: 80
+                        FuelburnPerFlight: 15
+                        FuelConversionFactor: 0.72
+                        MTOW: 1083
+                        EmptyWeight: 756
+                        MaxSeatPayload: -1
+                        DivisionId: 3
+                        Division: null
+                        AllowedPilots: null
+                        PrefPilotId: 8
+                        PrefPilot: null
+                        Flights: null
+                        SlotStartTime: '2024-06-12T09:00:00Z'
+                        SlotEndTime: '2024-06-12T17:00:00Z'
+                      - ID: 3
+                        CreatedAt: '2024-06-12T10:55:31.521286Z'
+                        UpdatedAt: '2024-06-12T10:55:31.521286Z'
+                        DeletedAt: null
+                        Registration: D-ESYY
+                        AircraftType: C172
+                        FlightDuration: 1440000000000
+                        FuelMaxCapacity: 180
+                        FuelStartAmount: 160
+                        FuelburnPerFlight: 20
+                        FuelConversionFactor: 0.72
+                        MTOW: 1100
+                        EmptyWeight: 734
+                        MaxSeatPayload: -1
+                        DivisionId: 3
+                        Division: null
+                        AllowedPilots: null
+                        PrefPilotId: 10
+                        PrefPilot: null
+                        Flights: null
+                        SlotStartTime: '2024-06-12T09:00:00Z'
+                        SlotEndTime: '2024-06-12T17:00:00Z'
+  /api/users:
+    get:
+      tags:
+        - user
+      summary: get users
+      description: |-
+        This API endpoint retrieves a list of all users.
+
+        #### Required Role:
+
+        admin
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Date:
+              schema:
+                type: string
+                example: Wed, 01 May 2024 21:47:15 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '656'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                Success: true
+                Response:
+                  - ID: 1
+                    CreatedAt: '2024-04-25T11:35:04.613108Z'
+                    UpdatedAt: '2024-04-25T11:35:04.613108Z'
+                    DeletedAt: null
+                    Name: admin
+                    Password: ''
+                    Role: admin
+                  - ID: 2
+                    CreatedAt: '2024-04-25T11:35:05.316895Z'
+                    UpdatedAt: '2024-04-25T11:35:05.316895Z'
+                    DeletedAt: null
+                    Name: vendor
+                    Password: ''
+                    Role: vendor
+                  - ID: 3
+                    CreatedAt: '2024-04-25T11:35:06.039099Z'
+                    UpdatedAt: '2024-04-25T11:35:06.039099Z'
+                    DeletedAt: null
+                    Name: readOnly
+                    Password: ''
+                    Role: read-only
+                  - ID: 4
+                    CreatedAt: '2024-05-01T21:44:12.957804Z'
+                    UpdatedAt: '2024-05-01T21:44:12.957804Z'
+                    DeletedAt: null
+                    Name: Testing
+                    Password: ''
+                    Role: admin
+    post:
+      tags:
+        - user
+      summary: create user
+      description: >-
+        This API endpoint creates a new user.
+
+
+        #### Request Body Parameters
+
+
+        | **Parameter** | **Required** | **Description** |
+
+        | --- | --- | --- |
+
+        | Username | required | The username of the new user. |
+
+        | Role | required | The role of the new user.  <br>admin, vendor,
+        read-only |
+
+        | Password | required | The password for the new user. |
+
+
+        #### Required Role:
+
+
+        admin
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                Username: Maria Musterfrau
+                Role: read-only
+                Password: Password!
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Date:
+              schema:
+                type: string
+                example: Wed, 12 Jun 2024 11:12:43 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '199'
+          content:
+            application/json:
+              schema:
+                type: object
+              examples:
+                example-0:
+                  summary: vendor
+                  value:
+                    Success: true
+                    Response:
+                      ID: 2
+                      CreatedAt: '2024-06-12T11:12:43.16678818Z'
+                      UpdatedAt: '2024-06-12T11:12:43.16678818Z'
+                      DeletedAt: null
+                      Username: Max Mustermann
+                      Password: ''
+                      Role: vendor
+                example-1:
+                  summary: read-only
+                  value:
+                    Success: true
+                    Response:
+                      ID: 3
+                      CreatedAt: '2024-06-12T11:14:29.806417745Z'
+                      UpdatedAt: '2024-06-12T11:14:29.806417745Z'
+                      DeletedAt: null
+                      Username: Maria Musterfrau
+                      Password: ''
+                      Role: read-only
+                example-2:
+                  summary: admin
+                  value:
+                    Success: true
+                    Response:
+                      ID: 4
+                      CreatedAt: '2024-06-12T11:15:15.620821432Z'
+                      UpdatedAt: '2024-06-12T11:15:15.620821432Z'
+                      DeletedAt: null
+                      Username: admin backup
+                      Password: ''
+                      Role: admin
+        '400':
+          description: Bad Request
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Date:
+              schema:
+                type: string
+                example: Wed, 12 Jun 2024 11:12:56 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '58'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                Type: INVALID_REQUEST_BODY
+                Message: Role not valid
+  /api/users/{id}:
+    delete:
+      tags:
+        - user
+      summary: delete user
+      description: |-
+        This API endpoint deletes a specific user based on the provided user ID.
+
+        #### Required Role:
+
+        admin
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+          example: '1'
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Date:
+              schema:
+                type: string
+                example: Wed, 12 Jun 2024 11:15:36 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '32'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                Success: true
+                Response: null
+  /api/auth:
+    post:
+      tags:
+        - auth
+      summary: login
+      description: >-
+        This API endpoint authenticates a user and returns a bearer token for
+        subsequent API requests.
+      requestBody:
+        content: {}
+      security:
+        - basicAuth: []
+      responses:
+        '200':
+          description: OK
+          headers:
+            Content-Type:
+              schema:
+                type: string
+                example: application/json; charset=utf-8
+            Date:
+              schema:
+                type: string
+                example: Wed, 12 Jun 2024 11:15:48 GMT
+            Content-Length:
+              schema:
+                type: integer
+                example: '189'
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                Success: true
+                Response: >-
+                  eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJJc3MiOiJQQVNNQVNfQmFja2VuZCIsIlJvbGUiOiJhZG1pbiIsIlVzZXJuYW1lIjoiYWRtaW4ifQ.-lqBQFJ1ZFa8zO2pNI-RQPoOn4XWvn8yGAVJhDsEbdQ

@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "a400cf42-7330-485b-923d-6fc39f188b2f",
+		"_postman_id": "17843df5-266b-426d-bca9-c6adac1ade60",
 		"name": "Realtime",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_uid": "30997389-a400cf42-7330-485b-923d-6fc39f188b2f"
+		"_uid": "30997389-17843df5-266b-426d-bca9-c6adac1ade60"
 	},
 	"item": [
 		{
@@ -11,7 +11,7 @@
 			"item": [
 				{
 					"name": "Connect to Channel",
-					"id": "adb17b79-ba11-40d7-b916-f0752e239050",
+					"id": "eef87c61-51f1-487a-9840-6de526a6fcbe",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -34,7 +34,7 @@
 				},
 				{
 					"name": "Ping",
-					"id": "8034ba40-df00-4e54-bda1-92c9e98d32a7",
+					"id": "05b27ca2-2182-4bcf-96aa-5df943e9f328",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -57,7 +57,7 @@
 				},
 				{
 					"name": "Post Message",
-					"id": "353a48a2-31f4-4cbb-9a90-04827a90e5ad",
+					"id": "206c9e60-b3f0-4ae5-922e-169bf6802b8f",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -79,11 +79,11 @@
 					"response": []
 				}
 			],
-			"id": "1d097dd2-5161-48cd-a839-8b30719369b1"
+			"id": "240445a6-f7f0-4fc6-ac44-5706e72e1ae0"
 		},
 		{
 			"name": "Connect to PassengerStream",
-			"id": "dfc2ac9d-d1f6-44c6-8df9-9c325eaf66fb",
+			"id": "51002be8-6430-47cd-9256-b1b16871f585",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -105,7 +105,7 @@
 		},
 		{
 			"name": "Connect to FlightStream",
-			"id": "d534cd78-e831-4c92-a8e1-81693fe85702",
+			"id": "90158972-e481-4ed9-8333-5c1ff3d13b91",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -127,7 +127,7 @@
 		},
 		{
 			"name": "Connect to FlightStreamByDivision",
-			"id": "766a3fdf-ae01-4735-b132-f3f07c4aca1a",
+			"id": "3b0b9906-31c4-4148-8c0e-5e0685c89d80",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -157,7 +157,7 @@
 		},
 		{
 			"name": "Connect to PlaneStream",
-			"id": "a52e2468-affd-4209-9def-16a917060ebc",
+			"id": "12f11633-7bcf-4d64-94d6-a096cdaf0be8",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -192,7 +192,7 @@
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "60edb971-100c-4e14-b759-470dc12fe225",
+				"id": "5c84a95f-09f0-4f0c-9e61-7a4289068799",
 				"type": "text/javascript",
 				"packages": {},
 				"exec": [
@@ -203,7 +203,7 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "6d0e6258-294f-4b67-9577-2fedad7633f5",
+				"id": "184ccb18-9ffc-4773-93c9-2afc4098756b",
 				"type": "text/javascript",
 				"packages": {},
 				"exec": [

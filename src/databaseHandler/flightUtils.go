@@ -34,7 +34,7 @@ func ParseFlightInclude(c *gin.Context) (*FlightInclude, error) {
         include.IncludePassengers, err = strconv.ParseBool(incPassStr)
 
         if err != nil {
-            return nil, cerror.ErrIncludeNotSupported
+            return nil, cerror.NewNotValidParametersError("Include not supported")
         }
     }
 
@@ -43,7 +43,7 @@ func ParseFlightInclude(c *gin.Context) (*FlightInclude, error) {
         include.IncludePlane, err = strconv.ParseBool(incPlaneStr)
 
         if err != nil {
-            return nil, cerror.ErrIncludeNotSupported
+            return nil, cerror.NewNotValidParametersError("Include not supported")
         }
     }
 
@@ -52,7 +52,7 @@ func ParseFlightInclude(c *gin.Context) (*FlightInclude, error) {
         include.IncludePilot, err = strconv.ParseBool(incPilotStr)
 
         if err != nil {
-            return nil, cerror.ErrIncludeNotSupported
+            return nil, cerror.NewNotValidParametersError("Include not supported")
         }
     }
 
@@ -72,7 +72,7 @@ func ParseFlightFilter(c *gin.Context) (*FlightFilter, error) {
         filter.ByDivisionId = uint(id)
 
         if err != nil {
-            return nil, cerror.ErrFilterNotSupported
+            return nil, cerror.NewNotValidParametersError("Filter not supported")
         }
     }
 
@@ -82,7 +82,7 @@ func ParseFlightFilter(c *gin.Context) (*FlightFilter, error) {
         filter.ByPlaneId = uint(d)
 
         if err != nil {
-            return nil, cerror.ErrFilterNotSupported
+            return nil, cerror.NewNotValidParametersError("Filter not supported")
         }
     }
 
@@ -92,7 +92,7 @@ func ParseFlightFilter(c *gin.Context) (*FlightFilter, error) {
         filter.ByDepartureTime = filter.ByDepartureTime.UTC()
 
         if err != nil {
-            return nil, cerror.ErrFilterNotSupported
+            return nil, cerror.NewNotValidParametersError("Filter not supported")
         }
     }
 
@@ -122,7 +122,7 @@ func interpretFlightConfig(db *gorm.DB, flightInclude *FlightInclude, flightFilt
         if flightFilter.ByPlaneId != 0 {
             db = db.Where("plane_id = ?", flightFilter.ByPlaneId)
         }
-        
+
         if !flightFilter.ByDepartureTime.IsZero() {
             db = db.Where("departure_time >= ?", flightFilter.ByDepartureTime)
         }

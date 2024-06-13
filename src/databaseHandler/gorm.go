@@ -4,6 +4,7 @@ import (
 	"runtime"
 
 	cerror "github.com/MetaEMK/FGK_PASMAS_backend/cError"
+	"github.com/MetaEMK/FGK_PASMAS_backend/config"
 	"github.com/MetaEMK/FGK_PASMAS_backend/logging"
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
 	"github.com/MetaEMK/FGK_PASMAS_backend/router/realtime"
@@ -12,7 +13,7 @@ import (
 
 var Db *gorm.DB
 
-var log = logging.DbLogger
+var log = logging.NewLogger("DATABASE", config.GetGlobalLogLevel())
 
 type DatabaseHandler struct {
 	Db       *gorm.DB
@@ -21,6 +22,7 @@ type DatabaseHandler struct {
 }
 
 func InitGorm(dbConn *gorm.DB) *gorm.DB {
+	log.Info("Initalizing dtabasehandler")
 	Db = dbConn
 
 	initUser()
@@ -33,26 +35,9 @@ func InitGorm(dbConn *gorm.DB) *gorm.DB {
 	initFlight()
 	initPassenger()
 
+	log.Debug("Database init finished successfully")
 	return Db
 }
-
-// func ResetDatabase() error {
-// 	transaction := Db.Begin()
-// 	transaction.Exec("TRUNCATE TABLE divisions RESTART IDENTITY CASCADE")
-// 	transaction.Exec("TRUNCATE TABLE passengers RESTART IDENTITY CASCADE")
-// 	transaction.Exec("TRUNCATE TABLE flights RESTART IDENTITY CASCADE")
-// 	transaction.Exec("TRUNCATE TABLE planes RESTART IDENTITY CASCADE")
-// 	transaction.Exec("TRUNCATE TABLE pilots RESTART IDENTITY CASCADE")
-// 	transaction.Commit()
-//
-// 	seed := Db.Begin()
-// 	SeedDivision()
-// 	SeedPlane(nil)
-// 	SeedPilot(nil)
-// 	seed.Commit()
-//
-// 	return transaction.Error
-// }
 
 func NewDatabaseHandler(user model.UserJwtBody) (dh *DatabaseHandler) {
 	dh = &DatabaseHandler{
@@ -92,7 +77,8 @@ func (dh *DatabaseHandler) CommitOrRollback(err error) error {
 
 func finalize(dh *DatabaseHandler) {
 	if dh.isClosed == false {
-		log.Error(cerror.ErrDatabaseHandlerDestroy.Error())
-		dh.CommitOrRollback(cerror.ErrDatabaseHandlerDestroy)
+		errMessage := "DatabaseHandler was not closed correctly"
+		log.Error(errMessage)
+		dh.CommitOrRollback(cerror.NewUnknownError(errMessage))
 	}
 }

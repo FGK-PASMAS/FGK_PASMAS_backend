@@ -2,12 +2,14 @@ package noGen
 
 import (
 	"fmt"
+	"net/http"
 	"strconv"
 	"strings"
 
 	cerror "github.com/MetaEMK/FGK_PASMAS_backend/cError"
 	databasehandler "github.com/MetaEMK/FGK_PASMAS_backend/databaseHandler"
 	"github.com/MetaEMK/FGK_PASMAS_backend/model"
+	"gorm.io/gorm"
 )
 
 func GenerateFlightNo(plane model.Plane) (string, error) {
@@ -17,13 +19,13 @@ func GenerateFlightNo(plane model.Plane) (string, error) {
     err := databasehandler.Db.Unscoped().Model(model.Flight{}).Where("plane_id = ?", plane.ID).Where("flight_no IS NOT NULL").Order("flight_no DESC").First(&prevFlight).Error
 
     if err != nil {
-        if err == cerror.ErrObjectNotFound {
+        if err == gorm.ErrRecordNotFound {
             flightNo = generateFlightNumberPattern(plane, 1)
             println(flightNo)
             return flightNo, nil
         } else {
             println(err.Error())
-            return "", cerror.ErrFlightNoCouldNotBeGenerated
+            return "", cerror.New(http.StatusInternalServerError, "FLIGHT_NO_GEN", "Could not generate FlightNo")
         }
     }
 

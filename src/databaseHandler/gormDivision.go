@@ -9,12 +9,16 @@ import (
 func initDivision() {
 	Db.AutoMigrate(&model.Division{})
 
-	defer SeedDivision()
+    err := SeedDivision()
+    if err != nil {
+        log.Warn(err.Error())
+    }
 }
 
 func SeedDivision() error {
 	if config.EnableSeeder {
 		log.Debug("Seeding divisions")
+
 		divs := []model.Division{
 			{Name: "Segelflug", PassengerCapacity: 1},
 			{Name: "Motorsegler", PassengerCapacity: 1},

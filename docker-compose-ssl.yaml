@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  database:
+    image: postgres
+    restart: unless-stopped
+    hostname: ${DATABASE_HOSTNAME}
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_USER: ${DATABASE_USER}
+      POSTGRES_DB: ${DATABASE_NAME}
+    volumes:
+      - pasmas_backend:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: ./src
+    restart: unless-stopped
+    container_name: backend
+    ports:
+      - 8080:8080
+    environment:
+      DATABASE_HOSTNAME: ${DATABASE_HOSTNAME}
+      DATABASE_USER: ${DATABASE_USER}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      DATABASE_NAME: ${DATABASE_NAME}
+      JWT_ENCODING: ${JWT_ENCODING}
+      JWT_ISSUER: ${JWT_ISSUER}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      TLS_CERT_PATH: ${TLS_CERT_PATH}
+      TLS_KEY_PATH: ${TLS_KEY_PATH}
+      ENABLE_SEEDER: ${ENABLE_SEEDER:-false}
+      GLOBALLOGLEVEL: ${GLOBALLOGLEVEL}
+    depends_on:
+      database:
+        condition: service_healthy
+    volumes:
+      - /etc/letsencrypt/live/pasmas.fg-k.de/fullchain.pem:${TLS_CERT_PATH}
+      - /etc/letsencrypt/live/pasmas.fg-k.de/privkey.pem:${TLS_KEY_PATH}
+volumes:
+  pasmas_backend:

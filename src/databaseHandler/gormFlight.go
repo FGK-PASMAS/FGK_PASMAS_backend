@@ -51,6 +51,7 @@ func (dh *DatabaseHandler) CreateFlight(flight model.Flight) (newFlight model.Fl
 
 	dh.rt.AddEvent(realtime.FlightStream, realtime.CREATED, newFlight)
 	plane := model.Plane{}
+
 	dh.Db.First(&plane, flight.PlaneId)
 	stream := realtime.GetFlightStreamForDivisionId(plane.DivisionId)
 	dh.rt.AddEvent(stream, realtime.CREATED, newFlight)

@@ -8,7 +8,7 @@ import (
 
 func GetDivisions() ([]model.Division, error) {
     if databasehandler.Db == nil {
-        return []model.Division{}, cerror.ErrDatabaseConnection
+        return []model.Division{}, cerror.NewUnknownError("Database connection lost")
     }
     divisions := []model.Division{}
     result := databasehandler.Db.Order("id ASC").Find(&divisions)

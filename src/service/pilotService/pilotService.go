@@ -27,7 +27,7 @@ func ParsePilotInclude(c *gin.Context) (*PilotInclude, error) {
         var err error
         pilotInclude.Plane, err = strconv.ParseBool(planeStr)
         if err != nil {
-            return &PilotInclude{}, cerror.ErrIncludeNotSupported
+            return &PilotInclude{}, cerror.NewNotValidParametersError("plane include not valid")
         }
     }
 
@@ -43,14 +43,14 @@ func ParsePilotFilter(c *gin.Context) (*PilotFilter, error) {
     if planeIdStr != "" {
         value, err := strconv.ParseUint(planeIdStr, 10, 64)
         if err != nil {
-            return &PilotFilter{}, cerror.ErrIncludeNotSupported
+            return &PilotFilter{}, cerror.NewNotValidParametersError("plane filter not valid")
         } else {
             pilotfilter.PlaneId = uint(value)
         }
     }
 
     return &pilotfilter, nil
-} 
+}
 
 func GetPilots(include *PilotInclude, filter *PilotFilter) (*[]model.Pilot, error) {
     db := dh.Db.Order("id ASC")

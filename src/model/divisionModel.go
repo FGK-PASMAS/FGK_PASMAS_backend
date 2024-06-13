@@ -5,17 +5,17 @@ import (
 )
 
 type Division struct {
-    gorm.Model
-    Name                string
-    PassengerCapacity   uint
-    Planes              []Plane         `gorm:"foreignKey:DivisionId"`
+	gorm.Model
+	Name              string
+	PassengerCapacity uint
+	Planes            []Plane `gorm:"foreignKey:DivisionId"`
 }
 
-func (d * Division) SetTimesToUTC() {
-    d.CreatedAt = d.CreatedAt.UTC()
-    d.UpdatedAt = d.UpdatedAt.UTC()
+func (d *Division) SetTimesToUTC() {
+	d.CreatedAt = d.CreatedAt.UTC()
+	d.UpdatedAt = d.UpdatedAt.UTC()
 
-    for _, p := range d.Planes {
-        p.SetTimesToUTC()
-    }
+	for _, p := range d.Planes {
+		p.SetTimesToUTC()
+	}
 }

@@ -3,6 +3,7 @@ package auth
 import (
 	"net/http"
 
+	cerror "github.com/MetaEMK/FGK_PASMAS_backend/cError"
 	"github.com/MetaEMK/FGK_PASMAS_backend/router/api"
 	userservice "github.com/MetaEMK/FGK_PASMAS_backend/service/userService"
 	"github.com/gin-gonic/gin"
@@ -26,9 +27,9 @@ func validateUser(c *gin.Context) {
     }
 
     if err != nil {
-        res := api.GetErrorResponse(err)
-        httpCode = res.HttpCode
-        response = res.ErrorResponse
+        e := cerror.InterpretError(err)
+        httpCode = e.HttpCode
+        response = e
     } else {
         response = api.SuccessResponse {
             Success: true,

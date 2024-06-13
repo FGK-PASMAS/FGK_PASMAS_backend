@@ -1,6 +1,8 @@
 package main
 
 import (
+	"os"
+
 	"github.com/MetaEMK/FGK_PASMAS_backend/config"
 	databasehandler "github.com/MetaEMK/FGK_PASMAS_backend/databaseHandler"
 	"github.com/MetaEMK/FGK_PASMAS_backend/logging"
@@ -12,7 +14,8 @@ import (
 var mode = "DEBUG"
 
 func main() {
-    logging.DbLogger.Info("Starting PASMAS Backend")
+    log := logging.NewLogger("MAIN", config.GetGlobalLogLevel())
+    log.Info("FGK_PASMAS_backend starting")
 
     config.LoadAuthConfig()
     config.InitDbConfig()
@@ -22,12 +25,13 @@ func main() {
 
     })
     if err != nil {
-        panic("failed to connect database")
+        log.Error("Database connection failed")
+        os.Exit(1)
     }
 
     databasehandler.InitGorm(db)
 
-    server := router.InitRouter() 
+    server := router.InitRouter()
 
     tlsConfig := config.LoadTlsConfig()
     if tlsConfig != nil {

@@ -3,8 +3,6 @@ package config
 import (
 	"fmt"
 	"os"
-
-	"github.com/MetaEMK/FGK_PASMAS_backend/logging"
 )
 
 var hostname = os.Getenv("DATABASE_HOSTNAME")
@@ -35,7 +33,7 @@ func GetConnectionString() string {
 
 func InitDbConfig() {
     if os.Getenv("ENABLE_SEEDER") == "true" {
-        logging.ConfigLogger.Debug("Seeder enabled")
+        log.Info("Seeder enabled")
         EnableSeeder = true
     }
 }

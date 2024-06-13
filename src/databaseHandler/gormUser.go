@@ -13,20 +13,22 @@ func initUser() {
 
 	err := Db.Where("role = ?", "admin").First(&model.User{}).Error
 	if err != nil {
-        log.Debug("Admin user not found, creating one")
+		log.Debug("Admin user not found, creating one")
 
 		if err == gorm.ErrRecordNotFound {
-            pw := os.Getenv("ADMIN_PASSWORD")
-            if pw == "" {
-                panic("ADMIN_PASSWORD is not set")
-            }
+			pw := os.Getenv("ADMIN_PASSWORD")
+			if pw == "" {
+				log.Error("ADMIN_PASSWORD is not set")
+				return
+			}
 
 			dh := NewDatabaseHandler(model.UserJwtBody{})
-			defer func()  {
-                err = dh.CommitOrRollback(err)
-                if err != nil {
-                    panic("Admin user creation failed")
-                }
+			defer func() {
+				err = dh.CommitOrRollback(err)
+				if err != nil {
+					log.Error("Admin user creation failed: " + err.Error())
+					return
+				}
 			}()
 
 			admin := model.User{
@@ -35,7 +37,7 @@ func initUser() {
 				Password: pw,
 			}
 
-            _, err = dh.CreateUser(admin)
+			_, err = dh.CreateUser(admin)
 		}
 	}
 }
