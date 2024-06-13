@@ -30,14 +30,14 @@ For SSL/TLS configuration:
 ### Deployment
 PasMAs comes with 2 included docker-compose files. One is for using the application over HTTP, and the other one for HTTPS. Make sure you have an up-to-date version of [Docker](https://www.docker.com/) installed on your server.
 
-#### without TLS
+#### HTTP
 Navigate to the project directory and run the following commands to run the backend application as a container:
 
 ```
 docker compose up -d
 ```
 
-#### with TLS
+#### HTTPS
 Navigate to the project directory and run the following commands to run the backend application as a container:
 Before running the following command, ensure that you have configured the TLS_CERT_PATH and TLS_KEY_PATH in your .env file and that these paths correspond to the correct locations on your host machine. Then, navigate to the project directory and run the following command:
 

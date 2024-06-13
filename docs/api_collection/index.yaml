@@ -80,7 +80,7 @@ paths:
     get:
       tags:
         - debug
-      summary: Ping
+      summary: ping
       description: Pings the backend
       responses:
         '200':
@@ -109,7 +109,7 @@ paths:
     get:
       tags:
         - passenger
-      summary: get all Passengers
+      summary: get all passengers
       description: This API endpoint retrieves a list of all passengers.
       responses:
         '200':
@@ -265,7 +265,7 @@ paths:
         - flight
       summary: get all flights
       description: >-
-        This API request retrieves flight details based on the specified query
+        This API endpoint retrieves flight details based on the specified query
         parameters. The query parameters allow to include or exclude additional
         information such as passengers, plane details, and pilot details.
       parameters:
@@ -502,11 +502,10 @@ paths:
         - flight
       summary: flight reservation
       description: >-
-        However, flightlogic does not perform any calculations except for fuel
-        calculation. This is the first step in the 'flight creation' process. It
-        creates a new flight in the 'RESERVED' status, blocking only the flight
-        slot for any other flight. The arrival time will be determined by the
-        plane's 'FlightDuration' parameter.
+        This API endpoint creates a new flight reservation. It does not create
+        any passengers for this flight. The request requires an authentication
+        token, and the required role depends on the status being set: `vendor`
+        for flight reservation and `admin` for blocker creation.
 
 
         #### Body:
@@ -929,7 +928,7 @@ paths:
         - plane
       summary: get planes
       description: >-
-        This API request retrieves plane details based on the specified query
+        This API endpoint retrieves plane details based on the specified query
         parameters. The query parameters allow the user to include or exclude
         additional information such as flights, pilots, and preferred pilots.
       parameters:
@@ -1513,7 +1512,7 @@ paths:
     get:
       tags:
         - plane
-      summary: get Plane
+      summary: get plane
       description: >-
         This API endpoint retrieves the details of a specific plane based on the
         provided plane ID.
@@ -1673,7 +1672,7 @@ paths:
     patch:
       tags:
         - plane
-      summary: Update Plane
+      summary: update plane
       description: >-
         This API endpoint updates the details of a specific plane based on the
         provided plane ID.
@@ -2355,7 +2354,7 @@ paths:
     get:
       tags:
         - user
-      summary: Get Users
+      summary: get users
       description: |-
         This API endpoint retrieves a list of all users.
 
@@ -2416,7 +2415,7 @@ paths:
     post:
       tags:
         - user
-      summary: CreateUser
+      summary: create user
       description: >-
         This API endpoint creates a new user.
 
@@ -2532,7 +2531,7 @@ paths:
     delete:
       tags:
         - user
-      summary: Delete User
+      summary: delete user
       description: |-
         This API endpoint deletes a specific user based on the provided user ID.
 
@@ -2573,7 +2572,7 @@ paths:
     post:
       tags:
         - auth
-      summary: Login
+      summary: login
       description: >-
         This API endpoint authenticates a user and returns a bearer token for
         subsequent API requests.
