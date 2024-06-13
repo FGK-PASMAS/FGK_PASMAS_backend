@@ -11,7 +11,7 @@
 			"name": "debug",
 			"item": [
 				{
-					"name": "Ping",
+					"name": "ping",
 					"event": [
 						{
 							"listen": "test",
@@ -316,7 +316,7 @@
 								}
 							]
 						},
-						"description": "This API request retrieves flight details based on the specified query parameters. The query parameters allow to include or exclude additional information such as passengers, plane details, and pilot details."
+						"description": "This API endpoint retrieves flight details based on the specified query parameters. The query parameters allow to include or exclude additional information such as passengers, plane details, and pilot details."
 					},
 					"response": [
 						{
@@ -423,7 +423,7 @@
 								"flights"
 							]
 						},
-						"description": "However, flightlogic does not perform any calculations except for fuel calculation. This is the first step in the 'flight creation' process. It creates a new flight in the 'RESERVED' status, blocking only the flight slot for any other flight. The arrival time will be determined by the plane's 'FlightDuration' parameter.\n\n#### Body:\n\n| **Parameter** | required | Description |\n| --- | --- | --- |\n| Status | optional for RESERVED  <br>required for BLOCKED | The status of the flight, either \"RESERVED\" or \"BLOCKED\". |\n| DepartureTime | required | The departure time in the format \"YYYY-MM-DDTHH:MM  <br>\". |\n| PlaneId | required | The ID of the plane. |\n| Description | optional | A description as a string. |\n| ArrivalTime | optional for RESERVED  <br>required for BLOCKED | The arrival time in the format \"YYYY-MM-DDTHH:MM  <br>\".  <br>  <br>If not set: The arrival time will be determined by the plane's 'FlightDuration' parameter. |\n| Passengers | optional for RESERVED  <br>ignored for BLOCKED | A list of passengers. These passenger will not be saved and are only used for weight calculations. |\n| FirstName (within Passengers) | optional | The first name of the passenger. |\n| LastName (within Passengers) | optional | The last name of the passenger. |\n| Weight (within Passengers) | required | The weight of the passenger. |\n\n#### Required Role:\n\nflight reservation - vendor\n\nblocker creation - admin"
+						"description": "This API endpoint creates a new flight reservation. It does not create any passengers for this flight. The request requires an authentication token, and the required role depends on the status being set: `vendor` for flight reservation and `admin` for blocker creation.\n\n#### Body:\n\n| **Parameter** | required | Description |\n| --- | --- | --- |\n| Status | optional for RESERVED  <br>required for BLOCKED | The status of the flight, either \"RESERVED\" or \"BLOCKED\". |\n| DepartureTime | required | The departure time in the format \"YYYY-MM-DDTHH:MM  <br>\". |\n| PlaneId | required | The ID of the plane. |\n| Description | optional | A description as a string. |\n| ArrivalTime | optional for RESERVED  <br>required for BLOCKED | The arrival time in the format \"YYYY-MM-DDTHH:MM  <br>\".  <br>  <br>If not set: The arrival time will be determined by the plane's 'FlightDuration' parameter. |\n| Passengers | optional for RESERVED  <br>ignored for BLOCKED | A list of passengers. These passenger will not be saved and are only used for weight calculations. |\n| FirstName (within Passengers) | optional | The first name of the passenger. |\n| LastName (within Passengers) | optional | The last name of the passenger. |\n| Weight (within Passengers) | required | The weight of the passenger. |\n\n#### Required Role:\n\nflight reservation - vendor\n\nblocker creation - admin"
 					},
 					"response": [
 						{
@@ -843,7 +843,7 @@
 								}
 							]
 						},
-						"description": "This API request retrieves plane details based on the specified query parameters. The query parameters allow the user to include or exclude additional information such as flights, pilots, and preferred pilots."
+						"description": "This API endpoint retrieves plane details based on the specified query parameters. The query parameters allow the user to include or exclude additional information such as flights, pilots, and preferred pilots."
 					},
 					"response": [
 						{
@@ -1081,7 +1081,7 @@
 					]
 				},
 				{
-					"name": "Update Plane",
+					"name": "update plane",
 					"id": "6bceb642-7193-4e2e-9d7e-fb464bd78a41",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -1207,7 +1207,7 @@
 			"name": "user",
 			"item": [
 				{
-					"name": "Get Users",
+					"name": "get users",
 					"id": "c4fd577d-9ec3-41cd-b121-6fb5d34484c6",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -1270,7 +1270,7 @@
 					]
 				},
 				{
-					"name": "CreateUser",
+					"name": "create user",
 					"id": "480cce59-b561-4879-ab1e-8abc38ef8e10",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -1489,7 +1489,7 @@
 					]
 				},
 				{
-					"name": "Delete User",
+					"name": "delete user",
 					"id": "088e7958-a870-4f1e-9a0f-ee703f7548cd",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
@@ -1572,7 +1572,7 @@
 			"name": "auth",
 			"item": [
 				{
-					"name": "Login",
+					"name": "login",
 					"event": [
 						{
 							"listen": "test",
