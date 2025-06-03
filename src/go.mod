@@ -5,7 +5,7 @@ go 1.23.0
 require (
 	github.com/gin-contrib/cors v1.7.1
 	github.com/gin-gonic/gin v1.9.1
-	github.com/golang-jwt/jwt/v5 v5.2.1
+	github.com/golang-jwt/jwt/v5 v5.2.2
 	golang.org/x/crypto v0.36.0
 	gorm.io/driver/postgres v1.5.7
 	gorm.io/gorm v1.25.9
